@@ -48,7 +48,7 @@
                         <div class="font-medium text-base">{{ Auth::user()->name }}</div>
                         <div class="text-slate-500">{{ Auth::user()->role_as == 0 ? 'Admin' : '' }}</div>
                     </div>
-                    
+
                 </div>
                 <div class="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
                     <a class="flex items-center text-primary font-medium" href="">
