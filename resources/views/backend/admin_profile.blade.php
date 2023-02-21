@@ -48,52 +48,7 @@
                         <div class="font-medium text-base">{{ Auth::user()->name }}</div>
                         <div class="text-slate-500">{{ Auth::user()->role_as == 0 ? 'Admin' : '' }}</div>
                     </div>
-                    {{-- <div class="dropdown">
-                        <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false" data-tw-toggle="dropdown">
-                            <i data-feather="more-horizontal" class="w-5 h-5 text-slate-500"></i>
-                        </a>
-                        <div class="dropdown-menu w-56">
-                            <ul class="dropdown-content">
-                                <li>
-                                    <h6 class="dropdown-header">Export Options</h6>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">
-                                        <i data-feather="activity" class="w-4 h-4 mr-2"></i> English
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">
-                                        <i data-feather="box" class="w-4 h-4 mr-2"></i>
-                                        Indonesia
-                                        <div class="text-xs text-white px-1 rounded-full bg-danger ml-auto">10</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">
-                                        <i data-feather="layout" class="w-4 h-4 mr-2"></i> English
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">
-                                        <i data-feather="sidebar" class="w-4 h-4 mr-2"></i> Indonesia
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <div class="flex p-1">
-                                        <button type="button" class="btn btn-primary py-1 px-2">Settings</button>
-                                        <button type="button" class="btn btn-secondary py-1 px-2 ml-auto">View Profile</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> --}}
+                    
                 </div>
                 <div class="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
                     <a class="flex items-center text-primary font-medium" href="">
