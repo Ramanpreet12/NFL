@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function user_management()
     {
-         return view('backend.users');
+         return view('backend.users.index');
     }
 
     public function user_data()

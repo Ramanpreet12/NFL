@@ -6,6 +6,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\DarkModeController;
 use App\Http\Controllers\ColorSchemeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\AdminSettingController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\FixtureController;
@@ -109,7 +110,8 @@ Route::prefix('admin')->group(function() {
     Route::post('register', [AuthController::class, 'register'])->name('register.store');
 });
 Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
-    Route::get('dashboard', [PageController::class, 'dashboardOverview1'])->name('admin/dashboard');
+    // Route::get('dashboard', [PageController::class, 'dashboardOverview1'])->name('admin/dashboard');
+    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('admin/dashboard');
     Route::match(['get' , 'post'] , 'profile', [AdminSettingController::class, 'profile'])->name('admin/profile');
     // Route::match(['get' , 'post'] , 'password', [AdminSettingController::class, 'changePassword'])->name('admin/password');
     Route::get('password', [AdminSettingController::class, 'password'])->name('admin/password');

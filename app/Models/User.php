@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Storage;
 
 class User extends Authenticatable
 {
@@ -53,10 +54,10 @@ class User extends Authenticatable
      */
     public function getPhotoPathAttribute()
     {
-        if ($this->photo !== null) {
+        if (($this->photo !== null) && (Storage::exists('storage/admin_profile_photo/'. $this->photo))) {
             return url('/storage/admin_profile_photo/'.$this->photo);
         } else {
-            return url('/storage/admin_profile_photo/dummy_image.webp');
+            return url('/dist/images/dummy_image.webp');
         }
     }
 }

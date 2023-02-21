@@ -63,7 +63,7 @@ class AdminSettingController extends Controller
             return redirect()->back()->with('success' , 'Profile Updated Successfully');
         }
         } else {
-            return view('backend.admin_profile');
+            return view('backend.admin_setting.admin_profile');
         }
     }
 
@@ -103,7 +103,7 @@ class AdminSettingController extends Controller
     // }
     public function password()
     {
-        return view('backend.admin_password');
+        return view('backend.admin_setting.admin_password');
     }
     public function updatePassword(PasswordRequest $request)
     {
