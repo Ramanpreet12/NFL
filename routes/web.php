@@ -45,8 +45,8 @@ Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class
 //     Route::get('chat-page', [PageController::class, 'chat'])->name('chat');
 //     Route::get('post-page', [PageController::class, 'post'])->name('post');
 //     Route::get('calendar-page', [PageController::class, 'calendar'])->name('calendar');
-//     Route::get('crud-data-list-page', [PageController::class, 'crudDataList'])->name('crud-data-list');
-//     Route::get('crud-form-page', [PageController::class, 'crudForm'])->name('crud-form');
+   // Route::get('crud-data-list-page', [PageController::class, 'crudDataList'])->name('crud-data-list');
+   // Route::get('crud-form-page', [PageController::class, 'crudForm'])->name('crud-form');
 //     Route::get('users-layout-1-page', [PageController::class, 'usersLayout1'])->name('users-layout-1');
 //     Route::get('users-layout-2-page', [PageController::class, 'usersLayout2'])->name('users-layout-2');
 //     Route::get('users-layout-3-page', [PageController::class, 'usersLayout3'])->name('users-layout-3');

@@ -123,7 +123,7 @@ class PageController extends Controller
      */
     public function crudDataList()
     {
-        //return view('pages/crud-data-list');
+        return view('pages/crud-data-list');
     }
 
     /**

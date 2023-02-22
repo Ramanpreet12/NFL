@@ -31,19 +31,13 @@ class SideMenu
                 'icon' => 'calendar',
                 'route_name' => 'admin/fixtures',
                 'params' => '',
-                // [
-                //     'layout' => 'side-menu'
-                // ],
                 'title' => 'Fixtures'
             ],
 
             'winner' => [
-                'icon' => 'shopping-bag',
+                'icon' => 'award',
                 'route_name' => 'admin/winner',
                 'params' => '',
-                // [
-                //     'layout' => 'side-menu'
-                // ],
                 'title' => 'Winner'
             ],
 
@@ -52,9 +46,6 @@ class SideMenu
                 'icon' => 'settings',
                 'route_name' => 'admin/profile',
                 'params' => '',
-                // [
-                //     'layout' => 'side-menu'
-                // ],
                 'title' => 'Setting'
             ],
 
