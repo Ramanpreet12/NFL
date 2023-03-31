@@ -41,6 +41,43 @@ class SideMenu
                 'title' => 'Winner'
             ],
 
+            'team' => [
+                'icon' => 'users',
+                'route_name' => 'admin/team',
+                'params' => '',
+                // [
+                //     'layout' => 'side-menu'
+                // ],
+                'title' => 'Team'
+            ],
+            'payment' => [
+                'icon' => 'dollar-sign',
+                'route_name' => 'admin/payments',
+                'params' => '',
+                // [
+                //     'layout' => 'side-menu'
+                // ],
+                'title' => 'Payments'
+            ],
+            'season' => [
+                'icon' => 'cloud',
+                'route_name' => 'season.index',
+                'params' => '',
+                // [
+                //     'layout' => 'side-menu'
+                // ],
+                'title' => 'Season Management'
+            ],
+            'prize' => [
+                'icon' => 'award',
+                'route_name' => 'prize',
+                'params' => '',
+                // [
+                //     'layout' => 'side-menu'
+                // ],
+                'title' => 'Prize Management'
+            ],
+
 
             'setting' => [
                 'icon' => 'settings',
@@ -48,6 +85,13 @@ class SideMenu
                 'params' => '',
                 'title' => 'Setting'
             ],
+            'color-setting' => [
+                'icon' => 'settings',
+                'route_name' => 'admin/color_setting',
+                'params' => '',
+                'title' => 'Color Setting'
+            ],
+
 
             // 'menu-layout' => [
             //     'icon' => 'box',

@@ -55,7 +55,9 @@
             </div>
             <!-- END: Login Form -->
         </div>
+        
     </div>
+
 @endsection
 
 @section('script')

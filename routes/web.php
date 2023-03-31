@@ -11,6 +11,13 @@ use App\Http\Controllers\Backend\AdminSettingController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\FixtureController;
 use App\Http\Controllers\Backend\WinnerController;
+use App\Http\Controllers\Backend\ColorSettingController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Backend\TeamController;
+use App\Http\Controllers\Backend\PaymentController;
+use App\Http\Controllers\Backend\SeasonController;
+use App\Http\Controllers\Backend\PrizeController;
+
 
 
 /*
@@ -23,7 +30,7 @@ use App\Http\Controllers\Backend\WinnerController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 
@@ -131,7 +138,35 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
 
     //results rotues
     Route::get('winner', [WinnerController::class, 'index'])->name('admin/winner');
+    //color setting
+    Route::get('color_setting', [ColorSettingController::class, 'index'])->name('admin/color_setting');
+    Route::get('edit_color/{id}', [ColorSettingController::class, 'edit_color'])->name('admin/edit_color/{id}');
+    Route::post('update_color/{id}', [ColorSettingController::class, 'update_color'])->name('admin/update_color/{id}');
 
+
+
+    Route::get('team',[TeamController::class,'index'])->name('admin/team');
+    Route::get('team_data',[TeamController::class,'getAll'])->name('admin/team_data');
+    Route::get('team-edit/{id}',[TeamController::class,'edit'])->name('admin/team-edit');
+    Route::get('team-add',[TeamController::class,'add'])->name('admin/team-add');
+    Route::post('team-create',[TeamController::class,'create'])->name('admin/team-create');
+    Route::get('team-delete/{id}',[TeamController::class,'delete'])->name('admin/team-delete');
+    Route::post('team-update/{id}',[TeamController::class,'update'])->name('admin/team-update');
+    Route::get('allPayments',[PaymentController::class,'getAll'])->name('admin/allPayments');
+
+    Route::get('payments',[PaymentController::class,'index'])->name('admin/payments');
+
+    Route::resources([
+        'season' => SeasonController::class,        
+    ]);
+    Route::get('allSeasons',[SeasonController::class,'allSeasons'])->name('allSeasons');
+    Route::get('seasonDelete/{id}',[SeasonController::class,'delete'])->name('seasonDelete');
+
+    Route::get('prize',[PrizeController::class,'index'])->name('prize');
+    Route::get('prize-list',[PrizeController::class,'list'])->name('prize-list');
+    Route::get('prize-edit/{id}',[PrizeController::class,'edit'])->name('prize-edit');
+    Route::get('prize-delete/{id}',[PrizeController::class,'delete'])->name('prize-delete');
+   
     Route::get('logout', [AuthController::class, 'logout'])->name('admin/logout');
 });
 
