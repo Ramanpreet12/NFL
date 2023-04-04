@@ -86,27 +86,10 @@ class SideMenu
                 'title' => 'Setting'
             ],
 
-            'team_result' => [
-                'icon' => 'settings',
-                'route_name' => 'admin/teams/result',
-                'params' => '',
-                'title' => 'Teams Result'
-            ],
-
-            'leaderboard' => [
-                'icon' => 'settings',
-                'route_name' => 'admin/leaderboard',
-                'params' => '',
-                'title' => 'Leaderboard'
-            ],
 
 
-            'color-setting' => [
-                'icon' => 'settings',
-                'route_name' => 'admin/color_setting',
-                'params' => '',
-                'title' => 'Color Setting'
-            ],
+
+
 
             // 'website-setting' => [
             //     'icon' => 'settings',
@@ -132,7 +115,44 @@ class SideMenu
                         'route_name' => 'admin/banner',
                         'params' =>'',
                         'title' => 'Banner'
-                    ]
+                    ],
+                    'leaderboard' => [
+                        'icon' => 'settings',
+                        'route_name' => 'admin/leaderboard',
+                        'params' => '',
+                        'title' => 'Leaderboard'
+                    ],
+
+                    'team_result' => [
+                        'icon' => 'settings',
+                        'route_name' => 'admin/teams/result',
+                        'params' => '',
+                        'title' => 'Teams Result'
+                    ],
+
+                    'color-setting' => [
+                        'icon' => 'settings',
+                        'route_name' => 'admin/color_setting',
+                        'params' => '',
+                        'title' => 'Color Setting'
+                    ],
+
+
+                    'news' => [
+                        'icon' => 'settings',
+                        'route_name' => 'homeSetting.index',
+                        'params' => '',
+                        //'params' => '',
+                        'title' => 'News'
+                    ],
+                    'video-setting' => [
+                        'icon' => 'settings',
+                        'route_name' => 'videoSetting.index',
+                        //'params' => 'section=news_section',
+                        'params' => '',
+                        'title' => 'Videos'
+                    ],
+
                 ]
             ],
 

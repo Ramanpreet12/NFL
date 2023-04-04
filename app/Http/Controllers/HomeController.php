@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Models\TeamResult;
 use App\Models\Fixture;
 use App\Models\Leaderboard;
+use App\Models\HomeSetting;
 
 class HomeController extends Controller
 {
@@ -36,7 +37,11 @@ class HomeController extends Controller
         //get leaderboard
         $leaderboards = Leaderboard::with('teams')->get();
 
-        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches' ,'leaderboards'));
+        //get videos and news
+        $news = HomeSetting::where('type',"news")->where('status',"active")->get();
+        $video = HomeSetting::where('type',"video")->where('status',"active")->get();
+
+        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches' ,'leaderboards' , 'news' ,'video'));
     }
 
 }

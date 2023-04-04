@@ -453,7 +453,7 @@
     </div>
   </section>
 
-  <section id="videoBoard" style="background-color:{{ $colorSection['video']["bg_color"] }};">
+  {{-- <section id="videoBoard" style="background-color:{{ $colorSection['video']["bg_color"] }};">
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -599,7 +599,78 @@
         </div>
       </div>
     </div>
+  </section> --}}
+
+
+  <section id="videoBoard" style="background-color:{{ $colorSection['video']["bg_color"] }};">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 style="color:{{ $colorSection['video']["header_color"] }};">VIDEOS</h2>
+          <div class="owl-carousel owl-videoslider">
+           @if(!empty($video))
+           @foreach($video as $video_item)
+            <div class="item">
+              <div class="video-container" id="video-container">
+                <video controls id="video" preload="metadata" poster="{{ asset('front/img/poster 1.png') }}">
+                  <source src="{{ asset('homeSetting/'.$video_item->image) }}" type="video/mp4">
+                </video>
+
+                <div class="play-button-wrapper">
+                  <div title="Play video" class="play-gif" id="circle-play-b">
+                    <!-- SVG Play Button -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+                      <path d="M40 0a40 40 0 1040 40A40 40 0 0040 0zM26 61.56V18.44L64 40z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @endforeach
+             @endif
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
+
+  <!-- newssection -->
+  <section id="newsPart" style="background-color:{{ $colorSection['news']["bg_color"] }};">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 style="color:{{ $colorSection['news']["header_color"] }};">NEWS</h2>
+          <div class="owl-carousel owl-videoslider owl-theme mt-10">
+          @if(!empty($news))
+           @foreach($news as $news_item)
+            <div class="newsBanner">
+              <div class="mainImage">
+                <img src="{{ asset('homeSetting/'.$news_item->image) }}" alt="" class="img-fluid">
+              </div>
+              <div class="newsItemText">
+                <div class="itemTextinner">
+                  <h6>{{ $news_item->title }}</h6>
+                  <div class="newsimgText d-flex align-items-center">
+                    <div class="imgRound me-3">
+                      <img src="{{ asset('homeSetting/'.$news_item->image) }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="textItem">
+                      <h6>{{ $news_item->header }}</h6>
+                      <span>{!! $news_item->description !!}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @endforeach
+            @endif
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <style type="text/css">
     #heroBanner .btn-primary:before {
      background-color: <?php echo $colorSection['scoreboard']["button_color"] ?>;

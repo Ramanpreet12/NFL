@@ -21,7 +21,8 @@ use App\Http\Controllers\Backend\GeneralController;
 use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\TeamResultController;
 use App\Http\Controllers\Backend\LeaderboardController;
-
+use App\Http\Controllers\Backend\HomeSettingController;
+use App\Http\Controllers\Backend\VideoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -191,6 +192,15 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
    Route::match(['get', 'post'], 'leaderboard/create',[LeaderboardController::class, 'create'])->name('admin/leaderboard/create');
    Route::match(['get', 'post'], 'leaderboard/edit/{id}',[LeaderboardController::class, 'edit'])->name('admin/leaderboard/edit');
    Route::get('leaderboard/delete/{id}' ,[LeaderboardController::class , 'delete']);
+
+//home setting
+Route::resources(['homeSetting' => HomeSettingController::class]);
+Route::get('homeSettingList/{section?}',[HomeSettingController::class,'homeSettingList'])->name('homeSettingList');
+Route::get('homeSettingDelete/{id}',[HomeSettingController::class,'destroy'])->name('homeSettingDelete');
+
+Route::resources(['videoSetting' => VideoController::class]);
+Route::get('videoSettingList/{section?}',[VideoController::class,'videoSettingList'])->name('videoSettingList');
+Route::get('videoSettingDelete/{id}',[VideoController::class,'destroy'])->name('videoSettingDelete');
 
 
      Route::get('logout', [AuthController::class, 'logout'])->name('admin/logout');
