@@ -15,6 +15,12 @@ class CreateLeaderboardsTable extends Migration
     {
         Schema::create('leaderboards', function (Blueprint $table) {
             $table->id();
+            $table->integer('team_id');
+            $table->string('region');
+            $table->string('win');
+            $table->string('loss');
+            $table->string('pts');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }

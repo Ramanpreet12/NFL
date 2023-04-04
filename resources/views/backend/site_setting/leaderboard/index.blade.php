@@ -22,7 +22,7 @@
         <h2 class="text-lg font-medium mr-auto">Leaderboard</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
 
-            <a class="btn btn-primary shadow-md mr-2" href="">Add New Record</a>
+            <a class="btn btn-primary shadow-md mr-2" href="{{url('admin/leaderboard/create')}}">Add New Record</a>
             {{-- <div class="dropdown ml-auto sm:ml-0">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                     <span class="w-5 h-5 flex items-center justify-center">

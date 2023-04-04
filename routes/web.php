@@ -187,6 +187,12 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
 
    //leaderboard
    Route::get('leaderboard',[LeaderboardController::class , 'index'])->name('admin/leaderboard');
+   Route::get('leaderboard_data', [LeaderboardController::class, 'leaderboard_data'])->name('admin/leaderboard_data');
+   Route::match(['get', 'post'], 'leaderboard/create',[LeaderboardController::class, 'create'])->name('admin/leaderboard/create');
+   Route::match(['get', 'post'], 'leaderboard/edit/{id}',[LeaderboardController::class, 'edit'])->name('admin/leaderboard/edit');
+   Route::get('leaderboard/delete/{id}' ,[LeaderboardController::class , 'delete']);
+
+
      Route::get('logout', [AuthController::class, 'logout'])->name('admin/logout');
 });
 

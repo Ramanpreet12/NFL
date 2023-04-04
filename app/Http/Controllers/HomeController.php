@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Team;
 use App\Models\TeamResult;
 use App\Models\Fixture;
+use App\Models\Leaderboard;
 
 class HomeController extends Controller
 {
@@ -32,7 +33,10 @@ class HomeController extends Controller
         //get upcoming matches
         $upcoming_matches = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(4)->get();
 
-        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches'));
+        //get leaderboard
+        $leaderboards = Leaderboard::with('teams')->get();
+
+        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches' ,'leaderboards'));
     }
 
 }

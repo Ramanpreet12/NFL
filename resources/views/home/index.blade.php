@@ -219,36 +219,46 @@
         <div class="col-sm-6 col-md-7">
           <div class="leaderBoard">
             <h2 style="color:{{ $colorSection['leaderboard']["header_color"] }};" >LEADERBOARD</h2>
+
             <div class="tabletwo">
               <div class="table-responsive">
                 <table class="table table-dark table-striped  tableBoard" style="background-color:{{ $colorSection['leaderboard']["bg_color"] }};color:{{ $colorSection['leaderboard']["text_color"] }};">
                   <thead>
                     <tr class="table-primary" >
                       <th scope="col" class="teamNumber">Region</th>
-                      <th scope="col" class="teamNumber">N.</th>
-                      <th scope="col" colspan="2" class="text-start"> Players</th>
+                      {{-- <th scope="col" class="teamNumber">N.</th> --}}
+                      <th scope="col" class="teamNumber">Logo</th>
+                      <th scope="col" class="text-start"> Players</th>
                       <th scope="col">W</th>
                       <th scope="col">L</th>
                       <th scope="col">PTS</th>
                     </tr>
                   </thead>
                   <tbody class="table-group-divider">
+                    @foreach ($leaderboards as $leaderboard)
                     <tr>
-                      <th scope="row" rowspan="3">North</th>
-                      <td>1</td>
-                      <td class="teamLogo ">
-                       <img src="{{ asset('front/img/SF-49ers 1.png') }}" alt="" class="img-fluid">
-                      </td>
-                      <td class="teamName">
-                        <span>Liam</span>
-                      </td>
+                        <td scope="row">{{$leaderboard->region}}</td>
+                        {{-- <td>1</td> --}}
+                        <td class="teamLogo ">
+                            @if ($leaderboard)
+                            <img src="{{ asset('storage/images/team_logo/'.$leaderboard->teams->logo) }}" alt="" class="img-fluid">
+                            @else
+                            <img src="{{ asset('front/img/SF-49ers 1.png') }}" alt="" class="img-fluid">
+                            @endif
+
+                        </td>
+                        <td class="teamName">
+                          <span>{{$leaderboard->teams->name}}</span>
+                        </td>
 
 
-                      <td>14</td>
-                      <td>1</td>
-                      <td>28</td>
-                    </tr>
-                    <tr>
+                        <td>{{$leaderboard->win}}</td>
+                        <td>{{$leaderboard->loss}}</td>
+                        <td>{{$leaderboard->pts}}</td>
+                      </tr>
+                    @endforeach
+
+                    {{-- <tr>
                       <td>2</td>
                       <td class="teamLogo">
                          <img src="{{ asset('front/img/Bears 1.png') }}" alt="" class="img-fluid">
@@ -432,7 +442,7 @@
                       <td>10</td>
                       <td>3</td>
                       <td>24</td>
-                    </tr>
+                    </tr> --}}
                   </tbody>
                 </table>
               </div>

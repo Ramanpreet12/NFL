@@ -21,29 +21,29 @@ class Team extends Model
         } else {
             return url('/dist/images/dummy_image.webp');
         }
-
-
-
-
     }
 
-    // public function fixture_team_one()
-    // {
-    //     return $this->hasMany(Fixture::class ,'team_one' , 'id' );
-    // }
-    // public function fixture_team_two()
-    // {
-    //     return $this->hasMany(Fixture::class ,'team_two' , 'id' );
-    // }
+    public function fixture_team_one()
+    {
+        return $this->hasMany(Fixture::class ,'team_one' , 'id' );
+    }
+    public function fixture_team_two()
+    {
+        return $this->hasMany(Fixture::class ,'team_two' , 'id' );
+    }
 
-    // public function team_result_one()
-    // {
-    //     return $this->hasMany(TeamResult::class ,'team1_id' , 'id' );
-    // }
-    // public function team_result_two()
-    // {
-    //     return $this->hasMany(TeamResult::class ,'team2_id' , 'id' );
-    // }
+    public function team_result_one()
+    {
+        return $this->hasMany(TeamResult::class ,'team1_id' , 'id' );
+    }
+    public function team_result_two()
+    {
+        return $this->hasMany(TeamResult::class ,'team2_id' , 'id' );
+    }
+    public function leaderboard()
+    {
+        return $this->hasOne(Leaderboard::class, 'id');
+    }
 
 
 }
