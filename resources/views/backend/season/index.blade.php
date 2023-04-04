@@ -17,12 +17,12 @@
     &nbsp; {{ session()->get('message_success') }}
 </div>
 @endif
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">     
+    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
 
         <h2 class="text-lg font-medium mr-auto">Season</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-           
-            {{-- <a class="btn btn-primary shadow-md mr-2" href="#">Add New Team</a> --}}
+
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('season.create')}}">Add New Season</a>
             {{-- <div class="dropdown ml-auto sm:ml-0">
                 <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                     <span class="w-5 h-5 flex items-center justify-center">
@@ -55,8 +55,8 @@
                     <select id="tabulator-html-filter-field" class="form-select w-full sm:w-32 2xl:w-full mt-2 sm:mt-0 sm:w-auto">
                         <option value="logo">Name</option>
                         <option value="name">Starting Date</option>
-                        <option value="match_played">End Date</option>                 
-                                            
+                        <option value="match_played">End Date</option>
+
                     </select>
                 </div>
                 <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">

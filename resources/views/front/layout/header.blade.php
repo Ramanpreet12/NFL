@@ -1,7 +1,16 @@
 <nav class="navbar navbar-expand-lg" style="background-color:{{ $colorSection['header']["bg_color"] }};">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
-        <img src="{{ asset('front/img/football picks.png') }}" alt="" class="img-fluid">
+
+                    @if (!empty($general->logo))
+                            <img src="{{asset('storage/images/general/'.$general->logo)}}" alt="" height="50px" width="100px">
+                    @else
+                            <img src="{{ asset('front/img/football picks.png') }}" alt="" class="img-fluid">
+                    @endif
+
+
+
+      {{-- <img src="{{ asset('front/img/football picks.png') }}" alt="" class="img-fluid"> --}}
       </a>
       <div class="loginbtn">
         <a href="{{ url('admin/login') }}" class="btn btn-primary" style="color:{{ $colorSection['header']["text_color"] }};" type="submit">log in

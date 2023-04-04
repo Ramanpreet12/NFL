@@ -85,11 +85,55 @@ class SideMenu
                 'params' => '',
                 'title' => 'Setting'
             ],
+
+            'team_result' => [
+                'icon' => 'settings',
+                'route_name' => 'admin/teams/result',
+                'params' => '',
+                'title' => 'Teams Result'
+            ],
+
+            'leaderboard' => [
+                'icon' => 'settings',
+                'route_name' => 'admin/leaderboard',
+                'params' => '',
+                'title' => 'Leaderboard'
+            ],
+
+
             'color-setting' => [
                 'icon' => 'settings',
                 'route_name' => 'admin/color_setting',
                 'params' => '',
                 'title' => 'Color Setting'
+            ],
+
+            // 'website-setting' => [
+            //     'icon' => 'settings',
+            //     'route_name' => 'admin/general',
+            //     'params' => '',
+            //     'title' => 'General'
+            // ],
+
+
+             'devider',
+            'site_setting' => [
+                'icon' => 'edit',
+                'title' => 'Site Setting',
+                'sub_menu' => [
+                    'general' => [
+                        'icon' => '',
+                        'route_name' => 'admin/general',
+                        'params' =>'',
+                        'title' => 'General'
+                    ],
+                    'banner' => [
+                        'icon' => '',
+                        'route_name' => 'admin/banner',
+                        'params' =>'',
+                        'title' => 'Banner'
+                    ]
+                ]
             ],
 
 

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 use App\Models\ColorSetting;
-
+use App\Models\Banner;
 use App\Http\Controllers\Controller;
+use App\Models\Team;
+use App\Models\TeamResult;
+use App\Models\Fixture;
 
 class HomeController extends Controller
 {
 
-   
+
     public function index()
     {
         $colorSection=array();
@@ -18,8 +21,18 @@ class HomeController extends Controller
                 $colorSection[$color['section']]=$color;
             }
         }
-      
-        return view('home.index',compact('colorSection'));
+        //get banners
+        $banners = Banner::where('status' , 'Active')->get();
+
+        // //get team
+        // $teams = Team::where('status' , 'active')->inRandomOrder()->limit(1)->get();
+        //get Team results
+        $team_results = TeamResult::with('team_result_id1' , 'team_result_id2')->where('status' , 'active')->inRandomOrder()->limit(1)->get();
+
+        //get upcoming matches
+        $upcoming_matches = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(4)->get();
+
+        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches'));
     }
 
 }

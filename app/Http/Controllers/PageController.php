@@ -563,7 +563,7 @@ class PageController extends Controller
      */
     public function regularForm()
     {
-       // return view('pages/regular-form');
+        return view('pages/regular-form');
     }
 
     /**

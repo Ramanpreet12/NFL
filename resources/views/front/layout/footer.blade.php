@@ -12,7 +12,7 @@
                 <i class="fa-solid fa-location-dot"></i>
               </div>
               <div class="inputText">
-                <span>USA, California 20, First Avenue, California</span>
+                <span>{{$general->footer_address}}</span>
               </div>
             </div>
             <div class="contactUs d-flex">
@@ -20,7 +20,7 @@
                 <i class="fa-solid fa-mobile"></i>
               </div>
               <div class="inputText">
-                <span>+7 888 71 140 30 20</span>
+                <span>{{$general->footer_contact}}</span>
               </div>
             </div>
             <div class="contactUs d-flex">
@@ -28,7 +28,7 @@
                 <i class="fa-solid fa-fax"></i>
               </div>
               <div class="inputText">
-                <span>+7 888 71 140 30 20</span>
+                <span>{{$general->footer_contact}}</span>
               </div>
             </div>
             <div class="contactUs d-flex">
@@ -36,7 +36,7 @@
                 <i class="fa-solid fa-envelope"></i>
               </div>
               <div class="inputText">
-                <span>info@stylemixthemes.com</span>
+                <span>{{$general->email}}</span>
               </div>
             </div>
           </div>
