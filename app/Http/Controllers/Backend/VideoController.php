@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 
 use App\Models\HomeSetting;
+use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Storage;
 
 class VideoController extends Controller
 {
@@ -17,7 +19,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        return view('backend.video_setting.index');
+        return view('backend.site_setting.video_setting.index');
     }
 
     /**
@@ -27,7 +29,7 @@ class VideoController extends Controller
      */
     public function create()
     {
-        return view('backend.video_setting.add');
+        return view('backend.site_setting.video_setting.add');
     }
 
     /**
@@ -49,34 +51,36 @@ class VideoController extends Controller
                  if ($validator->fails()) {
                      return redirect()->back()->withErrors($validator)->withInput();
                  }else{
-                   
-                 $data = array(); 
+
+                 $data = array();
                   if($request->hasfile('video')){
                     //print_r($request->all());
                          $file = $request->video;
-                         $destinationPath = public_path(). '/homeSetting/';
+                        //  $destinationPath = public_path(). '/homeSetting/';
                          $filename = date('YmdHis') . "." .$file->getClientOriginalName();
-                         $file->move($destinationPath, $filename);
+                        //  $file->move($destinationPath, $filename);
+                        $file->storeAs('public/videos/' , $filename);
+
                          //$image_path = $request->file('image')->store('image', 'public');
                          $data['image'] = $filename;
                      }
-                     //exit;    
+                     //exit;
                      $data["title"]=$request->title;
                      $data["header"] = $request->header;
                      $data["type"]="video";
                      $data["description"]=$request->description;
                      $data["status"]=$request->status;
-                     $result=HomeSetting::create($data);
- 
+                     $result=News::create($data);
+
                      if($result){
                          return redirect()->route('videoSetting.index')->with('message_success','New Record Added Successfully');
                      }else{
                          return redirect()->route('videoSetting.index')->with('message_error','Something went wrong');
                      }
                 }
- 
+
                  }else {
-                     return view('backend.video_setting.index');
+                     return view('backend.site_setting.video_setting.index');
              }
     //   }catch(\Exception $e){
     //       $e->getMessage();
@@ -102,8 +106,8 @@ class VideoController extends Controller
      */
     public function edit($id)
     {
-        $homeSetting = HomeSetting::find($id);
-        return view('backend.video_setting.edit', compact('homeSetting'));
+        $news = News::find($id);
+        return view('backend.site_setting.video_setting.edit', compact('news'));
     }
 
     /**
@@ -126,32 +130,34 @@ class VideoController extends Controller
                  if ($validator->fails()) {
                      return redirect()->back()->withErrors($validator)->withInput();
                  }else{
-                 $data = array(); 
+                 $data = array();
                   if($request->hasfile('video')){
                          $file = $request->video;
-                         $destinationPath = public_path(). '/homeSetting/';
+                        //  $destinationPath = public_path(). '/homeSetting/';
                          $filename = date('YmdHis') . "." .$file->getClientOriginalName();
-                         $file->move($destinationPath, $filename);
+                        //  $file->move($destinationPath, $filename);
+                        $file->storeAs('public/videos/' , $filename);
+
                          $data['image'] = $filename;
                      } else{
                         unset($data['image'] );
-                     }   
+                     }
                      $data["title"]=$request->title;
                      $data["header"] = $request->header;
                      $data["type"]="video";
                      $data["description"]=$request->description;
                      $data["status"]=$request->status;
-                     $result=HomeSetting::where('id',$id)->update($data);
- 
+                     $result=News::where('id',$id)->update($data);
+
                      if($result){
                          return redirect()->route('videoSetting.index')->with('message_success','New Record Added Successfully');
                      }else{
                          return redirect()->route('videoSetting.index')->with('message_error','Something went wrong');
                      }
                 }
- 
+
                  }else {
-                     return view('backend.video_setting.index');
+                     return view('backend.site_setting.video_setting.index');
              }
       }catch(\Exception $e){
           $e->getMessage();
@@ -166,17 +172,17 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        $del = HomeSetting::find($id)->delete();
+        $del = News::find($id)->delete();
         if($del){
-            return redirect()->route('videoSetting.index')->with('message_success','Reocrd Deleted Successfully'); 
+            return redirect()->route('videoSetting.index')->with('message_success','Reocrd Deleted Successfully');
         }else{
-            return redirect()->route('videoSetting.index')->with('message_error','Something went wrong'); 
+            return redirect()->route('videoSetting.index')->with('message_error','Something went wrong');
         }
     }
 
     public function videoSettingList(){
-       
-        $result = HomeSetting::where('type',"video")->paginate(6);        
-        return response()->json($result, 200); 
+
+        $result = News::where('type',"video")->paginate(6);
+        return response()->json($result, 200);
     }
 }

@@ -12,16 +12,16 @@ class ColorSettingController extends Controller
 {
     public function index(){
         $color_setting = ColorSetting::get();
-        
-        return view('backend.color_setting.index' , compact('color_setting'));
+
+        return view('backend.site_setting.color_setting.index' , compact('color_setting'));
     }
 
-    
 
-    public function edit_color($id){        
+
+    public function edit_color($id){
         $color_setting = ColorSetting::where('id' , $id)->first();
         $color_section=['header'=>'header','navbar'=>'navbar','scoreboard'=>'scoreboard','leaderboard'=>'leaderboard','video'=>'video','news'=>'news','footer'=>'footer'];
-        return view('backend.color_setting.edit' , compact('color_setting','color_section'));
+        return view('backend.site_setting.color_setting.edit' , compact('color_setting','color_section'));
     }
     public function update_color(ColorSettingRequest $request , $id){
 

@@ -86,11 +86,6 @@ class SideMenu
                 'title' => 'Setting'
             ],
 
-
-
-
-
-
             // 'website-setting' => [
             //     'icon' => 'settings',
             //     'route_name' => 'admin/general',
@@ -104,6 +99,14 @@ class SideMenu
                 'icon' => 'edit',
                 'title' => 'Site Setting',
                 'sub_menu' => [
+                    'menu-setting' => [
+                        'icon' => 'settings',
+                        'route_name' => 'menu.index',
+                        //'params' => 'section=news_section',
+                        'params' => '',
+                        'title' => 'Menu Setting'
+                    ],
+
                     'general' => [
                         'icon' => '',
                         'route_name' => 'admin/general',
@@ -140,7 +143,7 @@ class SideMenu
 
                     'news' => [
                         'icon' => 'settings',
-                        'route_name' => 'homeSetting.index',
+                        'route_name' => 'news.index',
                         'params' => '',
                         //'params' => '',
                         'title' => 'News'

@@ -8,7 +8,10 @@ use App\Models\Team;
 use App\Models\TeamResult;
 use App\Models\Fixture;
 use App\Models\Leaderboard;
-use App\Models\HomeSetting;
+use App\Models\News;
+use App\Models\Menu;
+use DB;
+
 
 class HomeController extends Controller
 {
@@ -16,6 +19,25 @@ class HomeController extends Controller
 
     public function index()
     {
+        //get menu
+
+        $menus = Menu::with('menu')->where('status' , 'active')->get();
+
+
+        // dd($menus_data);
+        // echo "<pre>";
+        // print_r($menus);
+        $mainMenus = Menu::where('parent_id' , 0)->get();
+        $subMenus = Menu::where('parent_id' , '!=' , 0)->get();
+
+    //   $menus =   DB::table('menus AS mainMenu')
+    // ->join('menus AS subMenu','mainMenu.id',"=",'subMenu.parent_id')->get();
+
+    //     echo "<pre>";
+    //     print_r($menus);
+    //     echo "<pre>";
+    //     die();
+
         $colorSection=array();
         $color_setting = ColorSetting::get();
         if(!empty($color_setting)){
@@ -38,10 +60,10 @@ class HomeController extends Controller
         $leaderboards = Leaderboard::with('teams')->get();
 
         //get videos and news
-        $news = HomeSetting::where('type',"news")->where('status',"active")->get();
-        $video = HomeSetting::where('type',"video")->where('status',"active")->get();
+        $news = News::where('type',"news")->where('status',"active")->get();
+        $video = News::where('type',"video")->where('status',"active")->get();
 
-        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches' ,'leaderboards' , 'news' ,'video'));
+        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches' ,'leaderboards' , 'news' ,'video' , 'menus' , 'mainMenus' , 'subMenus'));
     }
 
 }

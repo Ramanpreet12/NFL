@@ -60,9 +60,7 @@ class BannerController extends Controller
 
                 }
 
-
                 $banners = new Banner;
-
                 $banners->heading  = $request->heading;
                 $banners->image    = $filename;
                 $banners->serial   = $request->serial;

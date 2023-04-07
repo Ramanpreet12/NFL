@@ -10,10 +10,6 @@ use Storage;
 
 class GeneralController extends Controller
 {
-    // public function general()
-    // {
-    //     return view('backend.site_setting.general');
-    // }
     public function general(Request $request)
     {
         if (! $request->isMethod('post')) {
@@ -45,6 +41,7 @@ class GeneralController extends Controller
                     'homepage_subtitle' => $request->get('homepage_subtitle'),
                     'footer_contact' => $request->get('footer_contact'),
                     'footer_address' => $request->get('footer_address'),
+                    'footer_content' => $request->get('footer_content'),
 
                 ];
                 if($request->has('logo')){
@@ -67,8 +64,6 @@ class GeneralController extends Controller
 
                 // Notice the call below
                 $general->update($updateDetails);
-
-
 
 
                // $general->update();

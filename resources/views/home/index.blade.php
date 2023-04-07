@@ -613,7 +613,8 @@
             <div class="item">
               <div class="video-container" id="video-container">
                 <video controls id="video" preload="metadata" poster="{{ asset('front/img/poster 1.png') }}">
-                  <source src="{{ asset('homeSetting/'.$video_item->image) }}" type="video/mp4">
+                  {{-- <source src="{{ asset('homeSetting/'.$video_item->image) }}" type="video/mp4"> --}}
+                  <source src="{{ asset('storage/videos/'.$video_item->image) }}" type="video/mp4">
                 </video>
 
                 <div class="play-button-wrapper">
@@ -645,14 +646,14 @@
            @foreach($news as $news_item)
             <div class="newsBanner">
               <div class="mainImage">
-                <img src="{{ asset('homeSetting/'.$news_item->image) }}" alt="" class="img-fluid">
+                <img src="{{ asset('storage/images/news/'.$news_item->image) }}" alt="" class="img-fluid">
               </div>
               <div class="newsItemText">
                 <div class="itemTextinner">
                   <h6>{{ $news_item->title }}</h6>
                   <div class="newsimgText d-flex align-items-center">
                     <div class="imgRound me-3">
-                      <img src="{{ asset('homeSetting/'.$news_item->image) }}" alt="" class="img-fluid">
+                      <img src="{{ asset('storage/images/news/'.$news_item->image) }}" alt="" class="img-fluid">
                     </div>
                     <div class="textItem">
                       <h6>{{ $news_item->header }}</h6>

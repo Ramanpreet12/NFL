@@ -132,13 +132,13 @@
                     </div>
                     <div class="form-inline mt-5">
                         <label for="homepage_title" class="font-medium form-label sm:w-60">Homepage Banner Title</label>
-                        <input id="homepage_title" type="text" class="form-control" name="homepage_title" value="{{$general->homepage_subtitle}}"
+                        <input id="homepage_title" type="text" class="form-control" name="homepage_title" value="{{$general->homepage_title}}"
                             placeholder="Homepage banner title" >
                     </div>
                     <div class="form-inline mt-5">
                         <label for="homepage_subtitle" class="font-medium form-label sm:w-60">Homepage Banner
                             Subtitle</label>
-                        <input id="homepage_subtitle" type="text" class="form-control" name="homepage_subtitle" value="{{$general->homepage_title}}"
+                        <input id="homepage_subtitle" type="text" class="form-control" name="homepage_subtitle" value="{{$general->homepage_subtitle}}"
                             placeholder="Homepage banner subtitle">
                     </div>
                     <div class="form-inline mt-5">
@@ -208,6 +208,10 @@
                         <label for="footer_address" class="font-medium form-label sm:w-60">Footer Address</label>
 
                         <textarea name="footer_address" id="footer_address" cols="20" rows="5" placeholder="Address" >{{$general->footer_address}}</textarea>
+                    </div>
+                    <div class="form-inline mt-5">
+                        <label for="footer_content" class="font-medium form-label sm:w-60">Footer Content</label>
+                        <textarea name="footer_content" id="footer_content" cols="20" rows="5" placeholder="Content" >{{$general->footer_content}}</textarea>
                     </div>
 
 

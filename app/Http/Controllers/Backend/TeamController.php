@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Team;
 use App\Http\Requests\TeamValidation;
+use Storage;
 
 class TeamController extends Controller
 {
@@ -23,27 +24,29 @@ class TeamController extends Controller
     }
     public function create(TeamValidation $request){
         try{
-        $input = $request->all();
-        //    if($request->hasfile('logo')){
-        //       $logo =  fileLoad($request->logo);
-        //       $input['logo'] = $logo;
-        //    }
+            if ($request->isMethod('post')) {
+
+                $input = $request->all();
+                //    if($request->hasfile('logo')){
+                //       $logo =  fileLoad($request->logo);
+                //       $input['logo'] = $logo;
+                //    }
 
 
-            if ($request->hasFile('logo')) {
-                    $logo_file = $request->file('logo');
-                    $logo_filename = "teamlogo".time().'.'.$logo_file->getClientOriginalExtension();
-                    $logo_file->storeAs('public/images/team_logo/' , $logo_filename);
+                    if ($request->hasFile('logo')) {
+                            $logo_file = $request->file('logo');
+                            $logo_filename = "teamlogo".time().'.'.$logo_file->getClientOriginalExtension();
+                            $logo_file->storeAs('public/images/team_logo/' , $logo_filename);
+                            $input['logo'] = $logo_filename;
+                    }
+
+                $team = Team::create($input);
+                if($team){
+                    return redirect()->route('admin/team')->with('message_success', 'Team created successfully');
+                }
+
             }
-            $input['logo'] = $logo_filename;
 
-
-
-
-        $team = Team::create($input);
-        if($team){
-            return redirect()->route('admin/team')->with('message_success', 'Team created successfully');
-        }
 
         }catch(\Exception $e){
             $e->getMessage();

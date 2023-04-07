@@ -46,7 +46,8 @@ class AuthController extends Controller
         if ($request->isMethod('post')) {
 
             if (\Auth::attempt(['email' => $request->email , 'password' => $request->password] ))  {
-                return redirect('admin/dashboard')->with('message_success' , 'Login successfully');
+                // return redirect('admin/dashboard')->with('message_success' , 'Login successfully');
+                return redirect('admin/general')->with('message_success' , 'Login successfully');
             }else{
                 return redirect('admin/login')->with('message_error' , 'Incorrect email or password');
                }

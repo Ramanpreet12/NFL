@@ -336,8 +336,9 @@ h1, h2, h3, h4, h5, h6 {
   position: static;
   justify-content: center; }
   .navbar .navbar-collapse .navbar-nav .dropdown {
-    background-color: #da9a29;
     position: static; }
+    .navbar .navbar-collapse .navbar-nav .dropdown a.show {
+      background-color: #da9a29; }
     .navbar .navbar-collapse .navbar-nav .dropdown .dropdown-menu {
       background-color: #da9a29; }
       .navbar .navbar-collapse .navbar-nav .dropdown .dropdown-menu a {
@@ -349,9 +350,11 @@ h1, h2, h3, h4, h5, h6 {
       width: 100%;
       left: 0;
       border-radius: 0;
-      display: block;
       margin-top: 0;
-      top: 100%; }
+      top: 100%;
+      display: none; }
+    .navbar .navbar-collapse .navbar-nav .dropdown .show {
+      display: block; }
 
 #cardBlock {
   padding: 70px 0;

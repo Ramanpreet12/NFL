@@ -23,6 +23,13 @@ use App\Http\Controllers\Backend\TeamResultController;
 use App\Http\Controllers\Backend\LeaderboardController;
 use App\Http\Controllers\Backend\HomeSettingController;
 use App\Http\Controllers\Backend\VideoController;
+use App\Http\Controllers\Backend\NewsController;
+
+use App\Http\Controllers\Backend\MenuController;
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -194,14 +201,24 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
    Route::get('leaderboard/delete/{id}' ,[LeaderboardController::class , 'delete']);
 
 //home setting
-Route::resources(['homeSetting' => HomeSettingController::class]);
-Route::get('homeSettingList/{section?}',[HomeSettingController::class,'homeSettingList'])->name('homeSettingList');
-Route::get('homeSettingDelete/{id}',[HomeSettingController::class,'destroy'])->name('homeSettingDelete');
+// Route::resources(['news' => HomeSettingController::class]);
+// Route::get('homeSettingList/{section?}',[HomeSettingController::class,'homeSettingList'])->name('homeSettingList');
+// Route::get('homeSettingDelete/{id}',[HomeSettingController::class,'destroy'])->name('homeSettingDelete');
+
+//News setting
+Route::resources(['news' => NewsController::class]);
+Route::get('news_data/',[NewsController::class,'news_data'])->name('admin/news_data');
+Route::get('news/delete/{id}',[NewsController::class,'destroy']);
+
 
 Route::resources(['videoSetting' => VideoController::class]);
 Route::get('videoSettingList/{section?}',[VideoController::class,'videoSettingList'])->name('videoSettingList');
 Route::get('videoSettingDelete/{id}',[VideoController::class,'destroy'])->name('videoSettingDelete');
 
+//menu setting
+Route::resources(['menu' => MenuController::class]);
+Route::get('menuList',[MenuController::class,'menuList'])->name('menuList');
+Route::get('menuDelete/{id}',[MenuController::class,'destroy'])->name('menuDelete');
 
      Route::get('logout', [AuthController::class, 'logout'])->name('admin/logout');
 });

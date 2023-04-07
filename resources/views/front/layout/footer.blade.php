@@ -3,7 +3,9 @@
       <div class="row">
         <div class="col-sm-4">
           <a class="footerLogo" href="index.html">
-            <img src="{{ asset('front/img/NFL-small.png') }}" alt="" class="img-fluid">
+            {{-- <img src="{{ asset('front/img/NFL-small.png') }}" alt="" class="img-fluid"> --}}
+            <img src="{{$general->logo}}" alt="" class="img-fluid">
+
           </a>
 
           <div class="contactDetail">
