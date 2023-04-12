@@ -4,36 +4,22 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\GeneralRequest;
 use App\Models\General;
 use Validator;
 use Storage;
 
 class GeneralController extends Controller
 {
-    public function general(Request $request)
+    public function general()
     {
-        if (! $request->isMethod('post')) {
-            $general = General::first();
+        $general = General::first();
             return view('backend.site_setting.general' , compact('general'));
-        } elseif ($request->isMethod('post')) {
-
-            $rules = array(
-                'name'    => 'required',
-            );
-            $fieldNames = array(
-                'name'    => 'Name',
-            );
-
-            $validator = Validator::make($request->all(), $rules);
-            $validator->setAttributeNames($fieldNames);
-
-            if ($validator->fails()) {
-                return back()->withErrors($validator)->withInput();
-            } else {
+    }
+    public function general_update(GeneralRequest $request)
+    {
+        // try {
                 $general = General::First();
-                $request->validate([
-                    'name' => 'required'
-                ]);
                 $updateDetails = [
                     'name' => $request->get('name'),
                     'email' => $request->get('email'),
@@ -42,37 +28,31 @@ class GeneralController extends Controller
                     'footer_contact' => $request->get('footer_contact'),
                     'footer_address' => $request->get('footer_address'),
                     'footer_content' => $request->get('footer_content'),
-
                 ];
                 if($request->has('logo')){
-                    if ($request->hasFile('logo')) {
-                            $logo_file = $request->file('logo');
-                            $logo_filename = "logo".time().'.'.$logo_file->getClientOriginalExtension();
-                            $logo_file->storeAs('public/images/general/' , $logo_filename);
-                    }
+                    // if ($request->hasFile('logo')) {
+                    //         $logo_file = $request->file('logo');
+                    //         $logo_filename = "logo".time().'.'.$logo_file->getClientOriginalExtension();
+                    //         $logo_file->storeAs('public/images/general/' , $logo_filename);
+                    // }
+                   $logo_filename =  general_images($request->logo);
                     $updateDetails['logo'] = $logo_filename;
-
                 }
+
                 if($request->has('favicon')){
-                    if ($request->hasFile('favicon')) {
-                            $favicon_file = $request->file('favicon');
-                            $favicon_filename = "favicon".time().'.'.$favicon_file->getClientOriginalExtension();
-                            $favicon_file->storeAs('public/images/general/' , $favicon_filename);
-                    }
+                    $favicon_filename =  general_images($request->favicon);
                     $updateDetails['favicon'] = $favicon_filename;
                 }
+              $update_query =   $general->update($updateDetails);
+              if ($update_query) {
+                return redirect()->back()->with('success' , 'General setting updated successfully');
+              } else {
+                return redirect()->back()->with('message_error' , 'Something went wrong');
+              }
 
-                // Notice the call below
-                $general->update($updateDetails);
+            // } catch (\Exception $e) {
+            //         $e->getMessage();
+            //         }
 
-
-               // $general->update();
-                return redirect()->back()->with('success' , 'General setting update successfully');
-            }
-        } else {
-            return redirect('admin/general');
-        }
-
-
-    }
+                }
 }

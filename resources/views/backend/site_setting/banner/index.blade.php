@@ -9,7 +9,7 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">Banners Management</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            <a class="btn btn-primary shadow-md mr-2" href="{{route('admin/banner/create')}}">Add New Banner</a>
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('banner.create')}}">Add New Banner</a>
         </div>
     </div>
 
@@ -73,12 +73,21 @@
                             </td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="{{url('admin/banner/edit/'.$banner->id)}}">
+                                    <a class="flex items-center mr-3" href="{{ route('banner.edit',$banner->id) }}">
                                         <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
                                     </a>
-                                    <a class="flex items-center text-danger" href="{{url('admin/banner/delete/'.$banner->id)}}" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal">
-                                        <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                    </a>
+                                    <form action="{{ route('banner.destroy', $banner->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        {{-- <a class="flex items-center text-danger" href="" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal">
+                                            <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                                        </a> --}}
+
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+
+                                      </form>
+
+
                                 </div>
                             </td>
                         </tr>

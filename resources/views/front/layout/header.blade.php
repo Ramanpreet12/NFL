@@ -7,10 +7,6 @@
                     @else
                             <img src="{{ asset('front/img/football picks.png') }}" alt="" class="img-fluid">
                     @endif
-
-
-
-      {{-- <img src="{{ asset('front/img/football picks.png') }}" alt="" class="img-fluid"> --}}
       </a>
       <div class="loginbtn">
         <a href="{{ url('admin/login') }}" class="btn btn-primary" style="color:{{ $colorSection['header']["text_color"] }};" type="submit">log in
@@ -22,13 +18,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto me-auto  mb-2 mb-lg-0">
-          {{-- <li class="nav-item dropdown" style="background-color:{{ $colorSection['header']["button_color"] }};"> --}}
-            {{-- @foreach ($mainMenus as $menuMenu)
 
-            <li class="nav-item  dropdown ">
-                <a class="nav-link  @if($menuMenu->parent_id != $menuMenu->id ) dropdown-toggle @endif " href="#" style="color:{{ $colorSection['header']["text_color"] }}; background-color:{{ $colorSection['header']["button_color"] }};" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                     {{$menuMenu->title}}
-                </a>
+            @foreach ($mainMenus as $menuMenu)
+
+            <li class="nav-item  dropdown">
+                <a class="nav-link {{ get_main_menus($menuMenu->id) }}" href="#"  role="button" data-bs-toggle={{ get_main_submenus($menuMenu->id) }} aria-expanded="false">
+                     {{$menuMenu->title}}</a>
                 <div class="dropdown-menu megaMenu" x-placement="bottom-start" style="position: absolute; background-color:{{ $colorSection['navbar']["bg_color"] }};" >
                   <div class="container">
                     <div class="row">
@@ -36,37 +31,6 @@
                         @foreach ($subMenus as $subMenu)
                         @if ($subMenu->parent_id == $menuMenu->id)
                             <li class="nav-item"> <a class="dropdown-item" href="#">{{$subMenu->title}}</a></li>
-                        @endif
-                        @endforeach
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            @endforeach --}}
-
-            @foreach ($mainMenus as $menuMenu)
-
-            <li class="nav-item  dropdown">
-                {{-- @if ($loop->first)
-
-                <a class="nav-link {{ get_menus($menuMenu->id) }} show" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                    {{$menuMenu->title}}
-               </a>
-            @endif --}}
-
-                <a class="nav-link {{ get_menus($menuMenu->id) }} @if($loop->first) show @else '' @endif" href="#"  role="button" data-bs-toggle={{ get_menus_bar($menuMenu->id) }} aria-expanded="false">
-                     {{$menuMenu->title}}
-                </a>
-                <div class="dropdown-menu megaMenu @if($loop->first) show  @else '' @endif" x-placement="bottom-start" style="position: absolute; background-color:{{ $colorSection['navbar']["bg_color"] }};" >
-                  <div class="container">
-                    <div class="row">
-                      <ul class="navbar-nav dropList">
-                        @foreach ($subMenus as $subMenu)
-
-                        @if ($subMenu->parent_id == $menuMenu->id)
-                            <li class="nav-item"> <a class="dropdown-item" href="#">{{$subMenu->title}}</a></li>
-
                         @endif
                         @endforeach
                       </ul>
@@ -136,3 +100,22 @@
     background-color: <?php echo $colorSection['header']["button_color"] ?>;
 }
     </style>
+
+
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+   $(document).ready(function(){
+    $('.nav-item a:first').addClass('show');
+    $('.nav-item .megaMenu:first').addClass('show');
+//   $('ul li a').click(function(){
+//    let $li =  $(this).toggleClass('show');
+//    $('li a').not($li).removeClass('show');
+
+//     // $('.nav-item a:first').removeClass('show');
+//     // $('.nav-item .megaMenu:first').removeClass('show');
+
+// });
+});
+</script> --}}
+
+

@@ -179,12 +179,26 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
 
     //website setting
     //general management
-    Route::match(['get' , 'post'] , 'general', [GeneralController::class , 'general'])->name('admin/general');
+    // Route::match(['get' , 'post'] , 'general', [GeneralController::class , 'general'])->name('admin/general');
+    Route::get('general', [GeneralController::class , 'general'])->name('admin/general');
+    Route::post('general_post', [GeneralController::class , 'general_update'])->name('admin/general_post');
     //banner management
-    Route::get('banner' ,[BannerController::class , 'index'])->name('admin/banner');
-    Route::match(['get' , 'post'] , 'banner/create' ,[BannerController::class , 'create'])->name('admin/banner/create');
-    Route::match(['get' , 'post'] , 'banner/edit/{id}' ,[BannerController::class , 'update']);
-    Route::get('banner/delete/{id}' ,[BannerController::class , 'delete']);
+    // Route::get('banner' ,[BannerController::class , 'index'])->name('admin/banner');
+    // // Route::match(['get' , 'post'] , 'banner/create' ,[BannerController::class , 'create'])->name('admin/banner/create');
+    // Route::get('banner/create' ,[BannerController::class , 'create'])->name('admin/banner/create');
+    // Route::post('banner/store' ,[BannerController::class , 'store'])->name('admin/banner/store');
+    // // Route::match(['get' , 'post'] , 'banner/edit/{id}' ,[BannerController::class , 'update']);
+    // Route::get('banner/edit/{id}' ,[BannerController::class , 'edit']);
+    // Route::put('banner/update/{id}' ,[BannerController::class , 'update']);
+
+    // Route::get('banner/delete/{id}' ,[BannerController::class , 'delete']);
+
+    //banner management with resource controller
+    // Route::resource('banner', BannerController::class);
+    Route::resources([
+        'banner' => BannerController::class,
+    ]);
+
 
     //Team result
     Route::get('teams/result' ,[TeamResultController::class , 'index'] )->name('admin/teams/result');
@@ -200,25 +214,25 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
    Route::match(['get', 'post'], 'leaderboard/edit/{id}',[LeaderboardController::class, 'edit'])->name('admin/leaderboard/edit');
    Route::get('leaderboard/delete/{id}' ,[LeaderboardController::class , 'delete']);
 
-//home setting
-// Route::resources(['news' => HomeSettingController::class]);
-// Route::get('homeSettingList/{section?}',[HomeSettingController::class,'homeSettingList'])->name('homeSettingList');
-// Route::get('homeSettingDelete/{id}',[HomeSettingController::class,'destroy'])->name('homeSettingDelete');
+    //home setting
+    // Route::resources(['news' => HomeSettingController::class]);
+    // Route::get('homeSettingList/{section?}',[HomeSettingController::class,'homeSettingList'])->name('homeSettingList');
+    // Route::get('homeSettingDelete/{id}',[HomeSettingController::class,'destroy'])->name('homeSettingDelete');
 
-//News setting
-Route::resources(['news' => NewsController::class]);
-Route::get('news_data/',[NewsController::class,'news_data'])->name('admin/news_data');
-Route::get('news/delete/{id}',[NewsController::class,'destroy']);
+    //News setting
+    Route::resources(['news' => NewsController::class]);
+    Route::get('news_data/',[NewsController::class,'news_data'])->name('admin/news_data');
+    Route::get('news/delete/{id}',[NewsController::class,'destroy']);
 
 
-Route::resources(['videoSetting' => VideoController::class]);
-Route::get('videoSettingList/{section?}',[VideoController::class,'videoSettingList'])->name('videoSettingList');
-Route::get('videoSettingDelete/{id}',[VideoController::class,'destroy'])->name('videoSettingDelete');
+    Route::resources(['videoSetting' => VideoController::class]);
+    Route::get('videoSettingList/{section?}',[VideoController::class,'videoSettingList'])->name('videoSettingList');
+    Route::get('videoSettingDelete/{id}',[VideoController::class,'destroy'])->name('videoSettingDelete');
 
-//menu setting
-Route::resources(['menu' => MenuController::class]);
-Route::get('menuList',[MenuController::class,'menuList'])->name('menuList');
-Route::get('menuDelete/{id}',[MenuController::class,'destroy'])->name('menuDelete');
+    //menu setting
+    Route::resources(['menu' => MenuController::class]);
+    Route::get('menuList',[MenuController::class,'menuList'])->name('menuList');
+    Route::get('menuDelete/{id}',[MenuController::class,'destroy'])->name('menuDelete');
 
      Route::get('logout', [AuthController::class, 'logout'])->name('admin/logout');
 });

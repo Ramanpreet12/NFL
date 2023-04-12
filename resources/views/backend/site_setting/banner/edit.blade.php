@@ -34,9 +34,9 @@
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Edit Banner</h2>
         </div>
-        <form action="{{url('admin/banner/edit/'.$banners->id)}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('banner.update' , $banners->id)}}" method="post" enctype="multipart/form-data">
             @csrf
-
+            @method('PUT')
             <div id="horizontal-form" class="p-5">
                 <div class="preview">
                     <div class="form-inline">

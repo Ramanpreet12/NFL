@@ -115,7 +115,7 @@ class SideMenu
                     ],
                     'banner' => [
                         'icon' => '',
-                        'route_name' => 'admin/banner',
+                        'route_name' => 'banner.index',
                         'params' =>'',
                         'title' => 'Banner'
                     ],
