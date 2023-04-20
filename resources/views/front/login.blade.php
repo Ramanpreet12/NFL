@@ -1,65 +1,82 @@
-@extends('../layout/' . $layout)
-
-@section('head')
-    <title>Login - Rubick - Tailwind HTML Admin Template</title>
-@endsection
-
+@extends('front.layout.app')
 @section('content')
-    <div class="container sm:px-10">
-        <div class="block xl:grid grid-cols-2 gap-4">
-            <!-- BEGIN: Login Info -->
-            <div class="hidden xl:flex flex-col min-h-screen">
-                <a href="" class="-intro-x flex items-center pt-5">
-                    <img alt="Rubick Tailwind HTML Admin Template" class="w-6" src="{{ asset('dist/images/logo.svg') }}">
-                    <span class="text-white text-lg ml-3">
-                        Rubick
-                    </span>
-                </a>
-                <div class="my-auto">
-                    <img alt="Rubick Tailwind HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="{{ asset('dist/images/illustration.svg') }}">
-                    <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">A few more clicks to <br> sign in to your account.</div>
-                    <div class="-intro-x mt-5 text-lg text-white text-opacity-70 dark:text-slate-400">Manage all your e-commerce accounts in one place</div>
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+   <section id="loginForm">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-8 col-lg-6 col-md-8">
+            @if (session()->has('success'))
+                <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-check2-circle" viewBox="0 0 16 16">
+                        <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                        <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                    </svg>
+                    &nbsp; {{ session()->get('success') }}
                 </div>
-            </div>
-            <!-- END: Login Info -->
-            <!-- BEGIN: Login Form -->
-            <div class="h-screen xl:h-auto flex py-5 xl:py-0 my-10 xl:my-0">
-                <div class="my-auto mx-auto xl:ml-20 bg-white dark:bg-darkmode-600 xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto">
-                    <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">Sign In</h2>
-                    <div class="intro-x mt-2 text-slate-400 xl:hidden text-center">A few more clicks to sign in to your account. Manage all your e-commerce accounts in one place</div>
-                    <div class="intro-x mt-8">
-                        <form id="login-form" method="POST" action="{{route('login')}}">
-                            @csrf
-                            <input name="email" id="email" type="text" class="intro-x login__input form-control py-3 px-4 block" placeholder="Email" value="admin@gmail.com">
-                            <div id="error-email" class="login__input-error text-danger mt-2"></div>
-                            <input name="password" id="password" type="password" class="intro-x login__input form-control py-3 px-4 block mt-4" placeholder="Password" value="password">
-                            <div id="error-password" class="login__input-error text-danger mt-2"></div>
+                @endif
 
-                    </div>
-                    {{-- <div class="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
-                        <div class="flex items-center mr-auto">
-                            <input id="remember-me" type="checkbox" class="form-check-input border mr-2">
-                            <label class="cursor-pointer select-none" for="remember-me">Remember me</label>
-                        </div>
-                        <a href="">Forgot Password?</a>
-                    </div> --}}
-                    <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
-                        <button type="submit" id="btn-login" class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top">Login</button>
-                        {{-- <button class="btn btn-outline-secondary py-3 px-4 w-full xl:w-32 mt-3 xl:mt-0 align-top">Register</button> --}}
-                    </div>
-                    <div class="intro-x mt-10 xl:mt-24 text-slate-600 dark:text-slate-500 text-center xl:text-left">
-                        By signin up, you agree to our <a class="text-primary dark:text-slate-200" href="">Terms and Conditions</a> & <a class="text-primary dark:text-slate-200" href="">Privacy Policy</a>
-                    </div>
-                </form>
+                @if (session()->has('userLogin_error'))
+                <div class="alert alert-danger show flex items-center mb-2 alert_messages" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-alert-octagon w-6 h-6 mr-2">
+                    <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                    &nbsp; {{ session()->get('userLogin_error') }}
                 </div>
-            </div>
-            <!-- END: Login Form -->
+                @endif
+
+
+
+            {{-- @if (session('userLogin_error'))
+                    <div class="alert alert-danger-soft show flex items-center mb-2 alert_messages" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-alert-octagon w-6 h-6 mr-2">
+                            <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        {{ session('userLogin_error') }}
+                    </div>
+                    @endif --}}
+                <div class="formStart">
+                  <div class="logoImage text-center">
+                    <a class="navbar-brand" href="#">
+                      <img src="img/NFL-small.png" alt="" class="img-fluid"> </a>
+                  </div>
+                  <h2>Log in</h2>
+                  <div class="inputsForm">
+                    <form method="post" action="{{route('login')}}">
+                        @csrf
+                         <div class="mb-3">
+                          <label for="email" class="form-label">Email address</label>
+                          <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="johndoe@gamil.com">
+                          </div>
+                          <div class="mb-3">
+                          <label for="password" class="form-label">Password</label>
+                          <input type="password" class="form-control" id="password" name="password" placeholder="**********">
+                          </div>
+                      <div class="checkButton d-flex">
+                      <button type="submit" name="submit" class="btn btn-primary">Log In</button>
+
+                        <a href="{{route('register')}}">
+                          SIGN UP
+                        </a>
+
+                      </div>
+                    </form>
+                  </div>
+                </div>
         </div>
-
+      </div>
     </div>
-
-@endsection
-
-@section('script')
-
+  </section>
 @endsection

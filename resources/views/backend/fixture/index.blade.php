@@ -30,6 +30,27 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">Fixtures</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+            <form action="{{route('admin/fixture/section_heading')}}" method="post">
+                @csrf
+                    <div id="horizontal-form" class="px-3 flex">
+                        @if (!empty($fixtureHeading->value))
+                        <div class="preview mx-3">
+                            <div class="form-inline">
+                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title</label>
+                                <input id="section_heading" type="text" class="form-control" placeholder="Section Name" name="section_heading"
+                                @if (!empty($fixtureHeading->value))
+                                value="{{$fixtureHeading->value}}"
+                                @else
+                                value=""
+                                @endif>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary w-30">Update Title</button>
+                        </div>
+                        @endif
+                    </div>
+            </form>
             <a href="{{route('admin/add_fixtures')}}"><button class="btn btn-primary shadow-md mr-2">Add New Fixture
                 <span class="w-5 h-5 flex items-center justify-center">
                     <i class="w-4 h-4" data-feather="plus"></i>

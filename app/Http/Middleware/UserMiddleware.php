@@ -17,7 +17,7 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role_as == 1) {
+        if (Auth::check() && Auth::user()->role_as == 0) {
             return $next($request);
         } else {
            return redirect('login');

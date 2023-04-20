@@ -6,21 +6,33 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Leaderboard;
 use App\Models\Team;
+use App\Models\SectionHeading;
 use Validator;
+
+use App\Models\Player;
 
 class LeaderboardController extends Controller
 {
     public function index()
     {
-        $leaderboards = Leaderboard::where('status' , 'active')->get();
-        return view('backend.site_setting.leaderboard.index' , compact('leaderboards'));
+        // $leaderboards = Leaderboard::where('status' , 'active')->get();
+        // $leaderHeading = SectionHeading::where('name' , 'Leaderboard')->first();
+        // return view('backend.site_setting.leaderboard.index' , compact('leaderboards' , 'leaderHeading'));
+
+        $players = Player::with('teams')->get();
+        $leaderHeading = SectionHeading::where('name' , 'Leaderboard')->first();
+         return view('backend.site_setting.leaderboard.index' , compact('players' , 'leaderHeading'));
+
+
     }
 
     public function leaderboard_data()
     {
-        $leaderboards = Leaderboard::with('teams')->paginate(6);
-       // dd($leaderboards);
-         return response()->json($leaderboards , 200);
+        // $leaderboards = Leaderboard::with('teams')->paginate(6);
+        $players = Player::with('teams')->get();
+      //  dd($players);
+
+         return response()->json($players , 200);
     }
 
     public function create(Request $request)
@@ -43,14 +55,17 @@ class LeaderboardController extends Controller
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
             } else {
+               //
+               // dd($section_name);
                 $leader = new Leaderboard;
-
+                // $section_name = Leaderboard::select('section_name')->first();
                 $leader->team_id  = $request->teams;
                 $leader->region   = $request->region;
                 $leader->win   = $request->win;
                 $leader->loss  = $request->loss;
                 $leader->pts   = $request->pts;
                 $leader->status   = $request->status;
+            //    $leader->section_name   = $section_name;
                 $leader->save();
                 return redirect('admin/leaderboard')->with('success' , 'Leaderboard Record added successfully');
             }
@@ -85,8 +100,12 @@ class LeaderboardController extends Controller
         return redirect()->back()->with('success' , 'Leaderboard Record deleted successfully');
     }
 
-
-
-
-
+    public function section_heading(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            SectionHeading::where('name' , 'leaderboard')->update([
+                        'value' => $request->section_heading,]);
+        return redirect('admin/leaderboard')->with('success' , 'Leaderboard Title updated successfully');
+        }
+    }
 }

@@ -6,6 +6,9 @@ use App\Http\Request\LoginRequest;
 use App\Http\Controllers\Controller;
 use Auth, Session;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Requests\UserRegisterRequest;
 
 class AuthController extends Controller
 {
@@ -15,12 +18,53 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function loginView()
+
+
+    public function userRegister(Request $request)
     {
-        return view('login.main', [
-            'layout' => 'login'
-        ]);
-    }
+       return view('front.register');
+     }
+
+
+    public function new_reg(UserRegisterRequest $request)
+        {
+          if ($request->isMethod('post'))
+
+                    // dd($request);
+                  User::create([
+                  'name' => $request->fname,
+                  'dob' => $request->birthday,
+                  'email' => $request->email,
+                  'password' => bcrypt($request->password),
+                  'phone_number' => $request->phone,
+                ]);
+
+                return redirect()->route('login')->with('success' , 'registration sucessfull');
+
+        }
+
+        public function UserLogin(Request $request)
+        {
+            if (!$request->isMethod('post')) {
+                return view('front.login');
+            } else {
+                    if (\Auth::attempt(['email' => $request->email , 'password' => $request->password] ))  {
+                        if (\Auth::user()->role_as == 0) {
+                            return redirect()->route('home')->with('success' , 'Login successfully');
+                        }
+                        else{
+                            return redirect()->back()->with('userLogin_error' , 'Invalid email or password');
+                        }
+
+                    }
+                   else{
+                     return redirect('login')->with('userLogin_error' , 'Invalid email or password');
+                   }
+
+                }
+        }
+
+
 
     /**
      * Authenticate login user.
@@ -41,7 +85,16 @@ class AuthController extends Controller
 
     // }
 
-    public function login(LoginRequest $request )
+    public function AdminLoginCreate()
+    {
+         return view('backend.admin_login', [
+                'layout' => 'login'
+            ]);
+
+    }
+
+
+    public function AdminLogin(LoginRequest $request )
     {
         if ($request->isMethod('post')) {
 

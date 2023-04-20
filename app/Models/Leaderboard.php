@@ -12,26 +12,23 @@ class Leaderboard extends Model
 
     protected $table = 'leaderboards';
     protected $fillable = ['team_id','region','win' , 'loss' , 'pts' , 'status'];
-    protected $appends = ['team_logo'];
+    // protected $appends = ['team_logo'];
 
     public function teams(){
         return $this->belongsTo(Team::class , 'team_id');
     }
 
-    public function getTeamLogoAttribute()
-    {
+    // public function getTeamLogoAttribute()
+    // {
 
-        if ($this->teams->logo !== null) {
-            return url('/storage/images/team_logo/'.$this->teams->logo);
-        } else {
-            return url('/dist/images/dummy_image.webp');
-        }
-    }
+    //     if ($this->teams->logo !== null) {
+    //         return url('/storage/images/team_logo/'.$this->teams->logo);
+    //     } else {
+    //         return url('/dist/images/dummy_image.webp');
+    //     }
+    // }
 
-//     public function getTeamLogoAttribute()
-// {
-//     return $this->teams->name;
-// }
+
 
 
 

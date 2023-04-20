@@ -1,18 +1,19 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Menu Setting</title>
+    <title>NFL |  Menu Setting</title>
 @endsection
 
 @section('subcontent')
-    <div class="intro-y flex items-center mt-8">
-        <h2 class="text-lg font-medium mr-auto">Add Menu</h2>
+    <div class="intro-y box mt-5">
         @if (session()->has('success'))
             <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-check2-circle" viewBox="0 0 16 16">
-                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                    <path
+                        d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                    <path
+                        d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
                 </svg>
                 &nbsp; {{ session()->get('success') }}
             </div>
@@ -29,64 +30,100 @@
                 {{ session('message_error') }}
             </div>
         @endif
-    </div>
-    <div class="grid grid-cols-6 gap-6 mt-5">
-        <div class="intro-y col-span-12 lg:col-span-6">
-            <!-- BEGIN: Form Layout -->
-            <form action="{{ route('menu.store') }}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="intro-y box p-5">
-                    
-                   
-                    <div class="mt-3">
-                        <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <input id="title" type="text" class="form-control" placeholder="title"
-                                aria-describedby="input-group-1" name="title" value="{{old('title')}}">
-                        </div>
-                        @error('title') <p class="text-danger">{{$message}}</p> @enderror
+
+        <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+            <h2 class="font-medium text-base mr-auto">Add Banner </h2>
+            <a href="{{route('menu.index')}}"><button class="btn btn-primary">Back</button></a>
+        </div>
+
+        <form action="{{ route('menu.store') }}" method="post" enctype="multipart/form-data">
+            @csrf
+
+            <div id="horizontal-form" class="p-5">
+                <div class="preview  mr-5">
+                    <div class="form-inline">
+                        <label for="title" class="font-medium form-label sm:w-60">Title <span class="text-danger">*</span></label>
+                        <input id="title" type="text" class="form-control" placeholder="Enter Menu Name" name="title" value="{{old('title')}}">
                     </div>
-                   
-                    <div class="mt-3">
-                        <label for="season" class="form-label">Parent Menu</label>
-                        <select data-placeholder="Select Parent Menu" class="tom-select w-full" id="parent_id" name="parent_id">
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('title')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+
+                    <div class="form-inline mt-5">
+                        <label for="parent_id" class="font-medium form-label sm:w-60">Parent Menu <span class="text-danger">*</span></label>
+                        <select  class="form-control" id="parent_id" name="parent_id">
                             <option value="">--select--</option>
                             @foreach ($parentMenu as $menu)
                                 <option value="{{ $menu->id }}" {{ (old('parent_id')==$menu->id)?"selected":"" }} >{{ $menu->title }}</option>
                             @endforeach
                         </select>
-                        @error('parent_id') <p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('parent_id')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
-                    <div class="mt-3">
-                        <label for="title" class="form-label">Url<span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <input id="url" type="text" class="form-control" placeholder="#"
-                                aria-describedby="input-group-1" name="url" value="{{old('url')}}">
-                        </div>
-                        @error('url') <p class="text-danger">{{$message}}</p> @enderror
+                    <div class="form-inline mt-5">
+                        <label for="url" class="font-medium form-label sm:w-60">Url <span class="text-danger">*</span></label>
+                        <input id="url" type="text" class="form-control" placeholder="Enter URL" name="url"  value="{{old('url')}}">
                     </div>
-                   
-                    <div class="mt-3">
-                        <label for="crud-form-2" class="form-label">Staus<span class="text-danger">*</span></label>
-                        <select data-placeholder="Select any option" name="status" class="tom-select w-full" id="crud-form-2">
-                            <option value="active" {{ old('status') == 'active' ? 'selected' :"" }}>Active</option>
-                            <option value="inactive" {{ old('status')  == 'inactive' ? 'selected' :"" }}>Inactive</option>                       
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('url')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+                    <div class="form-inline mt-5 mt-2">
+                        <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
+                        <select class="form-control" id="status" name="status">
+
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
                         </select>
-                        @if ($errors->has('status'))
-                            {{ $errors->first('status')}}
-                        @endif
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('status')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
+                    {{-- @if (!empty($general->logo))
+                        <div class="form-inline mt-5">
+                            <label for="logo" class="font-medium form-label sm:w-60"></label>
+                            <img src="{{asset('storage/images/general/'.$general->logo)}}" alt="" height="50px" width="100px">
+                        </div>
 
-                    <div class="text-left mt-5">
-                        <button type="submit" class="btn btn-primary w-24">Save</button>
-                        <a type="reset" href="{{route('menu.index')}}" class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
-                    </div>
+                    @else
+                        <div class="form-inline mt-5">
+                            <label for="logo" class="font-medium form-label sm:w-60"></label>
+                            <img alt="Admin Image" class="rounded-full" height="50px" width="100px"
+                            src="{{asset('dist/images/dummy_image.webp')}}">
+                        </div>
+
+                    @endif --}}
+
+
+
+
+                    {{-- <div class="form-inline mt-5">
+                        <label for="logo" class="font-medium form-label sm:w-60"></label>
+                        <img src="{{asset('public/images/general/'.$general->favicon)}}" alt="" height="50px" width="100px">
+
+                    </div> --}}
+
+
                 </div>
-            </form>
-            <!-- END: Form Layout -->
-        </div>
+
+                <br><br>
+                <div
+                    class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                </div>
+                <div class="text-right mt-5">
+                    <button type="submit" class="btn btn-primary w-24">Save</button>
+                    <button type="reset" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+                </div>
+            </div>
+        </form>
     </div>
 @endsection
 

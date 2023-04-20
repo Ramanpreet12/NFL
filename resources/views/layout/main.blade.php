@@ -16,6 +16,21 @@
         <script src="{{ asset('dist/js/jquery.min.js') }}"></script>
         <script src="{{ asset('dist/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('dist/js/custom.js') }}"></script>
+        {{-- <script src="{{ asset('dist/js/sweetalert.min.js') }}"></script> --}}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+        {{-- jquery dattables  --}}
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js" integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+
+        <script src="{{asset('dist/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('dist/js/jquery.dataTables.min.js')}}"></script>
+
+            {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> --}}
+
+
+
+        <script src="{{{ URL::asset('js/jquery.dataTables.bootstrap.min.js')}}}"></script>
+
         <!-- END: JS Assets-->
 
         @yield('script')

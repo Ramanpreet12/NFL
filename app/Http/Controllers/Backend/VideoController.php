@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\HomeSetting;
 use App\Models\News;
+use App\Models\SectionHeading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Storage;
@@ -17,9 +18,22 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function section_heading(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            SectionHeading::where('name' , 'Videos')->update([
+                        'value' => $request->section_heading,
+                    ]);
+                    return redirect()->route('videoSetting.index')->with('success' , 'Video title updated successfully');
+        }
+    }
+
     public function index()
     {
-        return view('backend.site_setting.video_setting.index');
+        $VideoHeading = SectionHeading::where('name' , 'Videos')->first();
+
+        return view('backend.site_setting.video_setting.index' , compact('VideoHeading'));
     }
 
     /**

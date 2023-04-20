@@ -26,7 +26,7 @@ class BannerRequest extends FormRequest
         if (request()->ismethod('post')) {
            $rules = [
             'heading' => 'required',
-             'image' => 'image',
+             'image' => 'required',
             'status' => 'required',
             'serial' => 'required'
            ];
@@ -39,7 +39,16 @@ class BannerRequest extends FormRequest
                ];
         }
         return $rules;
+    }
 
+    public function attributes()
+    {
+       return [
+        'heading' => 'Heading',
+        'image' => 'Image',
+        'status' => 'Status',
+        'serial' => 'Serial'
+       ];
 
     }
 }

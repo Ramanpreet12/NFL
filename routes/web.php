@@ -24,9 +24,9 @@ use App\Http\Controllers\Backend\LeaderboardController;
 use App\Http\Controllers\Backend\HomeSettingController;
 use App\Http\Controllers\Backend\VideoController;
 use App\Http\Controllers\Backend\NewsController;
-
+use App\Http\Controllers\Backend\PlayersController;
 use App\Http\Controllers\Backend\MenuController;
-
+use App\Http\Controllers\Backend\RegionController;
 
 
 
@@ -43,6 +43,12 @@ use App\Http\Controllers\Backend\MenuController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
+
+//user register
+// Route::get('register' ,[AuthController::class , 'userRegister'])->name('register');
+Route::get('register',[AuthController::class,'userRegister'])->name('register');
+Route::post('new_reg',[AuthController::class,'new_reg'])->name('new_reg');
+Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->name('login');
 
 // Route::middleware('loggedin')->group(function() {
 //     Route::get('login', [AuthController::class, 'loginView'])->name('login.index');
@@ -121,8 +127,8 @@ Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class
 //admin routes
 
 Route::prefix('admin')->group(function() {
-    Route::get('login', [AuthController::class, 'loginView'])->name('admin/login.index');
-    Route::post('login', [AuthController::class, 'login'])->name('admin/login');
+    Route::get('login', [AuthController::class, 'AdminLoginCreate'])->name('admin/login.index');
+    Route::post('login', [AuthController::class, 'AdminLogin'])->name('admin/login');
     Route::get('register', [AuthController::class, 'registerView'])->name('register.index');
     Route::post('register', [AuthController::class, 'register'])->name('register.store');
 });
@@ -138,6 +144,7 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
     Route::get('user', [UserController::class, 'user_management'])->name('admin/user');
     Route::get('user_data', [UserController::class, 'user_data'])->name('admin/user_data');
     Route::get('fixtures', [FixtureController::class, 'fixtures'])->name('admin/fixtures');
+    Route::post('fixture/section_heading', [FixtureController::class, 'section_heading'])->name('admin/fixture/section_heading');
     Route::get('fixtures_data', [FixtureController::class, 'fixtures_data'])->name('admin/fixtures_data');
     Route::get('add_fixtures', [FixtureController::class, 'add_fixtures'])->name('admin/add_fixtures');
     Route::post('store_fixture', [FixtureController::class, 'store_fixture'])->name('admin/store_fixture');
@@ -213,7 +220,10 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
    Route::match(['get', 'post'], 'leaderboard/create',[LeaderboardController::class, 'create'])->name('admin/leaderboard/create');
    Route::match(['get', 'post'], 'leaderboard/edit/{id}',[LeaderboardController::class, 'edit'])->name('admin/leaderboard/edit');
    Route::get('leaderboard/delete/{id}' ,[LeaderboardController::class , 'delete']);
+   Route::post('leaderboard/section_heading' ,[LeaderboardController::class , 'section_heading'])->name('admin/leaderboard/section_heading');
 
+   // regions
+   Route::resources(['region' => RegionController::class]);
     //home setting
     // Route::resources(['news' => HomeSettingController::class]);
     // Route::get('homeSettingList/{section?}',[HomeSettingController::class,'homeSettingList'])->name('homeSettingList');
@@ -223,16 +233,21 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
     Route::resources(['news' => NewsController::class]);
     Route::get('news_data/',[NewsController::class,'news_data'])->name('admin/news_data');
     Route::get('news/delete/{id}',[NewsController::class,'destroy']);
-
+    Route::post('news/section_heading',[NewsController::class,'section_heading'])->name('admin/news/section_heading');
 
     Route::resources(['videoSetting' => VideoController::class]);
     Route::get('videoSettingList/{section?}',[VideoController::class,'videoSettingList'])->name('videoSettingList');
     Route::get('videoSettingDelete/{id}',[VideoController::class,'destroy'])->name('videoSettingDelete');
+    Route::post('video/section_heading',[VideoController::class,'section_heading'])->name('admin/video/section_heading');
 
     //menu setting
     Route::resources(['menu' => MenuController::class]);
     Route::get('menuList',[MenuController::class,'menuList'])->name('menuList');
     Route::get('menuDelete/{id}',[MenuController::class,'destroy'])->name('menuDelete');
+
+    //players
+
+    Route::get('players',[PlayersController::class,'index'])->name('admin/players');
 
      Route::get('logout', [AuthController::class, 'logout'])->name('admin/logout');
 });
@@ -240,10 +255,10 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
 
 //user routes
 
-Route::match(['get' , 'post'], 'login', [LoginController::class, 'login'])->name('login');
-Route::middleware(['auth' , 'user'])->get('dashboard' , function(){
-   return "hello";
-});
+// Route::match(['get' , 'post'], 'login', [LoginController::class, 'login'])->name('login');
+// Route::middleware(['auth' , 'user'])->get('dashboard' , function(){
+//    return "hello";
+// });
 
 
 

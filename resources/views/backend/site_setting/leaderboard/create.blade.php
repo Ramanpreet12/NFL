@@ -57,6 +57,9 @@
                             <option value="west">West</option>
                             <option value="south">South</option>
                             <option value="east">East</option>
+                            <option value="midwest">Midwest</option>
+                            <option value="overseas">Overseas</option>
+
                         </select>
                         @error('region')
                             <p class="text-danger">{{ $message }}</p>

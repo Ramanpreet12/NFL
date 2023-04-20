@@ -9,8 +9,9 @@ class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable =['name','logo','match_played','win','loss','status'];
-    protected $appends = ['image'];
+    protected $fillable =['league' , 'region_id' ,'name','logo','match_played','win','loss','pts' , 'status'];
+    protected $appends = ['image' , 'player_name'];
+
 
     public function getImageAttribute() {
         // $image = env('APP_URL').'/storage/images/team_logo'.$this->logo;
@@ -45,5 +46,21 @@ class Team extends Model
         return $this->hasOne(Leaderboard::class, 'id');
     }
 
+    public function player()
+    {
+        return $this->hasMany(Player::class , 'team_id' , 'id');
+    }
 
-}
+     //get region for player's leaderboard on home page
+    public function region()
+    {
+        return $this->belongsTo(Region::class , 'region_id' , 'id');
+    }
+
+    //get playername for player's leaderboard on home page
+    public function getPlayerNameAttribute()
+    {
+        $data =  \DB::table('players')->where('team_id',$this->id)->get('name');
+        return $data;
+    }
+ }

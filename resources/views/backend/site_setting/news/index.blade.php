@@ -5,22 +5,42 @@
 @endsection
 
 @section('subcontent')
-@if (session()->has('message_success'))
+@if (session()->has('success'))
 <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-circle"
-        viewBox="0 0 16 16">
-        <path
-            d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-        <path
-            d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+        class="bi bi-check2-circle" viewBox="0 0 16 16">
+        <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+        <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
     </svg>
-    &nbsp; {{ session()->get('message_success') }}
+    &nbsp; {{ session()->get('success') }}
 </div>
 @endif
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
 
         <h2 class="text-lg font-medium mr-auto">News Setting</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+
+            <form action="{{route('admin/news/section_heading')}}" method="post">
+                @csrf
+                    <div id="horizontal-form" class="px-3 flex">
+                        @if (!empty($NewsHeading->value))
+                        <div class="preview mx-3">
+                            <div class="form-inline">
+                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title</label>
+                                <input id="section_heading" type="text" class="form-control" placeholder="Section Name" name="section_heading"
+                                @if (!empty($NewsHeading->value))
+                                value="{{$NewsHeading->value}}"
+                                @else
+                                value=""
+                                @endif>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary w-30">Update Title</button>
+                        </div>
+                        @endif
+                    </div>
+            </form>
 
             <a class="btn btn-primary shadow-md mr-2" href="{{route('news.create')}}">Add News</a>
              <div class="dropdown ml-auto sm:ml-0">

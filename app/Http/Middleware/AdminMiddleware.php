@@ -17,11 +17,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role_as == 0) {
+        if (Auth::check() && Auth::user()->role_as == 1) {
                 return $next($request);
 
         } else {
-            return redirect('admin/login')->with('status' , 'please login first');
+            return redirect('admin/login')->with('status' , 'You have not admin access');
         }
 
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Team;
 use App\Http\Requests\TeamValidation;
 use Storage;
+use App\Models\Region;
 
 class TeamController extends Controller
 {
@@ -15,18 +16,21 @@ class TeamController extends Controller
     }
 
     public function getAll(){
-        $team = Team::paginate(6);
+        $team = Team::with('region')->paginate(6);
         return response()->json($team, 200);
     }
 
     public function add(){
-        return view('backend.team.create');
+        $get_regions = Region::where('status' , 'active')->get();
+        return view('backend.team.create' , compact('get_regions'));
     }
-    public function create(TeamValidation $request){
-        try{
+    public function create(Request $request){
+        // try{
             if ($request->isMethod('post')) {
 
                 $input = $request->all();
+                // dd($input);
+
                 //    if($request->hasfile('logo')){
                 //       $logo =  fileLoad($request->logo);
                 //       $input['logo'] = $logo;
@@ -48,13 +52,15 @@ class TeamController extends Controller
             }
 
 
-        }catch(\Exception $e){
-            $e->getMessage();
-        }
+        // }catch(\Exception $e){
+        //     $e->getMessage();
+        // }
     }
     public function edit($id){
+        $get_regions = Region::where('status' , 'active')->get();
         $team = Team::find($id);
-        return view('backend.team.edit', compact('team'));
+        // dd($team);
+        return view('backend.team.edit', compact('team' , 'get_regions'));
     }
 
     public function update(Request $request, $id){

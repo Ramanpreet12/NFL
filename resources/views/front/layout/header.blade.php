@@ -9,7 +9,7 @@
                     @endif
       </a>
       <div class="loginbtn">
-        <a href="{{ url('admin/login') }}" class="btn btn-primary" style="color:{{ $colorSection['header']["text_color"] }};" type="submit">log in
+        <a  href="{{ url('login') }}" class="btn btn-primary" style="color:{{ $colorSection['header']["text_color"] }};" type="submit">log in
         </a>
       </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"

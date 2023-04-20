@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Fixture;
+use App\Models\SectionHeading;
 use App\Models\Season;
  use App\Models\Team;
  use App\Http\Requests\FixtureRequest;
@@ -14,8 +15,10 @@ class FixtureController extends Controller
     public function fixtures()
     {
         $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
+        $fixtureHeading = SectionHeading::where('name' , 'Upcoming Fixture')->first();
+        // dd($fixtureHeading);
         $seasons = Season::get();
-      return view('backend.fixture.index' , compact('fixtures' , 'seasons'));
+      return view('backend.fixture.index' , compact('fixtures' , 'seasons' , 'fixtureHeading'));
     }
 
     public function fixtures_data()
@@ -78,8 +81,15 @@ class FixtureController extends Controller
         return redirect()->back()->with('success' , 'Fixture deleted successfully');
     }
 
-
-
+    public function section_heading(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            SectionHeading::where('name' , 'Upcoming Fixture')->update([
+                        'value' => $request->section_heading,
+                    ]);
+        return redirect('admin/fixtures')->with('success' , 'Fixture Title updated successfully');
+        }
+    }
 }
 
 

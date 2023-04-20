@@ -17,11 +17,11 @@
     &nbsp; {{ session()->get('message_success') }}
 </div>
 @endif
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">     
+    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
 
         <h2 class="text-lg font-medium mr-auto">Menu Setting</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-           
+
             <a class="btn btn-primary shadow-md mr-2" href="{{route('menu.create')}}">Add Menu</a>
              <div class="dropdown ml-auto sm:ml-0">
             </div>
@@ -34,8 +34,8 @@
                 <div class="sm:flex items-center sm:mr-4">
                     <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Field</label>
                     <select id="tabulator-html-filter-field" class="form-select w-full sm:w-32 2xl:w-full mt-2 sm:mt-0 sm:w-auto">
-                        <option value="logo">Name</option>
-                        <option value="title">title</option>              
+                        {{-- <option value="logo">Name</option> --}}
+                        <option value="title">Title</option>
                     </select>
                 </div>
                 <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
@@ -59,7 +59,7 @@
                     <button id="tabulator-html-filter-reset" type="button" class="btn btn-secondary w-full sm:w-16 mt-2 sm:mt-0 sm:ml-1" >Reset</button>
                 </div>
             </form>
-           
+
         </div>
 
 

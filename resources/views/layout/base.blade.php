@@ -19,6 +19,9 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta name="description" content="Rubick admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Rubick Admin Template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="LEFT4CODE">
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"> --}}
+    <link rel="stylesheet" href="{{asset('dist/css/jquery.dataTables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('dist/css/custom.css')}}">
 
 
     @yield('head')
@@ -32,6 +35,9 @@ License: You must have a valid license purchased only from themeforest(the above
             font-size: 14px;
 
         }
+        /* .dataTables_length select{
+            padding:5px: !important;
+        } */
     </style>
 </head>
 <!-- END: Head -->

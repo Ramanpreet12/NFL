@@ -32,51 +32,51 @@
         @endif
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-            <h2 class="font-medium text-base mr-auto">Banner Management</h2>
+            <h2 class="font-medium text-base mr-auto">Add Banner </h2>
         </div>
         <form action="{{route('banner.store')}}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div id="horizontal-form" class="p-5">
-                <div class="preview">
+                <div class="preview  mr-5">
                     <div class="form-inline">
-                        <label for="heading" class="font-medium form-label sm:w-60">Heading</label>
+                        <label for="heading" class="font-medium form-label sm:w-60">Heading <span class="text-danger">*</span></label>
                         <input id="heading" type="text" class="form-control" placeholder="Banner Heading" name="heading" value="">
                     </div>
-                    <div class="form-inline">
+                    <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('heading')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
 
                     <div class="form-inline mt-5">
-                        <label for="image" class="font-medium form-label sm:w-60">Image</label>
+                        <label for="image" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
                         <input id="image" type="file" class="form-control" placeholder="Banner Image" name="image">
 
                     </div>
-                    <div class="form-inline">
+                    <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('image')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
                     <div class="form-inline mt-5">
-                        <label for="serial" class="font-medium form-label sm:w-60">Serial</label>
+                        <label for="serial" class="font-medium form-label sm:w-60">Serial <span class="text-danger">*</span></label>
                         <input id="serial" type="text" class="form-control" placeholder="Banner Serial" name="serial" value="">
                     </div>
-                    <div class="form-inline">
+                    <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('serial')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
-                    <div class="form-inline mt-5">
-                        <label for="status" class="font-medium form-label sm:w-60">Status</label>
-                        <select class="form-select" id="status" name="status">
+                    <div class="form-inline mt-5 mt-2">
+                        <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
+                        <select class="form-control" id="status" name="status">
 
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
                     </div>
-                    <div class="form-inline">
+                    <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('status')<p class="text-danger">{{$message}}</p> @enderror
                     </div>

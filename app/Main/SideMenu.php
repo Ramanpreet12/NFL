@@ -26,13 +26,14 @@ class SideMenu
                 'params' => '',
                 'title' => 'Users'
             ],
-
-            'fixtures' => [
-                'icon' => 'calendar',
-                'route_name' => 'admin/fixtures',
+            'player' => [
+                'icon' => 'users',
+                'route_name' => 'admin/players',
                 'params' => '',
-                'title' => 'Fixtures'
+                'title' => 'Players'
             ],
+
+
 
             'winner' => [
                 'icon' => 'award',
@@ -119,6 +120,20 @@ class SideMenu
                         'params' =>'',
                         'title' => 'Banner'
                     ],
+                    'fixtures' => [
+                        'icon' => 'calendar',
+                        'route_name' => 'admin/fixtures',
+                        'params' => '',
+                        'title' => 'Fixtures'
+                    ],
+
+                    'region' => [
+                        'icon' => 'settings',
+                        'route_name' => 'region.index',
+                        'params' => '',
+                        'title' => 'Region'
+                    ],
+
                     'leaderboard' => [
                         'icon' => 'settings',
                         'route_name' => 'admin/leaderboard',

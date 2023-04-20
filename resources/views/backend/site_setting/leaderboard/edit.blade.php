@@ -57,6 +57,9 @@
                             <option value="west" {{$leaderboard->region=='west' ? 'selected' : ''}}>West</option>
                             <option value="south" {{$leaderboard->region=='south' ? 'selected' : ''}}>South</option>
                             <option value="east" {{$leaderboard->region=='east' ? 'selected' : ''}}>East</option>
+                            <option value="midwest" {{$leaderboard->region=='midwest' ? 'selected' : ''}}>Midwest</option>
+                            <option value="overseas" {{$leaderboard->region=='overseas' ? 'selected' : ''}}>Overseas</option>
+
                         </select>
                         @error('region')
                             <p class="text-danger">{{ $message }}</p>

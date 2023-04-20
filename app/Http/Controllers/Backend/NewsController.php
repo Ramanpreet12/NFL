@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\News;
+use App\Models\SectionHeading;
 use Storage;
 
 class NewsController extends Controller
@@ -15,11 +16,24 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function section_heading(Request $request)
+     {
+         if ($request->isMethod('post')) {
+             SectionHeading::where('name' , 'News')->update([
+                         'value' => $request->section_heading,
+                     ]);
+         return redirect('admin/news')->with('success' , 'News Title updated successfully');
+         }
+     }
+
+
     public function index(Request $request)
     {
         $query_array = $request->query();
         //$section=$query_array["section"];
-        return view('backend.site_setting.news.index');
+        $NewsHeading = SectionHeading::where('name' , 'News')->first();
+        return view('backend.site_setting.news.index' , compact('NewsHeading'));
     }
 
     public function news_data(){
