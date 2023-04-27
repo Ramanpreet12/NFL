@@ -550,6 +550,74 @@ h1, h2, h3, h4, h5, h6 {
   #nextmatchBoard .leaderBoard .teamName {
     text-align: left; }
 
+#playerRoster {
+  padding: 70px 0px;
+  color: white;
+  background-size: cover;
+  background-repeat: no-repeat; }
+  #playerRoster .tabletwo {
+    margin-top: 40px; }
+  #playerRoster .matchTable {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-top: 2px solid #db9a29;
+    display: flex;
+    padding: 20px; }
+    #playerRoster .matchTable img.img-fluid {
+      height: 50px; }
+    #playerRoster .matchTable .teamVs {
+      background-color: #db9a29;
+      padding: 10px;
+      margin: 0 20px 0 20px; }
+      #playerRoster .matchTable .teamVs h5 {
+        margin: 0; }
+  #playerRoster .matchTime {
+    background-color: #44455b;
+    text-align: left;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; }
+    #playerRoster .matchTime a {
+      color: #da9a29;
+      text-align: right; }
+  #playerRoster .table-primary {
+    --bs-table-bg: #db9a29; }
+  #playerRoster .table-dark {
+    --bs-table-bg:rgba(6,9,53,.5);
+    --bs-table-striped-bg:rgba(62,64,103,.5);
+    --bs-table-hover-bg:rgba(119, 123, 195, 0.5); }
+    #playerRoster .table-dark tr {
+      height: 60px;
+      border: none; }
+      #playerRoster .table-dark tr th {
+        vertical-align: middle;
+        border: none; }
+      #playerRoster .table-dark tr td {
+        vertical-align: middle;
+        border: none; }
+  #playerRoster .leaderBoard .table-primary .text-start {
+    padding-left: 26px; }
+  #playerRoster .leaderBoard .table-group-divider {
+    border: none; }
+    #playerRoster .leaderBoard .table-group-divider th {
+      --bs-table-bg:#393a51;
+      --bs-table-striped-bg:#44455b;
+      --bs-table-hover-bg:#444782; }
+    #playerRoster .leaderBoard .table-group-divider img {
+      width: 42px; }
+    #playerRoster .leaderBoard .table-group-divider .teamLogo {
+      text-align: center;
+      width: 105px; }
+      #playerRoster .leaderBoard .table-group-divider .teamLogo .north {
+        font-size: 18px;
+        color: #da9a29;
+        font-weight: 500; }
+      #playerRoster .leaderBoard .table-group-divider .teamLogo .imgName {
+        display: flex;
+        justify-content: space-around;
+        align-items: center; }
+  #playerRoster .leaderBoard .teamName {
+    text-align: left; }
+
 #resultSection {
   padding: 0px 0 70px 0;
   color: black; }
@@ -967,6 +1035,11 @@ h1, h2, h3, h4, h5, h6 {
   #nextmatchBoard .tabletwo {
     margin-top: 20px; }
 
+  #playerRoster .leaderBoard {
+    margin-top: 40px; }
+  #playerRoster .tabletwo {
+    margin-top: 20px; }
+
   #detailBoard .detailBoarditem {
     margin-bottom: 20px; }
 
@@ -1053,6 +1126,13 @@ h1, h2, h3, h4, h5, h6 {
   #nextmatchBoard .matchTime {
     padding: 10px 10px; }
 
+  #playerRoster h2 {
+    font-size: 24px; }
+  #playerRoster h5 {
+    font-size: 15px; }
+  #playerRoster .matchTime {
+    padding: 10px 10px; }
+
   #footerPart .formInput {
     flex-wrap: wrap; }
     #footerPart .formInput input {
@@ -1073,6 +1153,9 @@ h1, h2, h3, h4, h5, h6 {
       right: 0; }
 
   #nextmatchBoard {
+    padding: 40px 0; }
+
+  #playerRoster {
     padding: 40px 0; }
 
   #videoBoard {
@@ -1100,6 +1183,11 @@ h1, h2, h3, h4, h5, h6 {
   #nextmatchBoard h5 {
     font-size: 19px; }
   #nextmatchBoard .matchTime {
+    padding: 10px 10px; }
+
+  #playerRoster h5 {
+    font-size: 19px; }
+  #playerRoster .matchTime {
     padding: 10px 10px; }
 
   #footerPart .formInput {

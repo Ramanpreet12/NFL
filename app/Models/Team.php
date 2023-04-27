@@ -57,10 +57,18 @@ class Team extends Model
         return $this->belongsTo(Region::class , 'region_id' , 'id');
     }
 
-    //get playername for player's leaderboard on home page
-    public function getPlayerNameAttribute()
+    //get playername for player's leaderboard on home page with table players
+    // public function getPlayerNameAttribute()
+    // {
+    //     $data =  \DB::table('players')->where('team_id',$this->id)->get('name');
+    //     return $data;
+    // }
+
+ //   get playername for player's leaderboard on home page with table users
+
+      public function getPlayerNameAttribute()
     {
-        $data =  \DB::table('players')->where('team_id',$this->id)->get('name');
+        $data =  \DB::table('users')->where('team_id',$this->id)->get('name');
         return $data;
     }
  }

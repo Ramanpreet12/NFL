@@ -14,7 +14,14 @@ class PaymentController extends Controller
 
     public function getAll(){
         $payment = Payment::paginate(6);
-        return response()->json($payment, 200); 
+        return response()->json($payment, 200);
 
     }
+
+    //user payment
+    public function paymentPage()
+    {
+        return view('front.payment.index');
+    }
+
 }

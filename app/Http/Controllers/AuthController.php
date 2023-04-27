@@ -29,7 +29,17 @@ class AuthController extends Controller
     public function new_reg(UserRegisterRequest $request)
         {
           if ($request->isMethod('post'))
-
+          $count =  User::count();
+          if ($count <10) {
+           $group = 'A';
+          } elseif(($count >=10) &&($count <20)) {
+             $group = 'B';
+          }elseif(($count >=20) &&($count <30)) {
+              $group = 'C';
+           }
+         else{
+          $group = 'Z';
+         }
                     // dd($request);
                   User::create([
                   'name' => $request->fname,
@@ -37,9 +47,12 @@ class AuthController extends Controller
                   'email' => $request->email,
                   'password' => bcrypt($request->password),
                   'phone_number' => $request->phone,
+                  'group' => $group,
                 ]);
 
-                return redirect()->route('login')->with('success' , 'registration sucessfull');
+                // return redirect()->route('payment')->with('success' , 'Fill out below payment information to get subscribed');
+                return redirect()->route('login')->with('success' , 'Fill out below payment information to get subscribed');
+                // return redirect()->back()->with('success' , 'Fill out below payment information to get subscribed');
 
         }
 
@@ -50,7 +63,7 @@ class AuthController extends Controller
             } else {
                     if (\Auth::attempt(['email' => $request->email , 'password' => $request->password] ))  {
                         if (\Auth::user()->role_as == 0) {
-                            return redirect()->route('home')->with('success' , 'Login successfully');
+                            return redirect()->route('dashboard')->with('success' , 'Login successfully');
                         }
                         else{
                             return redirect()->back()->with('userLogin_error' , 'Invalid email or password');
@@ -114,9 +127,23 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function Adminlogout()
+    {
+        if (Auth::user()->role_as == 1) {
+            \Auth::logout();
+            return redirect('admin/login');
+        }
+
+    }
+
+    //user logout
     public function logout()
     {
-        \Auth::logout();
-        return redirect('admin/login');
+        if (Auth::user()->role_as == 0) {
+            \Auth::logout();
+            return redirect('login');
+        }
+
     }
+
 }

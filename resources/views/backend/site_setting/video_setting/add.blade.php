@@ -1,12 +1,12 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Video Setting</title>
+    <title>NFL | Vacation Pac</title>
 @endsection
 
 @section('subcontent')
     <div class="intro-y flex items-center mt-8">
-        <h2 class="text-lg font-medium mr-auto">Add Video</h2>
+        <h2 class="text-lg font-medium mr-auto">Add Vacation Pac</h2>
         @if (session()->has('success'))
             <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -36,8 +36,8 @@
             <form action="{{ route('videoSetting.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="intro-y box p-5">
-                    
-                   
+
+
                     <div class="mt-3">
                         <label for="title" class="form-label">Title</label>
                         <div class="input-group">
@@ -54,11 +54,21 @@
                         </div>
                         @error('header') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
-                    
+
+                    {{-- <div class="mt-3">
+                        <label for="image" class="form-label">Image</label>
+                        <div class="input-group">
+                            <input id="image" type="file" class="form-control" placeholder="image"
+                                aria-describedby="input-group-1" name="image" value="{{old('image')}}">
+                        </div>
+                        @error('image') <p class="text-danger">{{$message}}</p> @enderror
+                    </div> --}}
+
+
                     <div class="mt-3">
-                        <label>Video</label>
+                        <label>Video / Image</label>
                         <div class="mt-2">
-                          <input type="file" name="video" id="image">                      
+                          <input type="file" name="video" id="image">
                         </div>
                         @if ($errors->has('video'))
                             {{ $errors->first('video')}}
@@ -69,15 +79,15 @@
                     <div class="mt-3" id="classic-editor">
                         <label>Description</label>
                         <div class="preview">
-                            <textarea id="description" class="editor"  rows="6" name="description" placeholder="">{{old('description')}}</textarea> 
+                            <textarea id="description" class="editor"  rows="6" name="description" placeholder="">{{old('description')}}</textarea>
                         </div>
-                        
-                    </div> 
+
+                    </div>
                     <div class="mt-3">
                         <label for="crud-form-2" class="form-label">Staus</label>
                         <select data-placeholder="Select any option" name="status" class="tom-select w-full" id="crud-form-2">
                             <option value="active" {{ old('status') == 'active' ? 'selected' :"" }}>Active</option>
-                            <option value="inactive" {{ old('status')  == 'inactive' ? 'selected' :"" }}>Inactive</option>                       
+                            <option value="inactive" {{ old('status')  == 'inactive' ? 'selected' :"" }}>Inactive</option>
                         </select>
                         @if ($errors->has('status'))
                             {{ $errors->first('status')}}

@@ -64,12 +64,19 @@
                         @if ($errors->has('video'))
                             {{ $errors->first('video')}}
                         @endif
-
+                        @php
+                            $get_image = $news->image;
+                           $get_extension =  explode('.' , $get_image);
+                           $data = end($get_extension)
+                        @endphp
+                        @if (($data == 'jpg')||($data == 'jpeg')||($data == 'png')||($data == 'svg')||($data == 'webp'))
+                           <img src="{{asset('storage/videos/'.$news->image)}}" alt="" height="100px" width="200px">
+                        @else
                         <video width="200" height="200" controls>
-                            {{-- <source src="/news/{{ $news->image }}" type="video/mp4"> --}}
-
                             <source src="{{asset('storage/videos/'.$news->image)}}" type="video/mp4">
                         </video>
+                        @endif
+
                         @error('video') <p class="text-danger"></p> @enderror
                     </div>
 

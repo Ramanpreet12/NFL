@@ -6,13 +6,17 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\DarkModeController;
 use App\Http\Controllers\ColorSchemeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\TeamPickController;
+use App\Http\Controllers\UserDashboardController;
+
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\AdminSettingController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\FixtureController;
 use App\Http\Controllers\Backend\WinnerController;
 use App\Http\Controllers\Backend\ColorSettingController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Backend\TeamController;
 use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Backend\SeasonController;
@@ -27,7 +31,7 @@ use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\PlayersController;
 use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\RegionController;
-
+use App\Http\Controllers\Backend\VacationController;
 
 
 /*
@@ -46,9 +50,29 @@ Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class
 
 //user register
 // Route::get('register' ,[AuthController::class , 'userRegister'])->name('register');
-Route::get('register',[AuthController::class,'userRegister'])->name('register');
+
+Route::middleware('guest')->group(function() {
+    Route::get('register',[AuthController::class,'userRegister'])->name('register');
 Route::post('new_reg',[AuthController::class,'new_reg'])->name('new_reg');
 Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->name('login');
+});
+// Route::get('payment' , [PaymentController::class , 'paymentPage'])->name('payment');
+
+Route::get('payment', [StripeController::class, 'stripe'])->name('payment');
+Route::post('payment/store', [StripeController::class, 'stripePost'])->name('payment.store');
+
+
+Route::middleware(['auth' , 'user'])->group(function() {
+//pick a team for user
+Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
+Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
+});
+
+//data according to alphabets
+Route::post('alphabets' , [HomeController::class , 'getAlphabets']);
+Route::get('player_roster/{alphabets}' ,[HomeController::class , 'player_roster']);
 
 // Route::middleware('loggedin')->group(function() {
 //     Route::get('login', [AuthController::class, 'loginView'])->name('login.index');
@@ -126,13 +150,13 @@ Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->n
 
 //admin routes
 
-Route::prefix('admin')->group(function() {
+Route::prefix('admin')->middleware('guest')->group(function() {
     Route::get('login', [AuthController::class, 'AdminLoginCreate'])->name('admin/login.index');
     Route::post('login', [AuthController::class, 'AdminLogin'])->name('admin/login');
     Route::get('register', [AuthController::class, 'registerView'])->name('register.index');
     Route::post('register', [AuthController::class, 'register'])->name('register.store');
 });
-Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
+Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     // Route::get('dashboard', [PageController::class, 'dashboardOverview1'])->name('admin/dashboard');
     Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('admin/dashboard');
     Route::match(['get' , 'post'] , 'profile', [AdminSettingController::class, 'profile'])->name('admin/profile');
@@ -240,6 +264,11 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
     Route::get('videoSettingDelete/{id}',[VideoController::class,'destroy'])->name('videoSettingDelete');
     Route::post('video/section_heading',[VideoController::class,'section_heading'])->name('admin/video/section_heading');
 
+
+    Route::resources(['vacation' => VacationController::class]);
+    Route::post('vacation/section_heading',[VacationController::class,'section_heading'])->name('admin/vacation/section_heading');
+
+
     //menu setting
     Route::resources(['menu' => MenuController::class]);
     Route::get('menuList',[MenuController::class,'menuList'])->name('menuList');
@@ -249,7 +278,7 @@ Route::prefix('admin')->middleware([ 'isAdmin'])->group(function() {
 
     Route::get('players',[PlayersController::class,'index'])->name('admin/players');
 
-     Route::get('logout', [AuthController::class, 'logout'])->name('admin/logout');
+     Route::get('logout', [AuthController::class, 'Adminlogout'])->name('admin/logout');
 });
 
 

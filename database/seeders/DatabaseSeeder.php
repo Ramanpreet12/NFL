@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         //$this->call(TeamResultSeeder::class);
         //$this->call(LeaderboardSeeder::class);
         // $this->call(SectionHeadingSeeder::class);
-        $this->call(PlayerSeeders::class);
+        // $this->call(PlayerSeeders::class);
+        $this->call(VacationSeeder::class);
     }
 }

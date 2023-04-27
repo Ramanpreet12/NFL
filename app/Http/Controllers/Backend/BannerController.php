@@ -57,7 +57,7 @@ class BannerController extends Controller
                 $banners->status   = $request->status;
                 $banners->save();
                 return redirect('admin/banner')->with('success' , 'Banner added successfully');
-            }
+        }
     }
 
     /**
@@ -132,6 +132,6 @@ class BannerController extends Controller
             //     unlink($file_path);
             // }
             Banner::find($id)->delete();
-        return redirect('admin/banner')->with('success' , 'Banner deleted successfully');;
+        return redirect('admin/banner')->with('success' , 'Banner deleted successfully');
     }
 }

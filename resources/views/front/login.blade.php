@@ -18,7 +18,7 @@
                     </svg>
                     &nbsp; {{ session()->get('success') }}
                 </div>
-                @endif
+            @endif
 
                 @if (session()->has('userLogin_error'))
                 <div class="alert alert-danger show flex items-center mb-2 alert_messages" role="alert">

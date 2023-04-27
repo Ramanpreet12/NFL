@@ -154,7 +154,12 @@ class SideMenu
                         'params' => '',
                         'title' => 'Color Setting'
                     ],
-
+                    'vacationPac' => [
+                        'icon' => 'settings',
+                        'route_name' => 'vacation.index',
+                        'params' => '',
+                        'title' => 'Vacation Pac'
+                    ],
 
                     'news' => [
                         'icon' => 'settings',
@@ -163,6 +168,9 @@ class SideMenu
                         //'params' => '',
                         'title' => 'News'
                     ],
+
+
+
                     'video-setting' => [
                         'icon' => 'settings',
                         'route_name' => 'videoSetting.index',

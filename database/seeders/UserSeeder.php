@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Faker\Generator as Faker;
 
 class UserSeeder extends Seeder
 {
@@ -13,30 +14,38 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
-        // Default credentials
-        \App\Models\User::insert([
-            [
 
+        $users= collect(User::all()->modelKeys());
+        $data = [];
 
-                'name' => 'admin',
-                'email' => 'admin@gmail.com',
+        for ($i = 0; $i < 1000; $i++) {
+            $data[] = [
+                'team_id' => $faker->numberBetween($min = 1, $max = 50),
+                'group' => 'Z',
+                'name' =>   $faker->name(),
+                'email' => $faker->email(),
                 'email_verified_at' => now(),
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'gender' => 'male',
-                'status' => 'active',
-                'dob' => '',
-                'age' => '',
-                'phone_number' => '',
-                'social_document_id' => 1,
-                'status' => 'active',
+                'password' => $faker->password(),
+                'photo' => $faker->imageUrl(),
+                'gender' => $faker->randomElement(['male', 'female']),
+                'dob' => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'age' => '' ,
+                'phone_number' =>  $faker->phoneNumber(),
+                'social_document_id' => '',
+                'status' => $faker->randomElement(['active', 'inactive']),
                 'role_as' => 0,
-                'remember_token' => Str::random(10)
-            ]
-        ]);
 
-        // Fake users
-        User::factory()->times(9)->create();
+                'created_at' => now()->toDateTimeString(),
+                'updated_at' => now()->toDateTimeString(),
+            ];
+        }
+
+        $chunks = array_chunk($data, 500);
+
+        foreach ($chunks as $chunk) {
+            User::insert($chunk);
+        }
     }
 }

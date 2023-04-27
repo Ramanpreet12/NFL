@@ -60,7 +60,8 @@ class VideoController extends Controller
                  $validator = Validator::make($request->all(), [
                      'title' => 'required',
                      'header' => 'required',
-                     'video' => 'required|file|mimetypes:video/mp4',
+                     'video' => 'required',
+
                  ]);
                  if ($validator->fails()) {
                      return redirect()->back()->withErrors($validator)->withInput();
@@ -78,6 +79,19 @@ class VideoController extends Controller
                          //$image_path = $request->file('image')->store('image', 'public');
                          $data['image'] = $filename;
                      }
+
+                     if($request->hasfile('image')){
+                        //print_r($request->all());
+                             $file = $request->image;
+                            //  $destinationPath = public_path(). '/homeSetting/';
+                             $filename = date('YmdHis') . "." .$file->getClientOriginalName();
+                            //  $file->move($destinationPath, $filename);
+                            $file->storeAs('public/images/vacation/' , $filename);
+
+                             //$image_path = $request->file('image')->store('image', 'public');
+                             $data['image'] = $filename;
+                         }
+
                      //exit;
                      $data["title"]=$request->title;
                      $data["header"] = $request->header;

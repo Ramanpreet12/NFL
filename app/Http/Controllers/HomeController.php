@@ -15,6 +15,8 @@ use App\Models\Player;
 use App\Models\SectionHeading;
 use DB;
 use App\Models\Region;
+use App\Models\Vacation;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -25,22 +27,8 @@ class HomeController extends Controller
         //get menu
 
         $menus = Menu::with('menu')->where('status' , 'active')->get();
-
-
-        // dd($menus_data);
-        // echo "<pre>";
-        // print_r($menus);
         $mainMenus = Menu::where('parent_id' , 0)->get();
         $subMenus = Menu::where('parent_id' , '!=' , 0)->get();
-
-    //   $menus =   DB::table('menus AS mainMenu')
-    // ->join('menus AS subMenu','mainMenu.id',"=",'subMenu.parent_id')->get();
-
-    //     echo "<pre>";
-    //     print_r($menus);
-    //     echo "<pre>";
-    //     die();
-
         $colorSection=array();
         $color_setting = ColorSetting::get();
         if(!empty($color_setting)){
@@ -51,15 +39,8 @@ class HomeController extends Controller
         //get banners
         $banners = Banner::where('status' , 'Active')->get();
 
-        // //get team
-        // $teams = Team::where('status' , 'active')->inRandomOrder()->limit(1)->get();
         //get Team results
         $team_results = TeamResult::with('team_result_id1' , 'team_result_id2')->where('status' , 'active')->inRandomOrder()->limit(1)->get();
-        // dd($team_results);
-    //     echo "<pre>";
-    //  print_r($team_results);
-
-    //    die();
 
         //get upcoming matches
         $upcoming_matches = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(4)->get();
@@ -68,41 +49,15 @@ class HomeController extends Controller
         $leaderboards = Leaderboard::with('teams')->get();
 
         //get regions
-        //  $get_regions = Leaderboard::with('teams')->orderBy('pts', 'desc')->get()->groupBy('region')->toArray();
-        //  $get_regions = Player::with('teams')->get();
-        // $get_regions = Team::with('player')->orderBy('pts', 'desc')->get()->groupBy('region')->toArray();
-
-        // $get_regions = Region::with(['teams','players'])->get();
-
-        //17-04-2023 for leaderboard
-        // $get_regions = Region::with(['teams'])->orderBy('position' , 'asc')->get()->groupBy('region');
-         //18-04-2023 for leaderboard
         $get_regions = Region::with(['teams'])->orderBy('position' , 'asc')->get()->groupBy('region')->toArray();
 
-        // $teams = Team::with(['player' , 'region'])->get()->toArray();
-        //  $teams = Team::with('player')->orderBy('pts', 'desc')->get()->groupBy('region')->toArray();
-
-    //     echo "<pre>";
-    //  print_r($get_regions);
-
-    //     die();
-//     $region= [];
-// foreach($get_regions as $k=> $l){
-
-//     $ll = count($l[0]['teams']);
-//     array_push($region,[$k=>$ll]);
-    // foreach($l[0]['teams'] as $h=> $j){
-
-        // echo "<pre>";
-        // print_r($j);
-//     }
-// }
-// echo "<pre>";
-// print_r($region);
-// die;
+    //get user based on alphabets
 
 
+    //   echo "<pre>";
+    // print_r($roster_data);
 
+    //    die();
         //section heading
 
         $fixtureHeading = SectionHeading::where('name' , 'Upcoming Fixture')->first();
@@ -112,9 +67,47 @@ class HomeController extends Controller
 
         //get videos and news
         $news = News::where('type',"news")->where('status',"active")->get();
-        $video = News::where('type',"video")->where('status',"active")->get();
+        // $video = News::where('type',"video")->where('status',"active")->get();
+        $vacations = Vacation::where('status',"active")->get();
 
-        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches' ,'leaderboards' , 'news' ,'video' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' , 'get_regions'));
+        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches' ,'leaderboards' , 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' , 'get_regions'));
+    }
+
+    public function getAlphabets(Request $request)
+    {
+        $name=$request->letters;
+        $gp=$request->path;
+        $roster_data = DB::table('teams')
+        ->join('users', 'users.team_id', '=', 'teams.id')
+        ->join('regions', 'regions.id', '=', 'teams.region_id')
+        ->orderBy('position' , 'asc')
+        ->where('users.name', 'like', "{$name}%")
+        ->where('group',$gp)
+        ->get()->groupBy(['region']);
+        if($roster_data){
+            return response()->json(['roster_data' =>  $roster_data,'status'=>true] , 200);
+        }else{
+            return response()->json(['roster_data' =>  '','status'=>false] ,401);
+        }
+
+    }
+
+    public function player_roster($alphabets)
+    {
+        $gp=$alphabets;
+
+        $roster_data = DB::table('teams')
+        ->join('users', 'users.team_id', '=', 'teams.id')
+        ->join('regions', 'regions.id', '=', 'teams.region_id')
+        ->orderBy('position' , 'asc')
+        ->where('group',$gp)
+        ->get()->groupBy(['region']);
+
+        // echo "<pre>";
+        // print_r($roster_data);
+        // die();
+
+        return view('front.playerRoster' , compact('roster_data'));
     }
 
 }
