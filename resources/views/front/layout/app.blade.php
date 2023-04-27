@@ -10,6 +10,7 @@
     <link href="{{ asset('front/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    @stack('css')
 
     @if (!empty($general->favicon))
         <link rel="icon" type="image/x-icon" href="{{ asset('storage/images/general/' . $general->favicon) }}">

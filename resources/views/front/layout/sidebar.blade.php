@@ -1,3 +1,9 @@
+
+@push('css')
+<link rel="stylesheet" href="{{ asset('front/css/custom.css') }}">
+@endpush
+
+
 <div class="col-sm-3 col-md-2">
     <div class="aSidebar">
         <div class="aSidebarCard">
