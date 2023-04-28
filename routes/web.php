@@ -74,6 +74,9 @@ Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('d
 Route::post('alphabets' , [HomeController::class , 'getAlphabets']);
 Route::get('player_roster/{alphabets}' ,[HomeController::class , 'player_roster']);
 
+//match fixture for front
+Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
+
 // Route::middleware('loggedin')->group(function() {
 //     Route::get('login', [AuthController::class, 'loginView'])->name('login.index');
 //     Route::post('login', [AuthController::class, 'login'])->name('login.check');

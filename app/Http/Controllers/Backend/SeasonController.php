@@ -40,13 +40,13 @@ class SeasonController extends Controller
         if ($request->isMethod('post')) {
             $season = new Season;
 
-            $datetime = $request->start_date;
-$date = new DateTime($datetime);
-echo $date->format('Y-m-d');
-die();
+//             $datetime = $request->start_date;
+// $date = new DateTime($datetime);
+// echo $date->format('Y-m-d');
+// die();
 
 
-            $season->name = $request->name;
+            $season->season_name = $request->name;
             $season->starting = $request->start_date;
             $season->ending = $request->end_date;
             $season->save();
@@ -93,24 +93,38 @@ die();
     public function update(Request $request, $id)
     {
 
-        $request->validate([
-            'name' => 'required',
-            'starting' => 'required',
-            'ending'=> 'required',
-        ]);
-        $data = [
-            'name' => $request->name,
-            'starting' => $request->starting,
-            'ending' => $request->ending,
-        ];
-        $season= Season::findOrFail($id);
-        $season->update($data);
+    //     if ($request->isMethod('put')) {
 
-       if($season){
-        return redirect()->route('season.index')->with('message_success','New Season Added Successfully');
-       }else{
-        return redirect()->route('season.index')->with('message_error','Something went wrong');
-       }
+
+    //     $request->validate([
+    //         'season_name' => 'required',
+    //         'starting' => 'required',
+    //         'ending'=> 'required',
+    //     ]);
+    //     $data = [
+    //         'season_name' => $request->name,
+    //         'starting' => $request->starting,
+    //         'ending' => $request->ending,
+    //     ];
+
+    //     $season = Season::where('id' , $id)->update($data);
+
+    //    if($season){
+    //     return redirect()->route('season.index')->with('message_success','New Season Added Successfully');
+    //    }else{
+    //     return redirect()->route('season.index')->with('message_error','Something went wrong');
+    //    }
+    // }
+
+    if ($request->isMethod('put')) {
+        $data = array();
+
+            $data["season_name"]=$request->name;
+            $data["starting"]=$request->starting;
+            $data["ending"]=$request->ending;
+            $result=Season::where('id',$id)->update($data);
+            return redirect()->route('season.index')->with('message_success','New Season Updated Successfully');
+        }
     }
 
     /**

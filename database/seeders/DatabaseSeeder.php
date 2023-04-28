@@ -14,13 +14,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //  $this->call(UserSeeder::class);
-        //$this->call(FixtureTableSeeder::class);
+        $this->call(FixtureTableSeeder::class);
         // $this->call(GeneralTableSeeder::class);
        // $this->call(BannerTableSeeder::class);
         //$this->call(TeamResultSeeder::class);
         //$this->call(LeaderboardSeeder::class);
         // $this->call(SectionHeadingSeeder::class);
         // $this->call(PlayerSeeders::class);
-        $this->call(VacationSeeder::class);
+        // $this->call(VacationSeeder::class);
+        //$this->call(SeasonTableSeeder::class);
     }
 }

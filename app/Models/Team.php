@@ -26,11 +26,11 @@ class Team extends Model
 
     public function fixture_team_one()
     {
-        return $this->hasMany(Fixture::class ,'team_one' , 'id' );
+        return $this->hasMany(Fixture::class ,'first_team' , 'id' );
     }
     public function fixture_team_two()
     {
-        return $this->hasMany(Fixture::class ,'team_two' , 'id' );
+        return $this->hasMany(Fixture::class ,'second_team' , 'id' );
     }
 
     public function team_result_one()

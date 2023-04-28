@@ -1,6 +1,6 @@
 @extends('front.layout.app')
 @section('content')
-    {{-- <style>
+    <style>
         .aSidebarCard {
             background-color: #fff;
             border-radius: 7px;
@@ -73,7 +73,7 @@
                 padding-right: 30px;
             }
         }
-    </style> --}}
+    </style>
 
     <section id="nextmatchBoard"
         style="background-image:url({{ asset('front/img/football-2-bg.jpg') }});color:{{ $colorSection['leaderboard']['text_color'] }};">
@@ -117,11 +117,11 @@
                     <div class="tablePickTeam">
                         <div class="table-responsive" id="rosterTable">
 
-                            {{-- <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
 
                                 <thead>
                                     <tr class="table-primary">
-
+                                        {{-- <th scope="col"> </th> --}}
                                         <th scope="col" colspan="2" class="">Teams</th>
                                         <th scope="col" class="text-center">W</th>
                                         <th scope="col" class="text-center">L</th>
@@ -133,7 +133,8 @@
 
                                     @foreach ($get_teams as $team)
                                         <tr>
-
+                                            {{-- <th scope="row" rowspan="3">North</th> --}}
+                                            {{-- <td></td> --}}
                                             <td class="teamLogo">
                                                 <img src="{{ asset('storage/images/team_logo/' . $team->logo) }}"
                                                     alt="" class="img-fluid">
@@ -146,6 +147,13 @@
                                             <td>{{ $team->pts }}</td>
 
                                             <td>
+
+                                                {{-- <form action="{{ route('pickTeam') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" value="{{ $team->name }}" name="team_name">
+                                                    <button type="submit" name="submit" class="btn">Pick</button>
+                                                </form> --}}
+
                                                 <button type="submit" name="submit"
                                                     class="btn pickTeam c-{{ $team->id }}" team-id={{ $team->id }}
                                                     data={{ Auth::user()->id }}>Pick</button>
@@ -154,66 +162,6 @@
                                     @endforeach
 
                                 </tbody>
-
-                            </table> --}}
-
-
-
-                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
-                              <thead>
-                                <tr class="table-primary">
-                                <th scope="col" colspan="2" class="teamsColl">Teams</th>
-                                  <th scope="col">W</th>
-                                  <th scope="col">L</th>
-                                  <th scope="col">PTS</th>
-                                  <th scope="col"> </th>
-                                </tr>
-                              </thead>
-                              <tbody class="table-group-divider">
-                                <tr>
-
-                                  <td class="teamLogo">
-                                    <img src="{{ asset('front/img/SF-49ers 1.png') }}" alt="" class="img-fluid">
-                                  </td>
-                                  <td class="teamName">
-                                    <span>Liam</span>
-                                  </td>
-
-
-                                  <td>14</td>
-                                  <td>1</td>
-                                  <td>28</td>
-                                  <td class="teamBtn"> <a href="" class="btn">btn</a> </td>
-                                </tr>
-                                <tr>
-
-                                  <td class="teamLogo">
-                                    <img src="{{ asset('front/img/Bears 1.png') }}" alt="" class="img-fluid">
-                                  </td>
-                                  <td class="teamName">
-                                    <span>Oliver</span>
-                                  </td>
-
-                                  <td>12</td>
-                                  <td>3</td>
-                                  <td>26</td>
-                                  <td class="teamBtn"> <a href="" class="btn">btn</a> </td>
-                                </tr>
-                                <tr>
-
-                                  <td class="teamLogo">
-                                    <img src="{{ asset('front/img/Packers 1.png') }}" alt="" class="img-fluid">
-                                  </td>
-                                  <td class="teamName">
-                                    <span>William</span>
-                                  </td>
-                                  <td>10</td>
-                                  <td>3</td>
-                                  <td>24</td>
-                                  <td class="teamBtn"> <a href="" class="btn">btn</a> </td>
-                                </tr>
-                                <tr>
-                              </tbody>
 
                             </table>
                         </div>
@@ -247,59 +195,7 @@
 
 @section('script')
     <script>
-        $('.alphabets').on('click', function() {
-            $(".loader").removeClass('d-none');
-            let letter = $(this).text();
-            let getURL = window.location.pathname;
-            let path = getURL.split('/')[2];
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var htmlOutput = '';
-            $.ajax({
-                type: 'POST',
-                url: '/alphabets',
-                data: {
-                    letters: letter,
-                    path: path,
-                },
-                success: function(data) {
-                    // console.log(data)
-                    $(".loader").addClass('d-none');
-                    $("#roaster-table").removeClass('d-none');
 
-                    if (data.roster_data.length != 0) {
-                        JSON.stringify(data)
-                        let entries = Object.entries(data.roster_data)
-                        let count = 1;
-                        trHTML = '';
-                        entries.map(([key, val] = entry) => {
-                            val.forEach(element => {
-                                console.log(element.id)
-                                let log_image =
-                                    "{{ asset('storage/images/team_logo/') }}" + "/" +
-                                    element.logo;
-                                trHTML += '<tr><td>' + key + '</td>';
-                                trHTML += '<td>' + count + '</td>';
-                                trHTML += '<td class="teamLogo">' + '<img src=' +
-                                    log_image + ' alt="" class="img-fluid">' + '</td>';
-                                trHTML += '<td  class="teamName">' + element.name +
-                                    '</td>';
-                                trHTML += '<td>' + element.win + '</td>';
-                                trHTML += '<td>' + element.loss + '</td>';
-                                trHTML += '<td>' + element.pts + '</td></tr>';
-                                count++;
-                            });
-                        });
-                        $('#table-data').html(trHTML);
-                    } else {
-                        $('#table-data').html('<tr><td colspan="7"><h1>No Data Found</h1></tr></td>');
-                    }
-                }
-            });
-        });
 
         //pick team
 
@@ -323,7 +219,7 @@
                 success: function(response) {
                     if (response.status == false) {
                         swal({
-                                title: `Subscribe First for Pick Team`,
+                                title: `Subscribe first to pick the team`,
                                 text: "",
                                 icon: "warning",
                                 buttons: true,

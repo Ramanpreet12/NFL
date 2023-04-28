@@ -22,4 +22,5 @@ class Fixture extends Model
         return $this->belongsTo(Team::class , 'second_team' , 'id');
     }
 
+
 }

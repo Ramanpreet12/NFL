@@ -61,7 +61,7 @@
 
                 @foreach ($mainMenus as $menuMenu)
                     <li class="nav-item  dropdown">
-                        <a class="nav-link {{ get_main_menus($menuMenu->id) }}" href="#" role="button"
+                        <a class="nav-link {{ get_main_menus($menuMenu->id) }}" href="{{ $menuMenu->url }}" role="button"
                             data-bs-toggle={{ get_main_submenus($menuMenu->id) }} aria-expanded="false">
                             {{ $menuMenu->title }}</a>
                         <div class="dropdown-menu megaMenu" x-placement="bottom-start"
