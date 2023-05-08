@@ -341,7 +341,7 @@
                                                 </td>
 
                                                 <td class="teamName">
-                                                    <span>{{ $value['player_name']['0']->name ?? '' }}</span>
+                                                    {{-- <span>{{ ucfirst($value['player_name']['0']->name ?? '') }}</span> --}}
                                                 </td>
                                                 <td>{{ $value['win'] }}</td>
                                                 <td>{{ $value['loss'] }}</td>

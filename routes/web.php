@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TeamPickController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\FrontPagesController;
 
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\AdminSettingController;
@@ -32,7 +33,7 @@ use App\Http\Controllers\Backend\PlayersController;
 use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\RegionController;
 use App\Http\Controllers\Backend\VacationController;
-
+use App\Models\Winner;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,8 +59,18 @@ Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->n
 });
 // Route::get('payment' , [PaymentController::class , 'paymentPage'])->name('payment');
 
+
+Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
+
+Route::match(['GET','POST'], 'contact_us', [FrontPagesController::class,'contact'])->name('contact_us');
+
 Route::get('payment', [StripeController::class, 'stripe'])->name('payment');
 Route::post('payment/store', [StripeController::class, 'stripePost'])->name('payment.store');
+Route::get('success', [StripeController::class, 'success'])->name('success');
+Route::post('selectTeam', [StripeController::class, 'selectTeam'])->name('selectTeam');
+Route::get('success-message',function(){
+    return view('front.payment.success');
+})->name('success-message');
 
 
 Route::middleware(['auth' , 'user'])->group(function() {
@@ -68,6 +79,7 @@ Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
 Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('Allfixtures/{week?}', [UserDashboardController::class, 'getWeeklyTeams'])->name('fixtureTeams');
 });
 
 //data according to alphabets
@@ -179,6 +191,7 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
 
     //results rotues
     Route::get('winner', [WinnerController::class, 'index'])->name('admin/winner');
+
     //color setting
     Route::get('color_setting', [ColorSettingController::class, 'index'])->name('admin/color_setting');
     Route::get('edit_color/{id}', [ColorSettingController::class, 'edit_color'])->name('admin/edit_color/{id}');
@@ -208,24 +221,10 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::get('prize-edit/{id}',[PrizeController::class,'edit'])->name('prize-edit');
     Route::get('prize-delete/{id}',[PrizeController::class,'delete'])->name('prize-delete');
 
-    //website setting
-    //general management
-    // Route::match(['get' , 'post'] , 'general', [GeneralController::class , 'general'])->name('admin/general');
+
     Route::get('general', [GeneralController::class , 'general'])->name('admin/general');
     Route::post('general_post', [GeneralController::class , 'general_update'])->name('admin/general_post');
-    //banner management
-    // Route::get('banner' ,[BannerController::class , 'index'])->name('admin/banner');
-    // // Route::match(['get' , 'post'] , 'banner/create' ,[BannerController::class , 'create'])->name('admin/banner/create');
-    // Route::get('banner/create' ,[BannerController::class , 'create'])->name('admin/banner/create');
-    // Route::post('banner/store' ,[BannerController::class , 'store'])->name('admin/banner/store');
-    // // Route::match(['get' , 'post'] , 'banner/edit/{id}' ,[BannerController::class , 'update']);
-    // Route::get('banner/edit/{id}' ,[BannerController::class , 'edit']);
-    // Route::put('banner/update/{id}' ,[BannerController::class , 'update']);
 
-    // Route::get('banner/delete/{id}' ,[BannerController::class , 'delete']);
-
-    //banner management with resource controller
-    // Route::resource('banner', BannerController::class);
     Route::resources([
         'banner' => BannerController::class,
     ]);
@@ -249,9 +248,7 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
    // regions
    Route::resources(['region' => RegionController::class]);
     //home setting
-    // Route::resources(['news' => HomeSettingController::class]);
-    // Route::get('homeSettingList/{section?}',[HomeSettingController::class,'homeSettingList'])->name('homeSettingList');
-    // Route::get('homeSettingDelete/{id}',[HomeSettingController::class,'destroy'])->name('homeSettingDelete');
+
 
     //News setting
     Route::resources(['news' => NewsController::class]);
@@ -282,12 +279,7 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
 });
 
 
-//user routes
 
-// Route::match(['get' , 'post'], 'login', [LoginController::class, 'login'])->name('login');
-// Route::middleware(['auth' , 'user'])->get('dashboard' , function(){
-//    return "hello";
-// });
 
 
 

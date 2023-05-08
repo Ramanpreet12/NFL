@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Storage;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+
 
 class User extends Authenticatable
 {
@@ -19,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','dob' , 'phone_number' , 'group'
+        'name', 'email', 'password', 'dob', 'phone_number', 'group'
     ];
 
     /**
@@ -45,7 +48,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['photo_path'];
+    protected $appends = ['photo_path', 'team_status', 'season'];
 
     /**
      * The getter that return accessible URL for user photo.
@@ -54,10 +57,49 @@ class User extends Authenticatable
      */
     public function getPhotoPathAttribute()
     {
-        if (($this->photo !== null) && (Storage::exists('storage/admin_profile_photo/'. $this->photo))) {
-            return url('/storage/admin_profile_photo/'.$this->photo);
+        if (($this->photo !== null) && (Storage::exists('storage/admin_profile_photo/' . $this->photo))) {
+            return url('/storage/admin_profile_photo/' . $this->photo);
         } else {
             return url('/dist/images/dummy_image.webp');
+        }
+    }
+public function userteam()
+{
+   return $this->hasMany(UserTeam::class);
+}
+    public function Team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+    public function Payment()
+    {
+        return $this->hasMany(Payment::class);
+    }
+    public function getTeamStatusAttribute()
+    {
+        $c_date = Carbon::now();
+        $c_season = DB::table('seasons')
+            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+            ->first();
+
+        $points = DB::table('user_details')->where(['user_id'=>auth()->user()->id,'season_id'=>$c_season->id])->value('points');
+        if($points){
+            return $points;
+        }else{
+            return 0;
+        }
+    }
+
+    public function getSeasonAttribute()
+    {
+        $c_date = Carbon::now();
+        $c_season = DB::table('seasons')
+            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+            ->first();
+        if ($c_season) {
+            return $c_season->name;
+        } else {
+            return '';
         }
     }
 }

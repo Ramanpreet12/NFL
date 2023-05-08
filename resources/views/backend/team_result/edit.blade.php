@@ -98,9 +98,39 @@
                         @enderror
                     </div>
 
+                    <div class="mt-3">
+                        <label for="team_two" class="form-label">Winning Team</label>
+                        <select data-placeholder="Select your favorite actors" class="tom-select w-full" id="team_two"
+                            name="win_team">
+                            <option value="">--select--</option>
+                            @foreach ($teams as $team)
+                                <option value="{{ $team->id }}" {{$team->id == $team_results->win ?? $team_results->team1_id ? 'selected' : ''}}>{{ $team->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('team_two')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="team_two" class="form-label">Loose Team</label>
+                        <select data-placeholder="Select your favorite actors" class="tom-select w-full" id="team_two"
+                            name="lose_team">
+                            <option value="">--select--</option>
+                            @foreach ($teams as $team)
+                                <option value="{{ $team->id }}" {{$team->id == $team_results->loss ?? $team_results->team2_id ? 'selected' : ''}}>{{ $team->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('team_two')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+
 
                     <div class="mt-3 flex justify-content-between">
-                        <div>
+                        {{-- <div>
                             <label class="form-label">Result Status</label>
                             <div class="sm:grid grid-cols-2 gap-2">
                                 <div class="input-group mt-2 sm:mt-0">
@@ -111,7 +141,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         {{-- // --}}
                         <div>
                             {{-- <label class="form-label">Status</label>

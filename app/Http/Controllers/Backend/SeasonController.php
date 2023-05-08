@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Season;
+use Illuminate\Support\Carbon;
 
 class SeasonController extends Controller
 {
@@ -37,25 +38,19 @@ class SeasonController extends Controller
      */
     public function store(Request $request)
     {
+
         if ($request->isMethod('post')) {
             $season = new Season;
-
-            $datetime = $request->start_date;
-$date = new DateTime($datetime);
-echo $date->format('Y-m-d');
-die();
-
-
             $season->name = $request->name;
-            $season->starting = $request->start_date;
-            $season->ending = $request->end_date;
+            $season->leauge = $request->league;
+            $season->starting = Carbon::parse($request->start_date)->format('Y-m-d');
+            $season->ending = Carbon::parse($request->end_date)->format('Y-m-d');
             $season->save();
-            if($season){
-                return redirect()->route('season.index')->with('message_success','New Season Added Successfully');
-               }else{
-                return redirect()->route('season.index')->with('message_error','Something went wrong');
-               }
-
+            if ($season) {
+                return redirect()->route('season.index')->with('message_success', 'New Season Added Successfully');
+            } else {
+                return redirect()->route('season.index')->with('message_error', 'Something went wrong');
+            }
         }
     }
 
@@ -79,7 +74,7 @@ die();
     public function edit($id)
     {
         //
-        $season =Season::find($id);
+        $season = Season::find($id);
         return view('backend.season.edit', compact('season'));
     }
 
@@ -96,21 +91,21 @@ die();
         $request->validate([
             'name' => 'required',
             'starting' => 'required',
-            'ending'=> 'required',
+            'ending' => 'required',
         ]);
         $data = [
             'name' => $request->name,
             'starting' => $request->starting,
             'ending' => $request->ending,
         ];
-        $season= Season::findOrFail($id);
+        $season = Season::findOrFail($id);
         $season->update($data);
 
-       if($season){
-        return redirect()->route('season.index')->with('message_success','New Season Added Successfully');
-       }else{
-        return redirect()->route('season.index')->with('message_error','Something went wrong');
-       }
+        if ($season) {
+            return redirect()->route('season.index')->with('message_success', 'New Season Added Successfully');
+        } else {
+            return redirect()->route('season.index')->with('message_error', 'Something went wrong');
+        }
     }
 
     /**
@@ -123,15 +118,15 @@ die();
     public function delete($id)
     {
         $del = Season::find($id)->delete();
-        if($del){
-            return redirect()->route('season.index')->with('message_success','Season Deleted Successfully');
-        }else{
-            return redirect()->route('season.index')->with('message_error','Something went wrong');
+        if ($del) {
+            return redirect()->route('season.index')->with('message_success', 'Season Deleted Successfully');
+        } else {
+            return redirect()->route('season.index')->with('message_error', 'Something went wrong');
         }
-
     }
 
-    public function allSeasons(){
+    public function allSeasons()
+    {
         $season = Season::paginate(6);
         return response()->json($season, 200);
     }

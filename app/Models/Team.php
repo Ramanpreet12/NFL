@@ -4,21 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable =['league' , 'region_id' ,'name','logo','match_played','win','loss','pts' , 'status'];
-    protected $appends = ['image' , 'player_name'];
+    protected $fillable = ['league', 'region_id', 'name', 'logo', 'match_played', 'win', 'loss', 'pts', 'status'];
+    protected $appends = ['image', 'player_name'];
 
 
-    public function getImageAttribute() {
+    public function getImageAttribute()
+    {
         // $image = env('APP_URL').'/storage/images/team_logo'.$this->logo;
         // return $image;
 
         if (($this->logo !== null)) {
-            return url('/storage/images/team_logo/'.$this->logo);
+            return url('/storage/images/team_logo/' . $this->logo);
         } else {
             return url('/dist/images/dummy_image.webp');
         }
@@ -26,20 +29,20 @@ class Team extends Model
 
     public function fixture_team_one()
     {
-        return $this->hasMany(Fixture::class ,'team_one' , 'id' );
+        return $this->hasMany(Fixture::class, 'team_one', 'id');
     }
     public function fixture_team_two()
     {
-        return $this->hasMany(Fixture::class ,'team_two' , 'id' );
+        return $this->hasMany(Fixture::class, 'team_two', 'id');
     }
 
     public function team_result_one()
     {
-        return $this->hasMany(TeamResult::class ,'team1_id' , 'id' );
+        return $this->hasMany(TeamResult::class, 'team1_id', 'id');
     }
     public function team_result_two()
     {
-        return $this->hasMany(TeamResult::class ,'team2_id' , 'id' );
+        return $this->hasMany(TeamResult::class, 'team2_id', 'id');
     }
     public function leaderboard()
     {
@@ -48,27 +51,24 @@ class Team extends Model
 
     public function player()
     {
-        return $this->hasMany(Player::class , 'team_id' , 'id');
+        return $this->hasMany(Player::class, 'team_id', 'id');
     }
 
-     //get region for player's leaderboard on home page
+    //get region for player's leaderboard on home page
     public function region()
     {
-        return $this->belongsTo(Region::class , 'region_id' , 'id');
+        return $this->belongsTo(Region::class, 'region_id', 'id');
     }
 
-    //get playername for player's leaderboard on home page with table players
-    // public function getPlayerNameAttribute()
-    // {
-    //     $data =  \DB::table('players')->where('team_id',$this->id)->get('name');
-    //     return $data;
-    // }
-
- //   get playername for player's leaderboard on home page with table users
-
-      public function getPlayerNameAttribute()
+    public function getPlayerNameAttribute()
     {
-        $data =  \DB::table('users')->where('team_id',$this->id)->get('name');
+        $data =  \DB::table('users')->where('team_id', $this->id)->get('name');
         return $data;
     }
- }
+
+    public function user(){
+        return $this->hasOne(User::class);
+    }
+
+
+}

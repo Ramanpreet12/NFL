@@ -27,7 +27,6 @@ class FixtureRequest extends FormRequest
             'season' => 'required' ,
             'first_team' => 'required' ,
             'second_team' => 'required' ,
-            'week' => 'required' ,
             'date' => 'required' ,
             'time' => 'required' ,
             'time_zone' => 'required' ,

@@ -1,6 +1,6 @@
 @extends('front.layout.app')
 @section('content')
-    {{-- <style>
+    <style>
         .aSidebarCard {
             background-color: #fff;
             border-radius: 7px;
@@ -66,14 +66,54 @@
             opacity: 1;
         }
 
+        .btn.pickTeam {
+            line-height: 20px;
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
 
+        .btn.pickTeam .bi-check {
+            font-size: 28px;
+            color: rgb(0, 128, 55);
+            line-height: 27px;
+            display: inline-flex;
+
+        }
+
+        .btn.pickTeam .bi-check[class*=" bi-"]::before {
+            line-height: 20px;
+        }
+
+        #nextmatchBoard .table-dark tr td.tdTeamBtnCheck {
+            text-align: right;
+            padding-right: 30px;
+            width: 170px;
+        }
+
+        .week {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .week .week-data {
+            padding: 3px 10px;
+            background-color: #fff;
+            border-radius: 3px;
+            margin: 0 5px;
+            color: #111;
+        }
+        .week .week-data.activeWeek {
+            background-color: #db9a29;
+        }
 
         @media (min-width: 768px) {
             .tablePickTeam {
                 padding-right: 30px;
             }
         }
-    </style> --}}
+    </style>
 
     <section id="nextmatchBoard"
         style="background-image:url({{ asset('front/img/football-2-bg.jpg') }});color:{{ $colorSection['leaderboard']['text_color'] }};">
@@ -84,6 +124,7 @@
                     <h2 style="color:{{ $colorSection['leaderboard']['header_color'] }};">
                         Pick a Team
                     </h2>
+
                     <div class="leaderBoard">
 
                         <br>
@@ -113,109 +154,111 @@
                 </div> --}}
                 @include('front.layout.sidebar')
                 <div class="col-sm-10 col-md-9">
-
+                    @if (Session::has('success'))
+                        <span class="alert alert-success">{{ Session::get('success') }}</span>
+                    @endif
                     <div class="tablePickTeam">
-                        <div class="table-responsive" id="rosterTable">
+                        {{-- <div class="table-responsive" id="rosterTable">
 
-                            {{-- <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
 
                                 <thead>
                                     <tr class="table-primary">
-
+                                        <th scope="col"> </th>
+                                        <th scope="col" class="text-center">Status</th>
                                         <th scope="col" colspan="2" class="">Teams</th>
                                         <th scope="col" class="text-center">W</th>
                                         <th scope="col" class="text-center">L</th>
                                         <th scope="col" class="text-center">PTS</th>
-                                        <th scope="col" class="text-center"> </th>
+                                        <th scope="col" class="text-center teamBtnCheck"> </th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
 
-                                    @foreach ($get_teams as $team)
+                                    @foreach ($fixture as $fix)
                                         <tr>
 
                                             <td class="teamLogo">
-                                                <img src="{{ asset('storage/images/team_logo/' . $team->logo) }}"
+                                                <img src="{{ asset('storage/images/team_logo/' . $fix->first_team_id->logo) }}"
                                                     alt="" class="img-fluid">
                                             </td>
                                             <td class="teamName">
-                                                <span>{{ $team->name }}</span>
+                                                <span>{{ $fix->first_team_id->name }}</span>
                                             </td>
                                             <td>{{ $team->win }}</td>
-                                            <td>{{ $team->loss }}</td>
-                                            <td>{{ $team->pts }}</td>
+                                            <td>{{ $fix->first_team_id->name}}</td>
+                                             <td>{{ $team->pts }}</td>
 
-                                            <td>
+                                             <td class="tdTeamBtnCheck">
                                                 <button type="submit" name="submit"
-                                                    class="btn pickTeam c-{{ $team->id }}" team-id={{ $team->id }}
-                                                    data={{ Auth::user()->id }}>Pick</button>
+                                                    class="btn pickTeam c-{{ $team->id }}"
+                                                    season-id="{{ $fixture->season_id }}" week="{{ $fixture->week }}"
+                                                    team-id={{ $team->id }} data={{ Auth::user()->id }}>Pick
+                                                </button>
+
                                             </td>
                                         </tr>
                                     @endforeach
 
                                 </tbody>
 
-                            </table> --}}
-
-
-
+                            </table>
+                        </div> --}}
+                        <div class="table-responsive" bis_skin_checked="1" id="rosterTable">
                             <table class="table table-dark table-striped  tableBoard" id="roaster-table">
-                              <thead>
-                                <tr class="table-primary">
-                                <th scope="col" colspan="2" class="teamsColl">Teams</th>
-                                  <th scope="col">W</th>
-                                  <th scope="col">L</th>
-                                  <th scope="col">PTS</th>
-                                  <th scope="col"> </th>
-                                </tr>
-                              </thead>
-                              <tbody class="table-group-divider">
-                                <tr>
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col">Match</th>
+                                        <th scope="col">Week</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($fixture as $fix)
+                                        <tr>
+                                            <td>
+                                                <div class="fixureMatch d-flex align-items-center justify-content-center"
+                                                    bis_skin_checked="1">
+                                                    <div class="versis check" bis_skin_checked="1">
+                                                        <input type="checkbox" name="" id="">
 
-                                  <td class="teamLogo">
-                                    <img src="{{ asset('front/img/SF-49ers 1.png') }}" alt="" class="img-fluid">
-                                  </td>
-                                  <td class="teamName">
-                                    <span>Liam</span>
-                                  </td>
+                                                    </div>
+                                                    <div class="teamOne" bis_skin_checked="1">
+                                                        <img src="{{ asset('storage/images/team_logo/' . $fix->first_team_id->logo) }}"
+                                                            alt="" class="img-fluid">
 
+                                                        <div style="min-width:200px" bis_skin_checked="1">
+                                                            {{ ucwords($fix->first_team_id->name) }}</div>
+                                                    </div>
+                                                    <div class="versis check" bis_skin_checked="1">
+                                                        <input type="checkbox" name="" id="">
 
-                                  <td>14</td>
-                                  <td>1</td>
-                                  <td>28</td>
-                                  <td class="teamBtn"> <a href="" class="btn">btn</a> </td>
-                                </tr>
-                                <tr>
+                                                    </div>
+                                                    <div class="teamOne" bis_skin_checked="1">
+                                                        <img src="{{ asset('storage/images/team_logo/' . $fix->second_team_id->logo) }}"
+                                                            alt="" class="img-fluid">
 
-                                  <td class="teamLogo">
-                                    <img src="{{ asset('front/img/Bears 1.png') }}" alt="" class="img-fluid">
-                                  </td>
-                                  <td class="teamName">
-                                    <span>Oliver</span>
-                                  </td>
+                                                        <div style="min-width:200px" bis_skin_checked="1">
+                                                            {{ ucwords($fix->second_team_id->name) }}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{ $fix->week }}</td>
+                                            <td>{{ date('j F, Y', strtotime($fix->date)) }}</td>
+                                            <td>{{ date('H : i s', strtotime($fix->time)) }}</td>
+                                        </tr>
+                                    @endforeach
 
-                                  <td>12</td>
-                                  <td>3</td>
-                                  <td>26</td>
-                                  <td class="teamBtn"> <a href="" class="btn">btn</a> </td>
-                                </tr>
-                                <tr>
-
-                                  <td class="teamLogo">
-                                    <img src="{{ asset('front/img/Packers 1.png') }}" alt="" class="img-fluid">
-                                  </td>
-                                  <td class="teamName">
-                                    <span>William</span>
-                                  </td>
-                                  <td>10</td>
-                                  <td>3</td>
-                                  <td>24</td>
-                                  <td class="teamBtn"> <a href="" class="btn">btn</a> </td>
-                                </tr>
-                                <tr>
-                              </tbody>
+                                </tbody>
 
                             </table>
+                            <div class="week">
+                                @foreach ($fixture as $k=>$week)
+                                    <div class="week-data @if($k==0)activeWeek @endif" data="{{$k+1}}">{{ $k+1 }}</div>
+                                @endforeach
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -223,92 +266,20 @@
         </div>
         </div>
         </div>
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Some text in the modal.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </section>
 @endsection
 
 @section('script')
     <script>
-        $('.alphabets').on('click', function() {
-            $(".loader").removeClass('d-none');
-            let letter = $(this).text();
-            let getURL = window.location.pathname;
-            let path = getURL.split('/')[2];
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var htmlOutput = '';
-            $.ajax({
-                type: 'POST',
-                url: '/alphabets',
-                data: {
-                    letters: letter,
-                    path: path,
-                },
-                success: function(data) {
-                    // console.log(data)
-                    $(".loader").addClass('d-none');
-                    $("#roaster-table").removeClass('d-none');
-
-                    if (data.roster_data.length != 0) {
-                        JSON.stringify(data)
-                        let entries = Object.entries(data.roster_data)
-                        let count = 1;
-                        trHTML = '';
-                        entries.map(([key, val] = entry) => {
-                            val.forEach(element => {
-                                console.log(element.id)
-                                let log_image =
-                                    "{{ asset('storage/images/team_logo/') }}" + "/" +
-                                    element.logo;
-                                trHTML += '<tr><td>' + key + '</td>';
-                                trHTML += '<td>' + count + '</td>';
-                                trHTML += '<td class="teamLogo">' + '<img src=' +
-                                    log_image + ' alt="" class="img-fluid">' + '</td>';
-                                trHTML += '<td  class="teamName">' + element.name +
-                                    '</td>';
-                                trHTML += '<td>' + element.win + '</td>';
-                                trHTML += '<td>' + element.loss + '</td>';
-                                trHTML += '<td>' + element.pts + '</td></tr>';
-                                count++;
-                            });
-                        });
-                        $('#table-data').html(trHTML);
-                    } else {
-                        $('#table-data').html('<tr><td colspan="7"><h1>No Data Found</h1></tr></td>');
-                    }
-                }
-            });
-        });
-
-        //pick team
-
-
+        $('.check input:checkbox').click(function() {
+            $('.check input:checkbox').not(this).prop('checked', false);
+        })
         $('.pickTeam').click(function() {
             //first check user is subscribed or not
             let user_id = $(this).attr('data');
             let team_id = $(this).attr('team-id');
-
+            let season_id = $(this).attr('season-id');
+            let week = $(this).attr('week');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -318,12 +289,14 @@
                 method: 'post',
                 url: '/pickTeam',
                 data: {
-                    id: user_id
+                    id: user_id,
+                    season_id: season_id,
                 },
                 success: function(response) {
-                    if (response.status == false) {
+                    //console.log(response);
+                    if (response.status == false && response.plan == '') {
                         swal({
-                                title: `Subscribe First for Pick Team`,
+                                title: `Subscribe first to pick the team`,
                                 text: "",
                                 icon: "warning",
                                 buttons: true,
@@ -331,13 +304,64 @@
                             })
                             .then((willDelete) => {
                                 if (willDelete) {
-                                    window.location.href="{{route('payment')}}";
+                                    window.location.href = "{{ route('payment') }}";
+                                }
+                            });
+                    } else if (response.status == false && response.plan == 'expired') {
+                        swal({
+                                title: `Your Plan is Expired pay first`,
+                                text: "",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    window.location.href = "{{ route('payment') }}";
                                 }
                             });
                     } else {
-                        $(".c-" + team_id).text('Team Picked').css('color', 'green');
-
+                        $.ajax({
+                            method: 'post',
+                            url: '/selectTeam',
+                            data: {
+                                user_id: user_id,
+                                team_id: team_id,
+                                season_id: season_id,
+                                week: week
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                if (response.status == 200 && response.select ==
+                                    'already') {
+                                    swal({
+                                        title: `Team is already selected for week ${week}`,
+                                        text: "",
+                                        icon: "warning",
+                                        buttons: true,
+                                        dangerMode: true,
+                                    })
+                                } else if (response.status == 200 && response.select ==
+                                    '') {
+                                    window.location.href = "{{ route('dashboard') }}";
+                                } else {
+                                    window.location.href = "{{ route('teams') }}";
+                                }
+                            }
+                        });
                     }
+                }
+            });
+        });
+        $('.week-data').click(function() {
+            let week = $(this).attr('data');
+            $('.week-data').removeClass('activeWeek');
+            $(this).addClass('activeWeek');
+            $.ajax({
+                method: 'get',
+                url: '/Allfixtures/' + week,
+                success: function(response) {
+                    console.log(response);
                 }
             });
         });

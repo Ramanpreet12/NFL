@@ -7,6 +7,7 @@ use App\Models\General;
 use Illuminate\Support\Facades\View;
 use App\Models\ColorSetting;
 use App\Models\Menu;
+use Illuminate\Pagination\Paginator;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -28,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        Paginator::useBootstrap();
         $mainMenus = Menu::where('parent_id' , 0)->get();
         $subMenus = Menu::where('parent_id' , '!=' , 0)->get();
 

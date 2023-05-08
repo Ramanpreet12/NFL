@@ -36,7 +36,7 @@
             <form action="{{ route('season.store') }}" method="post">
                 @csrf
                 <div class="intro-y box p-5">
-
+                    <input type="hidden" name="league" id="league" value="1">
                     <div class="mt-3">
                         <label for="name" class="form-label">Name</label>
                         <div class="input-group">
