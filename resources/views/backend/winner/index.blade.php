@@ -19,14 +19,14 @@
                 </button>
                 <div class="dropdown-menu w-40">
                     <ul class="dropdown-content">
-                        @foreach ($seasons as $season)
+                        {{-- @foreach ($seasons as $season)
 
                         <li>
                             <a href="" class="dropdown-item">
                                 <i data-feather="printer" class="w-4 h-4 mr-2"></i>{{$season->name}}
                             </a>
                         </li>
-                        @endforeach
+                        @endforeach --}}
 
                     </ul>
                 </div>
@@ -46,11 +46,12 @@
                 <thead class="bg-primary text-white">
                     <tr>
                         <th class="text-center whitespace-nowrap">#</th>
-                        <th class="text-center whitespace-nowrap" colspan="3">Match</th>
-                        <th class="text-center whitespace-nowrap">Score</th>
+                        <th class="text-center whitespace-nowrap" colspan="3">Season</th>
+                        <th class="text-center whitespace-nowrap">User Name</th>
+                        <th class="text-center whitespace-nowrap">Points</th>
                         {{-- <th class="text-center whitespace-nowrap">STOCK</th>
                         <th class="text-center whitespace-nowrap">STATUS</th> --}}
-                        <th class="text-center whitespace-nowrap">Action</th>
+                        {{-- <th class="text-center whitespace-nowrap">Action</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -91,60 +92,68 @@
                             </td>
                         </tr>
                     @endforeach --}}
-                    <p style="display:none;"> {{ $count = 1 }}</p>
+                    {{-- <p style="display:none;"> {{ $count = 1 }}</p> --}}
 
-                    @foreach ($fixtures as $fixture)
-                        <tr class="intro-x">
-                            <td> {{ $count++ }}</td>
-                            <td class="text-center w-40">
-                                <div class="flex items-center justify-around">
-                                    <div class="w-10 h-10 image-fit zoom-in">
-                                        <img alt="Rubick Tailwind HTML Admin Template" class="rounded-full"
-                                            src="{{ asset('dist/images/dummy_image.webp') }}">
-                                    </div>
-                                    <div class="text-slate-500 font-medium whitespace-nowrap mx-4">
-                                        {{ $fixture->first_team_id->name }}
-                                    </div>
+                    {{-- @foreach ($user as $u)
 
+                    <tr class="intro-x">
+                        <td> {{ $count++ }}</td> --}}
+                        {{-- <td class="text-center w-40">
+                            <div class="flex items-center justify-around">
+                                <div class="w-10 h-10 image-fit zoom-in">
+                                    <img alt="Rubick Tailwind HTML Admin Template" class="rounded-full"
+                                        src="{{ asset('dist/images/dummy_image.webp') }}">
                                 </div>
-                            </td>
-                            <td>
-                                <div class="text-center text-slate-400 font-medium whitespace-nowrap">vs</div>
-                            </td>
-                            <td class="">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 image-fit zoom-in">
-                                        <img alt="Rubick Tailwind HTML Admin Template" class="rounded-full"
-                                            src="{{ asset('dist/images/dummy_image.webp') }}">
-                                    </div>
-                                    <div class="text-slate-500 font-medium whitespace-nowrap mx-4">
-                                        {{ $fixture->second_team_id->name }}</div>
-
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">
+                                    {{ $u->season }}
                                 </div>
-                            </td>
 
-                            <td class="table-report__action">
-                                <div class="text-center text-slate-600 font-medium whitespace-nowrap">12 : 32</div>
-                            </td>
-                            {{-- <td>edit</td> --}}
-                            <td class="table-report__action w-56">
-                                <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="javascript:;">
-                                        <i data-feather="eye" class="w-4 h-4 mr-1"></i> view
-                                    </a>
-                                    {{-- <a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal">
-                                <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                            </a> --}}
-                                </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </td> --}}
+                        <td>
+                            {{-- <div class="text-center text-slate-400 font-medium whitespace-nowrap"></div>
+                        </td>
+                        <td>
+                            <div class="text-center text-slate-400 font-medium whitespace-nowrap"></div>
+                        </td>
+                        <td class="">
+                            <div class="flex items-center"> --}}
+                                {{-- <div class="w-10 h-10 image-fit zoom-in">
+                                    <img alt="Rubick Tailwind HTML Admin Template" class="rounded-full"
+                                        src="{{ asset('dist/images/dummy_image.webp') }}">
+                                </div> --}}
+                                {{-- <div class="text-slate-500 font-medium whitespace-nowrap mx-4">
+                                    {{ ucwords($u->season_name) }}</div>
+
+                            </div>
+                        </td>
+
+                        <td class="table-report__action">
+                            <div class="text-center text-slate-600 font-medium whitespace-nowrap">{{ ucwords($u->name) }}</div>
+                        </td>
+                        <td class="table-report__action">
+                            <div class="text-center text-slate-600 font-medium whitespace-nowrap">{{ $u->points }}</div>
+                        </td> --}}
+                        {{--  <td class="table-report__action w-56">
+                            <div class="flex justify-center items-center">
+                                <a class="flex items-center mr-3" href="javascript:;">
+                                    <i data-feather="eye" class="w-4 h-4 mr-1"></i> view
+                                </a>
+                               <a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal">
+                            <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                        </a>
+                            </div>--}}
+                        {{-- </td>
+                    </tr>
+
+
                     @endforeach
                 </tbody>
             </table>
-        </div>
+        </div> --}}
         <!-- END: Data List -->
         <!-- BEGIN: Pagination -->
-        <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
+        {{-- <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
             <nav class="w-full sm:w-auto sm:mr-auto">
                 <ul class="pagination">
                     <li class="page-item">
@@ -190,9 +199,10 @@
                 <option>35</option>
                 <option>50</option>
             </select>
-        </div>
+        </div> --}}
+        {{-- {{ $user->links() }} --}}
         <!-- END: Pagination -->
-    </div>
+    {{-- </div> --}}
     <!-- BEGIN: Delete Confirmation Modal -->
     <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">

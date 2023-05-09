@@ -61,7 +61,7 @@ class AuthController extends Controller
             if (!$request->isMethod('post')) {
                 return view('front.login');
             } else {
-                    if (\Auth::attempt(['email' => $request->email , 'password' => $request->password] ))  {
+                    if (\Auth::attempt(['email' => $request->email , 'password' => $request->password , 'role_as' => 0] ))  {
                         if (\Auth::user()->role_as == 0) {
                             return redirect()->route('dashboard')->with('success' , 'Login successfully');
                         }

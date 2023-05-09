@@ -21,6 +21,7 @@ class LeaderboardController extends Controller
 
         $players = Player::with('teams')->get();
         $leaderHeading = SectionHeading::where('name' , 'Leaderboard')->first();
+
          return view('backend.site_setting.leaderboard.index' , compact('players' , 'leaderHeading'));
 
 

@@ -34,7 +34,7 @@
                     <select data-placeholder="Select Season" class="tom-select w-full" id="season" name="season">
                         <option value="" >--select--</option>
                         @foreach ($seasons as $season)
-                        <option value="{{($season->id)}}" {{$season->id  == $fixture->season_id ? 'selected' : '' }} >{{($season->name)}}</option>
+                        <option value="{{($season->id)}}" {{$season->id  == $fixture->season_id ? 'selected' : '' }} >{{($season->season_name)}}</option>
                         @endforeach
                     </select>
                     @error('season') <p class="text-danger">{{$message}}</p> @enderror
@@ -60,13 +60,13 @@
                     </select>
                     @error('second_team') <p class="text-danger">{{$message}}</p> @enderror
                 </div>
-                <div class="mt-3">
+                {{-- <div class="mt-3">
                     <label for="week" class="form-label">Week</label>
                     <div class="input-group">
                         <input id="week" type="text" class="form-control" placeholder="week" aria-describedby="input-group-1" name="week" value="{{$fixture->week}}">
                     </div>
                     @error('week') <p class="text-danger">{{$message}}</p> @enderror
-                </div>
+                </div> --}}
                 <div class="mt-3">
                     <label class="form-label">Date & Time</label>
                     <div class="sm:grid grid-cols-2 gap-2">

@@ -20,7 +20,7 @@ class UserMiddleware
         if (Auth::check() && Auth::user()->role_as == 0) {
             return $next($request);
         } else {
-           return redirect('login');
+            return redirect('login')->with('status' , 'You have not admin access');
         }
 
 

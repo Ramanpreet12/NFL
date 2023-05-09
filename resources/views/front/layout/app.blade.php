@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('front/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link href="{{ asset('front/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
+
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     @stack('css')
 

@@ -25,7 +25,11 @@
                 <div class="mt-3">
                     <label for="crud-form-3" class="form-label">Start Date</label>
                     <div class="input-group">
+<<<<<<< HEAD
+                        <input id="crud-form-3" name="starting" type="date" class="form-control" value="{{ $season->starting }}" placeholder="Quantity" aria-describedby="input-group-1">
+=======
                         <input id="crud-form-3" name="starting" type="text" class="form-control" value="{{ $season->starting }}" placeholder="Quantity" aria-describedby="input-group-1">
+>>>>>>> 0ad96a553c69e5d68c93cd9630c0646ce4c2ec14
                     </div>
                     @if ($errors->has('starting'))
                         {{ $errors->first('starting')}}
@@ -34,7 +38,11 @@
                 <div class="mt-3">
                     <label for="crud-form-4" class="form-label">End Date</label>
                     <div class="input-group">
+<<<<<<< HEAD
+                        <input id="crud-form-4" type="date" name="ending" class="form-control" value="{{ $season->ending }}" placeholder="Weight" aria-describedby="input-group-2">
+=======
                         <input id="crud-form-4" type="text" name="ending" class="form-control" value="{{ $season->ending }}" placeholder="Weight" aria-describedby="input-group-2">
+>>>>>>> 0ad96a553c69e5d68c93cd9630c0646ce4c2ec14
                     </div>
                     @if ($errors->has('ending'))
                         {{ $errors->first('ending')}}

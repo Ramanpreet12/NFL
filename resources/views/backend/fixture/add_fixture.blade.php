@@ -41,7 +41,7 @@
                         <select data-placeholder="Select Season" class="tom-select w-full" id="season" name="season">
                             <option value="">--select--</option>
                             @foreach ($seasons as $season)
-                                <option value="{{ $season->id }}">{{ $season->name }}</option>
+                                <option value="{{ $season->id }}">{{ $season->season_name }}</option>
                             @endforeach
                         </select>
                         @error('season') <p class="text-danger">{{$message}}</p> @enderror
@@ -70,14 +70,14 @@
                         </select>
                         @error('second_team') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
-                    <div class="mt-3">
+                    {{-- <div class="mt-3">
                         <label for="week" class="form-label">Week</label>
                         <div class="input-group">
                             <input id="week" type="text" class="form-control" placeholder="week"
                                 aria-describedby="input-group-1" name="week">
                         </div>
                         @error('week') <p class="text-danger">{{$message}}</p> @enderror
-                    </div>
+                    </div> --}}
                     <div class="mt-3">
                         <label class="form-label">Date & Time</label>
                         <div class="sm:grid grid-cols-2 gap-2">
@@ -85,6 +85,7 @@
                                 <div id="date" class="input-group-text">Date</div>
                                 <input type="date" class="form-control" placeholder="Date" aria-describedby="date"
                                     name="date">
+                                    @if(Session::has('error_date')) <p class="text-danger">{{Session::get('error_date')}}</p> @endif
                             </div>
                             <div class="input-group mt-2 sm:mt-0 relative">
                                 <div id="time" class="input-group-text">Time</div>

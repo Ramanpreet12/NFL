@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg" style="background-color:{{ $colorSection['header']['bg_color'] }};">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="{{ url('/') }}">
 
             @if (!empty($general->logo))
                 <img src="{{ asset('storage/images/general/' . $general->logo) }}" alt="" height="50px"

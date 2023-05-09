@@ -98,6 +98,7 @@
   <script src="{{ asset('front/js/owl.carousel.min.js') }}"></script>
   <script src="https://kit.fontawesome.com/58d36e6221.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+  <script src="{{ asset('front/js/custom-front.js') }}"></script>
 
   <script>
     $(document).ready(function () {

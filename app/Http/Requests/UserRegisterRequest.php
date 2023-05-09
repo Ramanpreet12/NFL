@@ -30,6 +30,21 @@ class UserRegisterRequest extends FormRequest
             'password'         =>'required|confirmed' ,
             'phone'            => 'required' ,
             'birthday'         => 'required' ,
+            'password'         => 'required|string|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'password_confirmation' => 'required',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'fname' => 'Name',
+            'email' => 'Email',
+            'password' => 'Password',
+            'phone' => 'Phone' ,
+            'birthday' => 'Birthday',
+            'password_confirmation' => 'Confirm Password'
+        ];
+    }
+
 }
