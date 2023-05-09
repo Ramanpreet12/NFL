@@ -31,7 +31,7 @@
     <div class="grid grid-cols-12 gap-6 mt-5 p-5 bg-white mb-5">
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-            <table class="table table-report -mt-2" id="">
+            <table class="table table-report -mt-2" id="team_result_table">
                 <thead class="bg-primary text-white">
                     <tr>
                         <th class="text-center whitespace-nowrap">Season</th>
@@ -59,8 +59,8 @@
                             <td>vs</td>
                             <td class="text-center">{{$fixture->second_team_id->name ?? ''}}</td>
                             {{-- {{dd($fixture->first_fixture->win)}} --}}
-                            <td class="text-center">{{$fixture->win ?? ''}}</td>
-                            <td class="text-center">{{$fixture->loss ?? ''}}</td>
+                            <td class="text-center">{{$fixture->win_name ?? ''}}</td>
+                            <td class="text-center">{{$fixture->loss_name ?? ''}}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3" href="{{ url('admin/team_result/edit/'.$fixture->id) }}">
@@ -114,7 +114,7 @@
    @section('script')
    <script>
     $(function() {
-      $('#banner_table').DataTable();
+      $('#team_result_table').DataTable();
     });
    </script>
    @endsection

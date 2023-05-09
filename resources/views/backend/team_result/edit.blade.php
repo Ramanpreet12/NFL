@@ -19,11 +19,9 @@
         </div>
     @endif
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-
-
         <h2 class="text-lg font-medium mr-auto">Team Result Management</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            {{-- <a class="btn btn-primary shadow-md mr-2" href="{{route('banner.create')}}" id="add_banner">Add New Banner</a> --}}
+            <a class="btn btn-primary shadow-md mr-2" href="{{url('admin/teams/result')}}" id="add_banner">Back</a>
         </div>
     </div>
 
@@ -53,7 +51,7 @@
                                             name="winner_team">
                                             <input type="hidden" value="{{ $team_result->second_team_id->id }}"
                                             name="loss_team">
-                                        <button class="btn btn-success" type="submit" data-toggle="tooltip" fixture_id="{{$team_result->id}}" data="{{$team_result->first_team_id->id}}"> <i
+                                        <button class="btn btn-success winBtn"  type="submit" data-toggle="tooltip" fixture_id="{{$team_result->id}}" data="{{$team_result->first_team_id->id}}"> <i
                                                 data-feather="check-square" class="w-4 h-4 mr-1"></i> Make win</button>
                                     </form>
                                 </div>
@@ -72,7 +70,7 @@
                                             name="winner_team">
                                             <input type="hidden" value="{{ $team_result->first_team_id->id }}"
                                             name="loss_team">
-                                        <button class="btn btn-success" type="submit" data-toggle="tooltip"  fixture_id="{{$team_result->id}}" data="{{$team_result->second_team_id->id}}">
+                                        <button class="btn btn-success winBtn" type="submit" data-toggle="tooltip"  fixture_id="{{$team_result->id}}" data="{{$team_result->second_team_id->id}}">
                                              <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Make win</button>
                                     </form>
                                 </div>

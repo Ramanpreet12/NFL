@@ -66,5 +66,25 @@ $('#admin_profile_form').validate({
         });
     });
 
+    //sweet alert for confirm make team win
 
+    $('.winBtn').click(function(event){
+        var form =  $(this).closest("form");
+         event.preventDefault();
+         swal({
+            title: 'Are you sure to make this team win?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            buttons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            // confirmButtonText: 'Yes, delete it!',
+            // reverseButtons: true
+          }).then((result) => {
+            if (result) {
+
+              form.submit();
+            }
+          });
+      });
 

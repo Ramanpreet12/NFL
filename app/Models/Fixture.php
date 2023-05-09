@@ -12,7 +12,7 @@ class Fixture extends Model
     protected $table = 'fixtures';
     protected $fillable = ['season_id', 'first_team', 'second_team', 'week', 'date', 'time', 'time_zone'];
 
-
+protected $appends = ['win_name','loss_name'];
 
     public function season()
     {
@@ -28,5 +28,23 @@ class Fixture extends Model
         return $this->belongsTo(Team::class, 'second_team', 'id');
     }
 
+public function getWinNameAttribute()
+{
+  $name =  \DB::table('teams')->where('id',$this->win)->value('name');
+  if($name){
+    return $name;
+  }else{
+    return '';
+  }
+}
+public function getLossNameAttribute()
+{
+  $name =  \DB::table('teams')->where('id',$this->loss)->value('name');
+  if($name){
+    return $name;
+  }else{
+    return '';
+  }
+}
 
 }
