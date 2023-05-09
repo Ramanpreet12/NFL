@@ -34,7 +34,7 @@
                     <select data-placeholder="Select Season" class="tom-select w-full" id="season" name="season">
                         <option value="" >--select--</option>
                         @foreach ($seasons as $season)
-                        <option value="{{($season->id)}}" {{$season->id  == $fixture->season_id ? 'selected' : '' }} >{{($season->name)}}</option>
+                        <option value="{{($season->id)}}" {{$season->id  == $fixture->season_id ? 'selected' : '' }} >{{($season->season_name)}}</option>
                         @endforeach
                     </select>
                     @error('season') <p class="text-danger">{{$message}}</p> @enderror

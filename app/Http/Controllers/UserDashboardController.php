@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Payment;
 use Illuminate\Support\Carbon;
 use App\Models\Fixture;
-
+use App\Models\UserTeam;
 
 class UserDashboardController extends Controller
 {
@@ -24,18 +24,13 @@ class UserDashboardController extends Controller
         return view('front.dashboard', compact('user', 'payment'));
     }
 
-    public function getWeeklyTeams($week = null)
+    public function userHistory()
     {
-        $c_date = Carbon::now();
-        $c_season = DB::table('seasons')
-            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-            ->first();
-        if ($week != null) {
-            $fix = Fixture::where(['season_id' => $c_season->id, 'week' => $week])->get();
-        } else {
-            $fix = Fixture::where(['season_id' => $c_season->id, 'week' => 1])->get();
-        }
-        return response()->json(['data'=>$fix], 200);
-
+        $history = DB::table('user_teams')
+                ->join('teams','teams.id','=','user_teams.team_id')
+                ->join('seasons as s','s.id','=','user_teams.season_id')
+                ->where('user_id',auth()->user()->id)->get();
+        return view('front.userhistory',compact('history'));
     }
+
 }

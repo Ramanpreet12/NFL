@@ -22,7 +22,7 @@ class StripeController extends Controller
         $date = Carbon::now();
         $season =Season::where('starting', '<=',  $date)
         ->where('ending', '>=',  $date)
-        ->where('leauge','nfl')
+        ->where('leauge','1')
         ->first();
         return view('front.payment.index',compact('season'));
     }

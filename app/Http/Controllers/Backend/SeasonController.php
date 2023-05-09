@@ -41,7 +41,7 @@ class SeasonController extends Controller
 
         if ($request->isMethod('post')) {
             $season = new Season;
-            $season->name = $request->name;
+            $season->season_name = $request->name;
             $season->leauge = $request->league;
             $season->starting = Carbon::parse($request->start_date)->format('Y-m-d');
             $season->ending = Carbon::parse($request->end_date)->format('Y-m-d');
