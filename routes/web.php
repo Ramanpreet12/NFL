@@ -80,7 +80,7 @@ Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
 Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
-Route::get('Allfixtures/{week?}', [UserDashboardController::class, 'getWeeklyTeams'])->name('fixtureTeams');
+Route::get('userHistory', [UserDashboardController::class, 'userHistory'])->name('userHistory');
 });
 
 //data according to alphabets
