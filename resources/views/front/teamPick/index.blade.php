@@ -204,13 +204,19 @@
                                                 {{-- <button class="btn btn-primary teamPick" data="{{ auth()->user()->id }}"
                                                     season-id="{{ $f->season_id }}" team-id="{{ $f->first_team_id->id }}"
                                                     week="{{ $key }}">Pick Team</button> --}}
+                                                @if (isSelected($f->season_id, $key) == false)
                                                     <form action="{{ route('pickTeam') }}" method="post">
                                                         @csrf
-                                                        <input type="hidden" name="team" value="{{ $f->first_team_id->id }}">
-                                                        <input type="hidden" name="season" value="{{ $f->season_id  }}">
+                                                        <input type="hidden" name="team"
+                                                            value="{{ $f->first_team_id->id }}">
+                                                        <input type="hidden" name="season" value="{{ $f->season_id }}">
                                                         <input type="hidden" name="week" value="{{ $key }}">
                                                         <button type="submit" class="btn btn-primary">Pick Team</button>
                                                     </form>
+                                                    @else
+                                                    <button class="btn btn-primary">Already Picked</button>
+                                                @endif
+
                                             </td>
                                         </tr>
                                         <tr class="intro-x">
@@ -227,18 +233,18 @@
 
                                             <td class="text-center">{{ $f->second_team_id->name }}</td>
                                             <td class="text-center">
-                                                {{-- <button class="btn btn-primary teamPick"
-                                                    data="{{ auth()->user()->id }}" season-id="{{ $f->season_id }}"
-                                                    team-id="{{ $f->second_team_id->id }}" week="{{ $key }}">Pick
-                                                    Team</button>
-                                                </td> --}}
+                                                @if (isSelected($f->season_id, $key) == false)
                                                 <form action="{{ route('pickTeam') }}" method="post">
                                                     @csrf
-                                                    <input type="hidden" name="team" value="{{ $f->second_team_id->id }}">
-                                                    <input type="hidden" name="season" value="{{ $f->season_id  }}">
+                                                    <input type="hidden" name="team"
+                                                        value="{{ $f->second_team_id->id }}">
+                                                    <input type="hidden" name="season" value="{{ $f->season_id }}">
                                                     <input type="hidden" name="week" value="{{ $key }}">
                                                     <button type="submit" class="btn btn-primary">Pick Team</button>
                                                 </form>
+                                                @else
+                                                <button class="btn btn-primary">Already Picked</button>
+                                                @endif
                                         </tr>
                                     @endforeach
                                     @endforeach
@@ -246,6 +252,7 @@
                                 </tbody>
 
                             </table>
+
                         </div>
 
                     </div>

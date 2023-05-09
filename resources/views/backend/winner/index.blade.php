@@ -92,12 +92,12 @@
                             </td>
                         </tr>
                     @endforeach --}}
-                    <p style="display:none;"> {{ $count = 1 }}</p>
+                    {{-- <p style="display:none;"> {{ $count = 1 }}</p> --}}
 
-                    @foreach ($user as $u)
+                    {{-- @foreach ($user as $u)
 
                     <tr class="intro-x">
-                        <td> {{ $count++ }}</td>
+                        <td> {{ $count++ }}</td> --}}
                         {{-- <td class="text-center w-40">
                             <div class="flex items-center justify-around">
                                 <div class="w-10 h-10 image-fit zoom-in">
@@ -111,18 +111,18 @@
                             </div>
                         </td> --}}
                         <td>
-                            <div class="text-center text-slate-400 font-medium whitespace-nowrap"></div>
+                            {{-- <div class="text-center text-slate-400 font-medium whitespace-nowrap"></div>
                         </td>
                         <td>
                             <div class="text-center text-slate-400 font-medium whitespace-nowrap"></div>
                         </td>
                         <td class="">
-                            <div class="flex items-center">
+                            <div class="flex items-center"> --}}
                                 {{-- <div class="w-10 h-10 image-fit zoom-in">
                                     <img alt="Rubick Tailwind HTML Admin Template" class="rounded-full"
                                         src="{{ asset('dist/images/dummy_image.webp') }}">
                                 </div> --}}
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">
+                                {{-- <div class="text-slate-500 font-medium whitespace-nowrap mx-4">
                                     {{ ucwords($u->season_name) }}</div>
 
                             </div>
@@ -133,7 +133,7 @@
                         </td>
                         <td class="table-report__action">
                             <div class="text-center text-slate-600 font-medium whitespace-nowrap">{{ $u->points }}</div>
-                        </td>
+                        </td> --}}
                         {{--  <td class="table-report__action w-56">
                             <div class="flex justify-center items-center">
                                 <a class="flex items-center mr-3" href="javascript:;">
@@ -143,14 +143,14 @@
                             <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
                         </a>
                             </div>--}}
-                        </td>
+                        {{-- </td>
                     </tr>
 
 
                     @endforeach
                 </tbody>
             </table>
-        </div>
+        </div> --}}
         <!-- END: Data List -->
         <!-- BEGIN: Pagination -->
         {{-- <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
@@ -200,9 +200,9 @@
                 <option>50</option>
             </select>
         </div> --}}
-        {{ $user->links() }}
+        {{-- {{ $user->links() }} --}}
         <!-- END: Pagination -->
-    </div>
+    {{-- </div> --}}
     <!-- BEGIN: Delete Confirmation Modal -->
     <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">

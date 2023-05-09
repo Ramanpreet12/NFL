@@ -29,7 +29,7 @@ class UserDashboardController extends Controller
         $history = DB::table('user_teams')
                 ->join('teams','teams.id','=','user_teams.team_id')
                 ->join('seasons as s','s.id','=','user_teams.season_id')
-                ->where('user_id',auth()->user()->id)->get();
+                ->where('user_id',auth()->user()->id)->orderby('user_teams.week','desc')->get();
         return view('front.userhistory',compact('history'));
     }
 
