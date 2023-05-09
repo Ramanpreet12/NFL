@@ -124,32 +124,4 @@
             $('#banner_table').DataTable();
         });
     </script>
-    <script>
-        $('.winBtn').on('click', function() {
-            let winTeam_id = $(this).attr('data');
-            let fixture_id = $(this).attr('fixture_id');
-            let first_team= $(this).closest("form").find("input[name='first_team']").val();
-            let second_team= $(this).closest("form").find("input[name='second_team']").val();
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type: 'POST',
-                url: '/admin/team_result/edit/'+fixture_id,
-                data: {
-                    winTeam_id : winTeam_id,
-                    fixture_id :fixture_id,
-                    first_team:first_team,
-                    second_team :second_team
-                },
-                success: function(data) {
-                    console.log('hello');
-                }
-            });
-        });
-    </script>
 @endsection
