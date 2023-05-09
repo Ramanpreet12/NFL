@@ -26,5 +26,13 @@ class Fixture extends Model
         return $this->belongsTo(Team::class , 'second_team' , 'id');
     }
 
+    public function first_team_result()
+    {
+        return $this->belongsTo(TeamResult::class , 'first_team' , 'team1_id');
+    }
 
+    public function second_team_result()
+    {
+        return $this->belongsTo(TeamResult::class , 'second_team' , 'team2_id');
+    }
 }

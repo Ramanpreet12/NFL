@@ -63,6 +63,7 @@ Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->n
 Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
 
 Route::match(['GET','POST'], 'contact_us', [FrontPagesController::class,'contact'])->name('contact_us');
+Route::get('about', [FrontPagesController::class,'about'])->name('about');
 
 Route::get('payment', [StripeController::class, 'stripe'])->name('payment');
 Route::post('payment/store', [StripeController::class, 'stripePost'])->name('payment.store');

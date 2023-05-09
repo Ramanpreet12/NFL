@@ -16,7 +16,9 @@ class TeamResultController extends Controller
 {
     public function index()
     {
-        $team_results = TeamResult::where('status', 'active')->get();
+        $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season' , 'first_team_result' , 'second_team_result')->get();
+    // dd($team_results);
+        // $team_results = TeamResult::where('status', 'active')->get();
         return view('backend.team_result.index', compact('team_results'));
     }
     public function teamResult_data()
@@ -26,13 +28,6 @@ class TeamResultController extends Controller
 
         return response()->json($team_results, 200);
     }
-    // public function add_teamResult(Request $request)
-    // {
-    //     $teams = Team::get();
-
-    //     return view('backend.team_result.create' , compact('teams'));
-    // }
-
 
 
     public function add_teamResult(Request $request)
@@ -74,20 +69,25 @@ class TeamResultController extends Controller
     public function edit_teamResult(Request $request, $id)
     {
 
+
         if (!$request->isMethod('post')) {
-            $team_results = TeamResult::where('id', $id)->first();
+            // $team_results = TeamResult::with(['team_result_id1' , 'team_result_id2'])->where('id', $id)->get();
+           // dd($team_results);
+           $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season' , 'first_team_result' , 'second_team_result')->where('id', $id)->get();
+
             $teams = Team::get();
             return view('backend.team_result.edit', compact('team_results', 'teams'));
         } else {
+           // dd($request);
             TeamResult::where('id', $id)->update([
-                'team1_id' => $request->team_one,
-                'team2_id' => $request->team_two,
-                'team1_score' => $request->team1_score,
-                'team2_score' => $request->team2_score,
-                'result_status' => $request->result_status,
-                'win' => $request->win_team,
-                'loss' => $request->lose_team,
-                'status' => $request->status,
+                'team1_id' => $request->first_team,
+                'team2_id' => $request->second_team,
+                // 'team1_score' => $request->team1_score,
+                // 'team2_score' => $request->team2_score,
+                // 'result_status' => $request->result_status,
+                // 'win' => $request->win_team,
+                // 'loss' => $request->lose_team,
+                // 'status' => $request->status,
 
             ]);
 

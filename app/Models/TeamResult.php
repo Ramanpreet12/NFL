@@ -44,4 +44,6 @@ class TeamResult extends Model
             return 'win';
         }
     }
+
+
 }

@@ -19,6 +19,7 @@ class TeamPickController extends Controller
         $c_season = DB::table('seasons')
             ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
             ->first();
+            // dd($c_season->id);
         //$get_teams = Team::with('region')->get();
         $fixture = Fixture::with('first_team_id','second_team_id')->where('season_id', $c_season->id)->get();
         return view('front.teamPick.index', compact('fixture'));

@@ -77,7 +77,7 @@
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="mt-3">
+                    {{-- <div class="mt-3">
                         <label for="team1_score" class="form-label">Team one scores</label>
                         <div class="input-group">
                             <input id="team1_score" type="text" class="form-control" placeholder="team1_score"
@@ -86,8 +86,8 @@
                         @error('team1_score')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
-                    </div>
-                    <div class="mt-3">
+                    </div> --}}
+                    {{-- <div class="mt-3">
                         <label for="team2_score" class="form-label">Team Two scores</label>
                         <div class="input-group">
                             <input id="team2_score" type="text" class="form-control" placeholder="team2_score"
@@ -96,7 +96,7 @@
                         @error('team2_score')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
 
                     <div class="mt-3 flex justify-content-between">

@@ -32,7 +32,7 @@
         @endif
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-            <h2 class="font-medium text-base mr-auto">Add Banner </h2>
+            <h2 class="font-medium text-base mr-auto">Add Menu </h2>
             <a href="{{route('menu.index')}}"><button class="btn btn-primary">Back</button></a>
         </div>
 
