@@ -7,18 +7,17 @@
 @section('subcontent')
     {{-- <h2 class="intro-y text-lg font-medium mt-10">Banners Management</h2> --}}
     @if (session()->has('success'))
-    <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-            class="bi bi-check2-circle" viewBox="0 0 16 16">
-            <path
-                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-            <path
-                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
-        </svg>
-        &nbsp; {{ session()->get('success') }}
-    </div>
-
-@endif
+        <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-circle"
+                viewBox="0 0 16 16">
+                <path
+                    d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                <path
+                    d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+            </svg>
+            &nbsp; {{ session()->get('success') }}
+        </div>
+    @endif
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
 
 
@@ -43,34 +42,46 @@
                 <tbody>
                     @forelse ($team_results as $team_result)
                         <tr class="intro-x">
-                            <td class="text-center">{{$team_result->first_team_id->name}}</td>
+                            <td class="text-center">{{ $team_result->first_team_id->name }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
-                                    <form action="{{ url('admin/team_result/edit/'.$team_result->id)}}" method="post">
+                                    <form action="{{ url('admin/team_result/edit/' . $team_result->id) }}" method="post">
                                         @csrf
-                                        <input type="text" value="{{$team_result->first_team_id->id}}" name="first_team">
-                                            <button class="btn btn-success" type="submit" data-toggle="tooltip">  <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Make win</button>
-                                      </form>
+                                        <input type="hidden" value="{{ $team_result->id }}"
+                                        name="fixture_id">
+                                        <input type="hidden" value="{{ $team_result->first_team_id->id }}"
+                                            name="winner_team">
+                                            <input type="hidden" value="{{ $team_result->second_team_id->id }}"
+                                            name="loss_team">
+                                        <button class="btn btn-success" type="submit" data-toggle="tooltip" fixture_id="{{$team_result->id}}" data="{{$team_result->first_team_id->id}}"> <i
+                                                data-feather="check-square" class="w-4 h-4 mr-1"></i> Make win</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center">{{$team_result->second_team_id->name}}</td>
+                            <td class="text-center">{{ $team_result->second_team_id->name }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
 
-                                    <form action="{{ url('admin/team_result/edit/'.$team_result->id)}}" method="post">
+                                    <form action="{{ url('admin/team_result/edit/' . $team_result->id) }}" method="post">
                                         @csrf
-                                        <input type="text" value="{{$team_result->second_team_id->id}}" name="second_team">
-                                            <button class="btn btn-success" type="submit" data-toggle="tooltip">  <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Make win</button>
-                                      </form>
+                                        <input type="hidden" value="{{ $team_result->id }}"
+                                        name="fixture_id">
+                                        <input type="hidden" value="{{ $team_result->second_team_id->id }}"
+                                            name="winner_team">
+                                            <input type="hidden" value="{{ $team_result->first_team_id->id }}"
+                                            name="loss_team">
+                                        <button class="btn btn-success" type="submit" data-toggle="tooltip"  fixture_id="{{$team_result->id}}" data="{{$team_result->second_team_id->id}}">
+                                             <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Make win</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
-                        @empty
+                    @empty
                         <tr>
                             <td colspan="7" class="text-center">No Records found</td>
-                          <p>No Records found</p>
+                            <p>No Records found</p>
                         </tr>
                     @endforelse
 
@@ -103,15 +114,42 @@
         </div>
     </div>
     <!-- END: Delete Confirmation Modal -->
-
 @endsection
 
 
 
-   @section('script')
-   <script>
-    $(function() {
-      $('#banner_table').DataTable();
-    });
-   </script>
-   @endsection
+@section('script')
+    <script>
+        $(function() {
+            $('#banner_table').DataTable();
+        });
+    </script>
+    <script>
+        $('.winBtn').on('click', function() {
+            let winTeam_id = $(this).attr('data');
+            let fixture_id = $(this).attr('fixture_id');
+            let first_team= $(this).closest("form").find("input[name='first_team']").val();
+            let second_team= $(this).closest("form").find("input[name='second_team']").val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/team_result/edit/'+fixture_id,
+                data: {
+                    winTeam_id : winTeam_id,
+                    fixture_id :fixture_id,
+                    first_team:first_team,
+                    second_team :second_team
+                },
+                success: function(data) {
+                    console.log('hello');
+                }
+            });
+        });
+    </script>
+@endsection

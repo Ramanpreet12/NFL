@@ -39,19 +39,33 @@ if (!function_exists('general_images')) {
     }
 }
 if (!function_exists('update_userPoints')) {
-    function update_userPoints($team_id,$season_id){
+    // function update_userPoints($team_id,$season_id){
 
-            $user = Illuminate\Support\Facades\DB::table('users')->where(['team_id'=>$team_id,'season_id'=>$season_id])->get();
-           foreach($user as $u){
-            $points = Illuminate\Support\Facades\DB::table('user_details')->where(['user_id'=>$u->id,'season_id'=>$season_id])->value('points');
-            if($points != '' && $points != NULL){
-                $final = (int)$points+1;
-            }else{
-                $final = 1;
-            }
-            $d =Illuminate\Support\Facades\DB::table('user_details')->where(['user_id'=>$u->id, 'season_id'=>$season_id])->update(['points'=>$final]);
+    //         $user = Illuminate\Support\Facades\DB::table('users')->where(['team_id'=>$team_id,'season_id'=>$season_id])->get();
+    //        foreach($user as $u){
+    //         $points = Illuminate\Support\Facades\DB::table('user_details')->where(['user_id'=>$u->id,'season_id'=>$season_id])->value('points');
+    //         if($points != '' && $points != NULL){
+    //             $final = (int)$points+1;
+    //         }else{
+    //             $final = 1;
+    //         }
+    //         $d =Illuminate\Support\Facades\DB::table('user_details')->where(['user_id'=>$u->id, 'season_id'=>$season_id])->update(['points'=>$final]);
 
-           }
+    //        }
 
+    // }
+
+    function update_userPoints($team_id,$season_id , $week){
+
+        $points = Illuminate\Support\Facades\DB::table('user_teams')->where(['week'=>$week,'season_id'=>$season_id , 'team_id' => $team_id])->value('points');
+        if($points != '' && $points != NULL){
+            $final = (int)$points+1;
+        }else if($points == 0){
+            $final = (int)$points+1;
+        }else{
+            $final =1;
+        }
+        $d =Illuminate\Support\Facades\DB::table('user_teams')->where(['week'=>$week, 'season_id'=>$season_id, 'team_id' => $team_id])->update(['points'=>$final]);
     }
+
 }

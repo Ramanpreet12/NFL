@@ -10,7 +10,7 @@ class TeamResult extends Model
 {
     use HasFactory;
     protected $table = 'team_results';
-    protected $fillable = ['team1_id', 'team2_id', 'team1_score', 'team2_score', 'result_status', 'status'];
+    protected $fillable = ['fixture_id','team1_id', 'team2_id', 'team1_score', 'team2_score', 'result_status', 'status','win','loss'];
 
     protected $appends = ['team_one_status', 'team_two_status'];
 

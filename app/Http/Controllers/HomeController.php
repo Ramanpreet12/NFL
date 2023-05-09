@@ -5,7 +5,7 @@ use App\Models\ColorSetting;
 use App\Models\Banner;
 use App\Http\Controllers\Controller;
 use App\Models\Team;
-use App\Models\TeamResult;
+// use App\Models\TeamResult;
 use App\Models\Fixture;
 use App\Models\Leaderboard;
 use App\Models\News;
@@ -40,7 +40,7 @@ class HomeController extends Controller
         $banners = Banner::where('status' , 'Active')->get();
 
         //get Team results
-        $team_results = TeamResult::with('team_result_id1' , 'team_result_id2')->where('status' , 'active')->inRandomOrder()->limit(1)->get();
+        // $team_results = TeamResult::with('team_result_id1' , 'team_result_id2')->where('status' , 'active')->inRandomOrder()->limit(1)->get();
 
         //get upcoming matches
         $upcoming_matches = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(4)->get();
@@ -70,7 +70,7 @@ class HomeController extends Controller
         // $video = News::where('type',"video")->where('status',"active")->get();
         $vacations = Vacation::where('status',"active")->get();
 
-        return view('home.index',compact('colorSection' , 'banners' ,'team_results' , 'upcoming_matches' ,'leaderboards' , 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' , 'get_regions'));
+        return view('home.index',compact('colorSection' , 'banners', 'upcoming_matches' ,'leaderboards' , 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' , 'get_regions'));
     }
 
     public function getAlphabets(Request $request)

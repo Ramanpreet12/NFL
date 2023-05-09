@@ -190,6 +190,11 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     // Route::get('delete_fixture/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/delete_fixture/{id}');
     Route::get('fixtures/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/fixtures/{id}');
 
+
+    //team results
+    Route::get('teams/result' ,[FixtureController::class , 'teamResult_index'] )->name('admin/teams/result');
+    Route::match(['get', 'post'], 'team_result/edit/{id}',[FixtureController::class, 'edit_teamResult'])->name('admin/team_result/edit');
+
     //results rotues
     Route::get('winner', [WinnerController::class, 'index'])->name('admin/winner');
 
@@ -235,7 +240,7 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::get('teams/result' ,[TeamResultController::class , 'index'] )->name('admin/teams/result');
     Route::get('teamResult_data', [TeamResultController::class, 'teamResult_data'])->name('admin/teamResult_data');
    Route::match(['get', 'post'], 'team_result/create',[TeamResultController::class, 'add_teamResult'])->name('admin/team_result/create');
-   Route::match(['get', 'post'], 'team_result/edit/{id}',[TeamResultController::class, 'edit_teamResult'])->name('admin/team_result/edit');
+//    Route::match(['get', 'post'], 'team_result/edit/{id}',[TeamResultController::class, 'edit_teamResult'])->name('admin/team_result/edit');
    Route::get('team_result/delete/{id}' ,[TeamResultController::class , 'delete_teamResult']);
 
    //leaderboard

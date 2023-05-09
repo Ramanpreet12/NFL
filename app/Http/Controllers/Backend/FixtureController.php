@@ -131,6 +131,53 @@ class FixtureController extends Controller
 
        return view('front.fixtures' , compact('fixtures'));
     }
+
+    //team results
+
+    public function teamResult_index()
+    {
+        $fixtures =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
+        return view('backend.team_result.index', compact('fixtures'));
+    }
+
+
+    public function edit_teamResult(Request $request, $id)
+    {
+        if (!$request->isMethod('post')) {
+           $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->where('id', $id)->get();
+            $teams = Team::get();
+            return view('backend.team_result.edit', compact('team_results', 'teams'));
+        } else {
+          $fixture_data =   Fixture::where('id' , $id)->first();
+
+            Fixture::where('id' , $id)->update([
+
+                'win' => $request->winner_team,
+                'loss' => $request->loss_team,
+            ]);
+
+
+
+            if ($request->winner_team) {
+                $team_win = Team::where('id', $request->winner_team)->first();
+                $match_played = $team_win->match_played;
+                $matchwin = $team_win->win;
+                Team::where('id', $request->winner_team)->update(['match_played' => (int)$match_played + 1, 'win' => (int)$matchwin + 1]);
+                update_userPoints($request->winner_team, $fixture_data->season_id , $fixture_data->week);
+            }
+            if ($request->loss_team) {
+                $team_loss = Team::where('id', $request->loss_team)->first();
+                $match_played = $team_loss->match_played;
+                $matchloss = $team_loss->loss;
+                Team::where('id', $request->loss_team)->update(['match_played' => (int)$match_played + 1, 'loss' => (int)$matchloss + 1]);
+            }
+
+
+            return redirect('admin/teams/result')->with('success', 'Team Result updated successfully');
+        }
+    }
+
+
 }
 
 

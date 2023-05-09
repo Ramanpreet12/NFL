@@ -47,23 +47,23 @@
                 </thead>
 
                 <tbody>
-                    @forelse ($team_results as $team_result)
+                    @forelse ($fixtures as $fixture)
 
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$team_result->season->season_name}} </div>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$fixture->season->season_name ?? ''}} </div>
                             </td>
 
-                            <td class="text-center">{{ $team_result->week }}</td>
-                            <td class="text-center">{{$team_result->first_team_id->name}}</td>
+                            <td class="text-center">{{ $fixture->week ?? ''}}</td>
+                            <td class="text-center">{{$fixture->first_team_id->name ?? ''}}</td>
                             <td>vs</td>
-                            <td class="text-center">{{$team_result->second_team_id->name}}</td>
-                            {{-- {{dd($team_result->first_team_result->win)}} --}}
-                            <td class="text-center">{{$team_result->first_team_result->win ?? ''}}</td>
-                            <td class="text-center">{{$team_result->first_team_result->loss ?? ''}}</td>
+                            <td class="text-center">{{$fixture->second_team_id->name ?? ''}}</td>
+                            {{-- {{dd($fixture->first_fixture->win)}} --}}
+                            <td class="text-center">{{$fixture->win ?? ''}}</td>
+                            <td class="text-center">{{$fixture->loss ?? ''}}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="{{ url('admin/team_result/edit/'.$team_result->id) }}">
+                                    <a class="flex items-center mr-3" href="{{ url('admin/team_result/edit/'.$fixture->id) }}">
                                         <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
                                     </a>
 

@@ -76,7 +76,7 @@
     <!-- matchBoard with header -->
 
 
-    @foreach ($team_results as $team_result)
+    {{-- @foreach ($team_results as $team_result)
         <section id="matchBoard" style="color:{{ $colorSection['scoreboard']['text_color'] }};">
             <div class="container text-center">
                 <div class="row g-0 team-vs">
@@ -85,7 +85,6 @@
                         <div class="firstBoard boardItem"
                             style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
                             <div class="boardItem-inner">
-                                {{-- <img src="{{ asset('front/img/AZ-Cardinals 1.png') }}" alt="" class="img-fluid"> --}}
                                 @if ($team_result)
                                     <img src="{{ asset('storage/images/team_logo/' . $team_result->team_result_id1->logo) }}"
                                         alt="" class="img-fluid">
@@ -104,14 +103,12 @@
                         <div class="secondBoard boardItem"
                             style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
                             <div class="boardItem-inner">
-                                {{-- <img src="{{ asset('front/img/Philly-Eagles.png') }}" alt="" class="img-fluid"> --}}
                                 @if ($team_result)
                                     <img src="{{ asset('storage/images/team_logo/' . $team_result->team_result_id2->logo) }}"
                                         alt="" class="img-fluid">
                                 @else
                                     <img src="{{ asset('front/img/Philly-Eagles.png') }}" alt="" class="img-fluid">
                                 @endif
-                                {{-- <h3>Philly-Eagles</h3> --}}
                                 <h3>{{ $team_result->team2_id ? $team_result->team_result_id2->name : '' }}</h3>
                                 <h4>{{ $team_result->team2_score > $team_result->team1_score ? 'Win' : 'Loss' }}</h4>
                             </div>
@@ -120,7 +117,7 @@
                 </div>
             </div>
         </section>
-    @endforeach
+    @endforeach --}}
 
 
     <section id="nextmatchBoard"
@@ -137,17 +134,18 @@
                             @endif
 
                         </h2>
+                        {{-- {{dd($upcoming_matches)}} --}}
                         @foreach ($upcoming_matches as $upcoming_match)
                             <div class="tabletwo">
                                 <div class="matchTable align-items-center justify-content-center">
                                     <div class="firstTeam">
-                                        @if ($upcoming_match)
-                                            <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->first_team_id->logo) }}"
+                                        {{-- @if ($upcoming_match)
+                                            <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->first_team_id->logo ?? '') }}"
                                                 alt="" class="img-fluid">
                                         @else
                                             <img src="{{ asset('front/img/Bears 1.png') }}" alt=""
                                                 class="img-fluid">
-                                        @endif
+                                        @endif --}}
 
                                         {{-- <h5>Bears <span>(win)</span></h5> --}}
                                         <h5>{{ $upcoming_match->first_team_id->name ? $upcoming_match->first_team_id->name : '' }}
