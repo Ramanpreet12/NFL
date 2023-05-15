@@ -37,7 +37,6 @@
         </div>
         <form action="{{route('season.store')}}" method="post" enctype="multipart/form-data">
             @csrf
-
             <div id="horizontal-form" class="p-5">
                 <div class="preview  mr-5">
                     <div class="form-inline">
