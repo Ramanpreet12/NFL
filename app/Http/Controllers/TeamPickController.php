@@ -10,6 +10,9 @@ use Illuminate\Support\Carbon;
 use App\Models\Payment;
 use App\Models\UserTeam;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TeamSelected;
+use App\Models\Team;
 
 class TeamPickController extends Controller
 {
@@ -26,10 +29,12 @@ class TeamPickController extends Controller
 
     public function pickTeam(Request $request)
     {
+
         try {
             $team = $request->team;
             $season_id = $request->season;
             $week = $request->week;
+            $fixture = $request->fixture;
             $id = auth()->user()->id;
             $c_date = Carbon::now();
             $expire_date = Payment::where(['season_id' => $season_id, 'user_id' => $id])->value('expire_on');
@@ -43,7 +48,12 @@ class TeamPickController extends Controller
             } else {
                 $select = UserTeam::where(['user_id' => $id, 'season_id' => $season_id, 'week' => $week])->first();
                 if ($select) {
-                    return redirect()->back()->with('error', 'Team is already selected for this week week is ' . $week);
+                   $update =  UserTeam::where(['user_id' => $id, 'season_id' => $season_id, 'week' => $week])->update(['team_id'=>$team]);
+                   if($update){
+                       return redirect()->back()->with('success', 'Team is updated sucessfully for week ' . $week);
+                   }else{
+                    return redirect()->back()->with('error', 'Something is went wrong please try later');
+                   }
                 } else {
                     $created =  UserTeam::create([
                         'user_id' => $id,
@@ -51,8 +61,13 @@ class TeamPickController extends Controller
                         'season_id' => $season_id,
                         'week' => $week,
                         'team_id' => $team,
+                        'fixture_id'=>$fixture,
                     ]);
+                    $user = User::where('id',$id)->first();
+                    $team = Team::where('id',$team)->value('name');
+                    $data = ['week'=>$week,'team'=>$team,'user_name'=>$user->name];
                     if ($created) {
+                        Mail::to($user->email)->send(new TeamSelected($data));
                         return redirect()->back()->with('success', 'Congratulation your team is selected successfully');
                     } else {
                         return redirect()->back()->with('error', 'Sorry team is not selected something went wrong');

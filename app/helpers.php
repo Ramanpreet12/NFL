@@ -52,14 +52,27 @@ if (!function_exists('update_userPoints')) {
     }
 }
 if (!function_exists('isSelected')) {
-    function isSelected($season=null, $week=null)
+    function isSelected($season=null, $week=null, $team=null)
     {
-       if(($season && $week) != null){
-         $selected = Illuminate\Support\Facades\DB::table('user_teams')->where(['user_id'=>auth()->user()->id,'season_id'=>$season,'week'=>$week])->first();
+       if(($season && $week && $team) != null){
+         $selected = Illuminate\Support\Facades\DB::table('user_teams')->where(['user_id'=>auth()->user()->id,'season_id'=>$season,'week'=>$week,'team_id'=>$team])->first();
          if($selected){
             return true;
          }else{
             return false;
+         }
+       }
+    }
+}
+if (!function_exists('get_team_name')) {
+    function get_team_name($team=null)
+    {
+       if($team != null){
+         $selected = Illuminate\Support\Facades\DB::table('teams')->where('id',$team)->first();
+         if($selected){
+           return $selected->name;
+         }else{
+            return '';
          }
        }
     }

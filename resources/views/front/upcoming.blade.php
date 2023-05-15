@@ -99,58 +99,56 @@
                                 <table class="table table-dark table-striped  tableBoard">
                                     <thead>
                                         <tr class="table-primary">
-                                            <th scope="col">Season</th>
                                             <th scope="col">Match</th>
-                                            <th scope="col">Win</th>
-                                            <th scope="col">Loss</th>
-                                            <th scope="col">My Pick</th>
-                                            <th scope="col">Points</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (!empty($history))
-                                            @foreach ($history as $his)
-                                                <tr>
-                                                    <td>{{$his->season_name}}</td>
-                                                    <td>
-                                                        <div
-                                                            class="fixureMatch d-flex align-items-center justify-content-center">
-                                                            <div class="teamOne">
-                                                                <img src="{{ asset('storage/images/team_logo/' . $his->first_logo) }}"
-                                                                    alt="" class="img-fluid">
+                                        @foreach ($upcoming as $week => $weakData)
+                                        <tr>
+                                            <td style="color: #db9a29;font-weight:bold;">Week : {{ $week }}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                            @foreach ($weakData as $weaks => $team)
+                                                @if ($week == $team->week)
 
-                                                                <div style="min-width:200px">
-                                                                    {{ $his->first_name }}
+                                                    <tr>
+                                                        <td>
+                                                            <div
+                                                                class="fixureMatch d-flex align-items-center justify-content-center">
+                                                                <div class="teamOne">
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                        alt="" class="img-fluid">
+
+                                                                    <div style="min-width:200px">{{ $team->first_team_id->name }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="versis">
+                                                                    <h5>VS</h5>
+
+                                                                </div>
+                                                                <div class="teamOne">
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                        alt="" class="img-fluid">
+
+                                                                    <div style="min-width:200px">{{ $team->second_team_id->name }}
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="versis">
-                                                                <h5>VS</h5>
+                                                        </td>
 
-                                                            </div>
-                                                            <div class="teamOne">
-                                                                <img src="{{ asset('storage/images/team_logo/' .$his->second_logo) }}"
-                                                                    alt="" class="img-fluid">
-
-                                                                <div style="min-width:200px">
-                                                                    {{ $his->second_name }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td>{{ get_team_name($his->team_win) }}
-                                                    </td>
-                                                    <td>{{ get_team_name($his->team_loss) }}
-                                                    </td>
-                                                    <td>{{ $his->user_team }}
-                                                    </td>
-                                                    <td>{{ $his->user_point }}
-                                                    </td>
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                        </td>
 
 
-                                                </tr>
+                                                    </tr>
+                                                @endif
                                             @endforeach
-                                        @endif
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

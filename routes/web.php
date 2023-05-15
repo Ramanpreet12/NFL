@@ -71,20 +71,25 @@ Route::post('selectTeam', [StripeController::class, 'selectTeam'])->name('select
 Route::get('success-message',function(){
     return view('front.payment.success');
 })->name('success-message');
+Route::match(['get','post'],'forget_password',[AuthController::class,'forgotPassword'])->name('forget_password');
+Route::match(['get','post'],'change_password',[AuthController::class,'changePassword'])->name('change_password');
 
 
 Route::middleware(['auth' , 'user'])->group(function() {
 //pick a team for user
 Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
-Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam');
+Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam')->middleware('timeOver');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('userHistory', [UserDashboardController::class, 'userHistory'])->name('userHistory');
+Route::get('userPayment', [UserDashboardController::class, 'userPayment'])->name('userPayment');
+Route::get('upcomingMatches', [UserDashboardController::class, 'upcomingMatches'])->name('upcomingMatches');
 });
 
 //data according to alphabets
 Route::post('alphabets' , [HomeController::class , 'getAlphabets']);
 Route::get('player_roster/{alphabets}' ,[HomeController::class , 'player_roster']);
+Route::get('expire_plans',[HomeController::class,'checkPlan'])->name('expire_plans');
 
 // Route::middleware('loggedin')->group(function() {
 //     Route::get('login', [AuthController::class, 'loginView'])->name('login.index');

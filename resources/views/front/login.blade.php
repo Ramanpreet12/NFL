@@ -73,6 +73,9 @@
 
                       </div>
                     </form>
+                    <div class="text-center">
+                        <a href="{{ route('forget_password') }}">Forgot Password</a>
+                    </div>
                   </div>
                 </div>
         </div>
