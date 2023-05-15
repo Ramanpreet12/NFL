@@ -39,7 +39,6 @@
                         <th class="text-center whitespace-nowrap">Team One</th>
                         <th></th>
                         <th class="text-center whitespace-nowrap">Team Two</th>
-
                         <th class="text-center whitespace-nowrap">Win</th>
                         <th class="text-center whitespace-nowrap">Loss</th>
                         <th class="text-center whitespace-nowrap">Action</th>

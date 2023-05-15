@@ -9,7 +9,9 @@ use App\Models\Payment;
 class PaymentController extends Controller
 {
     public function index(){
-        return view('backend.payment.index');
+        $get_payments = Payment::orderBy('id', 'desc')->get();
+       // dd($get_payments);
+        return view('backend.payment.index' , compact('get_payments'));
     }
 
     public function getAll(){

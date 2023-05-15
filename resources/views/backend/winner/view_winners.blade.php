@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Users</title>
+    <title>NFL | Winners</title>
 @endsection
 
 @section('subcontent')
@@ -32,68 +32,59 @@
 @endif
 
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-
-
-        <h2 class="text-lg font-medium mr-auto">All Users</h2>
+        <h2 class="text-lg font-medium mr-auto">All Winners</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            {{-- <a class="btn btn-primary shadow-md mr-2" href="{{route('team.create')}}" id="add_banner">Add New Team</a> --}}
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('admin/winner')}}" id="">Back</a>
         </div>
     </div>
 
     <div class="grid grid-cols-12 gap-6 mt-5 p-5 bg-white mb-5">
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-            <table class="table table-report -mt-2" id="user_table">
+            <table class="table table-report -mt-2" id="prize_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th class="text-center whitespace-nowrap">S.no.</th>
-                        <th class="text-center whitespace-nowrap">User Name</th>
-                        <th class="text-center whitespace-nowrap">Image </th>
-                        <th class="text-center whitespace-nowrap">Status</th>
-                        <th class="text-center whitespace-nowrap">Created At</th>
+                        {{-- <th class="text-center whitespace-nowrap">Season </th> --}}
+                        <th class="text-center whitespace-nowrap">User Name </th>
+                        <th class="text-center whitespace-nowrap">Points </th>
+                        <th class="text-center whitespace-nowrap">Prize</th>
+                        {{-- <th class="text-center whitespace-nowrap">Action</th> --}}
                     </tr>
                 </thead>
 
                 <tbody>
-                    @forelse ($get_users as $user)
+                    @forelse ($get_winners as $winner)
+
                         <tr class="intro-x">
+                            {{-- <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->season_name}} </div>
+                            </td> --}}
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->id}} </div>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ $winner->user->name ?? ''}} </div>
                             </td>
-                            {{-- <td class="text-center">{{ $user->name}}</td> --}}
-                            <td> <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->name}} </div></td>
-                            <td class="">
-                                <div class="flex">
-                                    <div class="w-10 h-10 image-fit zoom-in">
-                                        @if (!empty($user->photo))
-                                        <img src="{{asset('storage/images/team_logo/'.$user->photo)}}" alt="" height="50px" width="100px" class="rounded-full">
-                                        @else
-                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
-                                        @endif
-                                    </div>
-
-                                </div>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $winner->total_points }} </div>
                             </td>
-
-                            <td  class="text-center">
-                                @if ($user->subscribed == 1 )
-                                <div class="flex items-center justify-center text-success">
-                                    <i data-feather="check-square" class="w-4 h-4 mr-2"></i>{{'Paid'}}
-                                </div>
-                                @else
-                                <div class="flex items-center justify-center text-danger">
-                                    <i data-feather="alert-circle" class="w-4 h-4 mr-2"></i> {{'Unpaid' }}
-                                </div>
-                                @endif
-
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->prize->name}} </div>
                             </td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('j F, Y') }}</td>
+                            {{-- <td class="text-center">{{ $user->user->name ?? ''}}</td>
+                            <td class="text-center">{{ $user->points }}</td> --}}
+                            {{-- <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('j F, Y') }}</td> --}}
 
+
+                            {{-- <td class="table-report__action">
+                                <div class="flex justify-center items-center">
+                                    <a class="flex items-center mr-3" href="{{url('admin/winner/assign_prize/'.$user->user->id ?? '')}}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Assign Prize
+                                    </a>
+                                </div>
+                            </td> --}}
                         </tr>
                         @empty
                         <tr>
                             <td colspan="7" class="text-center">No Records found</td>
-                          <p>No Records found</p>
+
                         </tr>
                     @endforelse
 
@@ -134,7 +125,7 @@
    @section('script')
    <script>
     $(function() {
-      $('#user_table').DataTable();
+      $('#prize_table').DataTable();
     });
    </script>
    @endsection

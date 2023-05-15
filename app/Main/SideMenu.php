@@ -44,7 +44,7 @@ class SideMenu
 
             'team' => [
                 'icon' => 'users',
-                'route_name' => 'admin/team',
+                'route_name' => 'team.index',
                 'params' => '',
                 // [
                 //     'layout' => 'side-menu'
@@ -71,7 +71,7 @@ class SideMenu
             ],
             'prize' => [
                 'icon' => 'award',
-                'route_name' => 'prize',
+                'route_name' => 'prize.index',
                 'params' => '',
                 // [
                 //     'layout' => 'side-menu'

@@ -6,29 +6,68 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use App\Models\UserTeam;
+use App\Models\Prize;
+use App\Models\Winner;
+use App\Models\User;
 
 
 class WinnerController extends Controller
 {
     public function index(){
-        // $c_date = Carbon::now();
-        // $c_season = DB::table('seasons')
-        //     ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-        //     ->first();
-        // $user =  DB::table('user_details')
-        // ->join('users', 'users.id', '=', 'user_details.user_id')
-        // ->join('seasons as s', 's.id', '=', 'user_details.season_id')
-        // ->select('s.name as season_name','users.*','user_details.*')
-        // ->where('user_details.season_id', '=', $c_season->id)->paginate(6);
+       $get_users =  DB::table('user_teams')
+       ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
+        ->select(DB::raw('sum(points) as total_points'),'users.*' , 'user_teams.*' )
+        ->groupBy(DB::raw('user_id') )
+        ->get();
+        return view('backend.winner.index',compact('get_users'));
+    }
+    public function assign_prize($id)
+    {
+    //    $get_winning_user = UserTeam::where('user_id' , $id)->with('user')->first();
+    $get_winning_user =  DB::table('user_teams')
+       ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
+        ->select(DB::raw('sum(points) as total_points'),'users.*' , 'user_teams.*' )
+        ->groupBy(DB::raw('user_id') )->where('user_id' , $id)
+        ->first();
+// dd($get_winning_user);
+       $get_prizes = Prize::where('status' , 'active')->orderBy('id' , 'desc')->get();
+    //    dd($get_winning_user);
+        return view('backend.winner.create' , compact('get_winning_user' , 'get_prizes'));
+    }
+    public function assigned_prize_store(Request $request , $id)
+    {
+        // try{
+            if ($request->isMethod('post')) {
+                $input = $request->all();
+                $validatedData = $request->validate([
+                    'prize_id' => 'required',
+                ],
+                [
+                 'prize_id.required'=> 'The Prize field is required',
 
-       // $user = User::with('team')->get();
+                ]
+             );
+                $winner = Winner::create($input);
+                if($winner){
+                    return redirect('admin/winner')->with('success_msg', 'Winner created successfully');
+                }
+                else{
+                    return redirect('admin/winner')->with('error_msg', 'Something went wrong');
+                }
 
-        // $fixtures = Fixture::with('season' , 'first_team_id' , 'second_team_id')->get();
-        // $seasons = Season::get();
+            }
+        // }catch(\Exception $e){
+        //     $e->getMessage();
+        // }
+    }
 
-        // $fixture_season_id = Fixture::select('season_id')->get();
-        $user = '';
-        return view('backend.winner.index',compact('user'));
+    public function view_winners()
+    {
+        $get_winners = Winner::with(['user' , 'prize' , 'season'])->get();
+       // dd($get_winners);
+
+        return view('backend.winner.view_winners' , compact('get_winners'));
     }
 
 }

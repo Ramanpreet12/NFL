@@ -18,7 +18,7 @@ class FixtureController extends Controller
     {
         $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
         $fixtureHeading = SectionHeading::where('name' , 'Upcoming Fixture')->first();
-        // dd($fixtureHeading);
+        //dd($fixtures);
         $seasons = Season::get();
       return view('backend.fixture.index' , compact('fixtures' , 'seasons' , 'fixtureHeading'));
     }
@@ -48,6 +48,9 @@ class FixtureController extends Controller
                 $diff = $start->diff($store);
                 $week = ceil($diff->d/7);
                 $f_week = ((int)$week);
+                if($f_week == 0){
+                    $_week = 1;
+                }
 
               Fixture::create([
                 'season_id' => $request->season,

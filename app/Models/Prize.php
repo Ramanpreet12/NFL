@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prize extends Model
 {
     use HasFactory;
-    protected $fillable = ['season_id','player_id','team_id','name','amount'];
+    protected $fillable = ['season_id','name','amount' , 'status'];
 
     protected $appends = ['season_name','team_name','player_name'];
 
@@ -31,4 +31,8 @@ class Prize extends Model
     return ucwords($name) ?? '';
     }
 
+    public function winner()
+    {
+        return $this->hasOne(Winner::class , 'prize_id' , 'id');
+    }
 }

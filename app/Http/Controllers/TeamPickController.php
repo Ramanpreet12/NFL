@@ -26,6 +26,7 @@ class TeamPickController extends Controller
 
     public function pickTeam(Request $request)
     {
+
         try {
             $team = $request->team;
             $season_id = $request->season;

@@ -34,7 +34,7 @@
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Add Team </h2>
         </div>
-        <form action="{{ route('admin/team-create') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('team.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div id="horizontal-form" class="p-5">
@@ -65,13 +65,13 @@
                     </div>
 
 
-                    <div class="form-inline mt-5">
+                    {{-- <div class="form-inline mt-5">
                         <label for="match_played" class="font-medium form-label sm:w-60">Match Played <span class="text-danger">*</span></label>
                         <input id="match_played" type="text" class="form-control" placeholder="Enter number of match played" name="match_played" value="">
-                    </div>
+                    </div> --}}
 
 
-                    <div class="form-inline mt-5">
+                    {{-- <div class="form-inline mt-5">
                         <label for="win" class="font-medium form-label sm:w-60">Win <span class="text-danger">*</span></label>
                         <input id="win" type="text" class="form-control" placeholder="Enter number of wins " name="win" value="">
                     </div>
@@ -85,7 +85,7 @@
                     <div class="form-inline mt-5">
                         <label for="pts" class="font-medium form-label sm:w-60">PTS <span class="text-danger">*</span></label>
                         <input id="pts" type="text" class="form-control" placeholder="Enter number of PTS" name="pts" value="">
-                    </div>
+                    </div> --}}
 
                     <div class="form-inline mt-5">
                         <label for="logo" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>

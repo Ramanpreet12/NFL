@@ -48,7 +48,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['photo_path', 'team_status', 'season'];
+    protected $appends = ['photo_path'];
+    // protected $appends = ['photo_path', 'team_status', 'season'];
 
     /**
      * The getter that return accessible URL for user photo.
@@ -75,31 +76,36 @@ public function userteam()
     {
         return $this->hasMany(Payment::class);
     }
-    public function getTeamStatusAttribute()
-    {
-        $c_date = Carbon::now();
-        $c_season = DB::table('seasons')
-            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-            ->first();
+    // public function getTeamStatusAttribute()
+    // {
+    //     $c_date = Carbon::now();
+    //     $c_season = DB::table('seasons')
+    //         ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+    //         ->first();
 
-        $points = DB::table('user_details')->where(['user_id'=>auth()->user()->id,'season_id'=>$c_season->id])->value('points');
-        if($points){
-            return $points;
-        }else{
-            return 0;
-        }
-    }
+    //     $points = DB::table('user_details')->where(['user_id'=>auth()->user()->id,'season_id'=>$c_season->id])->value('points');
+    //     if($points){
+    //         return $points;
+    //     }else{
+    //         return 0;
+    //     }
+    // }
 
-    public function getSeasonAttribute()
+    // public function getSeasonAttribute()
+    // {
+    //     $c_date = Carbon::now();
+    //     $c_season = DB::table('seasons')
+    //         ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+    //         ->first();
+    //     if ($c_season) {
+    //         return $c_season->name;
+    //     } else {
+    //         return '';
+    //     }
+    // }
+
+    public function winner()
     {
-        $c_date = Carbon::now();
-        $c_season = DB::table('seasons')
-            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-            ->first();
-        if ($c_season) {
-            return $c_season->name;
-        } else {
-            return '';
-        }
+        return $this->hasOne(Winner::class , 'user_id' , 'id');
     }
 }

@@ -40,24 +40,32 @@ class HomeController extends Controller
         $banners = Banner::where('status' , 'Active')->get();
 
         //get Team results
-        // $team_results = TeamResult::with('team_result_id1' , 'team_result_id2')->where('status' , 'active')->inRandomOrder()->limit(1)->get();
+        //  $team_results = TeamResult::with('team_result_id1' , 'team_result_id2')->where('status' , 'active')->inRandomOrder()->limit(1)->get();
 
+        $matchBoards = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(1)->get();
+      //  dd($matchBoards);
         //get upcoming matches
         $upcoming_matches = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(4)->get();
 
         //get leaderboard
-        $leaderboards = Leaderboard::with('teams')->get();
+        // $leaderboards = Leaderboard::with('teams')->get();
 
-        //get regions
-        $get_regions = Region::with(['teams'])->orderBy('position' , 'asc')->get()->groupBy('region')->toArray();
+        //get regions for leaderboard
+        // $get_regions = Region::with(['teams'])->orderBy('position' , 'asc')->get()->groupBy('region')->toArray();
+        // dd($get_regions);
+
+        $leaderBoard_data = DB::table('user_teams')
+        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
+        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
+        ->join('regions', 'regions.id', '=', 'teams.region_id')
+        ->orderBy('position' , 'asc')->get()->groupBy('region')->toArray();
+
+    //   echo "<pre>";
+    //   print_r($leaderBoard_data);
+    //   die();
 
     //get user based on alphabets
 
-
-    //   echo "<pre>";
-    // print_r($roster_data);
-
-    //    die();
         //section heading
 
         $fixtureHeading = SectionHeading::where('name' , 'Upcoming Fixture')->first();
@@ -70,7 +78,7 @@ class HomeController extends Controller
         // $video = News::where('type',"video")->where('status',"active")->get();
         $vacations = Vacation::where('status',"active")->get();
 
-        return view('home.index',compact('colorSection' , 'banners', 'upcoming_matches' ,'leaderboards' , 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' , 'get_regions'));
+        return view('home.index',compact('colorSection' , 'banners', 'upcoming_matches' ,'leaderBoard_data', 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' ,'matchBoards'));
     }
 
     public function getAlphabets(Request $request)
@@ -96,12 +104,22 @@ class HomeController extends Controller
     {
         $gp=$alphabets;
 
-        $roster_data = DB::table('teams')
-        ->join('users', 'users.team_id', '=', 'teams.id')
+        // $roster_data = DB::table('teams')
+        // ->join('users', 'users.team_id', '=', 'teams.id')
+        // ->join('regions', 'regions.id', '=', 'teams.region_id')
+        // ->orderBy('position' , 'asc')
+        // ->where('group',$gp)
+        // ->get()->groupBy(['region']);
+
+
+        $roster_data = DB::table('user_teams')
+        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
+        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
         ->join('regions', 'regions.id', '=', 'teams.region_id')
         ->orderBy('position' , 'asc')
-        ->where('group',$gp)
+        ->where('users.group',$gp)
         ->get()->groupBy(['region']);
+
 
         // echo "<pre>";
         // print_r($roster_data);

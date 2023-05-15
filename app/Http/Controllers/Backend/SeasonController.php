@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Season;
 use Illuminate\Support\Carbon;
-
+use App\Http\Requests\SeasonRequest;
 class SeasonController extends Controller
 {
     /**
@@ -16,7 +16,8 @@ class SeasonController extends Controller
      */
     public function index()
     {
-        return view('backend.season.index');
+         $seasons= Season::get();
+        return view('backend.season.index' , compact('seasons'));
     }
 
     /**
@@ -36,34 +37,21 @@ class SeasonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SeasonRequest $request)
     {
 
         if ($request->isMethod('post')) {
-            $season = new Season;
-<<<<<<< HEAD
 
-//             $datetime = $request->start_date;
-// $date = new DateTime($datetime);
-// echo $date->format('Y-m-d');
-// die();
-
-
-            $season->season_name = $request->name;
-            $season->starting = $request->start_date;
-            $season->ending = $request->end_date;
-=======
-            $season->season_name = $request->name;
-            $season->leauge = $request->league;
-            $season->starting = Carbon::parse($request->start_date)->format('Y-m-d');
-            $season->ending = Carbon::parse($request->end_date)->format('Y-m-d');
->>>>>>> b24f1f31c182ae885121deb74637ba7892d93883
-            $season->save();
-            if ($season) {
-                return redirect()->route('season.index')->with('message_success', 'New Season Added Successfully');
-            } else {
-                return redirect()->route('season.index')->with('message_error', 'Something went wrong');
-            }
+            $starting_date= Carbon::parse($request->starting)->format('Y-m-d');
+             $ending_date = Carbon::parse($request->ending)->format('Y-m-d');
+            Season::create([
+                'season_name' => $request->season_name,
+                'league' => $request->league,
+                'starting' => $starting_date,
+                'ending' => $ending_date,
+                'status' => $request->status
+              ]);
+              return redirect()->route('season.index')->with('success' , 'Season Created successfully');
         }
     }
 
@@ -88,6 +76,7 @@ class SeasonController extends Controller
     {
         //
         $season = Season::find($id);
+
         return view('backend.season.edit', compact('season'));
     }
 
@@ -98,61 +87,22 @@ class SeasonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SeasonRequest $request, $id)
     {
+        if($request->isMethod('put')){
 
-<<<<<<< HEAD
-    //     if ($request->isMethod('put')) {
+            $starting_date= Carbon::parse($request->starting)->format('Y-m-d');
+            $ending_date = Carbon::parse($request->ending)->format('Y-m-d');
 
-
-    //     $request->validate([
-    //         'season_name' => 'required',
-    //         'starting' => 'required',
-    //         'ending'=> 'required',
-    //     ]);
-    //     $data = [
-    //         'season_name' => $request->name,
-    //         'starting' => $request->starting,
-    //         'ending' => $request->ending,
-    //     ];
-
-    //     $season = Season::where('id' , $id)->update($data);
-
-    //    if($season){
-    //     return redirect()->route('season.index')->with('message_success','New Season Added Successfully');
-    //    }else{
-    //     return redirect()->route('season.index')->with('message_error','Something went wrong');
-    //    }
-    // }
-
-    if ($request->isMethod('put')) {
-        $data = array();
-
-            $data["season_name"]=$request->name;
-            $data["starting"]=$request->starting;
-            $data["ending"]=$request->ending;
-            $result=Season::where('id',$id)->update($data);
-            return redirect()->route('season.index')->with('message_success','New Season Updated Successfully');
-=======
-        $request->validate([
-            'name' => 'required',
-            'starting' => 'required',
-            'ending' => 'required',
+        Season::where('id' , $id)->update([
+            'season_name' => $request->season_name,
+            'league' => $request->league,
+            'starting' => $starting_date,
+            'ending' => $ending_date,
+            'status' => $request->status,
         ]);
-        $data = [
-            'name' => $request->name,
-            'starting' => $request->starting,
-            'ending' => $request->ending,
-        ];
-        $season = Season::findOrFail($id);
-        $season->update($data);
-
-        if ($season) {
-            return redirect()->route('season.index')->with('message_success', 'Season updated Successfully');
-        } else {
-            return redirect()->route('season.index')->with('message_error', 'Something went wrong');
->>>>>>> b24f1f31c182ae885121deb74637ba7892d93883
-        }
+        return redirect()->route('season.index')->with('success' , 'Season Updated successfully');
+    }
     }
 
     /**
@@ -162,19 +112,15 @@ class SeasonController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function delete($id)
+    public function destroy($id)
     {
         $del = Season::find($id)->delete();
+
         if ($del) {
-            return redirect()->route('season.index')->with('message_success', 'Season Deleted Successfully');
+            return redirect()->route('season.index')->with('success', 'Season Deleted Successfully');
         } else {
-            return redirect()->route('season.index')->with('message_error', 'Something went wrong');
+            return redirect()->route('season.index')->with('error_message', 'Something went wrong');
         }
     }
 
-    public function allSeasons()
-    {
-        $season = Season::paginate(6);
-        return response()->json($season, 200);
-    }
 }

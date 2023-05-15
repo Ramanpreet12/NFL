@@ -81,6 +81,7 @@ Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('userHistory', [UserDashboardController::class, 'userHistory'])->name('userHistory');
+Route::get('userPayment', [UserDashboardController::class, 'userPayment'])->name('userPayment');
 });
 
 //data according to alphabets
@@ -196,8 +197,11 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::get('teams/result' ,[FixtureController::class , 'teamResult_index'] )->name('admin/teams/result');
     Route::match(['get', 'post'], 'team_result/edit/{id}',[FixtureController::class, 'edit_teamResult'])->name('admin/team_result/edit');
 
-    //results rotues
+    //Winner rotues
     Route::get('winner', [WinnerController::class, 'index'])->name('admin/winner');
+    Route::get('winner/assign_prize/{id}', [WinnerController::class, 'assign_prize'])->name('admin/winner/assign_prize');
+    Route::post('winner/assigned_prize/{id}', [WinnerController::class, 'assigned_prize_store'])->name('admin/winner/assigned_prize');
+    Route::get('view_winners', [WinnerController::class, 'view_winners'])->name('admin/view_winners');
 
     //color setting
     Route::get('color_setting', [ColorSettingController::class, 'index'])->name('admin/color_setting');
@@ -205,14 +209,6 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::post('update_color/{id}', [ColorSettingController::class, 'update_color'])->name('admin/update_color/{id}');
 
 
-
-    Route::get('team',[TeamController::class,'index'])->name('admin/team');
-    Route::get('team_data',[TeamController::class,'getAll'])->name('admin/team_data');
-    Route::get('team-edit/{id}',[TeamController::class,'edit'])->name('admin/team-edit');
-    Route::get('team-add',[TeamController::class,'add'])->name('admin/team-add');
-    Route::post('team-create',[TeamController::class,'create'])->name('admin/team-create');
-    Route::get('team-delete/{id}',[TeamController::class,'delete'])->name('admin/team-delete');
-    Route::post('team-update/{id}',[TeamController::class,'update'])->name('admin/team-update');
     Route::get('allPayments',[PaymentController::class,'getAll'])->name('admin/allPayments');
 
     Route::get('payments',[PaymentController::class,'index'])->name('admin/payments');
@@ -220,14 +216,13 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::resources([
         'season' => SeasonController::class,
     ]);
-    Route::get('allSeasons',[SeasonController::class,'allSeasons'])->name('allSeasons');
-    Route::get('seasonDelete/{id}',[SeasonController::class,'delete'])->name('seasonDelete');
 
-    Route::get('prize',[PrizeController::class,'index'])->name('prize');
-    Route::get('prize-list',[PrizeController::class,'list'])->name('prize-list');
-    Route::get('prize-edit/{id}',[PrizeController::class,'edit'])->name('prize-edit');
-    Route::get('prize-delete/{id}',[PrizeController::class,'delete'])->name('prize-delete');
-
+    Route::resources([
+        'team' => TeamController::class,
+    ]);
+    Route::resources([
+        'prize' => PrizeController::class,
+    ]);
 
     Route::get('general', [GeneralController::class , 'general'])->name('admin/general');
     Route::post('general_post', [GeneralController::class , 'general_update'])->name('admin/general_post');
@@ -236,12 +231,6 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
         'banner' => BannerController::class,
     ]);
 
-
-    //Team result
-    // Route::get('teams/result' ,[TeamResultController::class , 'index'] )->name('admin/teams/result');
-    // Route::get('teamResult_data', [TeamResultController::class, 'teamResult_data'])->name('admin/teamResult_data');
-//    Route::match(['get', 'post'], 'team_result/create',[TeamResultController::class, 'add_teamResult'])->name('admin/team_result/create');
-//    Route::match(['get', 'post'], 'team_result/edit/{id}',[TeamResultController::class, 'edit_teamResult'])->name('admin/team_result/edit');
    Route::get('team_result/delete/{id}' ,[TeamResultController::class , 'delete_teamResult']);
 
    //leaderboard

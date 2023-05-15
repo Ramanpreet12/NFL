@@ -33,4 +33,10 @@ class UserDashboardController extends Controller
         return view('front.userhistory',compact('history'));
     }
 
+    public function userPayment()
+    {
+        $payment = Payment::where('user_id', auth()->user()->id)->paginate(6);
+        return view('front.payment', compact('payment'));
+    }
+
 }

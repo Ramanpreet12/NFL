@@ -62,7 +62,7 @@
                                             </td>
                                             <td>{{ $value->win ?? '' }}</td>
                                             <td>{{ $value->loss ?? '' }}</td>
-                                            <td>{{ $value->pts ?? '' }}</td>
+                                            <td>{{ $value->points ?? '' }}</td>
                                         </tr>
                                     @endforeach
                                 @endforeach

@@ -20,8 +20,6 @@
 
 @endif
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-
-
         <h2 class="text-lg font-medium mr-auto">Banners Management</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
             <a class="btn btn-primary shadow-md mr-2" href="{{route('banner.create')}}" id="add_banner">Add New Banner</a>

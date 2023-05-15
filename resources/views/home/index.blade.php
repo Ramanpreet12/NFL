@@ -76,25 +76,26 @@
     <!-- matchBoard with header -->
 
 
-    {{-- @foreach ($team_results as $team_result)
+   @foreach ($matchBoards as $matchBoard_team)
         <section id="matchBoard" style="color:{{ $colorSection['scoreboard']['text_color'] }};">
             <div class="container text-center">
                 <div class="row g-0 team-vs">
-                    <span class="score">{{ $team_result->team1_score }}-{{ $team_result->team2_score }}</span>
+                    <span class="score">{{ $matchBoard_team->first_team_id->win }}-{{ $matchBoard_team->second_team_id->win }}</span>
                     <div class="col-sm-6">
                         <div class="firstBoard boardItem"
                             style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
                             <div class="boardItem-inner">
-                                @if ($team_result)
-                                    <img src="{{ asset('storage/images/team_logo/' . $team_result->team_result_id1->logo) }}"
+                                @if ($matchBoard_team)
+                                    <img src="{{ asset('storage/images/team_logo/' . $matchBoard_team->first_team_id->logo) }}"
                                         alt="" class="img-fluid">
                                 @else
                                     <img src="{{ asset('front/img/AZ-Cardinals 1.png') }}" alt=""
                                         class="img-fluid">
                                 @endif
 
-                                <h3>{{ $team_result->team1_id ? $team_result->team_result_id1->name : '' }}</h3>
-                                <h4>{{ $team_result->team1_score > $team_result->team2_score ? 'Win' : 'Loss' }}</h4>
+                                <h3 class="mt-3">{{ $matchBoard_team->first_team_id ? $matchBoard_team->first_team_id->name : '' }}</h3>
+
+                                {{-- <h4>{{ $matchBoard_team->first_team_id->win > $matchBoard_team->second_team_id->loss ? 'Win' : 'Loss' }}</h4> --}}
 
                             </div>
                         </div>
@@ -103,21 +104,22 @@
                         <div class="secondBoard boardItem"
                             style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
                             <div class="boardItem-inner">
-                                @if ($team_result)
-                                    <img src="{{ asset('storage/images/team_logo/' . $team_result->team_result_id2->logo) }}"
+                                @if ($matchBoard_team)
+                                    <img src="{{ asset('storage/images/team_logo/' . $matchBoard_team->second_team_id->logo) }}"
                                         alt="" class="img-fluid">
                                 @else
                                     <img src="{{ asset('front/img/Philly-Eagles.png') }}" alt="" class="img-fluid">
                                 @endif
-                                <h3>{{ $team_result->team2_id ? $team_result->team_result_id2->name : '' }}</h3>
-                                <h4>{{ $team_result->team2_score > $team_result->team1_score ? 'Win' : 'Loss' }}</h4>
+                                 <h3  class="mt-3">{{ $matchBoard_team->second_team_id ? $matchBoard_team->second_team_id->name : '' }}</h3>
+
+                                {{-- <h4>{{ $matchBoard_team->second_team_id->win > $matchBoard_team->first_team_id->loss ? 'Win' : 'Loss' }}</h4> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    @endforeach --}}
+    @endforeach
 
 
     <section id="nextmatchBoard"
@@ -139,13 +141,13 @@
                             <div class="tabletwo">
                                 <div class="matchTable align-items-center justify-content-center">
                                     <div class="firstTeam">
-                                        {{-- @if ($upcoming_match)
+                                        @if ($upcoming_match)
                                             <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->first_team_id->logo ?? '') }}"
                                                 alt="" class="img-fluid">
                                         @else
                                             <img src="{{ asset('front/img/Bears 1.png') }}" alt=""
                                                 class="img-fluid">
-                                        @endif --}}
+                                        @endif
 
                                         {{-- <h5>Bears <span>(win)</span></h5> --}}
                                         <h5>{{ $upcoming_match->first_team_id->name ? $upcoming_match->first_team_id->name : '' }}
@@ -175,7 +177,7 @@
                                     <span> {{ \Carbon\Carbon::parse($upcoming_match->date)->format('j F, Y') }}
                                         {{ \Carbon\Carbon::createFromFormat('H:i:s', $upcoming_match->time)->format('g:i') }}
                                         {{ ucfirst($upcoming_match->time_zone) }}</span>
-                                    <a href="#">View More</a>
+                                    {{-- <a href="#">View More</a> --}}
                                 </div>
                             </div>
                         @endforeach
@@ -303,29 +305,14 @@
                                             <th scope="col">PTS</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="table-group-divider">
+                                    {{-- <tbody class="table-group-divider">
                                         @foreach ($get_regions as $regions => $teams)
                                             @foreach (array_values($teams[0]['teams']) as $i => $value)
-                                                {{-- @php
-                                                echo "<pre>";
-                                                    // print_r($teams['0']['teams']);
-                                                    // die();
-                                                echo count($teams['0']['teams']);
-                                                die();
-
-
-                                            @endphp --}}
-                                                {{-- @if (count($teams['0']['teams']) <= 3)
-                                                {{'<=3'}}
-                                            @else
-                                                {{'>3'}}
-                                            @endif --}}
                                                 @if ($loop->iteration == 4)
                                                 @break;
                                             @endif
                                             <tr>
                                                 @if ($i === 0)
-                                                    {{-- <th scope="row" rowspan="3">{{$regions}}</th> --}}
                                                     <th scope="row"
                                                         @if (count($teams['0']['teams']) <= 3) rowspan="{{ count($teams['0']['teams']) }}"
                                                     @else
@@ -337,17 +324,46 @@
                                                     <img src="{{ asset('storage/images/team_logo/' . $value['logo']) }}"
                                                         alt="" class="img-fluid">
                                                 </td>
-
-                                                <td class="teamName">
-                                                    {{-- <span>{{ ucfirst($value['player_name']['0']->name ?? '') }}</span> --}}
-                                                </td>
+                                                <td class="teamName"></td>
                                                 <td>{{ $value['win'] }}</td>
                                                 <td>{{ $value['loss'] }}</td>
                                                 <td>{{ $value['pts'] }}</td>
                                             </tr>
                                         @endforeach
                                     @endforeach
-                                </tbody>
+                                </tbody> --}}
+
+
+                                <tbody class="table-group-divider">
+                                    @foreach ($leaderBoard_data as $regions => $teams)
+                                    {{-- {{dd($teams)}} --}}
+                                        @foreach (array_values($teams) as $i => $value)
+                                          {{-- {{dd($value)}} --}}
+                                            @if ($loop->iteration == 4)
+                                            @break;
+                                        @endif
+                                        <tr>
+                                            @if ($i === 0)
+                                                <th scope="row"
+                                                    @if (count($teams) <= 3) rowspan="{{ count($teams) }}"
+                                                @else
+                                                    rowspan="3" @endif>
+                                                    {{ $regions }}</th>
+                                            @endif
+                                            <td>{{ ++$i }}</td>
+                                            <td class="teamLogo">
+                                                <img src="{{ asset('storage/images/team_logo/' . $value->logo) }}"
+                                                    alt="" class="img-fluid">
+                                            </td>
+                                            <td class="teamName">{{$value->name}}</td>
+                                            <td>{{ $value->win }}</td>
+                                            <td>{{ $value->loss}}</td>
+                                            <td>{{ $value->points}}</td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+
 
 
                                 {{-- <tbody class="table-group-divider">
