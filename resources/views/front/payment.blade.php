@@ -91,10 +91,55 @@
                 @include('front.layout.sidebar')
                 <div class="col-sm-8 col-md-9">
                     <h2 style="color:{{ $colorSection['leaderboard']['header_color'] }};">
-                        Payments
+                        Dashboard
                     </h2>
                     <div class="row">
+                        {{-- <div class="col-12">
+                            <div class="tablePickTeam">
+                                <div class="table-responsive" id="rosterTable">
 
+                                    <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th scope="col" colspan="2">Teams</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>Week</th>
+                                                <th scope="col">Points</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+
+                                            @if ($user)
+                                            @foreach ($user as $item)
+                                            <tr>
+                                                <td class="teamLogo">
+                                                    <img src="{{ asset('storage/images/team_logo/' . $item->logo) }}"
+                                                        alt="" class="img-fluid">
+                                                </td>
+                                                <td class="teamName">
+                                                    <span>{{ ucwords($item->name) }}</span>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>{{ $item->week }}</td>
+                                                <td>{{ $item->points }}</td>
+                                            </tr>
+                                            @endforeach
+
+                                            @else
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <span>No Data Found</span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> --}}
                         <div class="col-12">
                             <table class="table table-dark table-striped  tableBoard" id="roaster-table">
                                 <thead>

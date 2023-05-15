@@ -11,6 +11,7 @@
                 <li><a href="{{route('teams')}}">Team Pick</a></li>
                 <li><a href="{{ route('userHistory') }}">Past Selections</a></li>
                 <li><a href="{{ route('userPayment') }}">Payments</a></li>
+                <li><a href="{{ route('upcomingMatches') }}">Upcoming Matches</a></li>
             </ul>
 
 

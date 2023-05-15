@@ -100,32 +100,36 @@
 
                                     <table class="table table-dark table-striped  tableBoard" id="roaster-table">
                                         <thead>
+                                            <tr>
+                                                <th colspan="6">Team Pick</th>
+                                            </tr>
                                             <tr class="table-primary">
                                                 <th scope="col" colspan="2">Teams</th>
                                                 <th></th>
                                                 <th></th>
+                                                <th>Week</th>
                                                 <th scope="col">Points</th>
-                                                {{-- <th scope="col">L</th>
-                                                <th scope="col">PTS</th>
-                                                <th scope="col"> </th>
-                                                <th scope="col"> </th> --}}
+
                                             </tr>
                                         </thead>
                                         <tbody class="table-group-divider">
 
-                                            @if ($user[0]->team)
-                                                <tr>
-                                                    <td class="teamLogo">
-                                                        <img src="{{ asset('storage/images/team_logo/' . $user[0]->team->logo) }}"
-                                                            alt="" class="img-fluid">
-                                                    </td>
-                                                    <td class="teamName">
-                                                        <span>{{ $user[0]->team->name }}</span>
-                                                    </td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>{{ $user[0]->team_status }}</td>
-                                                </tr>
+                                            @if ($user)
+                                                @foreach ($user as $item)
+                                                    <tr>
+                                                        <td class="teamLogo">
+                                                            <img src="{{ asset('storage/images/team_logo/' . $item->logo) }}"
+                                                                alt="" class="img-fluid">
+                                                        </td>
+                                                        <td class="teamName">
+                                                            <span>{{ ucwords($item->name) }}</span>
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>{{ $item->week }}</td>
+                                                        <td>{{ $item->points }}</td>
+                                                    </tr>
+                                                @endforeach
                                             @else
                                                 <tr>
                                                     <td colspan="5">
@@ -137,27 +141,31 @@
                                     </table>
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-6">
                             <table class="table table-dark table-striped  tableBoard" id="roaster-table">
                                 <thead>
+                                    <tr>
+                                        <th colspan="4">Payments</th>
+                                    </tr>
                                     <tr class="table-primary">
                                         <th scope="col">Sno.</th>
                                         <th scope="col">Intended Id</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Payed At</th>
-                                        <th scope="col">Time Before</th>
+                                        {{-- <th scope="col">Time Before</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
                                     @if ($payment)
                                         @foreach ($payment as $key => $item)
                                             <tr>
-                                                <td>{{ $key+1 }}</td>
+                                                <td>{{ $key + 1 }}</td>
                                                 <td>{{ $item->payment }}</td>
                                                 <td>{{ $item->status }}</td>
                                                 <td>{{ $item->created_at }}</td>
-                                                <td>{{ $item->created_date }}</td>
+                                                {{-- <td>{{ $item->created_date }}</td> --}}
                                             </tr>
                                         @endforeach
                                     @else
@@ -167,11 +175,139 @@
                                     @endif
                                 </tbody>
                             </table>
-                            <div class="d-flex justify-content-center">
-                                {!! $payment->links() !!}
-                            </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="tablePickTeam">
+                                <div class="table-responsive" id="rosterTable">
+                                    <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="3">Upcoming Matches</th>
+                                            </tr>
+                                            <tr class="table-primary">
+                                                <th scope="col">Match</th>
+                                                <th scope="col">Date</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+
+                                            @if ($upcoming)
+                                                @foreach ($upcoming as $k => $i)
+                                                <tr>
+                                                    <td> week : {{$k}}</td>
+                                                </tr>
+                                                    @foreach ($i as $team)
+                                                        <tr>
+                                                            <td>
+                                                                <div
+                                                                    class="fixureMatch d-flex align-items-center justify-content-center">
+                                                                    <div class="teamOne">
+                                                                        <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                            alt="" class="img-fluid">
+
+                                                                        <div style="min-width:200px">
+                                                                            {{ $team->first_team_id->name }}</div>
+                                                                    </div>
+                                                                    <div class="versis">
+                                                                        <h5>VS</h5>
+
+                                                                    </div>
+                                                                    <div class="teamOne">
+                                                                        <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                            alt="" class="img-fluid">
+
+                                                                        <div style="min-width:200px">
+                                                                            {{ $team->second_team_id->name }}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+                                                            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endforeach
+                                                {{-- @foreach ($upcoming as $team)
+                                                    <tr>
+                                                        <td>
+                                                            <div
+                                                                class="fixureMatch d-flex align-items-center justify-content-center">
+                                                                <div class="teamOne">
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                        alt="" class="img-fluid">
+
+                                                                    <div style="min-width:200px">
+                                                                        {{ $team->first_team_id->name }}</div>
+                                                                </div>
+                                                                <div class="versis">
+                                                                    <h5>VS</h5>
+
+                                                                </div>
+                                                                <div class="teamOne">
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                        alt="" class="img-fluid">
+
+                                                                    <div style="min-width:200px">
+                                                                        {{ $team->second_team_id->name }}</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                        </td>
+
+
+                                                    </tr>
+                                                @endforeach --}}
+                                            @else
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <span>No Data Found</span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Prizes</th>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <th scope="col">Season</th>
+                                        <th scope="col">Prize</th>
+                                        {{-- <th scope="col">Payed At</th>
+                                        <th scope="col">Time Before</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    @if ($prize)
+                                        @foreach ($prize as $key => $item)
+                                            <tr>
+                                                <td>{{ $item->payment }}</td>
+                                                <td>{{ $item->status }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="4">No Prize is Found</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

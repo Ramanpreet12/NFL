@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Team;
+use Illuminate\Support\Facades\DB;
 
 class Fixture extends Model
 {
@@ -12,7 +13,8 @@ class Fixture extends Model
     protected $table = 'fixtures';
     protected $fillable = ['season_id', 'first_team', 'second_team', 'week', 'date', 'time', 'time_zone'];
 
-protected $appends = ['win_name','loss_name'];
+protected $appends = ['win_name','loss_name' ,'name_team'];
+
 
     public function season()
     {
@@ -47,4 +49,9 @@ public function getLossNameAttribute()
   }
 }
 
+    public function getNameTeamAttribute()
+    {
+       $rr = DB::table('teams')->where('id',$this->first_team)->value('name');
+       return $rr;
+    }
 }

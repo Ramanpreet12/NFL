@@ -41,13 +41,6 @@ class StripeController extends Controller
                 'country'=>$request->country
             ];
           Address::create($data);
-          $detail = [
-            'user_id'=>auth()->user()->id,
-            'season_id' =>$request->season,
-            'leauge' => $request->leauge,
-            'points'=>0
-          ];
-          UserDetail::create($detail);
           $user = User::find(auth()->user()->id);
 
           if($user){
@@ -62,6 +55,7 @@ class StripeController extends Controller
                     'enabled' => 'true',
                 ],
             ]);
+
             DB::commit();
             return response()->json($intent->client_secret);
 
@@ -81,7 +75,6 @@ class StripeController extends Controller
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             echo 'Message is:' . $e->getError()->message . '\n';
         } catch (\Stripe\Exception\AuthenticationException $e) {
-            echo 'Message is:' . $e->getError()->message . '\n';
             echo 'Message is:' . $e->getError()->message . '\n';
         } catch (\Stripe\Exception\ApiConnectionException $e) {
             echo 'Message is:' . $e->getError()->message . '\n';
@@ -115,7 +108,7 @@ class StripeController extends Controller
             if ($Payment) {
                 return redirect()->route('success-message')->with('success', "Payment is successfully done pickup your team");
             } else {
-                return redirect()->route('payment')->with('error', "Somr thing is went wrong");
+                return redirect()->route('payment')->with('error', "Some thing is went wrong");
             }
         } catch (\Exception $e) {
             DB::rollback();
@@ -143,6 +136,7 @@ class StripeController extends Controller
                     'season_id'=>$req->season_id,
                     'week'=>$req->week,
                     'team_id'=>$req->team_id,
+                    'fixture_id'=>$req->fixture
                 ]);
             }
             DB::commit();

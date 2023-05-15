@@ -1,10 +1,10 @@
 @extends('front.layout.app')
 @section('content')
-<style>
-    .errorValidation{
-        border: 2px solid red;
-    }
-</style>
+    <style>
+        .errorValidation {
+            border: 2px solid red;
+        }
+    </style>
     <section id="paymentForm">
         <div class="container">
             <div class="row justify-content-center">
@@ -14,6 +14,7 @@
                             <div class="textHeader mb-5 text-center">
                                 <h2>Payment Information</h2>
                             </div>
+
                             <div class="col-sm-6">
                                 <div class="billingInfo">
                                     <div class="numberBiling d-flex mb-3">
@@ -24,8 +25,8 @@
                                             <h6>Billing Info</h6>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="leauge" id="leauge" value="{{$season->leauge}}">
-                                    <input type="hidden" name="season" id="season" value="{{$season->id}}">
+                                    <input type="hidden" name="leauge" id="leauge" value="{{ $season->leauge }}">
+                                    <input type="hidden" name="season" id="season" value="{{ $season->id }}">
                                     <div class="mb-3">
                                         <label for="fname" class="form-label">Name</label>
                                         <input type="text" class="form-control" id="fname" name="fname"
@@ -71,19 +72,20 @@
                                     <div class="textItem">
                                         <h6>Credit Card Info</h6>
                                     </div>
-                                    <div>
-                                        @if (Session::has('error'))
-                                            <span class="alert alert-danger">{{ Session::get('error') }}</span>
-                                        @endif
-                                        </span>
-                                    </div>
+                                </div>
+                                <div class="numberBiling d-flex mb-1">
+                                    @if (Session::has('error'))
+                                        <span class="alert alert-danger">{{ Session::get('error') }}</span>
+                                    @endif
+                                    <div style="color:red;font-weight: bold" id="msg"></div>
                                 </div>
                                 <div class="inputsForm">
                                     <form id="payment-form">
                                         <div id="payment-element">
                                             <!-- Mount the Payment Element here -->
                                         </div>
-                                        <span id="msg"></span><br><br>
+                                        <input type="hidden" id="amount" name="amount" value="{{env('SUBCRIPTION_AMOUNT')}}">
+<br>
                                         <button id="submit" class="btn btn-primary" onclick="handleSubmit()">Pay</button>
                                     </form>
 
@@ -122,34 +124,36 @@
             const country = document.getElementById('country');
             const leauge = document.getElementById('leauge');
             const season = document.getElementById('season');
+            const amount = document.getElementById('amount');
+            const msg = document.getElementById('msg');
             if (!name.value) {
                 name.classList.add("errorValidation");
                 return;
-            }else{
+            } else {
                 name.classList.remove("errorValidation");
             }
             if (!address.value) {
                 address.classList.add("errorValidation");
                 return;
-            }else{
+            } else {
                 address.classList.remove("errorValidation");
             }
             if (!city.value) {
                 city.classList.add("errorValidation");
                 return;
-            }else{
+            } else {
                 city.classList.remove("errorValidation");
             }
             if (!zip.value) {
                 zip.classList.add("errorValidation");
                 return;
-            }else{
+            } else {
                 zip.classList.remove("errorValidation");
             }
             if (!country.value) {
                 country.classList.add("errorValidation");
                 return;
-            }else{
+            } else {
                 country.classList.remove("errorValidation");
             }
 
@@ -165,14 +169,14 @@
                 return;
             }
             let data = {
-                amount: 100,
-                name:name.value,
-                address:address.value,
-                city:city.value,
-                zip:zip.value,
-                country:country.value,
-                leauge:leauge.value,
-                season:season.value
+                amount: amount.value,
+                name: name.value,
+                address: address.value,
+                city: city.value,
+                zip: zip.value,
+                country: country.value,
+                leauge: leauge.value,
+                season: season.value
             };
 
             const res = await fetch("/payment/store", {
@@ -205,8 +209,8 @@
 
             async function handleError(error) {
                 let tt = await error;
-
-                console.log(tt.decline_code);
+                //console.log(error.message);
+                msg.textContent =error.message;
             }
         };
 
