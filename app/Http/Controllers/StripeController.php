@@ -32,15 +32,15 @@ class StripeController extends Controller
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         DB::beginTransaction();
         try {
-            $data = [
-                'user_id'=>auth()->user()->id,
+            Address::updateOrCreate([
+                'user_id'   => auth()->user()->id
+            ],[
                 'name'=>$request->name,
                 'address'=>$request->address,
                 'city'=>$request->city,
                 'zip'=>$request->zip,
                 'country'=>$request->country
-            ];
-          Address::create($data);
+            ]);
           $user = User::find(auth()->user()->id);
 
           if($user){

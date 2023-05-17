@@ -84,6 +84,7 @@ Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('d
 Route::get('userHistory', [UserDashboardController::class, 'userHistory'])->name('userHistory');
 Route::get('userPayment', [UserDashboardController::class, 'userPayment'])->name('userPayment');
 Route::get('upcomingMatches', [UserDashboardController::class, 'upcomingMatches'])->name('upcomingMatches');
+Route::get('download-invoice/{id}', [UserDashboardController::class, 'invoice'])->name('download-invoice');
 });
 
 //data according to alphabets

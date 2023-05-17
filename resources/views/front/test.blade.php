@@ -184,7 +184,7 @@
                                                                 {{-- <td>{{ $item->payment }}</td> --}}
                                                                 <td>{{ $item->status }}</td>
                                                                 <td>{{ $item->created_at }}</td>
-                                                                <td>Invoice</td>
+                                                                <td><a href="{{route('download-invoice',['id'=>$item->user_id])}}">Invoice</a></td>
                                                             </tr>
                                                         @endforeach
                                                         <tr>

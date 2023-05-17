@@ -145,10 +145,10 @@
                                 <thead>
                                     <tr class="table-primary">
                                         <th scope="col">Sno.</th>
-                                        <th scope="col">Intended Id</th>
+                                        {{-- <th scope="col">Intended Id</th> --}}
                                         <th scope="col">Status</th>
                                         <th scope="col">Payed At</th>
-                                        <th scope="col">Time Before</th>
+                                        <th scope="col">Invoice</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
@@ -156,10 +156,10 @@
                                         @foreach ($payment as $key => $item)
                                             <tr>
                                                 <td>{{ $key+1 }}</td>
-                                                <td>{{ $item->payment }}</td>
-                                                <td>{{ $item->status }}</td>
+                                                {{-- <td>{{ $item->payment }}</td> --}}
+                                                <td>{{ ucwords($item->status) }}</td>
                                                 <td>{{ $item->created_at }}</td>
-                                                <td>{{ $item->created_date }}</td>
+                                                <td><a href="{{ route('download-invoice',['id'=>$item->user_id]) }}" class="btn btn-primary"> Invoice </a></td>
                                             </tr>
                                         @endforeach
                                     @else
