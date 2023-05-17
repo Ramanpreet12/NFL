@@ -64,6 +64,8 @@ Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtu
 
 Route::match(['GET','POST'], 'contact_us', [FrontPagesController::class,'contact'])->name('contact_us');
 Route::get('about', [FrontPagesController::class,'about'])->name('about');
+Route::get('match-result', [FrontPagesController::class,'matchResult'])->name('match-result');
+Route::get('prize', [FrontPagesController::class,'prize'])->name('prize');
 
 Route::get('payment', [StripeController::class, 'stripe'])->name('payment');
 Route::post('payment/store', [StripeController::class, 'stripePost'])->name('payment.store');

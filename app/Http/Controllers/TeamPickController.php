@@ -13,18 +13,29 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TeamSelected;
 use App\Models\Team;
+use App\Models\Season;
 
 class TeamPickController extends Controller
 {
     public function index()
     {
-        $c_date = Carbon::now();
+        // $c_date = Carbon::now();
+        // $c_season = DB::table('seasons')
+        //     ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+        //     ->first();
+
+        $c_date = Season::where('status' , 'active')->value('starting');
+
         $c_season = DB::table('seasons')
             ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+            ->where('status' , 'active')
             ->first();
+
+
+
         $fixture = Fixture::with('first_team_id', 'second_team_id')->where('season_id', $c_season->id)->orderby('week', 'asc')->get()->groupBy('week');
 
-        return view('front.teamPick.index', compact('fixture'));
+        return view('front.teampick', compact('fixture'));
     }
 
     public function pickTeam(Request $request)

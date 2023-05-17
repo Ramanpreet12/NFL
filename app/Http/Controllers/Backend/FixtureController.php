@@ -119,18 +119,24 @@ class FixtureController extends Controller
 
     public function showFixtures()
     {
-        // $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season' , 'groupSeason')->get()->groupBy(['week'])->toArray();
-        // dd($fixtures);s
-
-        $fixtures = DB::table('fixtures')
-        ->join('seasons as s1','s1.id', '=', 'fixtures.season_id')
-         ->join('teams as teamOne', 'teamOne.id', '=', 'fixtures.first_team')
-        ->join('teams as teamTwo', 'teamTwo.id', '=', 'fixtures.second_team')
-        ->select('fixtures.*', 's1.*', 'teamOne.name as firstTeamName', 'teamOne.logo as firstTeamLogo','teamTwo.name as secondTeamName' ,'teamTwo.logo as secondTeamLogo')
-        ->get()->groupBy(['season_name' , 'week']);
+        // $fixtures = DB::table('fixtures')
+        // ->join('seasons as s1','s1.id', '=', 'fixtures.season_id')
+        //  ->join('teams as teamOne', 'teamOne.id', '=', 'fixtures.first_team')
+        // ->join('teams as teamTwo', 'teamTwo.id', '=', 'fixtures.second_team')
+        // ->select('fixtures.*', 's1.*', 'teamOne.name as firstTeamName', 'teamOne.logo as firstTeamLogo','teamTwo.name as secondTeamName' ,'teamTwo.logo as secondTeamLogo')
+        // ->get()->groupBy(['season_name' , 'week']);
         // echo "<pre>";
         // print_r($fixtures);
         // die();
+
+        $c_date = Season::where('status' , 'active')->value('starting');
+        $c_season = DB::table('seasons')
+            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+            ->where('status' , 'active')->first();
+        $upcoming = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
+        echo "<pre>";
+        print_r( $upcoming);
+        die();
 
        return view('front.fixtures' , compact('fixtures'));
     }

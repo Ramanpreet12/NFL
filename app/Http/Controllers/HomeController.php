@@ -48,7 +48,7 @@ class HomeController extends Controller
         //  $team_results = TeamResult::with('team_result_id1' , 'team_result_id2')->where('status' , 'active')->inRandomOrder()->limit(1)->get();
 
         $matchBoards = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(1)->get();
-      //  dd($matchBoards);
+      // dd($matchBoards);
         //get upcoming matches
         $upcoming_matches = Fixture::with('first_team_id', 'second_team_id', 'season')->inRandomOrder()->limit(4)->get();
 
