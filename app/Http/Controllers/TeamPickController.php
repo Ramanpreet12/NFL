@@ -41,13 +41,16 @@ class TeamPickController extends Controller
     public function pickTeam(Request $request)
     {
 
-        try {
+        // dd($request);
+        // try {
             $team = $request->team;
             $season_id = $request->season;
             $week = $request->week;
             $fixture = $request->fixture;
             $id = auth()->user()->id;
-            $c_date = Carbon::now();
+
+            // $c_date = Carbon::now();
+            $c_date = Season::where('status' , 'active')->value('starting');
             $expire_date = Payment::where(['season_id' => $season_id, 'user_id' => $id])->value('expire_on');
 
 
@@ -85,8 +88,8 @@ class TeamPickController extends Controller
                     }
                 }
             }
-        } catch (\Exception $e) {
-            Log::info($e->getMessage());
-        }
+        // } catch (\Exception $e) {
+        //     Log::info($e->getMessage());
+        // }
     }
 }

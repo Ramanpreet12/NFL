@@ -107,7 +107,7 @@
                                                             @if ($user->photo)
                                                             <img alt="" class="tooltip rounded-full" src="" title="">
                                                             @else
-                                                            <img alt="" class="tooltip rounded-full" src="" title="">
+                                                            <img alt="" class="tooltip rounded-full" src="{{asset('dist/images/dummy_image.webp')}}" title="{{$user->name}}">
                                                             @endif
                                                         </div>
                                                     </div>

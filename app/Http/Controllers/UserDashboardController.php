@@ -86,8 +86,9 @@ class UserDashboardController extends Controller
             ->where('status' , 'active')->first();
 
         $upcoming = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
-        echo "<pre>";
-        print_r( $upcoming);
+        // echo "<pre>";
+        // print_r( $upcoming);
+        // die();
 
         return view('front.upcoming',compact('upcoming'));
     }

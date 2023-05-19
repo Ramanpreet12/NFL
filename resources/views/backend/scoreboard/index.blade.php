@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Team Result</title>
+    <title>NFL | Scores</title>
 @endsection
 
 @section('subcontent')
@@ -22,7 +22,7 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
 
 
-        <h2 class="text-lg font-medium mr-auto">Team Result Management</h2>
+        <h2 class="text-lg font-medium mr-auto">Scores Management</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
             {{-- <a class="btn btn-primary shadow-md mr-2" href="{{route('banner.create')}}" id="add_banner">Add New Banner</a> --}}
         </div>
@@ -39,8 +39,10 @@
                         <th class="text-center whitespace-nowrap">Team One</th>
                         <th></th>
                         <th class="text-center whitespace-nowrap">Team Two</th>
-                        <th class="text-center whitespace-nowrap">Win</th>
-                        <th class="text-center whitespace-nowrap">Loss</th>
+                        <th class="text-center whitespace-nowrap">First Team Scores</th>
+                        <th class="text-center whitespace-nowrap">Second Team Scores</th>
+                        {{-- <th class="text-center whitespace-nowrap">Win</th>
+                        <th class="text-center whitespace-nowrap">Loss</th> --}}
                         <th class="text-center whitespace-nowrap">Action</th>
                     </tr>
                 </thead>
@@ -76,14 +78,17 @@
                             </td>
 
                             {{-- {{dd($fixture->first_fixture->win)}} --}}
-                            <td class="text-center">{{$fixture->win_name ?? ''}}</td>
-                            <td class="text-center">{{$fixture->loss_name ?? ''}}</td>
-                            {{-- <td class="text-center">{{$fixture->first_team_points ?? ''}}</td>
-                            <td class="text-center">{{$fixture->second_team_points ?? ''}}</td> --}}
+                            {{-- <td class="text-center">{{$fixture->win_name ?? ''}}</td>
+                            <td class="text-center">{{$fixture->loss_name ?? ''}}</td> --}}
+                            <td class="text-center">{{$fixture->first_team_points ?? ''}}</td>
+                            <td class="text-center">{{$fixture->second_team_points ?? ''}}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="{{ url('admin/team_result/edit/'.$fixture->id) }}">
-                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                    {{-- <a class="flex items-center mr-3" href="{{ url('admin/team_result/edit/'.$fixture->id) }}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Add Scores
+                                    </a> --}}
+                                    <a class="flex items-center mr-3" href="{{ url('admin/add_scores/'.$fixture->id) }}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Add Scores
                                     </a>
 
                                 </div>

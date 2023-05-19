@@ -7,6 +7,7 @@
 @section('subcontent')
     <div class="intro-y flex items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">Edit Fixture</h2>
+        <a href="{{route('admin/fixtures')}}"><button class="btn btn-primary">Back</button></a>
         @if (session()->has('success'))
         <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">

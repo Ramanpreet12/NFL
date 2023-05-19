@@ -33,6 +33,7 @@ use App\Http\Controllers\Backend\PlayersController;
 use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\RegionController;
 use App\Http\Controllers\Backend\VacationController;
+use App\Http\Controllers\Backend\ScoreboardController;
 use App\Models\Winner;
 
 /*
@@ -200,8 +201,14 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     // Route::get('delete_fixture/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/delete_fixture/{id}');
     Route::get('fixtures/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/fixtures/{id}');
 
-    Route::get('teams/result' ,[FixtureController::class , 'teamResult_index'] )->name('admin/teams/result');
-    Route::match(['get', 'post'], 'team_result/edit/{id}',[FixtureController::class, 'edit_teamResult'])->name('admin/team_result/edit');
+    Route::get('teams/result' ,[TeamResultController::class , 'index'] )->name('admin/teams/result');
+    // Route::get('teams/result' ,[FixtureController::class , 'teamResult_index'] )->name('admin/teams/result');
+    // Route::match(['get', 'post'], 'team_result/edit/{id}',[FixtureController::class, 'edit_teamResult'])->name('admin/team_result/edit');
+    Route::match(['get', 'post'], 'team_result/edit/{id}',[TeamResultController::class, 'edit_teamResult'])->name('admin/team_result/edit');
+
+    Route::get('scores',[ScoreboardController::class, 'index'])->name('admin/scores');
+    Route::post('add_scores/{id}',[ScoreboardController::class, 'add_scores']);
+    Route::match(['get', 'post'], 'add_scores/{id}',[ScoreboardController::class, 'add_scores']);
 
     //Winner rotues
     Route::get('winner', [WinnerController::class, 'index'])->name('admin/winner');

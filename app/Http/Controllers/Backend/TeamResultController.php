@@ -66,60 +66,68 @@ class TeamResultController extends Controller
         }
     }
 
-    public function edit_teamResult(Request $request, $id)
+//     public function edit_teamResult(Request $request, $id)
+//     {
+
+
+//         if (!$request->isMethod('post')) {
+//             // $team_results = TeamResult::with(['team_result_id1' , 'team_result_id2'])->where('id', $id)->get();
+//            // dd($team_results);
+//            $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season' , 'first_team_result' , 'second_team_result')->where('id', $id)->get();
+
+//             $teams = Team::get();
+//             return view('backend.team_result.edit', compact('team_results', 'teams'));
+//         } else {
+//             $data = [
+//                 'fixture_id' => $request->fixture_id,
+//                 'win' => $request->winner_team,
+//                 'loss' => $request->loss_team,
+//             ];
+// $rr = TeamResult::create($data);
+
+//             TeamResult::create([
+//                 'fixture_id' => $request->fixture_id,
+//                 'win' => $request->winner_team,
+//                 'loss' => $request->loss_team,
+//             ]);
+//             return response()->json(['success' => "team result updated"], 200);
+//         }
+//     }
+
+
+        public function edit_teamResult(Request $request, $id)
     {
-
-
         if (!$request->isMethod('post')) {
-            // $team_results = TeamResult::with(['team_result_id1' , 'team_result_id2'])->where('id', $id)->get();
-           // dd($team_results);
-           $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season' , 'first_team_result' , 'second_team_result')->where('id', $id)->get();
-
+           $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->where('id', $id)->first();
             $teams = Team::get();
             return view('backend.team_result.edit', compact('team_results', 'teams'));
         } else {
-$data = [
-    'fixture_id' => $request->fixture_id,
-    'win' => $request->winner_team,
-    'loss' => $request->loss_team,
-];
-$rr = TeamResult::create($data);
+          $fixture_data =   Fixture::where('id' , $id)->first();
 
-            TeamResult::create([
-                'fixture_id' => $request->fixture_id,
+            Fixture::where('id' , $id)->update([
                 'win' => $request->winner_team,
                 'loss' => $request->loss_team,
-                // 'team1_score' => $request->team1_score,
-                // 'team2_score' => $request->team2_score,
-                // 'result_status' => $request->result_status,
-                 //'win' => $request->winTeam_id,
-                //  'loss' => $request->lose_team,
-                // 'status' => $request->status,
-
             ]);
+            if ($request->winner_team) {
+                $team_win = Team::where('id', $request->winner_team)->first();
+                $match_played = $team_win->match_played;
+                $matchwin = $team_win->win;
+                Team::where('id', $request->winner_team)->update(['match_played' => (int)$match_played + 1, 'win' => (int)$matchwin + 1]);
+                update_userPoints($request->winner_team, $fixture_data->season_id , $fixture_data->week);
+            }
+            if ($request->loss_team) {
+                $team_loss = Team::where('id', $request->loss_team)->first();
+                $match_played = $team_loss->match_played;
+                $matchloss = $team_loss->loss;
+                Team::where('id', $request->loss_team)->update(['match_played' => (int)$match_played + 1, 'loss' => (int)$matchloss + 1]);
+            }
 
-            // $c_date = Carbon::now();
-            // $c_season = DB::table('seasons')
-            //     ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-            //     ->first();
-            // Fixture::where(['first_team' => $request->win_team, 'season_id' => $c_season->id])->update(['win' => $request->win_team, 'loss' => $request->lose_team]);
-            // if ($request->win_team) {
-            //     $team_win = Team::where('id', $request->win_team)->first();
-            //     $match_played = $team_win->match_played;
-            //     $matchwin = $team_win->win;
-            //     Team::where('id', $request->win_team)->update(['match_played' => (int)$match_played + 1, 'win' => (int)$matchwin + 1]);
-            //     update_userPoints($request->win_team, $c_season->id);
-            // }
-            // if ($request->lose_team) {
-            //     $team_loss = Team::where('id', $request->lose_team)->first();
-            //     $match_played = $team_loss->match_played;
-            //     $matchloss = $team_loss->loss;
-            //     Team::where('id', $request->lose_team)->update(['match_played' => (int)$match_played + 1, 'loss' => (int)$matchloss + 1]);
-            // }
-            return response()->json(['success' => "team result updated"], 200);
-            // return redirect('admin/teams/result')->with('success', 'Team Result updated successfully');
+
+            return redirect('admin/teams/result')->with('success', 'Team Result updated successfully');
         }
     }
+
+
 
     public function delete_teamResult($id)
     {

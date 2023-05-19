@@ -25,7 +25,8 @@
                                             <h6>Billing Info</h6>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="leauge" id="leauge" value="{{ $season->leauge }}">
+
+                                    <input type="hidden" name="leauge" id="leauge" value="{{ $season->league }}">
                                     <input type="hidden" name="season" id="season" value="{{ $season->id }}">
                                     <div class="mb-3">
                                         <label for="fname" class="form-label">Name</label>
@@ -84,7 +85,7 @@
                                         <div id="payment-element">
                                             <!-- Mount the Payment Element here -->
                                         </div>
-                                        <input type="hidden" id="amount" name="amount" value="{{env('SUBCRIPTION_AMOUNT')}}">
+                                        <input type="hidden" id="amount" name="amount" value="100">
 <br>
                                         <button id="submit" class="btn btn-primary" onclick="handleSubmit()">Pay</button>
                                     </form>
@@ -179,7 +180,8 @@
                 season: season.value
             };
 
-            const res = await fetch("/payment/store", {
+            const url = "{{url('payment/store')}}";
+            const res = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {

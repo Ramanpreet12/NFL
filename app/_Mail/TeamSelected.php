@@ -7,18 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionExpire extends Mailable
+class TeamSelected extends Mailable
 {
     use Queueable, SerializesModels;
-protected $user;
+
+    protected $data;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($data)
     {
-        $this->user = $user;
+        $this->data = $data;
     }
 
     /**
@@ -28,10 +29,10 @@ protected $user;
      */
     public function build()
     {
-        return $this->from('demo@gmail.com')->view('mail.subscription-expired')->with([
-            'name'=>$this->user->name,
-            'expire_on'=>$this->user->expire_on
+        return $this->from('demo@gmail.com')->view('mail.team-selected')->with([
+            'week' => $this->data['week'],
+            'team' => $this->data['team'],
+            'user_name' => $this->data['user_name'],
         ]);
-
     }
 }

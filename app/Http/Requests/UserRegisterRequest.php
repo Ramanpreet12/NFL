@@ -30,7 +30,8 @@ class UserRegisterRequest extends FormRequest
             'password'         =>'required|confirmed' ,
             'phone'            => 'required' ,
             'birthday'         => 'required' ,
-            'password'         => 'required|string|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            // 'password'         => 'required|string|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'password'         => 'required|string|min:6|regex:/[a-z]/',
             'password_confirmation' => 'required',
         ];
     }
@@ -45,6 +46,16 @@ class UserRegisterRequest extends FormRequest
             'birthday' => 'Birthday',
             'password_confirmation' => 'Confirm Password'
         ];
+    }
+
+    public function messages()
+    {
+        return
+        [
+        'password.regex' => 'Password must contain at least one digit , one uppercase and one lowercase letter and  a special character',
+        'password.min:6' => 'Password must be at least 6 characters in length' ,
+        ];
+
     }
 
 }

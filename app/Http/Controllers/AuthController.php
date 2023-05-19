@@ -167,7 +167,7 @@ class AuthController extends Controller
                 }
 
                     // dd($request);
-                  User::create([
+                $user =  User::create([
                 'team_id' => 0,
                   'name' => $request->fname,
                   'group' => $group,
@@ -242,7 +242,7 @@ class AuthController extends Controller
 
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 // return redirect('admin/dashboard')->with('message_success' , 'Login successfully');
-                return redirect('admin/general')->with('message_success', 'Login successfully');
+                return redirect('admin/dashboard')->with('message_success', 'Login successfully');
             } else {
                 return redirect('admin/login')->with('message_error', 'Incorrect email or password');
             }
@@ -307,6 +307,10 @@ class AuthController extends Controller
                     'token'=>'required',
                     'password'=>'required|min:6',
                     'confirm' => 'required|min:6|same:password',
+                ],
+                [
+                    'confirm.required' => 'The Confirm Password field is required',
+
                 ]);
                 $pass = FogotPassword::where('token',$request->token)->first();
                 if($pass){

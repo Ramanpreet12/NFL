@@ -171,10 +171,10 @@
                                                                         <input type="hidden" name="week" value="{{ $week }}">
                                                                         <input type="hidden" name="date" value="{{ $team->date }}">
                                                                         <input type="hidden" name="fixture" value="{{ $team->id }}">
-                                                                        <button type="submit" class="btn btn-primary">@if(isSelected( $team->season_id, $week,$team->first_team_id->id  )) Picked @else Pick Team @endif</button>
+                                                                        <button type="submit" class="btn btn-primary my-4">@if(isSelected( $team->season_id, $week,$team->first_team_id->id  )) Picked @else Pick Team @endif</button>
                                                                     </form>
                                                                 </div>
-                                                                <div class="versis">
+                                                                <div class="versis mx-5">
                                                                     <h5>VS</h5>
 
                                                                 </div>
@@ -196,7 +196,7 @@
                                                                             value="{{ $team->date }}">
                                                                             <input type="hidden" name="fixture"
                                                                             value="{{ $team->id }}">
-                                                                        <button type="submit" class="btn btn-primary">@if(isSelected( $team->season_id, $week,$team->second_team_id->id  )) Picked @else Pick Team @endif </button>
+                                                                        <button type="submit" class="btn btn-primary my-4">@if(isSelected( $team->season_id, $week,$team->second_team_id->id  )) Picked @else Pick Team @endif </button>
                                                                     </form>
                                                                 </div>
                                                             </div>

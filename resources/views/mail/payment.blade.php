@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=display-width, initial-scale=1.0, maximum-scale=1.0,">
-    <title>Subscription Eexpired</title>
+    <title>Payment Successful</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
         rel="stylesheet" type="text/css">
     <style type="text/css">
@@ -534,7 +534,7 @@
                                                     <td align="center" class="MsoNormal"
                                                         style="color:#333333; font-family:Segoe UI, Helvetica Neue, Arial, Verdana, Trebuchet MS, sans-serif; font-weight:600; font-size:26px; line-height:36px; letter-spacing:1px;"
                                                         mc:edit="Content-3">
-                                                        Subscription Expired Alert
+                                                        Thanks For Subscribing!
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -566,9 +566,8 @@
                                                                 <td align="center" class="MsoNormal"
                                                                     style="color:#666666; font-family:Segoe UI, Helvetica Neue, Arial, Verdana, Trebuchet MS, sans-serif; font-size:14px; line-height:24px;"
                                                                     mc:edit="Content-4">
-                                                                    Attention dear {{ $name }} your subscription
-                                                                    is expired on {{ $expire_on }}. Please subscribe
-                                                                    for further play the game.
+                                                                    Dear {{$user_name}} you have successfully Subscribe.
+
                                                                 </td>
                                                             </tr>
                                                           {{--    <tr>
@@ -614,7 +613,7 @@
                                                             {{--
 																<tr>
 																	<td align="center" class="MsoNormal" style="color:#666666;font-family:'Segoe UI',sans-serif,Arial,Helvetica,Lato;font-size:14px;line-height:24px;" mc:edit="Content-6">
-																		 <span class="txt-content" mc:edit="Content-0">To contact us, please visit</-> <span class="txt-link-content" style="color:#03a9f4; " mc:edit="Content-1"><a href="#" style="color:#03a9f4;">http://support.domain.com</a></span> 
+																		 <span class="txt-content" mc:edit="Content-0">To contact us, please visit</-> <span class="txt-link-content" style="color:#03a9f4; " mc:edit="Content-1"><a href="#" style="color:#03a9f4;">http://support.domain.com</a></span>
 																	</td>
 																</tr> --}}
                                                             <tr>
@@ -733,7 +732,7 @@
                                                                                             width="100%">
                                                                                             {{-- <tr>
 																									<!-- ID:TXT COPYRIGHT -->
-                                                   
+
 																									<td align="center" class="MsoNormal" style="color:#ffffff; font-family:Segoe UI, Helvetica Neue, Arial, Verdana, Trebuchet MS, sans-serif; font-size:14px; line-height:24px; letter-spacing:1px;" mc:edit="Content-8">
                                                     NFL design © 2023. All Rights Reserved.
 																									</td> --}}
@@ -787,7 +786,7 @@
                                                         <table align="center" border="0" cellpadding="0"
                                                             cellspacing="0" width="100%"
                                                             style="width:auto !important;">
-                                                            {{--  
+                                                            {{--
                                                         <tr>
 																													<!-- ID:TXT UNSUBSCRIBE -->
 																													<td align="left" class="MsoNormal" style="color:#ffffff;font-family:'Segoe UI',sans-serif,Arial,Helvetica,Lato;font-size:14px;letter-spacing:1px;line-height:24px;" mc:edit="Content-9">

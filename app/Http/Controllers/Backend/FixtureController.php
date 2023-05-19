@@ -39,6 +39,7 @@ class FixtureController extends Controller
     public function store_fixture(FixtureRequest $request){
             if($request->isMethod('post')){
               $duration = Season::where('id',$request->season)->first();
+
               $start = Carbon::parse($duration->starting);
               $end = Carbon::parse($duration->ending);
               $store = Carbon::parse($request->date);
@@ -46,10 +47,11 @@ class FixtureController extends Controller
                 return redirect()->back()->with('error_date','Enter a valid date');
               }
                 $diff = $start->diff($store);
+
                 $week = ceil($diff->d/7);
                 $f_week = ((int)$week);
                 if($f_week == 0){
-                    $_week = 1;
+                    $f_week = 1;
                 }
 
               Fixture::create([
@@ -133,28 +135,31 @@ class FixtureController extends Controller
         $c_season = DB::table('seasons')
             ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
             ->where('status' , 'active')->first();
-        $upcoming = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
-        echo "<pre>";
-        print_r( $upcoming);
-        die();
+        $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
+        // echo "<pre>";
+        // print_r( $fixtures);
+        // die();
+       $season_name = $c_season->season_name;
 
-       return view('front.fixtures' , compact('fixtures'));
+
+       return view('front.fixtures' , compact('fixtures' , 'season_name'));
     }
 
     //team results
 
-    public function teamResult_index()
-    {
-        $fixtures =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
-        return view('backend.team_result.index', compact('fixtures'));
-    }
+    // public function teamResult_index()
+    // {
+    //     $fixtures =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
+    //     return view('backend.team_result.index', compact('fixtures'));
+    // }
 
 
     public function edit_teamResult(Request $request, $id)
     {
         if (!$request->isMethod('post')) {
-           $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->where('id', $id)->get();
+           $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->where('id', $id)->first();
             $teams = Team::get();
+
             return view('backend.team_result.edit', compact('team_results', 'teams'));
         } else {
           $fixture_data =   Fixture::where('id' , $id)->first();
@@ -185,6 +190,7 @@ class FixtureController extends Controller
             return redirect('admin/teams/result')->with('success', 'Team Result updated successfully');
         }
     }
+
 
 
 }

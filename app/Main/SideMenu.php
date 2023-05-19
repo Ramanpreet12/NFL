@@ -69,6 +69,21 @@ class SideMenu
                 // ],
                 'title' => 'Season Management'
             ],
+            'team_result' => [
+                'icon' => 'settings',
+                'route_name' => 'admin/teams/result',
+                'params' => '',
+                'title' => 'Teams Result'
+            ],
+            'score_board' => [
+                'icon' => 'settings',
+                'route_name' => 'admin/scores',
+                'params' => '',
+                'title' => 'Scores'
+            ],
+
+
+
             'prize' => [
                 'icon' => 'award',
                 'route_name' => 'prize.index',
@@ -141,12 +156,7 @@ class SideMenu
                         'title' => 'Leaderboard'
                     ],
 
-                    'team_result' => [
-                        'icon' => 'settings',
-                        'route_name' => 'admin/teams/result',
-                        'params' => '',
-                        'title' => 'Teams Result'
-                    ],
+
 
                     'color-setting' => [
                         'icon' => 'settings',

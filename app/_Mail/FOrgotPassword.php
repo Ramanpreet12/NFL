@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionExpire extends Mailable
+class FOrgotPassword extends Mailable
 {
     use Queueable, SerializesModels;
 protected $user;
@@ -28,10 +28,10 @@ protected $user;
      */
     public function build()
     {
-        return $this->from('demo@gmail.com')->view('mail.subscription-expired')->with([
-            'name'=>$this->user->name,
-            'expire_on'=>$this->user->expire_on
+        return $this->from('admin@gmail.com')->view('mail.forgotpassword')->with([
+            'name'=>$this->user['user_name'],
+            'email'=>$this->user['email'],
+            'token' =>$this->user['token']
         ]);
-
     }
 }

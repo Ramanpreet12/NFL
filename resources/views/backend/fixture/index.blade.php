@@ -35,8 +35,11 @@
                 <thead class="bg-primary text-white">
                     <tr>
                         <th class="text-center whitespace-nowrap">Season</th>
+                        <th class="text-center whitespace-nowrap"></th>
                         <th class="text-center whitespace-nowrap">Team One</th>
-                        <th class="text-center whitespace-nowrap">Team Two</th>
+                        <th class="text-center whitespace-nowrap"></th>
+                        <th class="text-center whitespace-nowrap" >Team Two</th>
+
                         <th class="text-center whitespace-nowrap">Week </th>
                         <th class="text-center whitespace-nowrap">Date </th>
                         <th class="text-center whitespace-nowrap">Time </th>
@@ -53,7 +56,30 @@
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$fixture->season->season_name ?? ''}} </div>
 
                             </td>
+                            <td class="">
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($fixture->first_team_id->logo))
+                                        <img src="{{asset('storage/images/team_logo/'.$fixture->first_team_id->logo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        @else
+                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+
+                                </div>
+                            </td>
                             <td class="text-center">{{ $fixture->first_team_id->name }}</td>
+                            <td class="">
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($fixture->second_team_id->logo))
+                                        <img src="{{asset('storage/images/team_logo/'.$fixture->second_team_id->logo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        @else
+                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
                             <td class="text-center">{{ $fixture->second_team_id->name }}</td>
                             <td class="text-center">{{ $fixture->week }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($fixture->date)->format('j F, Y') }}</td>
