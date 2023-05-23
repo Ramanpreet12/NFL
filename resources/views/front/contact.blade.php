@@ -29,7 +29,7 @@
                         <div class="imagesBoth">
                             <div class="row mt-3">
                                 <div class="col-sm-6">
-                                    <img src="img/contacts-1.jpg" alt="" class="img-fluid">
+                                    <img src="front/img/contacts-1.jpg" alt="" class="img-fluid">
                                     <div class="socialIcon d-flex mb-3">
                                         <h5>Follow Us:</h5>
                                         <i class="fa-brands fa-facebook-f"></i>
@@ -87,7 +87,7 @@
                             @if (Session::has('error'))
                             <span class="input-error">{{ session()->get('error', 'Something went wrong'); }}</span>
                             @endif
-                            <form id="contactForm" method="post" action="{{ route('contact_us') }}">
+                            <form id="contactForm" method="post">
                                 @csrf
                                 <div class="mb-3">
                                     <input type="text" class="form-control" value="{{ old('subject') }}" id="subject" name="subject"
@@ -131,9 +131,10 @@
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js?render={{env('CAPCHA_SITE_KEY')}}"></script>
-    <script>
-        var key = "{{env('CAPCHA_SITE_KEY')}}";
+    {{-- <script src="https://www.google.com/recaptcha/api.js?render={{env('CAPCHA_SITE_KEY')}}"></script> --}}
+    {{-- <script>
+        var key = "6LdADdolAAAAAHIeEIKLbXaIWBmtyedK516d0tYo";
+        // var key = "{{env('CAPCHA_SITE_KEY')}}";
            grecaptcha.ready(function() {
       grecaptcha.execute(key,
       {
@@ -165,5 +166,17 @@
                 form.submit();
             }
         });
-    </script>
+    </script> --}}
+
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.sitekey') }}"></script>
+<script>
+         grecaptcha.ready(function() {
+             grecaptcha.execute('{{ config('services.recaptcha.sitekey') }}', {action: 'contact'}).then(function(token) {
+                if (token) {
+                  document.getElementById('g-capcha').value = token;
+                }
+             });
+         });
+</script>
+
 @endsection

@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Prize</title>
+    <title>NFL | Contact</title>
 @endsection
 
 @section('subcontent')
@@ -32,23 +32,25 @@
 @endif
 
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-        <h2 class="text-lg font-medium mr-auto">Prize Management</h2>
+
+
+        <h2 class="text-lg font-medium mr-auto">Contacts</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            <a class="btn btn-primary shadow-md mr-2" href="{{route('prize.create')}}" id="">Add New Prize</a>
+            {{-- <a class="btn btn-primary shadow-md mr-2" href="" id="add_banner">Add New Team</a> --}}
         </div>
     </div>
 
     <div class="grid grid-cols-12 gap-6 mt-5 p-5 bg-white mb-5">
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-            <table class="table table-report -mt-2" id="prize_table">
+            <table class="table table-report -mt-2" id="team_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th class="text-center whitespace-nowrap">Season </th>
-                        <th class="text-center whitespace-nowrap">Name </th>
-                        <th class="text-center whitespace-nowrap">Image</th>
-                        <th class="text-center whitespace-nowrap">Amount</th>
-                        <th class="text-center whitespace-nowrap">Status</th>
+                        <th class="text-center whitespace-nowrap">S.No.</th>
+                        <th class="text-center whitespace-nowrap">Name</th>
+                        <th class="text-center whitespace-nowrap">Email </th>
+                        <th class="text-center whitespace-nowrap">Subject </th>
+                        <th class="text-center whitespace-nowrap">Message </th>
                         <th class="text-center whitespace-nowrap">Created At</th>
                         <th class="text-center whitespace-nowrap">Updated At</th>
                         <th class="text-center whitespace-nowrap">Action</th>
@@ -56,42 +58,48 @@
                 </thead>
 
                 <tbody>
-                    @forelse ($prizes as $prize)
+                    @php
+                        $count = '';
+                    @endphp
+                    @forelse ($contacts as $contact)
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$prize->season->season_name ?? ''}} </div>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{++$count}} </div>
                             </td>
-                            <td class="text-center">{{ $prize->name}}</td>
                             <td>
-                                @if (!empty($prize->image))
-                            <img src="{{asset('storage/images/prize/'.$prize->image)}}" alt="" height="50px" width="100px">
-                            @else
-                                    <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid" height="50px" width="100px">
-                            @endif
-
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$contact->name}} </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$contact->email}} </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$contact->subject}} </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$contact->message}} </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ \Carbon\Carbon::parse($contact->created_at)->format('j F, Y') }}</div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ \Carbon\Carbon::parse($contact->updated_at)->format('j F, Y') }}</div>
                             </td>
 
-                            <td class="text-center">{{ $prize->amount }}</td>
-                            <td class="">
-                                <div class="flex items-center justify-center {{ $prize->status =='active' ? 'text-success' : 'text-danger' }}">
-                                    <i data-feather="check-square" class="w-4 h-4 mr-2"></i> {{ $prize->status =='active' ? 'Active' : 'Inactive' }}
-                                </div>
-                            </td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($prize->created_at)->format('j F, Y') }}</td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($prize->updated_at)->format('j F, Y') }}</td>
+                            {{-- <td class="text-center">{{ \Carbon\Carbon::parse($team->created_at)->format('j F, Y') }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($team->updated_at)->format('j F, Y') }}</td> --}}
 
 
                             <td class="table-report__action">
                                 <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="{{ route('prize.edit',$prize->id) }}">
-                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                    <a class="flex items-center mr-3" href="{{route('contact.show' , $contact->id)}}">
+                                        <i data-feather="eye" class="w-4 h-4 mr-1"></i> View
                                     </a>
 
-                                    <form action="{{ route('prize.destroy', $prize->id)}}" method="post">
+                                    {{-- <form action="" method="post">
                                         @csrf
                                         @method('DELETE')
                                             <button class="btn btn-danger show_sweetalert" type="submit" data-toggle="tooltip">  <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
-                                      </form>
+                                      </form> --}}
 
 
                                 </div>
@@ -100,7 +108,7 @@
                         @empty
                         <tr>
                             <td colspan="7" class="text-center">No Records found</td>
-
+                          <p>No Records found</p>
                         </tr>
                     @endforelse
 
@@ -141,7 +149,7 @@
    @section('script')
    <script>
     $(function() {
-      $('#prize_table').DataTable();
+      $('#team_table').DataTable();
     });
    </script>
    @endsection

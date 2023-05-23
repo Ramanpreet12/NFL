@@ -33,6 +33,7 @@
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Edit Prize </h2>
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('prize.index')}}" id="">Back</a>
         </div>
         <form action="{{ route('prize.update' , $prize->id) }}" method="post" enctype="multipart/form-data">
             @csrf
@@ -58,9 +59,22 @@
 
 
                     <div class="form-inline mt-5">
-                        <label for="amount" class="font-medium form-label sm:w-60">Amount <span class="text-danger">*</span></label>
+                        <label for="amount" class="font-medium form-label sm:w-60">Amount</label>
                         <input id="amount" type="text" class="form-control" placeholder="Enter the amount for the prize" name="amount" value="{{$prize->amount}}">
                     </div>
+                    <div class="form-inline mt-5">
+                        <label for="image" class="font-medium form-label sm:w-60">Image</label>
+                        <input id="image" type="file" class="form-control" placeholder="Enter image" name="image" value="">
+                    </div>
+                    <div class="form-inline mt-5">
+                        <label for="image" class="font-medium form-label sm:w-60"></label>
+                        <img src="{{asset('storage/images/prize/'.$prize->image)}}" alt="" height="100px" width="250px">
+                    </div>
+                    <div class="form-inline mt-5">
+                        <label for="content" class="font-medium form-label sm:w-60">Content</label>
+                     <textarea name="content" id="" cols="30" rows="5" class="form-control">{{$prize->content}}</textarea>
+                    </div>
+
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
                         <select class="form-control" id="status" name="status">

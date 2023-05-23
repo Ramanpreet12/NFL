@@ -34,6 +34,7 @@ use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\RegionController;
 use App\Http\Controllers\Backend\VacationController;
 use App\Http\Controllers\Backend\ScoreboardController;
+use App\Http\Controllers\Backend\ContactController;
 use App\Models\Winner;
 
 /*
@@ -61,9 +62,18 @@ Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->n
 // Route::get('payment' , [PaymentController::class , 'paymentPage'])->name('payment');
 
 
-Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
+// Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
+// //get fixture on select of seasons
+// Route::post('get_seasons' , [FixtureController::class, 'get_seasons'])->name('get_seasons');
 
-Route::match(['GET','POST'], 'contact_us', [FrontPagesController::class,'contact'])->name('contact_us');
+// fixture data according to season and weeks
+Route::match(['get' , 'post'], 'fixtures', [FixtureController::class, 'fixture'])->name('fixtures');
+Route::match(['get' , 'post'], 'fixtures/weeks', [FixtureController::class, 'fixtureWeeks'])->name('fixtures/weeks');
+// Route::match(['get' , 'post'], 'fixtures/{weeks?}', [FixtureController::class, 'fixture'])->name('fixtures');
+
+Route::post('check_user',[FixtureController::class, 'checkUser']);
+
+Route::match(['GET','POST'], 'contact', [FrontPagesController::class,'contact'])->name('contact');
 Route::get('about', [FrontPagesController::class,'about'])->name('about');
 Route::get('match-result', [FrontPagesController::class,'matchResult'])->name('match-result');
 Route::get('prize', [FrontPagesController::class,'prize'])->name('prize');
@@ -96,7 +106,7 @@ Route::get('player_roster/{alphabets}' ,[HomeController::class , 'player_roster'
 Route::get('expire_plans',[HomeController::class,'checkPlan'])->name('expire_plans');
 
 //match fixture for front
-Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
+// Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
 
 // Route::middleware('loggedin')->group(function() {
 //     Route::get('login', [AuthController::class, 'loginView'])->name('login.index');
@@ -215,6 +225,11 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::get('winner/assign_prize/{id}', [WinnerController::class, 'assign_prize'])->name('admin/winner/assign_prize');
     Route::post('winner/assigned_prize/{id}', [WinnerController::class, 'assigned_prize_store'])->name('admin/winner/assigned_prize');
     Route::get('view_winners', [WinnerController::class, 'view_winners'])->name('admin/view_winners');
+
+    //contacts list
+    Route::resources([
+        'contact' => ContactController::class,
+    ]);
 
     //color setting
     Route::get('color_setting', [ColorSettingController::class, 'index'])->name('admin/color_setting');

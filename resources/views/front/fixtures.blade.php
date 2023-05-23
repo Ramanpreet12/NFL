@@ -4,12 +4,60 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                            <h2>Match Fixture</h2>
-                            <h5 style="color:#444">Season : {{ $season_name }}</h5>
+                    <div class="d-flex justify-content-between">
+                        <h2>Match Fixture</h2>
+                        <h5 style="color:#444" id="">Season : {{ $c_season->season_name }} </h5>
+
+                        @if (Request::url() == 'http://localhost:8000/fixtures/weeks')
+                            @foreach ($fixtures as $week => $data)
+                                <h5 style="color:#444" id="set_week">Week : {{ $week }}</h5>
+                            @endforeach
+                        @endif
+
+                        <form action="{{ route('fixtures') }}" method="post">
+                            @csrf
+                            <label for="" style="color:#444">Seasons : </label>
+                            <select name="seasons" id="seasons">
+                                <option value="">select</option>
+                                @foreach ($get_seasons as $season)
+                                    <option value="{{ $season->id }}">{{ $season->season_name }}</option>
+                                @endforeach
+
+                            </select>
+                        </form>
+                        {{-- for weeks --}}
+                        <form action="{{ route('fixtures/weeks') }}" method="post">
+                            @csrf
+                            <input type="hidden" value="{{ $c_season->id }}" name="season_id">
+                            <label for="" style="color:#444">Weeks : </label>
+                            <select name="weeks" id="weeks">
+                                {{-- <option value="">{{$c_season->season_name ?? ''}}</option> --}}
+                                <option value="">select</option>
+                                <option value="1">Week 1</option>
+                                <option value="2">Week 2</option>
+                                <option value="3">Week 3</option>
+                                <option value="4">Week 4</option>
+                                <option value="5">Week 5</option>
+                                <option value="6">Week 6</option>
+                                <option value="7">Week 7</option>
+                                <option value="8">Week 8</option>
+                                <option value="9">Week 9</option>
+                                <option value="10">Week 10</option>
+                                <option value="11">Week 11</option>
+                                <option value="12">Week 12</option>
+                                <option value="13">Week 13</option>
+                                <option value="14">Week 14</option>
+                                <option value="15">Week 15</option>
+                                <option value="16">Week 16</option>
+                                <option value="17">Week 17</option>
+                                <option value="18">Week 18</option>
+
+
+                            </select>
+                        </form>
+                    </div>
                 </div>
-
             </div>
-
             {{-- <div class="col-4">
                 <form action="">
                     <div>
@@ -32,9 +80,20 @@
             </div> --}}
 
             <div class="row">
-
                 <div class="col-12">
                     <div class="table-responsive">
+                        <div class="alert alert-danger show flex items-center mb-2 alert_messages text-center" role="alert" style="display:none;" id="login_msg_div">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2">
+                                <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2">
+                                </polygon>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                           <span>Login first to select the team . </span>
+                            <a href="{{ route('login') }}">Click here to login</a>
+                        </div>
                         <table class="table table-striped">
                             <thead>
                                 <tr class="table-dark">
@@ -47,7 +106,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($fixtures as $week => $weakData)
-
                                     <tr>
                                         <td style="color: #db9a29;font-weight:bold;">Week : {{ $week }}</td>
                                         <td></td>
@@ -55,29 +113,37 @@
                                         {{-- <td></td> --}}
                                     </tr>
                                     @foreach ($weakData as $weeks => $team)
-
                                         @if ($week == $team->week)
                                             <tr>
                                                 <td>
                                                     <div
                                                         class="fixureMatch d-flex align-items-center justify-content-center">
                                                         <div class="teamOne">
-                                                            <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
-                                                                alt="" class="img-fluid">
 
-                                                            <div style="min-width:200px">{{ $team->first_team_id->name }}
-                                                            </div>
+                                                            <button style="text-decoration: none; color:#212529"
+                                                            class="team_name">
+                                                                <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                    alt="" class="img-fluid">
+
+                                                                <div style="min-width:200px">
+                                                                    {{ $team->first_team_id->name }}
+                                                                </div>
+                                                            </button>
+
                                                         </div>
                                                         <div class="versis">
                                                             <h5>VS</h5>
 
                                                         </div>
                                                         <div class="teamOne">
-                                                            <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
-                                                                alt="" class="img-fluid">
+                                                            <button  class="team_name" style="text-decoration: none; color:#212529">
+                                                                <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                    alt="" class="img-fluid">
 
-                                                            <div style="min-width:200px">{{ $team->second_team_id->name }}
-                                                            </div>
+                                                                <div style="min-width:200px">
+                                                                    {{ $team->second_team_id->name }}
+                                                                </div>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -89,15 +155,58 @@
                                     @endforeach
                                 @endforeach
                             </tbody>
-
                         </table>
-
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </section>
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+        jQuery(function() {
+            jQuery('#seasons').change(function() {
+                this.form.submit();
+            });
+
+            jQuery('#weeks').change(function() {
+                this.form.submit();
+            });
+
+            $('.team_name').click(function() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/check_user',
+                    data: {
+                        name: 'raman'
+                    },
+                    success: function(resp) {
+                        if(resp.status == false){
+                            $('#login_msg_div').show();
+                        }
+                        else{
+                            window.location.href = 'http://127.0.0.1:8000/payment';
+                        }
+
+                    },
+                    // error: function(resp) {
+                    //     if(resp.status == true){
+                    //         window.location.href = 'http://127.0.0.1:8000/dashboard';
+                    //     }
+                    // }
+                })
+
+
+
+
+            });
+        });
+    </script>
 @endsection

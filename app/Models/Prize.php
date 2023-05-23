@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prize extends Model
 {
     use HasFactory;
-    protected $fillable = ['season_id','name','amount' , 'status'];
+    protected $fillable = ['season_id','name','amount' , 'image' , 'content' , 'status'];
 
     protected $appends = ['season_name','team_name','player_name'];
 

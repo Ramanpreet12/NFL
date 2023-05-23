@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Fixture;
 use App\Models\SectionHeading;
 use App\Models\Season;
+use App\Models\User;
  use App\Models\Team;
+ use Auth;
  use App\Http\Requests\FixtureRequest;
  use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -119,31 +121,7 @@ class FixtureController extends Controller
         }
     }
 
-    public function showFixtures()
-    {
-        // $fixtures = DB::table('fixtures')
-        // ->join('seasons as s1','s1.id', '=', 'fixtures.season_id')
-        //  ->join('teams as teamOne', 'teamOne.id', '=', 'fixtures.first_team')
-        // ->join('teams as teamTwo', 'teamTwo.id', '=', 'fixtures.second_team')
-        // ->select('fixtures.*', 's1.*', 'teamOne.name as firstTeamName', 'teamOne.logo as firstTeamLogo','teamTwo.name as secondTeamName' ,'teamTwo.logo as secondTeamLogo')
-        // ->get()->groupBy(['season_name' , 'week']);
-        // echo "<pre>";
-        // print_r($fixtures);
-        // die();
 
-        $c_date = Season::where('status' , 'active')->value('starting');
-        $c_season = DB::table('seasons')
-            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-            ->where('status' , 'active')->first();
-        $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
-        // echo "<pre>";
-        // print_r( $fixtures);
-        // die();
-       $season_name = $c_season->season_name;
-
-
-       return view('front.fixtures' , compact('fixtures' , 'season_name'));
-    }
 
     //team results
 
@@ -191,8 +169,118 @@ class FixtureController extends Controller
         }
     }
 
+    // public function showFixtures()
+    // {
+
+    //     $c_date = Season::where('status' , 'active')->value('starting');
+    //     $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+    //         ->where('status' , 'active')->first();
+    //     $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
+    //    $season_name = $c_season->season_name;
+    //    $get_seasons = Season::where('status' , 'active')->get();
+
+    //    return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons'));
+    // }
 
 
+    // public function get_seasons(Request $request)
+    // {
+    //     if($request->isMethod('post')){
+    // //    $season_data = Season::where('id' , $request->seasons)->first();
+    // $c_date = Season::where('status' , 'active')->where('id' , $request->seasons)->value('starting');
+    // $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+    // ->where(['status' => 'active' , 'id' =>$request->seasons])->first();
+
+    // $season_name = $c_season->season_name;
+
+    // $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$request->seasons)
+    // ->whereDate('date','>',$c_date)
+    // ->get()->groupby('week');
+    // $get_seasons = Season::where('status' , 'active')->get();
+
+    // return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
+    //     }
+    // }
+
+    public function fixture(Request $request)
+    {
+
+        if ($request->isMethod('post')) {
+            $season_data = Season::where('id' , $request->seasons)->first();
+            $c_date = Season::where('status' , 'active')->where('id' , $request->seasons)->value('starting');
+            $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+             ->where(['status' => 'active' , 'id' =>$request->seasons])->first();
+             $season_name = $c_season->season_name;
+             $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$request->seasons)
+             ->whereDate('date','>',$c_date)->get()->groupby('week');
+             $get_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
+
+             //get data according to weeks
+            //  $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$request->seasons)
+            //  ->whereDate('date','>',$c_date)->get()->groupby('week');
+            // $id = auth()->user()->id;
+            // $user_status = User::where('id', $id)->value('subscribed');
+            // dd($user_status);
+            // if ($user_status == "0") {
+            //     return redirect()->back()->with('error', 'You are not subscribe for team select');
+            // }
+
+
+            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
+        } else {
+            $c_date = Season::where('status' , 'active')->value('starting');
+            $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+                    ->where('status' , 'active')->first();
+                $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
+               $season_name = $c_season->season_name;
+               $get_seasons = Season::where('status' , 'active')->get();
+
+            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
+        }
+
+    }
+
+    public function fixtureWeeks(Request $request)
+    {
+        if ($request->isMethod('post')) {
+        $season_data = Season::where('id' , $request->season_id)->first();
+
+        $c_date = Season::where('status' , 'active')->where('id' , $request->season_id)->value('starting');
+        $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+         ->where(['status' => 'active' , 'id' =>$request->season_id])->first();
+          $season_name = $c_season->season_name;
+         $fixtures = Fixture::with('first_team_id','second_team_id')
+         ->where(['season_id' =>$request->season_id , 'week' => $request->weeks])
+         ->whereDate('date','>',$c_date)->get()->groupby('week');
+         $get_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
+
+         return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
+        } else {
+            $c_date = Season::where('status' , 'active')->value('starting');
+            $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+                    ->where('status' , 'active')->first();
+                $fixtures = Fixture::with('first_team_id','second_team_id')
+                ->where(['season_id' =>$request->season_id , 'week' => $request->weeks])
+                ->whereDate('date','>',$c_date)->get()->groupby('week');
+               $season_name = $c_season->season_name;
+               $get_seasons = Season::where('status' , 'active')->get();
+
+            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
+        }
+
+    }
+
+    public function checkUser(Request $request)
+    {
+        if (!Auth::check()) {
+           return response()->json(['message' => 'please login first to continue','status'=>false], 200);
+        }
+        // else{
+        //     return response()->json(['message' => 'please login first to continue','status'=>true], 200);
+        // }
+
+
+    }
 }
 
 

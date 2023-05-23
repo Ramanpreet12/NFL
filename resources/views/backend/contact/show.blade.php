@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Prize</title>
+    <title>NFL | Contact</title>
 @endsection
 
 @section('subcontent')
@@ -32,66 +32,43 @@
         @endif
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-            <h2 class="font-medium text-base mr-auto">Add Prize </h2>
+            <h2 class="font-medium text-base mr-auto">Contact </h2>
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('contact.index')}}" id="add_banner">Back</a>
         </div>
-        <form action="{{ route('prize.store') }}" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data">
             @csrf
 
             <div id="horizontal-form" class="p-5">
                 <div class="preview  mr-5">
                     <div class="form-inline">
-                        <label for="season" class="font-medium form-label sm:w-60">Season</label>
-                        <select data-placeholder="Select Season" class="form-control" id="season" name="season_id">
-                            <option value="">--select--</option>
-                            @foreach ($seasons as $season)
-                                <option value="{{ $season->id }}">{{ $season->season_name }}</option>
-                            @endforeach
-                        </select>
-                        @error('season_id') <p class="text-danger">{{$message}}</p> @enderror
-                    </div>
-
-                    <div class="form-inline mt-5">
-                        <label for="name" class="font-medium form-label sm:w-60">Prize Name <span class="text-danger">*</span></label>
-                        <input id="name" type="text" class="form-control" placeholder="Enter prize name" name="name" value="">
-                    </div>
-
-
-                    <div class="form-inline mt-5">
-                        <label for="amount" class="font-medium form-label sm:w-60">Amount </label>
-                        <input id="amount" type="text" class="form-control" placeholder="Enter the amount for the prize" name="amount" value="">
-                    </div>
-
-                    <div class="form-inline mt-5">
-                        <label for="image" class="font-medium form-label sm:w-60">Image</label>
-                        <input id="image" type="file" class="form-control" placeholder="Enter image" name="image" value="">
-                    </div>
-                    <div class="form-inline mt-5">
-                        <label for="content" class="font-medium form-label sm:w-60">Content</label>
-                     <textarea name="content" id="" cols="30" rows="5" class="form-control"></textarea>
-                    </div>
-
-
-                    <div class="form-inline mt-5 mt-2">
-                        <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
-                        <select class="form-control" id="status" name="status">
-
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
+                        <label for="name" class="font-medium form-label sm:w-60">Name <span class="text-danger">*</span></label>
+                        <input id="name" type="text" class="form-control" placeholder="Enter name" name="name"  value="{{ ucwords($contact->name) }}" readonly>
                     </div>
                     <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>
-                        @error('status')<p class="text-danger">{{$message}}</p> @enderror
+                        @error('name')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
+                    <div class="form-inline mt-5">
+                        <label for="email" class="font-medium form-label sm:w-60">Email <span class="text-danger">*</span></label>
+                        <input id="email" type="text" class="form-control" placeholder="Enter email" name="email"  value="{{($contact->email) }}" readonly>
+                    </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="email" class="font-medium form-label sm:w-60">Message <span class="text-danger">*</span></label>
+                       <textarea name="message" id="" cols="30" rows="5" class="form-control" readonly>{{$contact->message}}</textarea>
+                    </div>
+
+
                 </div>
+
                 <br><br>
                 <div
                     class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
                 </div>
-                <div class="text-right mt-5">
+                {{-- <div class="text-right mt-5">
                     <button type="submit" class="btn btn-primary w-24">Save</button>
                     <button type="reset" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-                </div>
+                </div> --}}
             </div>
         </form>
     </div>

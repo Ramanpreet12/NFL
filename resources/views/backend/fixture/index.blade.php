@@ -53,7 +53,7 @@
 
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$fixture->season->season_name ?? ''}} </div>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{$fixture->season->season_name ?? ''}} </div>
 
                             </td>
                             <td class="">

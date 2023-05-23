@@ -136,11 +136,32 @@
                         <div class="teamResult">
                             <div class="teamInfo">
                                 <div class="result-content">
-                                    <h4><span>{{$team->win_name}}</span></h4>
+                                    <h4><span>
+                                    @if ($team->win ==  $team->first_team)
+                                        {{$team->first_team_id->name}}
+
+                                       @elseif ($team->win == $team->second_team)
+                                       {{$team->second_team_id->name}}
+
+                                       @elseif ($team->win == 0)
+                                       {{''}}
+
+                                    @endif
+
+                                        </span></h4>
                                     <p class="loseResult">WIN</p>
                                 </div>
                             </div>
-                            <div class="teamLogo">
+                            <div class="resultteamLogo">
+                                @if ($team->win ==  $team->first_team)
+                                        <img src="{{asset('storage/images/team_logo/'.$team->first_team_id->logo)}}" alt="" class="img-fluid teamlogoImg">
+                                       @elseif ($team->win == $team->second_team)
+                                       <img src="{{asset('storage/images/team_logo/'.$team->second_team_id->logo)}}" alt="" class="img-fluid teamlogoImg">
+                                       @elseif ($team->win == 0)
+                                       {{''}}
+
+                                    @endif
+
                                 {{-- <img src="{{asset('storage/images/team_logo/'.$team->t2_logo)}}" alt="" class="img-fluid teamlogoImg"> --}}
                             </div>
                         </div>
@@ -149,27 +170,29 @@
                         <div class="result-count">
                             <div class="count_number">
                                 <span class="win-Team">
-                                    @if ($team->win ==  $team->first_team_id->id)
-                                       {{$team->first_team_id->win}}
-                                       @elseif ($team->win == $team->second_team_id->id)
+                                    @if ($team->win ==  $team->first_team)
+                                       {{$team->first_team_points}}
 
-                                       {{$team->second_team_id->win}}
-                                       @elseif ($team->win == null)
+                                       @elseif ($team->win == $team->second_team)
+                                       {{$team->second_team_points}}
+
+                                       @elseif ($team->win == 0)
                                        {{'0'}}
 
                                     @endif
                                 </span>
                                 <span>-</span>
                                 <span class="lose-Team">
-                                    @if ($team->loss ==  $team->first_team_id->id)
-                                       {{$team->first_team_id->win}}
-                                       @elseif ($team->loss == $team->second_team_id->id)
-                                       {{$team->second_team_id->win}}
+                                    @if ($team->loss ==  $team->first_team)
+                                    {{$team->first_team_points}}
 
-                                    @endif
-                                    @if ($team->loss==null)
-                                        {{'0'}}
-                                    @endif
+                                    @elseif ($team->loss == $team->second_team)
+                                    {{$team->second_team_points}}
+
+                                    @elseif ($team->loss == 0)
+                                    {{'0'}}
+
+                                 @endif
                                 </span>
                             </div>
                             <p>{{ \Carbon\Carbon::parse($team->date)->format('j F, Y') }}&nbsp;</p>
@@ -181,11 +204,32 @@
                         <div class="teamResult resultDetail">
 
                             <div class="teamLogo">
+                                @if ($team->loss ==  $team->first_team)
+                                <img src="{{asset('storage/images/team_logo/'.$team->first_team_id->logo)}}" alt="" class="img-fluid teamlogoImg">
+                               @elseif ($team->loss == $team->second_team)
+                               <img src="{{asset('storage/images/team_logo/'.$team->second_team_id->logo)}}" alt="" class="img-fluid teamlogoImg">
+                               @elseif ($team->loss == 0)
+                               {{''}}
+
+                            @endif
+
                                 {{-- <img src="{{asset('storage/images/team_logo/'.$team->t2_logo)}}" alt="" class="img-fluid teamlogoImg"> --}}
                             </div>
                             <div class="teamInfo">
                                 <div class="result-content">
-                                    <h4><span>{{$team->loss_name}}</span></h4>
+                                    <h4><span>
+                                        @if ($team->loss ==  $team->first_team)
+                                        {{$team->first_team_id->name}}
+
+                                        @elseif ($team->loss == $team->second_team)
+                                        {{$team->second_team_id->name}}
+
+                                        @elseif ($team->loss == 0)
+                                        {{''}}
+
+                                     @endif
+
+                                        </span></h4>
                                     <p class="loseResult">LOSE</p>
                                 </div>
                             </div>

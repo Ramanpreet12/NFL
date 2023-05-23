@@ -36,7 +36,7 @@ class SideMenu
 
 
             'winner' => [
-                'icon' => 'award',
+                'icon' => 'star',
                 'route_name' => 'admin/winner',
                 'params' => '',
                 'title' => 'Winner'
@@ -69,6 +69,13 @@ class SideMenu
                 // ],
                 'title' => 'Season Management'
             ],
+            'fixtures' => [
+                'icon' => 'calendar',
+                'route_name' => 'admin/fixtures',
+                'params' => '',
+                'title' => 'Fixtures'
+            ],
+
             'team_result' => [
                 'icon' => 'settings',
                 'route_name' => 'admin/teams/result',
@@ -76,7 +83,7 @@ class SideMenu
                 'title' => 'Teams Result'
             ],
             'score_board' => [
-                'icon' => 'settings',
+                'icon' => 'clipboard',
                 'route_name' => 'admin/scores',
                 'params' => '',
                 'title' => 'Scores'
@@ -93,6 +100,18 @@ class SideMenu
                 // ],
                 'title' => 'Prize Management'
             ],
+
+            'contact' => [
+                'icon' => 'phone',
+                'route_name' => 'contact.index',
+                'params' => '',
+                // [
+                //     'layout' => 'side-menu'
+                // ],
+                'title' => 'Contacts'
+            ],
+
+
 
 
             'setting' => [
@@ -135,12 +154,7 @@ class SideMenu
                         'params' =>'',
                         'title' => 'Banner'
                     ],
-                    'fixtures' => [
-                        'icon' => 'calendar',
-                        'route_name' => 'admin/fixtures',
-                        'params' => '',
-                        'title' => 'Fixtures'
-                    ],
+
 
                     'region' => [
                         'icon' => 'settings',

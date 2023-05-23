@@ -33,4 +33,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
    ],
 
+   'recaptcha' => [
+    'sitekey' => env('CAPCHA_SITE_KEY'),
+    'secret' => env('CAPCHA_SECRET_KEY'),
+],
+
+
 ];
