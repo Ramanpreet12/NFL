@@ -15,10 +15,10 @@
 </section>
 
 @endsection
-@section('scripts')
+@section('script')
 <script>
     let URL = "{{ route('teams') }}";
-    setTimeout(function(){window.location=URL }, 6000);
+    setTimeout(function(){window.location=URL }, 3000);
     </script>
 @endsection
 

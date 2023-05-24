@@ -8,7 +8,9 @@ use App\Models\Fixture;
 use App\Models\SectionHeading;
 use App\Models\Season;
 use App\Models\User;
+use App\Models\UserTeam;
  use App\Models\Team;
+ use App\Models\Payment;
  use Auth;
  use App\Http\Requests\FixtureRequest;
  use Illuminate\Support\Facades\DB;
@@ -16,6 +18,9 @@ use Illuminate\Support\Carbon;
 
 class FixtureController extends Controller
 {
+    private $league_id = 1 ;// league id basically determines the leagues for eg NFL ,FIFA etc
+
+
     public function fixtures()
     {
         $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
@@ -272,14 +277,62 @@ class FixtureController extends Controller
 
     public function checkUser(Request $request)
     {
+
+
         if (!Auth::check()) {
-           return response()->json(['message' => 'please login first to continue','status'=>false], 200);
+           return response()->json(['message' => 'login','status'=>false], 200);
         }
-        // else{
-        //     return response()->json(['message' => 'please login first to continue','status'=>true], 200);
-        // }
 
 
+            $team_id = $request->team_id;
+
+            $season_id = $request->season_id;
+
+            $week = $request->week;
+            $fixture_id = $request->fixture_id;
+            $user_id = auth()->user()->id;
+
+            $user_status = Payment::where(['user_id' => $user_id,'season_id'=> $season_id,'status'=>'succeeded'])->first();
+
+
+
+            if ($user_status) {
+
+                $current_date = Carbon::now();  // current time and date
+
+                $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>', $current_date ]])->first();
+
+                // if no, redirect with error
+                 if(!$is_user_allowed_to_choose_fixture){
+                    return response()->json(['message' => 'Selection time is over for this fixture.You can choose the fixture till day before the match.','status'=>false], 200);
+                 }
+                 // if user selected the fixture or not
+                $user_selected_fixture_team = UserTeam::where(['user_id' => $user_id, 'season_id' => $season_id, 'week' => $week,'fixture_id'=> $fixture_id ])->first();
+
+                 if($user_selected_fixture_team){
+                    $user_selected_fixture_team->update(['team_id'=>$team_id]);
+
+                    return response()->json(['message' => 'update','status'=>true], 200);
+
+                 }else{
+
+                    $created =  UserTeam::create([
+                        'user_id' => $user_id,
+                        'leauge_id' => $this->league_id,
+                        'season_id' => $season_id,
+                        'week' => $week,
+                        'team_id' => $team_id,
+                        'fixture_id'=>$fixture_id,
+                    ]);
+
+                    return response()->json(['message' => 'added','status'=>true], 200);
+                 }
+
+            }
+            else{
+                return response()->json(['message' => 'subscribe','status'=>false], 200);
+
+            }
     }
 }
 

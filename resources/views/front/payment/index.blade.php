@@ -34,6 +34,12 @@
                                             placeholder="John" value="{{ ucfirst(auth()->user()->name) }}">
                                     </div>
                                     <div class="mb-3">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <input type="text" class="form-control" id="amount" name="amount"
+                                            placeholder="Enter Amount" value="">
+                                    </div>
+
+                                    <div class="mb-3">
                                         <label for="address" class="form-label">Address</label>
                                         <input type="text" class="form-control" id="address" name="address"
                                             placeholder="Street Address">
@@ -85,7 +91,7 @@
                                         <div id="payment-element">
                                             <!-- Mount the Payment Element here -->
                                         </div>
-                                        <input type="hidden" id="amount" name="amount" value="100">
+                                        {{-- <input type="hidden" id="amount" name="amount" value="100"> --}}
 <br>
                                         <button id="submit" class="btn btn-primary" onclick="handleSubmit()">Pay</button>
                                     </form>

@@ -9,6 +9,7 @@
             <h4><span><a href="{{route('dashboard')}}" style="text-decoration:none; color:#333">Dashboard</a></span></h4>
             <ul class="sidebarLink">
                 <li><a href="{{route('teams')}}">Team Pick</a></li>
+                <li><a href="{{ route('my_selections') }}">My Selections</a></li>
                 <li><a href="{{ route('userHistory') }}">Past Selections</a></li>
                 <li><a href="{{ route('userPayment') }}">Payments</a></li>
                 <li><a href="{{ route('upcomingMatches') }}">Upcoming Matches</a></li>

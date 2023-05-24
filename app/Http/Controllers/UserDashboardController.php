@@ -56,6 +56,21 @@ class UserDashboardController extends Controller
         return view('front.payment', compact('payment'));
     }
 
+    public function my_selections()
+    {
+        $my_selections = DB::table('user_teams')
+         ->select('f.date as fdate' ,'f.time as ftime' ,'f.time_zone as ftime_zone' ,'f.id','f.win As team_win','f.loss As team_loss','t.logo As team_logo', 't.name As user_team', 's.season_name As season_name','t1.name As first_name','t1.logo As first_logo','t2.name As second_name','t2.logo As second_logo','user_teams.points As user_point')
+        ->join('teams as t', 't.id', '=', 'user_teams.team_id')
+        ->join('seasons as s', 's.id', '=', 'user_teams.season_id')
+        ->join('fixtures as f', 'f.id', '=', 'user_teams.fixture_id')
+         ->join('teams as t1', 't1.id', '=', 'f.first_team')
+        ->join('teams as t2', 't2.id', '=', 'f.second_team')
+         ->where('user_id', auth()->user()->id)
+        ->orderby('user_teams.week', 'desc')->get();
+
+        return view('front.myselections', compact('my_selections'));
+    }
+
     public function userHistory()
     {
         $history = DB::table('user_teams')
@@ -66,11 +81,11 @@ class UserDashboardController extends Controller
          ->join('teams as t1', 't1.id', '=', 'f.first_team')
         ->join('teams as t2', 't2.id', '=', 'f.second_team')
          ->where('user_id', auth()->user()->id)
-        ->orderby('user_teams.week', 'desc')->paginate(6);
+        ->orderby('user_teams.week', 'desc')->get();
 
 
 
-        return view('front.userhistory', compact('history'));
+        return view('front.myselections', compact('history'));
     }
 
     public function upcomingMatches()

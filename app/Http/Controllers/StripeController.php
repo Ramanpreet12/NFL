@@ -59,14 +59,14 @@ class StripeController extends Controller
         //   }
 
             $intent = \Stripe\PaymentIntent::create([
-                'amount' => $request->amount,
+                'amount' => $request->amount*100,
                 'currency' => 'inr',
                 'automatic_payment_methods' => [
                     'enabled' => 'true',
                 ],
             ]);
 
-            // dd($intent);
+
             DB::commit();
             return response()->json($intent->client_secret);
 

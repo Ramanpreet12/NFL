@@ -95,6 +95,7 @@ Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
 Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam')->middleware('timeOver');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('my_selections' , [UserDashboardController::class, 'my_selections'])->name('my_selections');
 Route::get('userHistory', [UserDashboardController::class, 'userHistory'])->name('userHistory');
 Route::get('userPayment', [UserDashboardController::class, 'userPayment'])->name('userPayment');
 Route::get('upcomingMatches', [UserDashboardController::class, 'upcomingMatches'])->name('upcomingMatches');
