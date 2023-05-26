@@ -72,11 +72,13 @@ Route::match(['get' , 'post'], 'fixtures/weeks', [FixtureController::class, 'fix
 // Route::match(['get' , 'post'], 'fixtures/{weeks?}', [FixtureController::class, 'fixture'])->name('fixtures');
 
 Route::post('check_user',[FixtureController::class, 'checkUser']);
+Route::get('loss_user',[FixtureController::class, 'loss_user']);
 
 Route::match(['GET','POST'], 'contact', [FrontPagesController::class,'contact'])->name('contact');
 Route::get('about', [FrontPagesController::class,'about'])->name('about');
 Route::get('match-result', [FrontPagesController::class,'matchResult'])->name('match-result');
 Route::get('prize', [FrontPagesController::class,'prize'])->name('prize');
+Route::get('standings', [FrontPagesController::class,'standings'])->name('standings');
 
 Route::get('payment', [StripeController::class, 'stripe'])->name('payment');
 Route::post('payment/store', [StripeController::class, 'stripePost'])->name('payment.store');
@@ -96,7 +98,9 @@ Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('my_selections' , [UserDashboardController::class, 'my_selections'])->name('my_selections');
-Route::get('userHistory', [UserDashboardController::class, 'userHistory'])->name('userHistory');
+Route::get('my_results',[UserDashboardController::class, 'my_results'])->name('my_results');
+
+Route::get('past_selections', [UserDashboardController::class, 'past_selections'])->name('past_selections');
 Route::get('userPayment', [UserDashboardController::class, 'userPayment'])->name('userPayment');
 Route::get('upcomingMatches', [UserDashboardController::class, 'upcomingMatches'])->name('upcomingMatches');
 });

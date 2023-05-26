@@ -59,33 +59,48 @@ class UserDashboardController extends Controller
     public function my_selections()
     {
         $my_selections = DB::table('user_teams')
-         ->select('f.date as fdate' ,'f.time as ftime' ,'f.time_zone as ftime_zone' ,'f.id','f.win As team_win','f.loss As team_loss','t.logo As team_logo', 't.name As user_team', 's.season_name As season_name','t1.name As first_name','t1.logo As first_logo','t2.name As second_name','t2.logo As second_logo','user_teams.points As user_point')
+         ->select('f.week As fweek' ,'f.date as fdate' ,'f.time as ftime' ,'f.time_zone as ftime_zone' ,'f.id','f.win As team_win','f.loss As team_loss','t.logo As team_logo', 't.name As user_team', 's.season_name As season_name','t1.name As first_name','t1.logo As first_logo','t2.name As second_name','t2.logo As second_logo','user_teams.points As user_point')
         ->join('teams as t', 't.id', '=', 'user_teams.team_id')
         ->join('seasons as s', 's.id', '=', 'user_teams.season_id')
         ->join('fixtures as f', 'f.id', '=', 'user_teams.fixture_id')
          ->join('teams as t1', 't1.id', '=', 'f.first_team')
         ->join('teams as t2', 't2.id', '=', 'f.second_team')
          ->where('user_id', auth()->user()->id)
-        ->orderby('user_teams.week', 'desc')->get();
+        ->orderby('user_teams.week', 'desc')->get()->groupby('fweek');
+        $c_date = Season::where('status' , 'active')->value('starting');
+        $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+                ->where('status' , 'active')->first();
+           $season_name = $c_season->season_name;
 
-        return view('front.myselections', compact('my_selections'));
+
+
+        return view('front.myselections', compact('my_selections' , 'season_name'));
     }
 
-    public function userHistory()
+    public function past_selections()
     {
-        $history = DB::table('user_teams')
-         ->select('f.id','f.win As team_win','f.loss As team_loss', 't.name As user_team', 's.season_name As season_name','t1.name As first_name','t1.logo As first_logo','t2.name As second_name','t2.logo As second_logo','user_teams.points As user_point')
+        $past_selections = DB::table('user_teams')
+         ->select('f.time As ftime' ,'f.time_zone As tformat' ,'f.date As fdate','f.week As fweek','f.id','f.win As team_win','f.loss As team_loss','t.logo As tlogo' , 't.name As user_team', 's.season_name As season_name','t1.name As first_name','t1.logo As first_logo','t2.name As second_name','t2.logo As second_logo','user_teams.points As user_point')
         ->join('teams as t', 't.id', '=', 'user_teams.team_id')
         ->join('seasons as s', 's.id', '=', 'user_teams.season_id')
         ->join('fixtures as f', 'f.id', '=', 'user_teams.fixture_id')
          ->join('teams as t1', 't1.id', '=', 'f.first_team')
         ->join('teams as t2', 't2.id', '=', 'f.second_team')
          ->where('user_id', auth()->user()->id)
-        ->orderby('user_teams.week', 'desc')->get();
+         ->whereNotNull(['f.win' , 'f.loss'])
+        ->orderby('user_teams.week', 'desc')->get()->groupby('fweek');
 
+        // echo "<pre>";
+        // print_r($past_selections);
+        // die();
+        $c_date = Season::where('status' , 'active')->value('starting');
+            $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+                    ->where('status' , 'active')->first();
+               $season_name = $c_season->season_name;
 
-
-        return view('front.myselections', compact('history'));
+        // $get_season_name = $past_selections->season_name;
+        // dd($season_name);
+        return view('front.past_selections', compact('past_selections' , 'season_name'));
     }
 
     public function upcomingMatches()
@@ -107,4 +122,39 @@ class UserDashboardController extends Controller
 
         return view('front.upcoming',compact('upcoming'));
     }
+
+    public function my_results()
+    {
+    //     $last_date_fixture_week =    Carbon::now()->addDays(8)->format('Y-m-d');
+    //     $first_date_fixture_week =    Carbon::now()->addDays(1)->format('Y-m-d');
+
+    //      $data= Fixture::whereBetween('date', [$first_date_fixture_week,  $last_date_fixture_week ])->pluck('id')->toArray();
+    //      //data = [1,2,5]
+    //      $users = User::where('role_as' , 0)->get();
+    //    $user_teams = UserTeam::where(['user_id' => 47 , 'week' => 2])
+    //    // ->whereNotIn('fixture_id', [1 , 2 , 3])
+    //    // ->where('fixture_id' , '!=' , $array)
+    //    ->pluck('fixture_id')->toArray();
+
+    //    //user_teams = [2]
+
+    //  $array_diff =   array_diff($data ,$user_teams );
+
+    //  //array_diff = [1 , 5]
+
+    //       dd($array_diff);
+    //     $today_date = Carbon::now()->format('Y-m-d');
+
+
+    $get_weeks = Fixture::pluck('week')->toArray();
+
+    $user_teams = UserTeam::where(['user_id' => 47 ])->pluck('week')->toArray();
+    $array_diff =   array_diff($get_weeks ,$user_teams );
+
+
+    dd($array_diff);
+
+       return view('front.my_results');
+    }
+
 }

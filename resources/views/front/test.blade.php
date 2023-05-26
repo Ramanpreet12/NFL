@@ -144,7 +144,7 @@
                                                             </tr>
                                                         @endforeach
                                                         <tr>
-                                                            <td colspan="6"><a href="{{route('userHistory')}}">See More</a></td>
+                                                            <td colspan="6"><a href="{{route('past_selections')}}">See More</a></td>
                                                         </tr>
                                                     @else
                                                         <tr>

@@ -135,4 +135,26 @@ class FrontPagesController extends Controller
 
         return view('front.prize' , compact('prizes'));
     }
+
+
+    public function standings()
+    {
+        // $teams = Team::get()->groupBy(['league' , 'region_id']);
+
+        // $teams = DB::table('teams')
+        // ->join('regions' , 'regions.id' , '=' , 'teams.region_id' )
+        // ->get()->groupBy(['league' , 'region']);
+
+        $teams = DB::table('user_teams')
+        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id' )
+        // ->join('regions' , 'regions.id' , '=' , 'teams.region_id' )
+         ->get()->groupBy(['league' , 'region']);
+
+
+        // echo "<pre>";
+        // print_r($teams);
+        // die();
+
+       return view('front.standings');
+    }
 }

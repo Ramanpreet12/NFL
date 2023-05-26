@@ -91,12 +91,13 @@
                 @include('front.layout.sidebar')
                 <div class="col-sm-8 col-md-9">
                     <h2 style="color:{{ $colorSection['leaderboard']['header_color'] }};">
-                        My Selections
+                        Past Selections
                     </h2>
-<br>
+                    <br>
                     <h6 style="color:{{ $colorSection['leaderboard']['header_color'] }};">
-                       Season : {{$season_name}}
+                      Season : {{$season_name}}
                     </h6>
+
 
                     <div class="row">
                         <div class="col-12">
@@ -104,102 +105,88 @@
                                 <table class="table table-dark table-striped  tableBoard">
                                     <thead>
                                         <tr class="table-primary">
-                                            <th>S no.</th>
+                                            {{-- <th>S no.</th> --}}
 
                                             <th scope="col">Match</th>
-
-                                            {{-- <th scope="col">Win</th>
-                                            <th scope="col">Loss</th> --}}
-
+                                            <th scope="col">Win</th>
+                                            <th scope="col">Loss</th>
                                             <th scope="col">My Pick</th>
-
                                             <th scope="col">Date</th>
                                             <th scope="col">Time</th>
                                             <th scope="col">Points</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
-{{-- {{dd($my_selections)}} --}}
-                                        @if (!empty($my_selections))
-                                        @foreach ($my_selections as $week => $weakData)
+                                        @foreach ($past_selections as $week => $weakData)
 
                                         <tr>
-                                            <td></td>
+
                                             <td style="color: #db9a29;font-weight:bold;">Week : {{ $week }}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-
-
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-
-                                        @php
-                                            $count ='';
-                                        @endphp
-                                            {{-- @foreach ($my_selections as $his) --}}
-                                            @foreach ($weakData as $weaks => $his)
+                                            @foreach ($weakData as $weaks => $team)
 {{-- {{dd($team)}} --}}
-                                                @if ($week == $his->fweek)
+                                                @if ($week == $team->fweek)
 
-                                                <tr>
-                                                    <td>{{++$count;}}</td>
-                                                    {{-- <td>{{$his->season_name}}</td> --}}
-                                                    <td>
-                                                        <div
-                                                            class="fixureMatch d-flex align-items-center justify-content-center">
-                                                            <div class="teamOne">
-                                                                <img src="{{ asset('storage/images/team_logo/' . $his->first_logo) }}"
-                                                                    alt="" class="img-fluid">
+                                                    <tr>
+                                                        {{-- <td>1</td> --}}
 
-                                                                <div style="min-width:200px">
-                                                                    {{ $his->first_name }}
+                                                        <td>
+                                                            <div
+                                                                class="fixureMatch d-flex align-items-center justify-content-center">
+                                                                <div class="teamOne">
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->first_logo) }}"
+                                                                        alt="" class="img-fluid">
+
+                                                                    <div style="min-width:200px">{{ $team->first_name }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="versis">
+                                                                    <h5>VS</h5>
+
+                                                                </div>
+                                                                <div class="teamOne">
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->second_logo) }}"
+                                                                        alt="" class="img-fluid">
+
+                                                                    <div style="min-width:200px">{{ $team->second_name }}
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="versis">
-                                                                <h5>VS</h5>
+                                                        </td>
+                                                        <td>{{ get_team_name($team->team_win) }}
+                                                        </td>
+                                                        <td>{{ get_team_name($team->team_loss) }}
+                                                        </td>
 
-                                                            </div>
+                                                        <td>
                                                             <div class="teamOne">
-                                                                <img src="{{ asset('storage/images/team_logo/' .$his->second_logo) }}"
+                                                                <img src="{{ asset('storage/images/team_logo/' .$team->tlogo) }}"
                                                                     alt="" class="img-fluid">
 
-                                                                <div style="min-width:200px">
-                                                                    {{ $his->second_name }}
-                                                                </div>
+                                                                <div style="min-width:200px">{{ $team->user_team }}</div>
                                                             </div>
-                                                        </div>
-                                                    </td>
+                                                        </td>
 
-                                                    {{-- <td>{{ get_team_name($his->team_win) }}
-                                                    </td>
-                                                    <td>{{ get_team_name($his->team_loss) }}
-                                                    </td> --}}
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->fdate)->format('M d , Y') }}
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->ftime)->format('H:i') }}{{ $team->tformat }}
+                                                        </td>
+                                                        <td>{{ ($team->user_point) }}
+                                                        </td>
 
-                                                    <td>
-                                                        <div class="teamOne">
-                                                            <img src="{{ asset('storage/images/team_logo/' .$his->team_logo) }}"
-                                                                alt="" class="img-fluid">
-
-                                                            <div style="min-width:200px">{{ $his->user_team }}</div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $his->fdate)->format('M d , Y') }}
-                                                    </td>
-                                                    <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $his->ftime)->format('H:i') }}{{ $his->ftime_zone }}
-                                                    </td>
-
-                                                    <td>{{ $his->user_point }}
-                                                    </td>
-
-
-                                                </tr>
+                                                    </tr>
                                                 @endif
                                             @endforeach
-                                            @endforeach
-                                        @endif
+                                        @endforeach
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>

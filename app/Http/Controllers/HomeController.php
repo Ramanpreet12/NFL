@@ -21,6 +21,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SubscriptionExpire;
 use Illuminate\Support\Facades\Log;
+use Cache;
 
 
 class HomeController extends Controller
@@ -86,49 +87,61 @@ class HomeController extends Controller
         return view('home.index',compact('colorSection' , 'banners', 'upcoming_matches' ,'leaderBoard_data', 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' ,'matchBoards'));
     }
 
+
+     private function getPlayersData($group='',$PlayerName=''){
+
+
+        $roster_data_query = DB::table('user_teams')
+        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
+        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
+        ->join('regions', 'regions.id', '=', 'teams.region_id')
+        ->orderBy('position' , 'asc');
+
+        if(isset($PlayerName)){
+            $roster_data_query->where('users.name', 'like', "{$PlayerName}%");
+          }
+
+        $roster_data_query ->where('users.group',$group);
+        $customer_players_data = $roster_data_query->get()->groupBy(['region']);
+
+
+        if(Cache::has('regions')){
+            $PlayersRegions = Cache::get('regions');
+          }else{
+             $get_regions =  Region::where('status' , 'active')->select('region')->get();
+             $PlayersRegions =  Cache::put('regions', $get_regions);
+          }
+           $roster_data = [];
+           foreach($PlayersRegions as $regions){
+            if(isset($customer_players_data[$regions->region])){
+                $roster_data[$regions->region] = $customer_players_data[$regions->region];
+            }else{
+                $roster_data[$regions->region] = collect([]);
+            }
+           }
+
+           return   $roster_data;
+
+     }
+
+
     public function getAlphabets(Request $request)
     {
         $name = $request->letters;
         $gp = $request->path;
-        $roster_data = DB::table('teams')
-            ->join('users', 'users.team_id', '=', 'teams.id')
-            ->join('regions', 'regions.id', '=', 'teams.region_id')
-            ->orderBy('position', 'asc')
-            ->where('users.name', 'like', "{$name}%")
-            ->where('group', $gp)
-            ->get()->groupBy(['region']);
+        $roster_data =  $this->getPlayersData($gp,$name);
+
         if ($roster_data) {
             return response()->json(['roster_data' =>  $roster_data, 'status' => true], 200);
         } else {
-            return response()->json(['roster_data' =>  '', 'status' => false], 401);
+            return response()->json(['roster_data' =>  'error', 'status' => false], 401);
         }
     }
 
     public function player_roster($alphabets)
     {
         $gp = $alphabets;
-
-        // $roster_data = DB::table('teams')
-        // ->join('users', 'users.team_id', '=', 'teams.id')
-        // ->join('regions', 'regions.id', '=', 'teams.region_id')
-        // ->orderBy('position' , 'asc')
-        // ->where('group',$gp)
-        // ->get()->groupBy(['region']);
-
-
-        $roster_data = DB::table('user_teams')
-        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
-        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
-        ->join('regions', 'regions.id', '=', 'teams.region_id')
-        ->orderBy('position' , 'asc')
-        ->where('users.group',$gp)
-        ->get()->groupBy(['region']);
-
-
-        // echo "<pre>";
-        // print_r($roster_data);
-        // die();
-
+        $roster_data =  $this->getPlayersData($gp);
         return view('front.playerRoster' , compact('roster_data'));
     }
 

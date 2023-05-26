@@ -10,7 +10,27 @@
             @endif
         </a>
 
+        @if (Auth::guest())
+        <div class="loginbtn">
+            <a href="{{ url('login') }}" class="btn btn-primary"
+            style="color:{{ $colorSection['header']['text_color'] }};" type="submit">log in
+        </a>
+        </div>
+        @else
 
+            {{-- <a href="{{ route('logout') }}" class="btn btn-primary">Logout</a> --}}
+            <div class="loginbtn userDropdown dropdown">
+              <a href="" class="dropdown-toggle" style="color:{{ $colorSection['header']["text_color"] }}; text-decoration: none;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ Auth::user()->name }} &nbsp;<i class="fa-solid fa-user"></i>
+              </a>
+              <ul class="dropdown-menu">
+               <br>
+          <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+          <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+        </ul>
+            </div>
+
+    @endif
 
 
 
@@ -66,7 +86,7 @@
                                         @foreach ($subMenus as $subMenu)
                                             @if ($subMenu->parent_id == $menuMenu->id)
                                                 <li class="nav-item"> <a class="dropdown-item"
-                                                        href="#">{{ $subMenu->title }}</a></li>
+                                                        href="{{ $subMenu->url }}">{{ $subMenu->title }}</a></li>
                                             @endif
                                         @endforeach
                                     </ul>
@@ -121,7 +141,7 @@
 
         </div>
 
-        @if (Auth::guest())
+        {{-- @if (Auth::guest())
             <div class="loginbtn">
                 <a href="{{ url('login') }}" class="btn btn-primary"
                 style="color:{{ $colorSection['header']['text_color'] }};" type="submit">log in
@@ -130,7 +150,7 @@
             @else
                 {{ Auth::user()->name }}
                 <a href="{{ route('logout') }}" class="btn btn-primary">Logout</a>
-        @endif
+        @endif --}}
     </div>
 </nav>
 <style type="text/css">

@@ -10,7 +10,8 @@
             <ul class="sidebarLink">
                 <li><a href="{{route('teams')}}">Team Pick</a></li>
                 <li><a href="{{ route('my_selections') }}">My Selections</a></li>
-                <li><a href="{{ route('userHistory') }}">Past Selections</a></li>
+                <li><a href="{{ route('my_results') }}">My Results</a></li>
+                <li><a href="{{ route('past_selections') }}">Past Selections</a></li>
                 <li><a href="{{ route('userPayment') }}">Payments</a></li>
                 <li><a href="{{ route('upcomingMatches') }}">Upcoming Matches</a></li>
             </ul>

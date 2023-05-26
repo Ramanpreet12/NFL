@@ -2,11 +2,21 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-4">
-          <a class="footerLogo" href="index.html">
-            {{-- <img src="{{ asset('front/img/NFL-small.png') }}" alt="" class="img-fluid"> --}}
+          {{-- <a class="footerLogo" href="index.html">
+
             <img src="{{$general->logo}}" alt="" class="img-fluid">
 
-          </a>
+          </a> --}}
+          <a class="footerLogo" href="{{ url('/') }}">
+
+            @if (!empty($general->logo))
+                <img src="{{ asset('storage/images/general/' . $general->logo) }}" alt="" height="80px"
+                    width="200px"  class="img-fluid">
+            @else
+                <img src="{{ asset('front/img/football picks.png') }}" alt="" class="img-fluid">
+            @endif
+        </a>
+
 
           <div class="contactDetail">
             <div class="contactUs d-flex">

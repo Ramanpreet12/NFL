@@ -218,6 +218,7 @@ class FixtureController extends Controller
              $season_name = $c_season->season_name;
              $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$request->seasons)
              ->whereDate('date','>',$c_date)->get()->groupby('week');
+
              $get_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
 
              //get data according to weeks
@@ -236,7 +237,8 @@ class FixtureController extends Controller
             $c_date = Season::where('status' , 'active')->value('starting');
             $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
                     ->where('status' , 'active')->first();
-                $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
+                $fixtures = Fixture::with('first_team_id','second_team_id')
+                ->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
                $season_name = $c_season->season_name;
                $get_seasons = Season::where('status' , 'active')->get();
 
@@ -277,30 +279,27 @@ class FixtureController extends Controller
 
     public function checkUser(Request $request)
     {
-
-
         if (!Auth::check()) {
            return response()->json(['message' => 'login','status'=>false], 200);
         }
-
-
             $team_id = $request->team_id;
-
             $season_id = $request->season_id;
-
             $week = $request->week;
             $fixture_id = $request->fixture_id;
             $user_id = auth()->user()->id;
-
             $user_status = Payment::where(['user_id' => $user_id,'season_id'=> $season_id,'status'=>'succeeded'])->first();
 
-
-
             if ($user_status) {
-
                 $current_date = Carbon::now();  // current time and date
-
-                $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>', $current_date ]])->first();
+                $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week])->orderBy('date','ASC')->first();
+                if($is_user_allowed_to_choose_fixture == null){
+                    return response()->json(['message' => 'Sorry.Please try again','status'=>false], 200);
+                }
+                $DeferenceInDays = Carbon::parse(Carbon::now())->diffInDays($is_user_allowed_to_choose_fixture->date);
+                if($DeferenceInDays <= 0){
+                    return response()->json(['message' => 'Time_id_over','status'=>false], 200);
+                }
+               // $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>', $current_date ]])->first();
 
                 // if no, redirect with error
                  if(!$is_user_allowed_to_choose_fixture){
@@ -311,11 +310,8 @@ class FixtureController extends Controller
 
                  if($user_selected_fixture_team){
                     $user_selected_fixture_team->update(['team_id'=>$team_id]);
-
                     return response()->json(['message' => 'update','status'=>true], 200);
-
                  }else{
-
                     $created =  UserTeam::create([
                         'user_id' => $user_id,
                         'leauge_id' => $this->league_id,
@@ -324,15 +320,86 @@ class FixtureController extends Controller
                         'team_id' => $team_id,
                         'fixture_id'=>$fixture_id,
                     ]);
-
                     return response()->json(['message' => 'added','status'=>true], 200);
                  }
-
             }
             else{
                 return response()->json(['message' => 'subscribe','status'=>false], 200);
 
             }
+
+
+
+    }
+
+
+    public function loss_user()
+    {
+     $last_date_fixture_week =    Carbon::now()->addDays(8)->format('Y-m-d');
+     $first_date_fixture_week =    Carbon::now()->addDays(1)->format('Y-m-d');
+
+      $data= Fixture::whereBetween('date', [$first_date_fixture_week,  $last_date_fixture_week ])->pluck('id')->toArray();
+
+
+
+      $users = User::where('role_as' , 0)->get();
+    $user_teams = UserTeam::where(['user_id' => 47 , 'week' => 2])
+    // ->whereNotIn('fixture_id', [1 , 2 , 3])
+    // ->where('fixture_id' , '!=' , $array)
+    ->pluck('fixture_id')->toArray();
+
+  $array_diff =   array_diff($data ,$user_teams );
+
+
+       dd($user_teams);
+    //   $array = [];
+    //   foreach($data as $item ){
+    //         a
+    //   }
+    //   die();
+     $today_date = Carbon::now()->format('Y-m-d');
+
+
+     $start_date_fixtures =  Fixture::where(['season_id'=> 1, 'week' => 2])->orderBy('id' , 'asc')->first();
+     $week_start_date =   $start_date_fixtures->date;
+
+     $end_date_fixtures =  Fixture::where(['season_id'=> 1, 'week' => 2])->orderBy('id' , 'desc')->first();
+     $week_end_date =   $end_date_fixtures->date;
+
+       dd($week_end_date);
+
+    }
+
+    public function my_results()
+    {
+    //     $last_date_fixture_week =    Carbon::now()->addDays(8)->format('Y-m-d');
+    //     $first_date_fixture_week =    Carbon::now()->addDays(1)->format('Y-m-d');
+
+    //      $data= Fixture::whereBetween('date', [$first_date_fixture_week,  $last_date_fixture_week ])->pluck('id')->toArray();
+    //      //data = [1,2,5]
+    //      $users = User::where('role_as' , 0)->get();
+    //    $user_teams = UserTeam::where(['user_id' => 47 , 'week' => 2])
+    //    // ->whereNotIn('fixture_id', [1 , 2 , 3])
+    //    // ->where('fixture_id' , '!=' , $array)
+    //    ->pluck('fixture_id')->toArray();
+
+    //    //user_teams = [2]
+
+    //  $array_diff =   array_diff($data ,$user_teams );
+
+    //  //array_diff = [1 , 5]
+
+    //       dd($array_diff);
+    //     $today_date = Carbon::now()->format('Y-m-d');
+
+
+    $get_weeks = Fixture::pluck('week')->toArray();
+
+    $user_teams = UserTeam::where(['user_id' => 47 ])->pluck('week')->toArray();
+    $array_diff =   array_diff($get_weeks ,$user_teams );
+    dd($array_diff);
+
+       return view('front.my_results');
     }
 }
 

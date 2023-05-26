@@ -331,6 +331,10 @@ h1, h2, h3, h4, h5, h6 {
     order: 2; }
     .navbar .loginbtn .btn-primary {
       margin-right: 30px; }
+  .navbar .userDropdown ul.dropdown-menu {
+    left: auto;
+    right: 0;
+    z-index: 9999; }
 
 .navbar .navbar-collapse .navbar-nav {
   position: static;
@@ -489,6 +493,11 @@ h1, h2, h3, h4, h5, h6 {
   background-repeat: no-repeat; }
   #nextmatchBoard .tabletwo {
     margin-top: 40px; }
+    #nextmatchBoard .tabletwo .directionTableHead table.table {
+      margin-bottom: 0px; }
+    #nextmatchBoard .tabletwo .directionTableBody {
+      overflow-x: auto;
+      height: 180px; }
   #nextmatchBoard .matchTable {
     background-color: rgba(0, 0, 0, 0.35);
     border-top: 2px solid #db9a29;
@@ -548,74 +557,6 @@ h1, h2, h3, h4, h5, h6 {
         justify-content: space-around;
         align-items: center; }
   #nextmatchBoard .leaderBoard .teamName {
-    text-align: left; }
-
-#playerRoster {
-  padding: 70px 0px;
-  color: white;
-  background-size: cover;
-  background-repeat: no-repeat; }
-  #playerRoster .tabletwo {
-    margin-top: 40px; }
-  #playerRoster .matchTable {
-    background-color: rgba(0, 0, 0, 0.35);
-    border-top: 2px solid #db9a29;
-    display: flex;
-    padding: 20px; }
-    #playerRoster .matchTable img.img-fluid {
-      height: 50px; }
-    #playerRoster .matchTable .teamVs {
-      background-color: #db9a29;
-      padding: 10px;
-      margin: 0 20px 0 20px; }
-      #playerRoster .matchTable .teamVs h5 {
-        margin: 0; }
-  #playerRoster .matchTime {
-    background-color: #44455b;
-    text-align: left;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between; }
-    #playerRoster .matchTime a {
-      color: #da9a29;
-      text-align: right; }
-  #playerRoster .table-primary {
-    --bs-table-bg: #db9a29; }
-  #playerRoster .table-dark {
-    --bs-table-bg:rgba(6,9,53,.5);
-    --bs-table-striped-bg:rgba(62,64,103,.5);
-    --bs-table-hover-bg:rgba(119, 123, 195, 0.5); }
-    #playerRoster .table-dark tr {
-      height: 60px;
-      border: none; }
-      #playerRoster .table-dark tr th {
-        vertical-align: middle;
-        border: none; }
-      #playerRoster .table-dark tr td {
-        vertical-align: middle;
-        border: none; }
-  #playerRoster .leaderBoard .table-primary .text-start {
-    padding-left: 26px; }
-  #playerRoster .leaderBoard .table-group-divider {
-    border: none; }
-    #playerRoster .leaderBoard .table-group-divider th {
-      --bs-table-bg:#393a51;
-      --bs-table-striped-bg:#44455b;
-      --bs-table-hover-bg:#444782; }
-    #playerRoster .leaderBoard .table-group-divider img {
-      width: 42px; }
-    #playerRoster .leaderBoard .table-group-divider .teamLogo {
-      text-align: center;
-      width: 105px; }
-      #playerRoster .leaderBoard .table-group-divider .teamLogo .north {
-        font-size: 18px;
-        color: #da9a29;
-        font-weight: 500; }
-      #playerRoster .leaderBoard .table-group-divider .teamLogo .imgName {
-        display: flex;
-        justify-content: space-around;
-        align-items: center; }
-  #playerRoster .leaderBoard .teamName {
     text-align: left; }
 
 #resultSection {
@@ -961,6 +902,162 @@ h1, h2, h3, h4, h5, h6 {
       #footerPart .footerDown .footerIcon a + a {
         margin-left: 20px; }
 
+.matchDetail {
+  padding: 20px;
+  margin-bottom: 40px; }
+
+.teamResult {
+  display: flex;
+  background-image: url(https://nfl.kloudexpert.com/front/img/resultBoard.png-11.png);
+  background-size: 83% 100%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  justify-content: space-between;
+  margin-bottom: 40px; }
+
+.resultDetail {
+  background-image: url(https://nfl.kloudexpert.com/front/img/resultBoard.png);
+  background-size: 83% 100%;
+  background-position: top right; }
+
+.teamInfo {
+  padding: 15px 30px 15px 40px;
+  text-align: right;
+  min-height: 100px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  flex: 1 0 0; }
+
+.resultDetail .teamInfo {
+  text-align: left;
+  justify-content: left;
+  padding: 15px 40px 15px 30px; }
+
+.teamInfo .loseResult {
+  color: #da9a29;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0; }
+
+.teamInfo .finalNumber {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7); }
+
+.teamInfo h4 {
+  margin-bottom: 10px; }
+
+.teamInfo h4 span {
+  color: rgba(255, 255, 255, 0.7);
+  position: relative;
+  margin-bottom: 10px; }
+
+.teamInfo h4 span:after {
+  position: absolute;
+  content: '';
+  width: 50%;
+  right: 0;
+  height: 3px;
+  background-color: #da9a29;
+  top: 100%; }
+
+.resultDetail .teamInfo h4 span:after {
+  left: 0; }
+
+.resultteamLogo {
+  position: relative;
+  flex: 0 0 120px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 110px; }
+
+.resultteamLogo:before {
+  background-image: url(https://nfl.kloudexpert.com/front/img/resultlogo.png);
+  background-size: 98%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  content: "";
+  left: -15px;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  z-index: -1;
+  bottom: -30px; }
+
+.teamlogoImg {
+  max-width: 100px; }
+
+.count_number {
+  display: flex;
+  font-size: 45px;
+  color: #06083b;
+  font-weight: 700;
+  padding: 0 45px;
+  line-height: 45px;
+  justify-content: center;
+  margin-bottom: 10px; }
+
+.result-count {
+  text-align: center; }
+
+.inner_form .form-control {
+  width: 110px;
+  appearance: auto; }
+
+.standing-content-info {
+  background: #f9f9f9;
+  padding: 40px 0;
+  background-size: cover !important;
+  background-position: top center !important;
+  background-repeat: no-repeat !important;
+  position: relative;
+  padding-bottom: 100px; }
+
+#standingSection table {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #dedede; }
+
+#standingSection table thead tr th {
+  padding: 20px;
+  border: 1px solid #dedede;
+  color: #000; }
+
+#standingSection table.table-striped tbody tr:nth-of-type(odd) {
+  background: #f9f9f9; }
+
+#standingSection table.result-point tr td.number {
+  width: 100px;
+  position: relative; }
+
+#standingSection .text-left {
+  text-align: left !important; }
+
+#standingSection table tr td {
+  padding: 10px 20px;
+  border: 1px solid #dedede; }
+
+#standingSection table.result-point tr td .fa.fa-caret-up {
+  color: green; }
+
+#standingSection table.result-point tr td .fa {
+  font-size: 20px;
+  position: absolute;
+  right: 20px; }
+
+#standingSection table tr td {
+  padding: 10px 40px;
+  border: 1px solid #dedede; }
+
+#standingSection table tr td img {
+  max-width: 32px;
+  float: left;
+  margin-right: 11px;
+  margin-top: 1px;
+  border: 1px solid #dedede; }
+
 @media only screen and (min-width: 320px) and (max-width: 575px) {
   .navbar {
     background-color: #000; }
@@ -1033,11 +1130,6 @@ h1, h2, h3, h4, h5, h6 {
   #nextmatchBoard .leaderBoard {
     margin-top: 40px; }
   #nextmatchBoard .tabletwo {
-    margin-top: 20px; }
-
-  #playerRoster .leaderBoard {
-    margin-top: 40px; }
-  #playerRoster .tabletwo {
     margin-top: 20px; }
 
   #detailBoard .detailBoarditem {
@@ -1113,24 +1205,12 @@ h1, h2, h3, h4, h5, h6 {
 
   #cardBlock .card {
     height: 130px; } }
-.dataTables_wrapper .dataTables_length label select {
-  padding: 8px 40px 8px 12px;
-  margin-right: 5px;
-  margin-left: 5px; }
-
 @media only screen and (min-width: 320px) and (max-width: 767px) {
   #nextmatchBoard h2 {
     font-size: 24px; }
   #nextmatchBoard h5 {
     font-size: 15px; }
   #nextmatchBoard .matchTime {
-    padding: 10px 10px; }
-
-  #playerRoster h2 {
-    font-size: 24px; }
-  #playerRoster h5 {
-    font-size: 15px; }
-  #playerRoster .matchTime {
     padding: 10px 10px; }
 
   #footerPart .formInput {
@@ -1155,11 +1235,36 @@ h1, h2, h3, h4, h5, h6 {
   #nextmatchBoard {
     padding: 40px 0; }
 
-  #playerRoster {
+  #videoBoard {
     padding: 40px 0; }
 
-  #videoBoard {
-    padding: 40px 0; } }
+  .teamInfo {
+    padding: 15px 21px 15px 40px;
+    justify-content: center;
+    min-height: inherit; }
+
+  .resultteamLogo {
+    flex: 0 0 100px;
+    min-height: inherit;
+    padding: 0 15px; }
+
+  .resultteamLogo:before {
+    display: none; }
+
+  .teamResult {
+    background-size: 100% 100%;
+    margin-bottom: 15px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto; }
+
+  .resultDetail .teamInfo {
+    padding: 15px 14px 15px 21px; }
+
+  .count_number {
+    font-size: 56px;
+    margin-bottom: 12px;
+    line-height: 56px; } }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .navbar {
     background-color: #000; }
@@ -1185,11 +1290,6 @@ h1, h2, h3, h4, h5, h6 {
   #nextmatchBoard .matchTime {
     padding: 10px 10px; }
 
-  #playerRoster h5 {
-    font-size: 19px; }
-  #playerRoster .matchTime {
-    padding: 10px 10px; }
-
   #footerPart .formInput {
     flex-wrap: wrap; }
     #footerPart .formInput input {
@@ -1199,7 +1299,28 @@ h1, h2, h3, h4, h5, h6 {
       right: 0; }
 
   #heroBanner .bannerCaption .container {
-    max-width: calc(100% - 120px); } }
+    max-width: calc(100% - 120px); }
+
+  .count_number {
+    font-size: 50px;
+    line-height: 50px; }
+
+  .teamResult {
+    background-size: 100% 100%; }
+
+  .teamInfo {
+    padding: 15px 0px 15px 20px;
+    justify-content: right; }
+
+  .resultteamLogo {
+    flex: 0 0 80px;
+    padding: 0 15px; }
+
+  .resultDetail .teamInfo {
+    padding: 13px 20px 0px 0px; }
+
+  .resultteamLogo:before {
+    display: none; } }
 @media only screen and (min-width: 320px) and (max-width: 991px) {
   .container {
     max-width: 100%; }
@@ -1225,7 +1346,24 @@ h1, h2, h3, h4, h5, h6 {
     height: auto; }
 
   .navbar .navbar-nav .nav-item .nav-link {
-    padding: 10px 12px; } }
+    padding: 10px 12px; }
+
+  .resultteamLogo:before {
+    display: none; }
+
+  .teamResult {
+    background-size: 100% 100%; }
+
+  .teamInfo {
+    padding: 15px 0px 15px 40px;
+    justify-content: right; }
+
+  .resultDetail .teamInfo {
+    padding: 26px 57px 38px 0px; }
+
+  .resultteamLogo {
+    flex: 0 0 100px;
+    padding: 0 15px; } }
 .watermark:before {
   background-image: url("../img/Watermark-logo.png");
   background-repeat: repeat;
