@@ -82,7 +82,7 @@ class AuthController extends Controller
     //     }
     // }
 
-    public function new_reg(UserRegisterRequest $request)
+    public function new_reg(Request $request)
         {
             if ($request->isMethod('post'))
                 $count =  User::count();

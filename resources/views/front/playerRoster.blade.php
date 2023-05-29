@@ -46,10 +46,11 @@
                     </div>
                 </div> --}}
                 <div class="col-lg-12">
-                    @if ($roster_data != '')
+
+                    @if ($roster_data)
                         @foreach ($roster_data as $regions => $teams)
                             <table
-                                class="roaster-table table-striped table-responsive table-hover result-point table-{{ $regions }} @if ($teams->isEmpty()) hide-table @endif">
+                                class="mb-5 table roaster-table table-striped table-responsive table-hover result-point table-{{ $regions }} @if ($teams->isEmpty()) hide-table @endif">
                                 <thead class="point-table-head">
                                     <tr>
                                         <th class="text-left">No</th>
@@ -66,7 +67,6 @@
                                     @endphp
 
                                     @if ($teams->isNotEmpty())
-
                                         @foreach ($teams as $i => $value)
                                             <tr>
                                                 <td class="text-left number">{{ ++$count }} </td>
@@ -79,38 +79,36 @@
                                                 <td>{{ $value->points ?? '' }}</td>
                                             </tr>
                                         @endforeach
-
-
-                                        @else
-                                      <tr><td>No  DAta</td></tr>
-
-
+                                    @else
+                                        <tr>
+                                            <td>No DAta</td>
+                                        </tr>
                                     @endif
                                 </tbody>
                             </table>
 
-                            <br><br>
-                        @endforeach
-                        @else
 
-                        <table
-                                class="roaster-table table-striped table-responsive table-hover result-point">
-                                <thead class="point-table-head">
-                                    <tr>
-                                        <th class="text-left">No</th>
-                                        <th class="text-left">Regions</th>
-                                        <th class="text-center">Team Win</th>
-                                        <th class="text-center">Team Loss</th>
-                                        <th class="text-center">User PTS</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-center table-data">
-                                            <tr><td>No Data</td></tr>
-                                </tbody>
-                            </table>
-                            @endif
-                        <br><br>
+                        @endforeach
+                    @endif
+
+
+                    <section id="pageNotFound" class="no_data_found" @if ($roster_data == 0) style="display: block;" @else  style="display: none;"  @endif>
+                        <div class="container">
+                            <div class="row justify-content-center text-center">
+                                <div class="col-auto">
+                                    <div class="notFoundImg">
+                                        <img src="https://nfl.kloudexpert.com/front/img/soccerFootball.png" alt="">
+                                    </div>
+                                    <h3>No Data Found</h3>
+
+                                    <a href="{{ route('home') }}" class="btn btn-primary">Go to Home</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
+
+
             </div>
         </div>
 
@@ -118,6 +116,7 @@
 @endsection
 @section('script')
     <script>
+
         $('.alphabets').on('click', function() {
             $(".loader").removeClass('d-none');
             let letter = $(this).text();
@@ -149,10 +148,12 @@
                     // console.log(data)
                     $(".loader").addClass('d-none');
                     $(".roaster-table").removeClass('d-none');
-                    if (data.roster_data.length != 0) {
+                    if (data.roster_data != 'error') {
+                        $('.no_data_found').css('display','none');
                         // alert(data);
                         JSON.stringify(data)
                         let entries = Object.entries(data.roster_data)
+
 
 
 
@@ -166,8 +167,11 @@
                         let noData = '';
 
                         entries.map(([key, val] = entry) => {
-
                             val.forEach(element => {
+                                // console.log(element);
+
+                                    console.log('fgjfjfgfg',element);
+
                                 let trHTML = ''
                                 let log_image =
                                     "{{ asset('storage/images/team_logo/') }}" + "/" +
@@ -215,6 +219,9 @@
 
                                 }
                                 count++;
+
+
+
                             });
                         });
 
@@ -224,8 +231,11 @@
 
                             $('.tbody-East').html(east);
                             $('.table-East').removeClass('hide-table');
+
                         } else {
                             $('.table-East').addClass('hide-table');
+
+
                         }
 
 
@@ -233,6 +243,7 @@
                         if (west != '') {
                             $('.tbody-West').html(west);
                             $('.table-West').removeClass('hide-table');
+
                         } else {
                             $('.table-West').addClass('hide-table');
                         }
@@ -240,6 +251,7 @@
                         if (north != '') {
                             $('.tbody-North').html(north);
                             $('.table-North').removeClass('hide-table');
+
                         } else {
                             $('.table-North').addClass('hide-table');
                         }
@@ -247,6 +259,7 @@
                         if (south != '') {
                             $('.tbody-South').html(south);
                             $('.table-South').removeClass('hide-table');
+
                         } else {
                             $('.table-South').addClass('hide-table');
                         }
@@ -254,6 +267,7 @@
                         if (midwest != '') {
                             $('.tbody-Midwest').html(midwest);
                             $('.table-Midwest').removeClass('hide-table');
+
                         } else {
                             $('.table-Midwest').addClass('hide-table');
                         }
@@ -261,12 +275,20 @@
                         if (overseas != '') {
                             $('.tbody-Overseas').html(overseas);
                             $('.table-Overseas').removeClass('hide-table');
+
                         } else {
                             $('.table-Overseas').addClass('hide-table');
                         }
 
-                    } else {
-                        $('.table-data').html('<tr><td colspan="5"><h1>No Data Found</h1></tr></td>');
+                    }else{
+                        $('.table-East').addClass('hide-table');
+$('.table-West').addClass('hide-table');
+$('.table-North').addClass('hide-table');
+$('.table-South').addClass('hide-table');
+$('.table-Midwest').addClass('hide-table');
+$('.table-Overseas').addClass('hide-table');
+
+$('.no_data_found').css('display','block');
                     }
                 }
             });

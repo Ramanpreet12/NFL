@@ -108,7 +108,15 @@
   <script src="{{ asset('front/js/owl.carousel.min.js') }}"></script>
   <script src="https://kit.fontawesome.com/58d36e6221.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-  <script src="{{ asset('front/js/custom-front.js') }}"></script>
+  {{-- <script src="{{ asset('front/js/custom-front.js') }}"></script> --}}
+  <script src="{{ asset('dist/js/jquery.validate.min.js') }}"></script>
+  <script src="{{ asset('dist/js/custom.js') }}"></script>
+  <!-- intl-tel-input -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/intlTelInput.js"></script>
+  <!--Set Initial Country Based on IP address-->
+  {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
+
+
 
   <script>
     $(document).ready(function () {
@@ -197,3 +205,24 @@
 </style>
 
 @yield('script')
+<script>
+    $('.icon-click').on('click', function(){
+    var temp = $(this).attr('id');
+    temp     = temp.split('-');
+    var name = temp[0];
+    var val  = temp[1];
+
+    var prv  = $('#'+name).val();
+        $('#'+name).val(val);
+        $('#rating_1').val(val);
+
+    for(i = 1; i <= prv; i++){
+      $('#'+name+'-'+i).removeClass('text-warning');
+      $('#'+name+'-'+i).addClass('text-secondary');
+    }
+    for(i = 1; i <= val; i++){
+      $('#'+name+'-'+i).removeClass('text-secondary');
+      $('#'+name+'-'+i).addClass('text-warning');
+    }
+  })
+  </script>

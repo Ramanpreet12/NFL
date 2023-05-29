@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{ asset('front/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link href="{{ asset('front/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- intl-tel-input  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/css/intlTelInput.css">
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />

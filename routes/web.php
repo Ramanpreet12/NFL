@@ -77,8 +77,11 @@ Route::get('loss_user',[FixtureController::class, 'loss_user']);
 Route::match(['GET','POST'], 'contact', [FrontPagesController::class,'contact'])->name('contact');
 Route::get('about', [FrontPagesController::class,'about'])->name('about');
 Route::get('match-result', [FrontPagesController::class,'matchResult'])->name('match-result');
+Route::get('game-result', [FrontPagesController::class,'gameResult'])->name('game-result');
 Route::get('prize', [FrontPagesController::class,'prize'])->name('prize');
 Route::get('standings', [FrontPagesController::class,'standings'])->name('standings');
+Route::get('results_by_regions',[FrontPagesController::class, 'results_by_regions'])->name('results_by_regions');
+Route::post('reviews',[FrontPagesController::class, 'reviews'])->name('reviews');
 
 Route::get('payment', [StripeController::class, 'stripe'])->name('payment');
 Route::post('payment/store', [StripeController::class, 'stripePost'])->name('payment.store');
@@ -99,6 +102,7 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('my_selections' , [UserDashboardController::class, 'my_selections'])->name('my_selections');
 Route::get('my_results',[UserDashboardController::class, 'my_results'])->name('my_results');
+
 
 Route::get('past_selections', [UserDashboardController::class, 'past_selections'])->name('past_selections');
 Route::get('userPayment', [UserDashboardController::class, 'userPayment'])->name('userPayment');

@@ -40,6 +40,13 @@ class ScoreboardController extends Controller
                 'first_team_points' => $request->first_team_points,
                 'second_team_points' => $request->second_team_points,
             ]);
+
+            Team::where('id' , $fixture_data->first_team)->update([
+                'scores' =>  $request->first_team_points
+            ]);
+            Team::where('id' , $fixture_data->second_team)->update([
+                'scores' =>  $request->second_team_points
+            ]);
             return redirect('admin/scores')->with('success', 'Scores Added successfully');
         }
     }

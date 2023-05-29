@@ -104,6 +104,10 @@ class HomeController extends Controller
         $roster_data_query ->where('users.group',$group);
         $customer_players_data = $roster_data_query->get()->groupBy(['region']);
 
+         if($customer_players_data->isEmpty()){
+            return 0;
+         };
+
 
         if(Cache::has('regions')){
             $PlayersRegions = Cache::get('regions');
@@ -134,7 +138,7 @@ class HomeController extends Controller
         if ($roster_data) {
             return response()->json(['roster_data' =>  $roster_data, 'status' => true], 200);
         } else {
-            return response()->json(['roster_data' =>  'error', 'status' => false], 401);
+            return response()->json(['roster_data' =>  'error', 'status' => false], 200);
         }
     }
 

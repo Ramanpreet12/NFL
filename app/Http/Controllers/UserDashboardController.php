@@ -157,4 +157,5 @@ class UserDashboardController extends Controller
        return view('front.my_results');
     }
 
+
 }

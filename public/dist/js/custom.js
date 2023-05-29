@@ -27,6 +27,9 @@ $('#admin_profile_form').validate({
         }
 
     });
+
+
+
     //password and confirm password matching
     $('#confirm_password').on('keyup' , function(){
         var password = $('#new_password').val();
@@ -88,3 +91,28 @@ $('#admin_profile_form').validate({
           });
       });
 
+
+      //front register form validation
+      $('#register_form').validate({
+
+        rules: {
+            fname:                  {  required: true},
+            birthday:               {  required: true},
+            email:                  {  required: true},
+            password:               {  required: true},
+            password_confirmation:  {  required: true},
+            phone:                  {  required: true},
+
+
+        },
+        messages: {
+            fname:                  {  required: "Name is required",  },
+            birthday:               {  required: "Date of birth is required",  },
+            email:                  {  required: "Email is required",  },
+            password:               {  required: "Password is required",  },
+            password_confirmation:  {  required: "Password Confirmation is required",  },
+            phone:                  {  required: "Phone is required",  },
+
+        }
+
+    });

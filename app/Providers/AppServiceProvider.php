@@ -49,5 +49,7 @@ class AppServiceProvider extends ServiceProvider
     //    $general_logo =  $this->helper->key_value('name', 'value', $general);
         // View::share('general', $general);
         View::share(['general'=> $general , 'colorSection' => $colorSection , 'mainMenus' => $mainMenus , 'subMenus' => $subMenus ]);
+
+
     }
 }
