@@ -1189,6 +1189,29 @@ text-align: center;
 
 
 
+//reviews success popup on 30--5-2023 by raman
+#reviews_success_modal_Form{
+    padding:20px 0;
+    .successPage{
+        background-color: #fff;
+        padding:10px;
+        text-align: center;
+            .fa-solid {
+                color: #da9a29;
+                font-weight: 800;
+                font-size: 50px;
+                background-color: #e7d9c1;
+                padding: 30px;
+                border-radius: 50%;
+            }
+
+        h2{
+          color: #06083b;
+          margin: 20px 0;
+        }
+    }
+}
+
 
         // media query
  @media only screen and (min-width: 320px) and (max-width: 575px)  {

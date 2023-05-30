@@ -226,3 +226,26 @@
     }
   })
   </script>
+
+<script>
+    $("#reviewForm").submit(function(e){
+    e.preventDefault();
+    $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+    $.ajax({
+        type : 'POST',
+        data: $("#reviewForm").serialize(),
+        url : 'reviews',
+        success : function(data){
+            console.log(data);
+            // $("#download_link").html(data);
+             $("#reviews_success_modal").modal("show");
+             $("#addReviewModal").modal("hide");
+        }
+    });
+    return false;
+});
+</script>

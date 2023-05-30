@@ -158,4 +158,9 @@ class UserDashboardController extends Controller
     }
 
 
+
+    public function settings()
+    {
+        return view('front.settings.personal_details');
+    }
 }

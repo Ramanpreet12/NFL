@@ -1058,6 +1058,23 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1px;
   border: 1px solid #dedede; }
 
+#reviews_success_modal_Form {
+  padding: 20px 0; }
+  #reviews_success_modal_Form .successPage {
+    background-color: #fff;
+    padding: 10px;
+    text-align: center; }
+    #reviews_success_modal_Form .successPage .fa-solid {
+      color: #da9a29;
+      font-weight: 800;
+      font-size: 50px;
+      background-color: #e7d9c1;
+      padding: 30px;
+      border-radius: 50%; }
+    #reviews_success_modal_Form .successPage h2 {
+      color: #06083b;
+      margin: 20px 0; }
+
 @media only screen and (min-width: 320px) and (max-width: 575px) {
   .navbar {
     background-color: #000; }

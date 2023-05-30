@@ -14,6 +14,7 @@
                 <li><a href="{{ route('past_selections') }}">Past Selections</a></li>
                 <li><a href="{{ route('userPayment') }}">Payments</a></li>
                 <li><a href="{{ route('upcomingMatches') }}">Upcoming Matches</a></li>
+                <li><a href="{{ route('settings') }}">Settings</a></li>
             </ul>
 
 

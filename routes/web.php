@@ -99,14 +99,14 @@ Route::middleware(['auth' , 'user'])->group(function() {
 Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
 Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam')->middleware('timeOver');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('my_selections' , [UserDashboardController::class, 'my_selections'])->name('my_selections');
 Route::get('my_results',[UserDashboardController::class, 'my_results'])->name('my_results');
-
-
 Route::get('past_selections', [UserDashboardController::class, 'past_selections'])->name('past_selections');
 Route::get('userPayment', [UserDashboardController::class, 'userPayment'])->name('userPayment');
 Route::get('upcomingMatches', [UserDashboardController::class, 'upcomingMatches'])->name('upcomingMatches');
+Route::get('settings', [UserDashboardController::class, 'settings'])->name('settings');
 });
 
 //data according to alphabets

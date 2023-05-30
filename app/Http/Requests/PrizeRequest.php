@@ -21,14 +21,27 @@ class PrizeRequest extends FormRequest
      *
      * @return array
      */
+
+
     public function rules()
     {
-        return [
+        if (request()->ismethod('post')) {
+           $rules = [
             'name' => 'required',
-            'season_id' => 'required',
+             'season_id' => 'required',
             'image' => 'required',
-        ];
+           ];
+        }
+        elseif(request()->isMethod('put')){
+            $rules = [
+                'name' => 'required',
+                'season_id' => 'required',
+
+               ];
+        }
+        return $rules;
     }
+
 
     public function attributes()
     {
@@ -38,5 +51,7 @@ class PrizeRequest extends FormRequest
             'image' => 'Image',
         ];
     }
+
+
 
 }

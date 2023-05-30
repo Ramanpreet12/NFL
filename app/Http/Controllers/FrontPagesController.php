@@ -9,6 +9,7 @@ use App\Models\Team;
 use App\Models\Season;
 use App\Models\Prize;
 use App\Models\Reviews;
+use App\Http\Requests\ReviewsRequest;
 use Illuminate\Support\Facades\DB;
 
 class FrontPagesController extends Controller
@@ -269,13 +270,15 @@ class FrontPagesController extends Controller
     public function reviews(Request $request)
     {
 
+
        $reviews = Reviews::create([
         'username' => $request->username,
         'email' => $request->email,
         'comment' => $request->comment,
         'rating' => $request->rating,
        ]);
-       return redirect()->back()->with('reviews_success' , 'Reviews added successfullly');
+    //    return redirect()->back()->with('reviews_success' , 'Reviews added successfullly');
+    return response()->json(['message' , 'success'], 200);
 
     }
 

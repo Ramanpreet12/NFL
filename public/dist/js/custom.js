@@ -94,16 +94,13 @@ $('#admin_profile_form').validate({
 
       //front register form validation
       $('#register_form').validate({
-
         rules: {
             fname:                  {  required: true},
             birthday:               {  required: true},
-            email:                  {  required: true},
+            email:                  {  required: true , email: true},
             password:               {  required: true},
             password_confirmation:  {  required: true},
             phone:                  {  required: true},
-
-
         },
         messages: {
             fname:                  {  required: "Name is required",  },
@@ -112,7 +109,22 @@ $('#admin_profile_form').validate({
             password:               {  required: "Password is required",  },
             password_confirmation:  {  required: "Password Confirmation is required",  },
             phone:                  {  required: "Phone is required",  },
+        }
+    });
+
+   // front reviews form validation
+    $('#reviewForm').validate({
+        rules: {
+            username:   {  required: true},
+            email:      {  required: true ,  email: true},
+            comment:    {  required: true},
+
+        },
+        messages: {
+            username:   {  required: "Name is required",  },
+            email:      {  required: "Email is required",  },
+            comment:    {  required: "Comment is required",  },
 
         }
-
     });
+

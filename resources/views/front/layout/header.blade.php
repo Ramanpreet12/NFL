@@ -127,6 +127,10 @@
     .btn-primary:after {
         background-color: <?php echo $colorSection['header']['button_color']; ?>;
     }
+    /* for jquery validation errror messages on reviews form  */
+    .error{
+        color: red;
+    }
 </style>
 
 
@@ -158,27 +162,37 @@
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center">
+            <div class="modal-body text-center mt-2">
                 <h1 class="modal-title fs-5 mb-3" id="addReviewModalLabel">WRITE A REVIEW</h1>
                 <div class="title-description mb-5 fs-10">We'd love to hear more from our visitors. Your feedback will
                     help us to undestand what we do well and where we can improve.</div>
-                <form method="post" action="{{ route('reviews') }}">
+                <form method="post" action="{{ route('reviews') }}" id="reviewForm">
                     @csrf
                     <div class="mb-3">
                         <div class="row">
                             <div class="col-6">
-                                <input type="text" class="form-control" id="recipient-name" placeholder="User name"
+                                <input type="text" class="form-control " id="recipient-name" placeholder="User name"
                                     name="username">
+                                    @error('username')
+                                   <p class="text-danger text-xs"> {{$message}}</p>
+                                @enderror
                             </div>
+
                             <div class="col-6">
-                                <input type="text" class="form-control" id="recipient-name"
+                                <input type="email" class="form-control" id="recipient-email"
                                     placeholder="Email address" name="email">
+                                    @error('email')
+                                   <p class="text-danger text-xs"> {{$message}}</p>
+                                @enderror
                             </div>
                         </div>
 
                     </div>
                     <div class="mb-3">
                         <textarea class="form-control" id="message-text" placeholder="Comments" name="comment"></textarea>
+                        @error('comment')
+                        <p class="text-danger text-xs"> {{$message}}</p>
+                     @enderror
                     </div>
 
                     <div class="ratingStars my-4">
@@ -189,7 +203,9 @@
                                 <i id="rating-{{ $i }}"
                                     class="fa-solid fa-star {{ $i >= 0 ? 'text-secondary' : 'text-warning' }} icon-click"></i>
                             @endfor
-
+                            @error('rating')
+                            <p class="text-danger text-xs"> {{$message}}</p>
+                         @enderror
                             {{-- <i class="fa-solid fa-star ratingStarColor"></i>
             <i class="fa-solid fa-star ratingStarColor"></i>
             <i class="fa-solid fa-star ratingStarColor"></i>
@@ -212,3 +228,31 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="reviews_success_modal" tabindex="-1" aria-labelledby="selectTeamLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="teamSelectedMsg">
+            <div id="reviews_success_modal_Form">
+                             <div class="successPage">
+                                <i class="fa-solid fa-check"></i>
+                                <h2>Reviews sent  Successfully</h2>
+                                <p>We've received your request ,</p>
+                                <p> if you have any query please <a href="{{route('contact')}}">contact us</a> </p>
+
+                             </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary pr-4" data-bs-dismiss="modal">Close</button>
+          {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+        </div>
+      </div>
+    </div>
+  </div>
+
