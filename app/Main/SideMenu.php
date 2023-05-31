@@ -203,6 +203,13 @@ class SideMenu
                         'title' => 'Videos'
                     ],
 
+                    'contact-page' => [
+                        'icon' => 'phone',
+                        'route_name' => 'contact.create',
+                        'params' => '',
+                        'title' => 'Contact Page'
+                    ],
+
                 ]
             ],
 

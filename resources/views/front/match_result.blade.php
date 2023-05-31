@@ -1,144 +1,58 @@
 @extends('front.layout.app')
 @section('content')
     <!-- mainheader -->
+
+
     <section id="matchResult">
+    <section id="resultLeaderboard">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <h2>Match Results By Regions</h2>
-                    <h5>Season : {{ $season_name }}</h5>
+                    {{-- <h3>Season :ffd</h3> --}}
                 </div>
             </div>
-            @foreach ($get_match_results as $week => $weakData)
-                <div class="row">
-                    <div class="col-12">
-                        <div class="seasonWeek d-flex">
-                            <h5></h5>
-                            <span>week {{ $week }} of 18 </span>
-                        </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="seasonWeek d-flex">
+                        <h5></h5>
+                        <h5>Season : {{$season_name}}</h5>
                     </div>
                 </div>
-                @foreach ($weakData as $weeks => $team)
-                    @if ($week == $team->week)
-                        <div id="matchResultSection">
-                            <div class="container">
-                                <h5>North</h5>
-                                <div class="matchDetail">
-                                    <div class="row">
+            </div>
 
-                                        <div class="col-md-5">
-                                            <div class="teamResult">
-                                                <div class="teamInfo">
-                                                    <div class="result-content">
-                                                        <h4><span>
-                                                                @if ($team->win == $team->first_team)
-                                                                    {{ $team->first_team_id->name }}
-                                                                @elseif ($team->win == $team->second_team)
-                                                                    {{ $team->second_team_id->name }}
-                                                                @elseif ($team->win == 0)
-                                                                    {{ '' }}
-                                                                @endif
+            @foreach ($get_total_points as $total_points)<hr>
+            <h5>Region : {{$total_points->region_name}}</h5>
 
-                                                            </span></h4>
-
-                                                        <p class="loseResult">WIN</p>
-                                                    </div>
-                                                </div>
-                                                <div class="resultteamLogo">
-                                                    {{-- <img src="{{ asset('front/img/LA-Rams.png') }}" alt=""
-                                            class="img-fluid teamlogoImg"> --}}
-
-                                                    @if ($team->win == $team->first_team)
-                                                        <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
-                                                            alt="" class="img-fluid teamlogoImg">
-                                                    @elseif ($team->win == $team->second_team)
-                                                        <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
-                                                            alt="" class="img-fluid teamlogoImg">
-                                                    @elseif ($team->win == 0)
-                                                        {{ '' }}
-                                                    @endif
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="result-count">
-                                                <div class="count_number">
-                                                    <span class="win-Team">
-                                                        @if ($team->win == $team->first_team)
-                                                            {{ $team->first_team_points }}
-                                                        @elseif ($team->win == $team->second_team)
-                                                            {{ $team->second_team_points }}
-                                                        @elseif ($team->win == 0)
-                                                            {{ '0' }}
-                                                        @endif
-                                                    </span>
-                                                    <span>-</span>
-                                                    <span class="lose-Team">
-                                                        @if ($team->loss == $team->first_team)
-                                                            {{ $team->first_team_points }}
-                                                        @elseif ($team->loss == $team->second_team)
-                                                            {{ $team->second_team_points }}
-                                                        @elseif ($team->loss == 0)
-                                                            {{ '0' }}
-                                                        @endif
-                                                    </span>
-                                                </div>
-                                                {{-- <p>May 16,2015 15:30PM
-                                                WBEYSLEY STADIUM (LONDON)</p> --}}
-                                                <p>{{ \Carbon\Carbon::parse($team->date)->format('j F, Y') }}&nbsp;</p>
-                                                <p> {{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('g:i') }}
-                                                    {{ ucfirst($team->time_zone) }}</p>
-                                                    <div class="border text-center" style="width:200px; height:50px">
-                                                        22
-                                                    </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="teamResult resultDetail">
-
-                                                <div class="resultteamLogo">
-                                                    {{-- <img src="{{ asset('front/img/Lions.png') }}" alt=""
-                                            class="img-fluid teamlogoImg"> --}}
-                                                    @if ($team->loss == $team->first_team)
-                                                        <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
-                                                            alt="" class="img-fluid teamlogoImg">
-                                                    @elseif ($team->loss == $team->second_team)
-                                                        <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
-                                                            alt="" class="img-fluid teamlogoImg">
-                                                    @elseif ($team->loss == 0)
-                                                        {{ '' }}
-                                                    @endif
-
-                                                </div>
-                                                <div class="teamInfo">
-                                                    <div class="result-content">
-                                                        {{-- <h4><span>FC ZULU NINJAS</span></h4> --}}
-                                                        <h4><span>
-                                                                @if ($team->loss == $team->first_team)
-                                                                    {{ $team->first_team_id->name }}
-                                                                @elseif ($team->loss == $team->second_team)
-                                                                    {{ $team->second_team_id->name }}
-                                                                @elseif ($team->loss == 0)
-                                                                    {{ '' }}
-                                                                @endif
-
-                                                            </span></h4>
-
-                                                        <p class="loseResult">LOSE</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-7 col-md-12">
+                    <div class="modrenFixture">
+                        <div class="fixtureLogo">
+                            <div class="fixtureLogoIntro">
+                                <img src="https://nfl.kloudexpert.com/front/img/trophyImg.png" alt=""
+                                    class="img-fluid">
                             </div>
                         </div>
-                        <hr>
-                    @endif
-                @endforeach
+                        <div class="fixtureContent">
+                            <h4>Scores</h4>
+                            <span>{{$total_points->Userpoints}}</span>
+                        </div>
+                        <div class="fixtureLogo fixtureRight">
+                            <div class="fixtureLogoIntro">
+                                <img src="https://nfl.kloudexpert.com/front/img/trophyImg.png" alt=""
+                                    class="img-fluid">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
             @endforeach
+        </div>
+
 
         </div>
+    </section>
     </section>
 @endsection

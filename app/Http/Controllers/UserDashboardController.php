@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Fixture;
 use App\Models\UserTeam;
 use App\Models\Season;
+use Auth , Hash;
 
 class UserDashboardController extends Controller
 {
@@ -48,7 +49,7 @@ class UserDashboardController extends Controller
         $prize = [];
 
          //return view('front.dashboard', compact('user', 'payment','upcoming','prize'));
-        return view('front.test',compact('user', 'payment','upcoming','prize'));
+        return view('front.dashboard',compact('user', 'payment','upcoming','prize'));
     }
     public function userPayment()
     {
@@ -159,8 +160,64 @@ class UserDashboardController extends Controller
 
 
 
-    public function settings()
+    public function settings(Request $request)
     {
-        return view('front.settings.personal_details');
+        if ($request->isMethod('put')) {
+
+            $data = array();
+                $image     =   $request->file('photo');
+                if ($image) {
+                    $filename =   $image->getClientOriginalName();
+                    $success = $image->storeAs('public/images/user_images/' , $filename);
+                    if (!isset($success)) {
+                        return back()->withError('Could not upload Banner');
+                    }
+                    $data["photo"]=$filename;
+                }
+
+                $data["name"]=$request->name;
+                $data["dob"]=$request->dob;
+                $data["phone_number"]=$request->phone;
+                $update_user =User::where('id', Auth::user()->id)->update($data);
+                return redirect()->back()->with('success' , 'User updated successfully');;
+            }
+        else {
+            $get_user_details = User::where('id' , Auth::user()->id)->get();
+            return view('front.settings.personal_details' , compact('get_user_details'));
+        }
+
+
+    }
+
+    public function updatePassword(Request $request)
+    {
+        if ($request->isMethod('put')) {
+
+            $input = $request->all();
+            if (!(Hash::check($request->current_password ,Auth::user()->password))) {
+                // return redirect()->back()->with('pass_message_error' , 'Current password is incorrect');
+                return response()->json(['message' => 'Current password is incorrect' , 'status' => false ], 200);
+            }
+            if (($request->current_password === $request->new_password)) {
+                return response()->json(['message' => 'New Password cannot be same as your current password' , 'status' => false ], 200);
+
+            //    return redirect()->back()->with('pass_message_error' , 'New Password cannot be same as your current password');
+            }
+            if (($request->new_password != $request->confirm_password)) {
+                // return redirect()->back()->with('pass_message_error' , 'Password not matched');
+                return response()->json(['message' => 'Password not matched' , 'status' => false ], 200);
+
+             }
+
+            User::where(['id' => Auth::user()->id , 'role_as' => 0])->update(['password' => bcrypt($request->new_password)]);
+            // return redirect()->back()->with('success' , 'Password updated successfully');
+            return response()->json(['message' => 'Password updated successfully' , 'status' => true ], 200);
+
+
+        } else {
+            return view('front.settings.update_password');
+        }
+
+
     }
 }

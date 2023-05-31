@@ -161,33 +161,25 @@ class FrontPagesController extends Controller
             ->where('status' , 'active')->first();
 
 
-        $total_points = DB::table('user_teams')
-        ->select((DB::raw("SUM(user_teams.points) as Userpoints")), 'user_teams.*','regions.region as region_name','t.id as t1_id' , 't.name' , 't.region_id as t_region_id' , 't.logo as t_logo' , 't.win as t_win' ,'t.loss as t_loss')
+        $get_total_points = DB::table('user_teams')
+        ->select((DB::raw("SUM(user_teams.points) as Userpoints")), 'regions.region as region_name' , 'seasons.season_name')
+        // ->select((DB::raw("SUM(user_teams.points) as Userpoints")), 'user_teams.*','regions.region as region_name','t.id as t1_id' , 't.name' , 't.region_id as t_region_id' , 't.logo as t_logo' , 't.win as t_win' ,'t.loss as t_loss')
         ->join('teams as t' , 't.id' , '=' , 'user_teams.team_id')
         ->join('regions' , 'regions.id' , '=' , 't.region_id')
+        ->join('seasons' , 'seasons.id' , '=' , 'user_teams.season_id')
         ->where('season_id',$c_season->id)
+        ->orderBy('regions.position' , 'asc')
          ->groupby(DB::raw('region_name'))->get();
 
 
-        echo "<pre>";
-        print_r( $total_points);
-        die();
-
-        // $get_match_results =DB::table('user_teams')
-        // ->select((DB::raw('max(points) as year,user_id')), 'user_teams.*','regions.region as region_name','t.id as t1_id' , 't.name' , 't.region_id as t_region_id' , 't.logo as t_logo' , 't.win as t_win' ,'t.loss as t_loss')
-        // ->join('teams as t' , 't.id' , '=' , 'user_teams.team_id')
-        // ->join('regions' , 'regions.id' , '=' , 't.region_id')
-        // ->where('season_id',$c_season->id)
-        //  ->groupby(DB::raw('region_name'))->get();
         // echo "<pre>";
-        // print_r( $get_match_results);
+        // print_r( $get_total_points);
         // die();
-
 
        $season_name = $c_season->season_name;
 
 
-        return view('front.match_result' , compact('total_points' ,'season_name'));
+        return view('front.match_result' , compact('get_total_points' ,'season_name'));
     }
 
 

@@ -1,79 +1,5 @@
 @extends('front.layout.app')
 @section('content')
-    <style>
-        .aSidebarCard {
-            background-color: #fff;
-            border-radius: 7px;
-            padding: 20px 0;
-            color: #333;
-        }
-
-        .aSidebarCard {
-            text-align: left;
-        }
-
-        .aSidebarCard h4 {
-            font-size: 20px;
-            margin-bottom: 25px;
-            padding: 0 20px;
-        }
-
-        .aSidebarCard h4>span {
-            border-bottom: 3px solid #db9a29;
-            padding-bottom: 3px;
-            display: inline-block;
-        }
-
-        ul.sidebarLink {
-            list-style: none;
-            padding: 0px;
-            border-top: 1px solid #eee;
-            margin-bottom: 0;
-        }
-
-        ul.sidebarLink li+li {
-            border-top: 1px solid #eee;
-        }
-
-        ul.sidebarLink li a {
-            padding: 8px 20px;
-            display: block;
-            text-decoration: none;
-            color: #333;
-            position: relative;
-            z-index: 1;
-        }
-
-        ul.sidebarLink li a:hover {
-            color: #fff;
-        }
-
-        ul.sidebarLink li a:before {
-            left: 0;
-            position: absolute;
-            content: "";
-            background-color: #db9a29;
-            top: 0;
-            z-index: -1;
-            height: 100%;
-            transition: 0.5s;
-            min-width: 0;
-            opacity: 0;
-        }
-
-        ul.sidebarLink li a:hover:before {
-            min-width: calc(100% + 0px);
-            opacity: 1;
-        }
-
-
-
-        @media (min-width: 768px) {
-            .tablePickTeam {
-                padding-right: 30px;
-            }
-        }
-    </style>
 
     <section id="nextmatchBoard"
         style="background-image:url({{ asset('front/img/football-2-bg.jpg') }});color:{{ $colorSection['leaderboard']['text_color'] }};">
@@ -94,218 +20,214 @@
                         Dashboard
                     </h2>
                     <div class="row">
-                        <div class="col-6">
-                            <div class="tablePickTeam">
-                                <div class="table-responsive" id="rosterTable">
 
-                                    <table class="table table-dark table-striped  tableBoard" id="roaster-table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="6">Team Pick</th>
-                                            </tr>
-                                            <tr class="table-primary">
-                                                <th scope="col" colspan="2">Teams</th>
-                                                <th></th>
-                                                <th></th>
-                                                <th>Week</th>
-                                                <th scope="col">Points</th>
+                            <div class="col-md-12 col-lg-6">
+                                <div class="dashboardCard">
+                                    <div class="dashboardCard-inner">
+                                    <div class="card-body">
+                                        <h4 class="card-title" style="color:#06083b;">Team Pick</h4>
+                                        <div class="table-responsive" id="rosterTable">
+                                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                                                <thead>
+                                                    <tr class="table-primary">
+                                                        <th scope="col" colspan="2">Teams</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>Week</th>
+                                                        <th scope="col">Points</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-group-divider">
-
-                                            @if ($user)
-                                                @foreach ($user as $item)
-                                                    <tr>
-                                                        <td class="teamLogo">
-                                                            <img src="{{ asset('storage/images/team_logo/' . $item->logo) }}"
-                                                                alt="" class="img-fluid">
-                                                        </td>
-                                                        <td class="teamName">
-                                                            <span>{{ ucwords($item->name) }}</span>
-                                                        </td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>{{ $item->week }}</td>
-                                                        <td>{{ $item->points }}</td>
                                                     </tr>
-                                                @endforeach
-                                            @else
-                                                <tr>
-                                                    <td colspan="5">
-                                                        <span>No Data Found</span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                                </thead>
+                                                <tbody class="table-group-divider">
 
-                        </div>
-                        <div class="col-6">
-                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="4">Payments</th>
-                                    </tr>
-                                    <tr class="table-primary">
-                                        <th scope="col">Sno.</th>
-                                        <th scope="col">Intended Id</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Payed At</th>
-                                        {{-- <th scope="col">Time Before</th> --}}
-                                    </tr>
-                                </thead>
-                                <tbody class="table-group-divider">
-                                    @if ($payment)
-                                        @foreach ($payment as $key => $item)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $item->payment }}</td>
-                                                <td>{{ $item->status }}</td>
-                                                <td>{{ $item->created_at }}</td>
-                                                {{-- <td>{{ $item->created_date }}</td> --}}
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="4">No Payment is Found</td>
-                                        </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="tablePickTeam">
-                                <div class="table-responsive" id="rosterTable">
-                                    <table class="table table-dark table-striped  tableBoard" id="roaster-table">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="3">Upcoming Matches</th>
-                                            </tr>
-                                            <tr class="table-primary">
-                                                <th scope="col">Match</th>
-                                                <th scope="col">Date</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-group-divider">
-
-                                            @if ($upcoming)
-                                                @foreach ($upcoming as $k => $i)
-                                                <tr>
-                                                    <td> week : {{$k}}</td>
-                                                </tr>
-                                                    @foreach ($i as $team)
+                                                    @if ($user)
+                                                        @foreach ($user as $item)
+                                                            <tr>
+                                                                <td class="teamLogo">
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $item->logo) }}"
+                                                                        alt="" class="img-fluid">
+                                                                </td>
+                                                                <td class="teamName">
+                                                                    <span>{{ ucwords($item->name) }}</span>
+                                                                </td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>{{ $item->week }}</td>
+                                                                <td>{{ $item->points }}</td>
+                                                            </tr>
+                                                        @endforeach
                                                         <tr>
-                                                            <td>
-                                                                <div
-                                                                    class="fixureMatch d-flex align-items-center justify-content-center">
-                                                                    <div class="teamOne">
-                                                                        <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
-                                                                            alt="" class="img-fluid">
-
-                                                                        <div style="min-width:200px">
-                                                                            {{ $team->first_team_id->name }}</div>
-                                                                    </div>
-                                                                    <div class="versis">
-                                                                        <h5>VS</h5>
-
-                                                                    </div>
-                                                                    <div class="teamOne">
-                                                                        <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
-                                                                            alt="" class="img-fluid">
-
-                                                                        <div style="min-width:200px">
-                                                                            {{ $team->second_team_id->name }}</div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
+                                                            <td colspan="6"><a href="{{route('past_selections')}}">See More</a></td>
+                                                        </tr>
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="5">
+                                                                <span>No Data Found</span>
                                                             </td>
                                                         </tr>
-                                                    @endforeach
-                                                @endforeach
-                                                {{-- @foreach ($upcoming as $team)
-                                                    <tr>
-                                                        <td>
-                                                            <div
-                                                                class="fixureMatch d-flex align-items-center justify-content-center">
-                                                                <div class="teamOne">
-                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
-                                                                        alt="" class="img-fluid">
-
-                                                                    <div style="min-width:200px">
-                                                                        {{ $team->first_team_id->name }}</div>
-                                                                </div>
-                                                                <div class="versis">
-                                                                    <h5>VS</h5>
-
-                                                                </div>
-                                                                <div class="teamOne">
-                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
-                                                                        alt="" class="img-fluid">
-
-                                                                    <div style="min-width:200px">
-                                                                        {{ $team->second_team_id->name }}</div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
-                                                        </td>
-                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
-                                                        </td>
-
-
-                                                    </tr>
-                                                @endforeach --}}
-                                            @else
-                                                <tr>
-                                                    <td colspan="5">
-                                                        <span>No Data Found</span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-md-12 col-lg-6">
+                                <div class="dashboardCard">
+                             <div class="dashboardCard-inner">
+                                    <div class="card-body">
+                                        <h4 class="card-title" style="color:#06083b;">Payments</h4>
+                                          <div class="table-responsive" id="rosterTable">
+                                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                                                <thead>
+                                                    <tr class="table-primary">
+                                                        <th scope="col">Sno.</th>
+                                                        {{-- <th scope="col">Intended Id</th> --}}
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Payed At</th>
+                                                        <th scope="col">Invoice</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-group-divider">
+                                                    @if ($payment)
+                                                        @foreach ($payment as $key => $item)
+                                                            <tr>
+                                                                <td>{{ $key + 1 }}</td>
+                                                                {{-- <td>{{ $item->payment }}</td> --}}
+                                                                <td>{{ $item->status }}</td>
+                                                                <td>{{ $item->created_at }}</td>
+                                                                <td>Invoice</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        <tr>
+                                                            <td colspan="4"><a href="{{route('userPayment')}}">See More</a></td>
+                                                        </tr>
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="4">No Payment is Found</td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                          </div>
+                                      </div>
 
+                                  </div>
+                                  </div>
+                                </div>
+
+
+
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="dashboardCard">
+                                    <div class="dashboardCard-inner">
+                                    <div class="card-body">
+                                        <h4 class="card-title" style="color:#06083b;">Upcoming Matches</h4>
+                                        <div class="table-responsive" id="rosterTable">
+                                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                                                <thead>
+                                                    <tr class="table-primary">
+                                                        <th scope="col">Match</th>
+                                                        <th scope="col">Date</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-group-divider">
+
+                                                    @if ($upcoming)
+                                                        @foreach ($upcoming as $k => $i)
+                                                            <tr>
+                                                                <td> week : {{ $k }}</td>
+                                                                <td></td>
+                                                            </tr>
+                                                            @foreach ($i as $team)
+                                                                <tr>
+                                                                    <td>
+                                                                        <div
+                                                                            class="fixureMatch d-flex align-items-center justify-content-center">
+                                                                            <div class="teamOne">
+                                                                                <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                                    alt="" class="img-fluid">
+
+                                                                                <div style="min-width:200px">
+                                                                                    {{ $team->first_team_id->name }}</div>
+                                                                            </div>
+                                                                            <div class="versis">
+                                                                                <h5>VS</h5>
+
+                                                                            </div>
+                                                                            <div class="teamOne">
+                                                                                <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                                    alt="" class="img-fluid">
+
+                                                                                <div style="min-width:200px">
+                                                                                    {{ $team->second_team_id->name }}</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+
+                                                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endforeach
+                                                        <tr>
+                                                            <td colspan="3"><a href="{{route('upcomingMatches')}}">See More</a></td>
+                                                        </tr>
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="5">
+                                                                <span>No Data Found</span>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-6">
+                                <div class="dashboardCard">
+                                    <div class="dashboardCard-inner">
+                                    <div class="card-body">
+                                        <h4 class="card-title" style="color:#06083b;">Prizes</h4>
+                                        <div class="table-responsive" id="rosterTable">
+                                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
+                                                <thead>
+                                                    <tr class="table-primary">
+                                                        <th scope="col">Season</th>
+                                                        <th scope="col">Prize</th>
+                                                        {{-- <th scope="col">Payed At</th>
+                                                    <th scope="col">Time Before</th> --}}
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-group-divider">
+                                                    @if ($prize)
+                                                        @foreach ($prize as $key => $item)
+                                                            <tr>
+                                                                <td>{{ $item->payment }}</td>
+                                                                <td>{{ $item->status }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="4">No Prize is Found</td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <table class="table table-dark table-striped  tableBoard" id="roaster-table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Prizes</th>
-                                    </tr>
-                                    <tr class="table-primary">
-                                        <th scope="col">Season</th>
-                                        <th scope="col">Prize</th>
-                                        {{-- <th scope="col">Payed At</th>
-                                        <th scope="col">Time Before</th> --}}
-                                    </tr>
-                                </thead>
-                                <tbody class="table-group-divider">
-                                    @if ($prize)
-                                        @foreach ($prize as $key => $item)
-                                            <tr>
-                                                <td>{{ $item->payment }}</td>
-                                                <td>{{ $item->status }}</td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="4">No Prize is Found</td>
-                                        </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
+
+
                     </div>
 
                 </div>

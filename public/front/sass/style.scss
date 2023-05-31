@@ -1211,6 +1211,89 @@ text-align: center;
         }
     }
 }
+#resultLeaderboard {
+    margin: 40px 0;
+    padding: 0 30px; }
+    #resultLeaderboard .modrenFixture {
+      background-color: #da9a29;
+      padding: 30px 0px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between; }
+      #resultLeaderboard .modrenFixture .fixtureLogo {
+        flex: 196px;
+        height: 150px;
+        max-width: 160px;
+        position: relative; }
+        #resultLeaderboard .modrenFixture .fixtureLogo .fixtureLogoIntro {
+          background-color: #292c31;
+          text-align: center;
+          padding: 40px 25px 40px 26px;
+          position: relative;
+          margin: 0px 0px 0px -15px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          -webkit-clip-path: polygon(0 0, 70% 0%, 100% 35%, 100% 65%, 70% 100%, 0 100%);
+          clip-path: polygon(0 0, 70% 0%, 100% 35%, 100% 65%, 70% 100%, 0 100%); }
+          #resultLeaderboard .modrenFixture .fixtureLogo .fixtureLogoIntro img {
+            width: 100px; }
+        #resultLeaderboard .modrenFixture .fixtureLogo:before {
+          content: '';
+          position: absolute;
+          left: -14px;
+          top: -15px;
+          width: 0;
+          height: 0;
+          border-bottom: 16px solid #27282a;
+          border-left: 15px solid transparent; }
+        #resultLeaderboard .modrenFixture .fixtureLogo:after {
+          content: '';
+          position: absolute;
+          left: -14px;
+          bottom: -15px;
+          width: 0;
+          height: 0;
+          border-top: 16px solid #27282a;
+          border-left: 15px solid transparent; }
+      #resultLeaderboard .modrenFixture .fixtureRight .fixtureLogoIntro {
+        padding: 40px 17px 40px 16px;
+        margin: 0px -15px 0px 0px;
+        -webkit-clip-path: polygon(30% 0%, 100% 0, 100% 100%, 30% 100%, 0% 70%, 0% 30%);
+        clip-path: polygon(30% 0%, 100% 0, 100% 100%, 30% 100%, 0% 65%, 0% 35%); }
+      #resultLeaderboard .modrenFixture .fixtureRight:before {
+        right: -14px;
+        top: -15px;
+        border-bottom: 16px solid #27282a;
+        border-right: 15px solid transparent;
+        border-left: inherit;
+        left: auto; }
+      #resultLeaderboard .modrenFixture .fixtureRight:after {
+        right: -14px;
+        bottom: -15px;
+        border-top: 16px solid #27282a;
+        border-right: 15px solid transparent;
+        border-left: inherit;
+        left: auto; }
+      #resultLeaderboard .modrenFixture .fixtureContent {
+        text-align: center;
+        line-height: 1.5; }
+        #resultLeaderboard .modrenFixture .fixtureContent h4 {
+          color: #06083b; }
+        #resultLeaderboard .modrenFixture .fixtureContent span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 40px;
+          display: inline-block;
+          font-weight: bold;
+          background-color: #292c31;
+          color: #fff;
+          padding: 24px 35px;
+          -webkit-clip-path: polygon(90% 20%, 100% 49%, 90% 79%, 9% 79%, 0 50%, 9% 20%);
+          clip-path: polygon(90% 20%, 100% 49%, 90% 79%, 9% 79%, 0 50%, 9% 20%); }
+
 
 
         // media query

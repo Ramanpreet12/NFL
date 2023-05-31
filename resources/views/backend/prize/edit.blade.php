@@ -37,7 +37,7 @@
         </div>
         <form action="{{ route('prize.update' , $prize->id) }}" method="post" enctype="multipart/form-data">
             @csrf
-@method('PUT')
+    @method('PUT')
             <div id="horizontal-form" class="p-5">
                 <div class="preview  mr-5">
                     <div class="form-inline">

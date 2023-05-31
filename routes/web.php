@@ -106,7 +106,9 @@ Route::get('my_results',[UserDashboardController::class, 'my_results'])->name('m
 Route::get('past_selections', [UserDashboardController::class, 'past_selections'])->name('past_selections');
 Route::get('userPayment', [UserDashboardController::class, 'userPayment'])->name('userPayment');
 Route::get('upcomingMatches', [UserDashboardController::class, 'upcomingMatches'])->name('upcomingMatches');
-Route::get('settings', [UserDashboardController::class, 'settings'])->name('settings');
+Route::match(['get' , 'put'] , 'settings', [UserDashboardController::class, 'settings'])->name('settings');
+Route::match(['get' , 'put'] , 'update-password', [UserDashboardController::class, 'updatePassword'])->name('update-password');
+// Route::get('personal_details', [UserDashboardController::class, 'personal_details'])->name('personal_details');
 });
 
 //data according to alphabets

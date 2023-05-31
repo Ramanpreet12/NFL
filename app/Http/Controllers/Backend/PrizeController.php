@@ -67,9 +67,7 @@ class PrizeController extends Controller
 
                     $image_file     =   $request->file('image');
                     if ($image_file) {
-
                         $image_filename = $image_file->getClientOriginalName();
-
                         $success = $image_file->storeAs('public/images/prize/' , $image_filename);
                         if (!isset($success)) {
                             return back()->withError('Could not upload logo');
