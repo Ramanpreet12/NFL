@@ -21,15 +21,17 @@
             <div class="contactDetail">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-8">
-                        <h5>Monday to Friday (except bank holidays) 9:30 AM to 5:00 PM.</h5>
-                        <p>A matchday service is provided for all Home fixtures when the switchboard is open from 09.30am
-                            until 20 minutes after the end of the game. Please call the above number for all matchday
-                            issuesrem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultricies auctor dignissim.
-                            Etiam eget auctor lectus, id scelerisque risus.</p>
+                        <h5>{{$get_contact_details->heading}}</h5>
+                        <p>{{$get_contact_details->content}}</p>
                         <div class="imagesBoth">
                             <div class="row mt-3">
                                 <div class="col-sm-6">
+                                    @if (!empty($get_contact_details->image))
+                                    <img src="{{asset('storage/images/contactPage/'.$get_contact_details->image)}}" alt="" class="img-fluid">
+                                    @else
                                     <img src="front/img/contacts-1.jpg" alt="" class="img-fluid">
+                                    @endif
+
                                     <div class="socialIcon d-flex mb-3">
                                         <h5>Follow Us:</h5>
                                         <i class="fa-brands fa-facebook-f"></i>
@@ -39,13 +41,14 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 mb-3">
-                                    <h4>Head Office</h4>
+                                    <h4>{{$get_contact_details->sub_heading}}</h4>
                                     <div class="contactUs d-flex">
                                         <div class="iconitem">
                                             <i class="fa-solid fa-location-dot"></i>
                                         </div>
                                         <div class="inputText">
-                                            <span>USA, California 20, First Avenue, California</span>
+                                            {{-- <span>USA, California 20, First Avenue, California</span> --}}
+                                            <span>{{$general->footer_address ?? ''}}</span>
                                         </div>
                                     </div>
 
@@ -54,7 +57,8 @@
                                             <i class="fa-solid fa-mobile"></i>
                                         </div>
                                         <div class="inputText">
-                                            <span>+7 888 71 140 30 20</span>
+                                            {{-- <span>+7 888 71 140 30 20</span> --}}
+                                            <span>{{$general->footer_contact ?? ''}}</span>
                                         </div>
                                     </div>
 
@@ -63,7 +67,9 @@
                                             <i class="fa-solid fa-fax"></i>
                                         </div>
                                         <div class="inputText">
-                                            <span>+7 888 71 140 30 20</span>
+                                            {{-- <span>+7 888 71 140 30 20</span> --}}
+                                            <span>{{$general->footer_contact ?? ''}}</span>
+
                                         </div>
                                     </div>
                                     <div class="contactUs d-flex">
@@ -71,7 +77,8 @@
                                             <i class="fa-solid fa-envelope"></i>
                                         </div>
                                         <div class="inputText">
-                                            <span>info@stylemixthemes.com</span>
+                                            {{-- <span>info@stylemixthemes.com</span> --}}
+                                            <span>{{$general->email ?? ''}}</span>
                                         </div>
                                     </div>
                                 </div>

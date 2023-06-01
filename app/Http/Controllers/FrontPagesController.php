@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Models\ContactPage;
 use App\Models\Fixture;
 use App\Models\Team;
 use App\Models\Season;
@@ -86,7 +87,8 @@ class FrontPagesController extends Controller
             return back()->withErrors(['error' => 'ReCaptcha Error']);
             }
         }else{
-           return view('front.contact');
+            $get_contact_details = ContactPage::first();
+           return view('front.contact' , compact('get_contact_details'));
         }
     }
 
