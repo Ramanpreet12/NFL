@@ -82,12 +82,12 @@ class SideMenu
                 'params' => '',
                 'title' => 'Teams Result'
             ],
-            'score_board' => [
-                'icon' => 'clipboard',
-                'route_name' => 'admin/scores',
-                'params' => '',
-                'title' => 'Scores'
-            ],
+            // 'score_board' => [
+            //     'icon' => 'clipboard',
+            //     'route_name' => 'admin/scores',
+            //     'params' => '',
+            //     'title' => 'Scores'
+            // ],
 
 
 
@@ -128,6 +128,15 @@ class SideMenu
             //     'title' => 'General'
             // ],
 
+            'reviews' => [
+                'icon' => 'star',
+                'route_name' => 'reviews.index',
+                'params' => '',
+                // [
+                //     'layout' => 'side-menu'
+                // ],
+                'title' => 'Reviews'
+            ],
 
              'devider',
             'site_setting' => [
@@ -205,10 +214,18 @@ class SideMenu
 
                     'contact-page' => [
                         'icon' => 'phone',
-                        'route_name' => 'contact.create',
+                        'route_name' => 'admin/contact_page',
                         'params' => '',
                         'title' => 'Contact Page'
                     ],
+
+                    'about-page' => [
+                        'icon' => 'phone',
+                        'route_name' => 'admin/about_page',
+                        'params' => '',
+                        'title' => 'About Page'
+                    ],
+
 
                 ]
             ],

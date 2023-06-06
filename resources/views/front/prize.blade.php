@@ -22,22 +22,24 @@
         <div class="prizeShow">
             <div class="card mb-3">
                 <div class="row g-0">
+                <div class="col-md-6 order-md-2">
+                        {{-- <img src="front/img/winn2.jpg" class="img-fluid" alt="..."> --}}
+                        <img src="{{asset('storage/images/prize/'.$prize->image)}}" class="img-fluid" alt="...">
+                    </div>
+
                     <div class="col-md-6">
                         <div class="card-body">
                             {{-- <h3 class="card-title">Singapore Holiday Package</h3> --}}
                             <h3 class="card-title">{{$prize->name}}</h3>
                             <p class="card-text">{{$prize->content}}</p>
                             <div class="prize d-flex">
-                                <span><i class="fa-solid fa-trophy"></i> {{$prize->season->season_name ?? ''}}</span>
+                                <span><i class="fa-solid fa-trophy"></i> Season :  {{$prize->season->season_name ?? ''}}</span>
                                 {{-- <span><i class="fa-solid fa-calendar-days"></i> DECEMBER 19, 2016</span> --}}
                                 <span><i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($prize->season->starting ?? '')->format('j F, Y') }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        {{-- <img src="front/img/winn2.jpg" class="img-fluid" alt="..."> --}}
-                        <img src="{{asset('storage/images/prize/'.$prize->image)}}" class="img-fluid" alt="...">
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -59,7 +61,7 @@
                             <h3 class="card-title">{{$prize->name}}</h3>
                             <p class="card-text">{{$prize->content}}</p>
                             <div class="prize d-flex">
-                                <span><i class="fa-solid fa-trophy"></i> {{$prize->season->season_name ?? ''}}</span>
+                                <span><i class="fa-solid fa-trophy"></i> Season : {{$prize->season->season_name ?? ''}}</span>
                                 {{-- <span><i class="fa-solid fa-calendar-days"></i> DECEMBER 19, 2016</span> --}}
                                 <span><i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($prize->season->starting ?? '')->format('j F, Y') }}</span>
                                 <!-- <p class="card-text"><small class="text-muted">DECEMBER 19, 2016</small></p>              -->

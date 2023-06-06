@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\UsaState;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
 use App\Mail\FOrgotPassword;
@@ -29,10 +30,12 @@ class AuthController extends Controller
      */
 
 
-    public function userRegister(Request $request)
-    {
-        return view('front.register');
-    }
+     public function userRegister(Request $request)
+     {
+
+         $get_usa_states = UsaState::get();
+        return view('front.register' , compact('get_usa_states'));
+      }
 
 
     // public function new_reg(UserRegisterRequest $request)
@@ -82,111 +85,137 @@ class AuthController extends Controller
     //     }
     // }
 
-    public function new_reg(Request $request)
-        {
-            if ($request->isMethod('post'))
-                $count =  User::count();
-                if ($count <1000) {
+  //user Signup
 
-                    $group = 'A';
+  public function new_reg(Request $request)
+  {
+      if ($request->isMethod('post')){
+          $count =  User::count();
+          if ($count <1000) {
 
-                } elseif(($count >=1000) &&($count <2000)) {
-                    $group = 'B';
+              $group = 'A';
 
-                }elseif(($count >=2000) &&($count <3000)) {
-                    $group = 'C';
+          } elseif(($count >=1000) &&($count <2000)) {
+              $group = 'B';
 
-                }elseif(($count >=3000) &&($count <4000)) {
-                    $group = 'D';
-                }
-                elseif(($count >=4000) &&($count <5000)) {
-                    $group = 'E';
-                }
-                elseif(($count >=5000) &&($count <6000)) {
-                    $group = 'F';
-                }
-                elseif(($count >=6000) &&($count <7000)) {
-                    $group = 'G';
-                }
-                elseif(($count >=7000) &&($count <8000)) {
-                    $group = 'H';
-                }
-                elseif(($count >=8000) &&($count <9000)) {
-                    $group = 'I';
-                }
-                elseif(($count >=9000) &&($count <10000)) {
-                    $group = 'J';
-                }
-                elseif(($count >=10000) &&($count <11000)) {
-                    $group = 'K';
-                }
-                elseif(($count >=11000) &&($count <12000)) {
-                    $group = 'L';
-                }
-                elseif(($count >=12000) &&($count <13000)) {
-                    $group = 'M';
-                }
-                elseif(($count >=13000) &&($count <14000)) {
-                    $group = 'N';
-                }
-                elseif(($count >=14000) &&($count <15000)) {
-                    $group = 'O';
-                }
-                elseif(($count >=15000) &&($count <16000)) {
-                    $group = 'P';
-                }
-                elseif(($count >=16000) &&($count <17000)) {
-                    $group = 'Q';
-                }
-                elseif(($count >=17000) &&($count <18000)) {
-                    $group = 'R';
-                }
-                elseif(($count >=18000) &&($count <19000)) {
-                    $group = 'S';
-                }
-                elseif(($count >=19000) &&($count <20000)) {
-                    $group = 'T';
-                }
-                elseif(($count >=20000) &&($count <21000)) {
-                    $group = 'U';
-                }
-                elseif(($count >=21000) &&($count <22000)) {
-                    $group = 'V';
-                }
-                elseif(($count >=22000) &&($count <23000)) {
-                    $group = 'W';
-                }
-                elseif(($count >=23000) &&($count <24000)) {
-                    $group = 'X';
-                }
-                elseif(($count >=24000) &&($count <25000)) {
-                    $group = 'Y';
-                }
-                else{
-                 $group = 'Z';
-                }
+          }elseif(($count >=2000) &&($count <3000)) {
+              $group = 'C';
 
-                    // dd($request);
-                $user =  User::create([
-                'team_id' => 0,
-                  'name' => $request->fname,
-                  'group' => $group,
-                  'dob' => $request->birthday,
-                  'email' => $request->email,
-                  'password' => bcrypt($request->password),
-                  'phone_number' => $request->phone,
+          }elseif(($count >=3000) &&($count <4000)) {
+              $group = 'D';
+          }
+          elseif(($count >=4000) &&($count <5000)) {
+              $group = 'E';
+          }
+          elseif(($count >=5000) &&($count <6000)) {
+              $group = 'F';
+          }
+          elseif(($count >=6000) &&($count <7000)) {
+              $group = 'G';
+          }
+          elseif(($count >=7000) &&($count <8000)) {
+              $group = 'H';
+          }
+          elseif(($count >=8000) &&($count <9000)) {
+              $group = 'I';
+          }
+          elseif(($count >=9000) &&($count <10000)) {
+              $group = 'J';
+          }
+          elseif(($count >=10000) &&($count <11000)) {
+              $group = 'K';
+          }
+          elseif(($count >=11000) &&($count <12000)) {
+              $group = 'L';
+          }
+          elseif(($count >=12000) &&($count <13000)) {
+              $group = 'M';
+          }
+          elseif(($count >=13000) &&($count <14000)) {
+              $group = 'N';
+          }
+          elseif(($count >=14000) &&($count <15000)) {
+              $group = 'O';
+          }
+          elseif(($count >=15000) &&($count <16000)) {
+              $group = 'P';
+          }
+          elseif(($count >=16000) &&($count <17000)) {
+              $group = 'Q';
+          }
+          elseif(($count >=17000) &&($count <18000)) {
+              $group = 'R';
+          }
+          elseif(($count >=18000) &&($count <19000)) {
+              $group = 'S';
+          }
+          elseif(($count >=19000) &&($count <20000)) {
+              $group = 'T';
+          }
+          elseif(($count >=20000) &&($count <21000)) {
+              $group = 'U';
+          }
+          elseif(($count >=21000) &&($count <22000)) {
+              $group = 'V';
+          }
+          elseif(($count >=22000) &&($count <23000)) {
+              $group = 'W';
+          }
+          elseif(($count >=23000) &&($count <24000)) {
+              $group = 'X';
+          }
+          elseif(($count >=24000) &&($count <25000)) {
+              $group = 'Y';
+          }
+          else{
+           $group = 'Z';
+          }
 
-                ]);
-                if ($user) {
-                    Mail::to($user->email)->send(new Signup($user));
-                    return redirect()->route('login')->with('success', 'Fill out below payment information to get subscribed');
-                    } else {
-                    return redirect()->back()->with('error', 'Something went wrong please try again');
-                    }
+          $user_region_id =  '';
+        //   $set_user_region_id=implode(",",$user_region_id);
 
-                return redirect()->route('login')->with('success' , 'registration sucessfull');
+          $get_state = UsaState::get();
+          foreach ($get_state as $state) {
+              if ($state->id ==  $request->state ) {
+                $user_region_id =  $state->region_id;
+              }
+              else{
+                $user_region_id = 6 ;
+              }
+          }
 
-        }
+          //if user select overseas country then store state_id as 50 , otherwise store state_id which is coming in request
+          if ($request->state) {
+            $state_id =  $request->state;
+          } else {
+            $state_id = 50;
+          }
+
+
+
+            User::create([
+              'team_id' => 0,
+            'name' => $request->fname,
+            'group' => $group,
+            'dob' => $request->birthday,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'phone_number' => $request->phone,
+            'address' => $request->address,
+            'zipcode' => $request->zipcode,
+            'state' => $state_id,
+            'region_id' => $user_region_id,
+            'city' => $request->city,
+            'country' => $request->country,
+            'id_proof' => $request->id_proof,
+
+
+          ]);
+
+          return redirect()->route('login')->with('success' , 'registration sucessfull');
+      }
+  }
+
 
 
 

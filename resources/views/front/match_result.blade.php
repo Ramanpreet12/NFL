@@ -3,56 +3,130 @@
     <!-- mainheader -->
 
 
-    <section id="matchResult">
-    <section id="resultLeaderboard">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h2>Match Results By Regions</h2>
-                    {{-- <h3>Season :ffd</h3> --}}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="seasonWeek d-flex">
-                        <h5></h5>
-                        <h5>Season : {{$season_name}}</h5>
-                    </div>
-                </div>
-            </div>
-
-            @foreach ($get_total_points as $total_points)<hr>
-            <h5>Region : {{$total_points->region_name}}</h5>
-
-            <div class="row justify-content-center mb-5">
-                <div class="col-lg-7 col-md-12">
-                    <div class="modrenFixture">
-                        <div class="fixtureLogo">
-                            <div class="fixtureLogoIntro">
-                                <img src="https://nfl.kloudexpert.com/front/img/trophyImg.png" alt=""
-                                    class="img-fluid">
-                            </div>
-                        </div>
-                        <div class="fixtureContent">
-                            <h4>Scores</h4>
-                            <span>{{$total_points->Userpoints}}</span>
-                        </div>
-                        <div class="fixtureLogo fixtureRight">
-                            <div class="fixtureLogoIntro">
-                                <img src="https://nfl.kloudexpert.com/front/img/trophyImg.png" alt=""
-                                    class="img-fluid">
-                            </div>
-                        </div>
+        <section id="resultLeaderboard">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Match Results By Regions</h2>
 
                     </div>
                 </div>
-            </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="seasonWeek d-flex">
+
+                            <h5>Selected Season : {{ $season_name }}</h5>
+                            <h6>Total Players : {{$total_players}}</h6>
+
+                            <form action="{{ url('match-result/') }}" method="post" id="matchResultForm">
+                                @csrf
+                                <div class="inner_form d-flex align-items-center ">
+
+                                    <div> <label for=""
+                                            style="color:#444; margin-right:10px; font-weight:600;">Select Season:
+                                        </label></div>
+
+                                    <div> <select class="form-control" name="seasons" id="seasons">
+                                            {{-- <option value="">{{$c_season->season_name ?? ''}}</option> --}}
+                                            {{-- <input type="text" name="" value=""> --}}
+                                            {{-- <option value="">select </option> --}}
+                                            @foreach ($get_all_seasons as $season)
+                                                <option
+                                                    value="{{ $season->id }} "{{ $c_season->id == $season->id ? 'selected' : '' }}>
+                                                    {{ $season->season_name }}</option>
+                                            @endforeach
+                                            <i class="fa-solid fa-angle-down"></i>
+                                        </select></div>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                @foreach ($total_win_loss as $key =>  $total_points)
+                    <hr>
+                    <div class="fixtureContentPart">
+                     <h5>Region : {{ $key  }} </h5>
+
+                    <div class="row justify-content-center mb-5">
+                        <div class="col-lg-7 col-md-12">
+                            <div class="modrenFixture">
+                                <div class="fixtureLogo">
+                                    <div class="fixtureLogoIntro">
+                                        <h3 style="font-size:0.95rem;">Players Total WIN</h3>
+                                      <span class="scoreMatch">{{ $total_points['win']}}</span>
+
+                                    </div>
+                                </div>
+                                <div class="fixtureContent">
+                                    <span class="contentImg">
+                                    <img src="{{ asset('front/img/trophyImg.png') }}" alt="" class="img-fluid">
+                                </span>
+                                </div>
+                                <div class="fixtureLogo fixtureRight">
+                                    <div class="fixtureLogoIntro">
+                                        <h3  style="font-size:0.95rem;">Players Total LOSS</h3>
+                                        <span class="scoreMatch">{{ $total_points['loss']}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                {{-- @empty
+                    <section id="pageNotFound" class="no_data_found">
+                        <hr>
+                        <div class="container">
+                            <div class="row justify-content-center text-center">
+                                <div class="col-auto">
+                                    <div class="notFoundImg">
+                                        <img src="https://nfl.kloudexpert.com/front/img/soccerFootball.png" alt="">
+                                        <img src="{{ asset('front/img/soccerFootball.png') }}" alt="" class="img-fluid">
+                                    </div>
+                                    <h3>No Data Found</h3>
+
+                                    <a href="{{ route('home') }}" class="btn btn-primary">Go to Home</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>--}}
             @endforeach
-        </div>
+            </div>
 
 
-        </div>
-    </section>
-    </section>
+            </div>
+        </section>
+
+@endsection
+@section('script')
+    <script type="text/javascript">
+        jQuery(function() {
+            jQuery('#seasons').change(function() {
+                this.form.submit();
+
+            });
+        });
+        // $("#matchResultForm").submit(function(e) {
+        //     e.preventDefault();
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         }
+        //     });
+        //     $.ajax({
+        //         type: 'POST',
+        //         data: $("#matchResultForm").serialize(),
+        //         url: 'match-result',
+        //         success: function(data) {
+        //             console.log(data);
+
+
+        //         }
+        //     });
+        //     return false;
+        // });
+    </script>
 @endsection

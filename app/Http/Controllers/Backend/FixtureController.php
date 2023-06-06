@@ -137,42 +137,6 @@ class FixtureController extends Controller
     // }
 
 
-    public function edit_teamResult(Request $request, $id)
-    {
-        if (!$request->isMethod('post')) {
-           $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->where('id', $id)->first();
-            $teams = Team::get();
-
-            return view('backend.team_result.edit', compact('team_results', 'teams'));
-        } else {
-          $fixture_data =   Fixture::where('id' , $id)->first();
-
-            Fixture::where('id' , $id)->update([
-
-                'win' => $request->winner_team,
-                'loss' => $request->loss_team,
-            ]);
-
-
-
-            if ($request->winner_team) {
-                $team_win = Team::where('id', $request->winner_team)->first();
-                $match_played = $team_win->match_played;
-                $matchwin = $team_win->win;
-                Team::where('id', $request->winner_team)->update(['match_played' => (int)$match_played + 1, 'win' => (int)$matchwin + 1]);
-                update_userPoints($request->winner_team, $fixture_data->season_id , $fixture_data->week);
-            }
-            if ($request->loss_team) {
-                $team_loss = Team::where('id', $request->loss_team)->first();
-                $match_played = $team_loss->match_played;
-                $matchloss = $team_loss->loss;
-                Team::where('id', $request->loss_team)->update(['match_played' => (int)$match_played + 1, 'loss' => (int)$matchloss + 1]);
-            }
-
-
-            return redirect('admin/teams/result')->with('success', 'Team Result updated successfully');
-        }
-    }
 
     // public function showFixtures()
     // {
@@ -220,18 +184,6 @@ class FixtureController extends Controller
              ->whereDate('date','>',$c_date)->get()->groupby('week');
 
              $get_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
-
-             //get data according to weeks
-            //  $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$request->seasons)
-            //  ->whereDate('date','>',$c_date)->get()->groupby('week');
-            // $id = auth()->user()->id;
-            // $user_status = User::where('id', $id)->value('subscribed');
-            // dd($user_status);
-            // if ($user_status == "0") {
-            //     return redirect()->back()->with('error', 'You are not subscribe for team select');
-            // }
-
-
             return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
         } else {
             $c_date = Season::where('status' , 'active')->value('starting');
@@ -247,35 +199,38 @@ class FixtureController extends Controller
 
     }
 
-    public function fixtureWeeks(Request $request)
-    {
-        if ($request->isMethod('post')) {
-        $season_data = Season::where('id' , $request->season_id)->first();
+    // public function fixtureWeeks(Request $request)
+    // {
+    //     dd('gfjdkgkfg');
+    //     if ($request->isMethod('post')) {
+    //         dd('gfjdkgkfg');
+    //     $season_data = Season::where('id' , $request->season_id)->first();
 
-        $c_date = Season::where('status' , 'active')->where('id' , $request->season_id)->value('starting');
-        $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-         ->where(['status' => 'active' , 'id' =>$request->season_id])->first();
-          $season_name = $c_season->season_name;
-         $fixtures = Fixture::with('first_team_id','second_team_id')
-         ->where(['season_id' =>$request->season_id , 'week' => $request->weeks])
-         ->whereDate('date','>',$c_date)->get()->groupby('week');
-         $get_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
+    //     $c_date = Season::where('status' , 'active')->where('id' , $request->season_id)->value('starting');
+    //     $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+    //      ->where(['status' => 'active' , 'id' =>$request->season_id])->first();
+    //       $season_name = $c_season->season_name;
+    //      $fixtures = Fixture::with('first_team_id','second_team_id')
+    //      ->where(['season_id' =>$request->season_id , 'week' => $request->weeks])
+    //      ->whereDate('date','>',$c_date)->get()->groupby('week');
+    //      $get_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
 
-         return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
-        } else {
-            $c_date = Season::where('status' , 'active')->value('starting');
-            $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-                    ->where('status' , 'active')->first();
-                $fixtures = Fixture::with('first_team_id','second_team_id')
-                ->where(['season_id' =>$request->season_id , 'week' => $request->weeks])
-                ->whereDate('date','>',$c_date)->get()->groupby('week');
-               $season_name = $c_season->season_name;
-               $get_seasons = Season::where('status' , 'active')->get();
+    //      return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
+    //     } else {
 
-            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
-        }
+    //         $c_date = Season::where('status' , 'active')->value('starting');
+    //         $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+    //                 ->where('status' , 'active')->first();
+    //             $fixtures = Fixture::with('first_team_id','second_team_id')
+    //             ->where(['season_id' =>$request->season_id , 'week' => $request->weeks])
+    //             ->whereDate('date','>',$c_date)->get()->groupby('week');
+    //            $season_name = $c_season->season_name;
+    //            $get_seasons = Season::where('status' , 'active')->get();
 
-    }
+    //         return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
+    //     }
+
+    // }
 
     public function checkUser(Request $request)
     {
@@ -287,8 +242,8 @@ class FixtureController extends Controller
             $week = $request->week;
             $fixture_id = $request->fixture_id;
             $user_id = auth()->user()->id;
+            $user_region_id = auth()->user()->region_id;
             $user_status = Payment::where(['user_id' => $user_id,'season_id'=> $season_id,'status'=>'succeeded'])->first();
-
             if ($user_status) {
                 $current_date = Carbon::now();  // current time and date
                 $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week])->orderBy('date','ASC')->first();
@@ -307,19 +262,24 @@ class FixtureController extends Controller
                  }
                  // if user selected the fixture or not
                 $user_selected_fixture_team = UserTeam::where(['user_id' => $user_id, 'season_id' => $season_id, 'week' => $week,'fixture_id'=> $fixture_id ])->first();
-
+                 //dd('user_selected_fixture_team' ,$user_selected_fixture_team);
                  if($user_selected_fixture_team){
-                    $user_selected_fixture_team->update(['team_id'=>$team_id]);
+                    $user_selected_fixture_team->update(['team_id'=>$team_id ]);
                     return response()->json(['message' => 'update','status'=>true], 200);
                  }else{
                     $created =  UserTeam::create([
                         'user_id' => $user_id,
+                        'user_region_id' => $user_region_id,
                         'leauge_id' => $this->league_id,
                         'season_id' => $season_id,
                         'week' => $week,
                         'team_id' => $team_id,
                         'fixture_id'=>$fixture_id,
+
+
                     ]);
+
+
                     return response()->json(['message' => 'added','status'=>true], 200);
                  }
             }

@@ -38,7 +38,7 @@
                         <th class="text-center whitespace-nowrap">Match</th>
 
 
-                        <th class="text-center whitespace-nowrap">Scores</th>
+                        {{-- <th class="text-center whitespace-nowrap">Scores</th> --}}
 
                         <th class="text-center whitespace-nowrap">Action</th>
                     </tr>
@@ -53,9 +53,9 @@
                             </td> --}}
 
                             <td >{{ $team_results->first_team_id->name }}</td>
-                            <td>
+                            {{-- <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $team_results->first_team_points }}</div>
-                            </td>
+                            </td> --}}
                             {{-- <td class="text-center">{{ $team_results->first_team_points }}</td> --}}
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
@@ -75,9 +75,9 @@
                         </tr>
                         <tr>
                             <td>{{ $team_results->second_team_id->name }}</td>
-                            <td>
+                            {{-- <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $team_results->second_team_points }}</div>
-                            </td>
+                            </td> --}}
                             {{-- <td class="text-center">{{ $team_results->second_team_points }}</td> --}}
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">

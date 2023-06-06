@@ -97,6 +97,7 @@ class TeamResultController extends Controller
 
         public function edit_teamResult(Request $request, $id)
     {
+
         if (!$request->isMethod('post')) {
            $team_results =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->where('id', $id)->first();
             $teams = Team::get();

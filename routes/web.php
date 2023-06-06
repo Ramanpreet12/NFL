@@ -35,6 +35,9 @@ use App\Http\Controllers\Backend\RegionController;
 use App\Http\Controllers\Backend\VacationController;
 use App\Http\Controllers\Backend\ScoreboardController;
 use App\Http\Controllers\Backend\ContactController;
+use App\Http\Controllers\Backend\AboutPageController;
+use App\Http\Controllers\Backend\StaticPageController;
+use App\Http\Controllers\Backend\ReviewsController;
 use App\Models\Winner;
 
 /*
@@ -67,16 +70,21 @@ Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->n
 // Route::post('get_seasons' , [FixtureController::class, 'get_seasons'])->name('get_seasons');
 
 // fixture data according to season and weeks
-Route::match(['get' , 'post'], 'fixtures', [FixtureController::class, 'fixture'])->name('fixtures');
-Route::match(['get' , 'post'], 'fixtures/weeks', [FixtureController::class, 'fixtureWeeks'])->name('fixtures/weeks');
-// Route::match(['get' , 'post'], 'fixtures/{weeks?}', [FixtureController::class, 'fixture'])->name('fixtures');
+// Route::match(['get'], 'fixtures', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
+// Route::match(['get' , 'post'], 'fixtures/{season?}/{week?}', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
+Route::get('fixtures', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
+Route::get('tesst', [FrontPagesController::class,'test'] )->name('tesst');
+
+
+
 
 Route::post('check_user',[FixtureController::class, 'checkUser']);
 Route::get('loss_user',[FixtureController::class, 'loss_user']);
 
 Route::match(['GET','POST'], 'contact', [FrontPagesController::class,'contact'])->name('contact');
 Route::get('about', [FrontPagesController::class,'about'])->name('about');
-Route::get('match-result', [FrontPagesController::class,'matchResult'])->name('match-result');
+Route::match(['get' , 'post'] , 'match-result/{season?}', [FrontPagesController::class,'matchResult'])->name('match-result');
+// Route::get('match-result/{season?}', [FrontPagesController::class,'matchResult'] )->name('match-result');
 Route::get('game-result', [FrontPagesController::class,'gameResult'])->name('game-result');
 Route::get('prize', [FrontPagesController::class,'prize'])->name('prize');
 Route::get('standings', [FrontPagesController::class,'standings'])->name('standings');
@@ -115,84 +123,6 @@ Route::match(['get' , 'put'] , 'update-password', [UserDashboardController::clas
 Route::post('alphabets' , [HomeController::class , 'getAlphabets']);
 Route::get('player_roster/{alphabets}' ,[HomeController::class , 'player_roster']);
 Route::get('expire_plans',[HomeController::class,'checkPlan'])->name('expire_plans');
-
-//match fixture for front
-// Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
-
-// Route::middleware('loggedin')->group(function() {
-//     Route::get('login', [AuthController::class, 'loginView'])->name('login.index');
-//     Route::post('login', [AuthController::class, 'login'])->name('login.check');
-//     Route::get('register', [AuthController::class, 'registerView'])->name('register.index');
-//     Route::post('register', [AuthController::class, 'register'])->name('register.store');
-// });
-
-// Route::middleware('auth')->group(function() {
-//     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-//     Route::get('/', [PageController::class, 'dashboardOverview1'])->name('dashboard-overview-1');
-//     Route::get('dashboard-overview-2-page', [PageController::class, 'dashboardOverview2'])->name('dashboard-overview-2');
-//     Route::get('dashboard-overview-3-page', [PageController::class, 'dashboardOverview3'])->name('dashboard-overview-3');
-//     Route::get('inbox-page', [PageController::class, 'inbox'])->name('inbox');
-//     Route::get('file-manager-page', [PageController::class, 'fileManager'])->name('file-manager');
-//     Route::get('point-of-sale-page', [PageController::class, 'pointOfSale'])->name('point-of-sale');
-//     Route::get('chat-page', [PageController::class, 'chat'])->name('chat');
-//     Route::get('post-page', [PageController::class, 'post'])->name('post');
-//     Route::get('calendar-page', [PageController::class, 'calendar'])->name('calendar');
-   // Route::get('crud-data-list-page', [PageController::class, 'crudDataList'])->name('crud-data-list');
-   // Route::get('crud-form-page', [PageController::class, 'crudForm'])->name('crud-form');
-//     Route::get('users-layout-1-page', [PageController::class, 'usersLayout1'])->name('users-layout-1');
-//     Route::get('users-layout-2-page', [PageController::class, 'usersLayout2'])->name('users-layout-2');
-//     Route::get('users-layout-3-page', [PageController::class, 'usersLayout3'])->name('users-layout-3');
-//     Route::get('profile-overview-1-page', [PageController::class, 'profileOverview1'])->name('profile-overview-1');
-//     Route::get('profile-overview-2-page', [PageController::class, 'profileOverview2'])->name('profile-overview-2');
-//     Route::get('profile-overview-3-page', [PageController::class, 'profileOverview3'])->name('profile-overview-3');
-//     Route::get('wizard-layout-1-page', [PageController::class, 'wizardLayout1'])->name('wizard-layout-1');
-//     Route::get('wizard-layout-2-page', [PageController::class, 'wizardLayout2'])->name('wizard-layout-2');
-//     Route::get('wizard-layout-3-page', [PageController::class, 'wizardLayout3'])->name('wizard-layout-3');
-//     Route::get('blog-layout-1-page', [PageController::class, 'blogLayout1'])->name('blog-layout-1');
-//     Route::get('blog-layout-2-page', [PageController::class, 'blogLayout2'])->name('blog-layout-2');
-//     Route::get('blog-layout-3-page', [PageController::class, 'blogLayout3'])->name('blog-layout-3');
-//     Route::get('pricing-layout-1-page', [PageController::class, 'pricingLayout1'])->name('pricing-layout-1');
-//     Route::get('pricing-layout-2-page', [PageController::class, 'pricingLayout2'])->name('pricing-layout-2');
-//     Route::get('invoice-layout-1-page', [PageController::class, 'invoiceLayout1'])->name('invoice-layout-1');
-//     Route::get('invoice-layout-2-page', [PageController::class, 'invoiceLayout2'])->name('invoice-layout-2');
-//     Route::get('faq-layout-1-page', [PageController::class, 'faqLayout1'])->name('faq-layout-1');
-//     Route::get('faq-layout-2-page', [PageController::class, 'faqLayout2'])->name('faq-layout-2');
-//     Route::get('faq-layout-3-page', [PageController::class, 'faqLayout3'])->name('faq-layout-3');
-//     Route::get('login-page', [PageController::class, 'login'])->name('login');
-//     Route::get('register-page', [PageController::class, 'register'])->name('register');
-//     Route::get('error-page-page', [PageController::class, 'errorPage'])->name('error-page');
-//     Route::get('update-profile-page', [PageController::class, 'updateProfile'])->name('update-profile');
-//     Route::get('change-password-page', [PageController::class, 'changePassword'])->name('change-password');
-//     Route::get('regular-table-page', [PageController::class, 'regularTable'])->name('regular-table');
-//     Route::get('tabulator-page', [PageController::class, 'tabulator'])->name('tabulator');
-//     Route::get('modal-page', [PageController::class, 'modal'])->name('modal');
-//     Route::get('slide-over-page', [PageController::class, 'slideOver'])->name('slide-over');
-//     Route::get('notification-page', [PageController::class, 'notification'])->name('notification');
-//     Route::get('accordion-page', [PageController::class, 'accordion'])->name('accordion');
-//     Route::get('button-page', [PageController::class, 'button'])->name('button');
-//     Route::get('alert-page', [PageController::class, 'alert'])->name('alert');
-//     Route::get('progress-bar-page', [PageController::class, 'progressBar'])->name('progress-bar');
-//     Route::get('tooltip-page', [PageController::class, 'tooltip'])->name('tooltip');
-//     Route::get('dropdown-page', [PageController::class, 'dropdown'])->name('dropdown');
-//     Route::get('typography-page', [PageController::class, 'typography'])->name('typography');
-//     Route::get('icon-page', [PageController::class, 'icon'])->name('icon');
-//     Route::get('loading-icon-page', [PageController::class, 'loadingIcon'])->name('loading-icon');
-//     Route::get('regular-form-page', [PageController::class, 'regularForm'])->name('regular-form');
-//     Route::get('datepicker-page', [PageController::class, 'datepicker'])->name('datepicker');
-//     Route::get('tom-select-page', [PageController::class, 'tomSelect'])->name('tom-select');
-//     Route::get('file-upload-page', [PageController::class, 'fileUpload'])->name('file-upload');
-//     Route::get('wysiwyg-editor-classic', [PageController::class, 'wysiwygEditorClassic'])->name('wysiwyg-editor-classic');
-//     Route::get('wysiwyg-editor-inline', [PageController::class, 'wysiwygEditorInline'])->name('wysiwyg-editor-inline');
-//     Route::get('wysiwyg-editor-balloon', [PageController::class, 'wysiwygEditorBalloon'])->name('wysiwyg-editor-balloon');
-//     Route::get('wysiwyg-editor-balloon-block', [PageController::class, 'wysiwygEditorBalloonBlock'])->name('wysiwyg-editor-balloon-block');
-//     Route::get('wysiwyg-editor-document', [PageController::class, 'wysiwygEditorDocument'])->name('wysiwyg-editor-document');
-//     Route::get('validation-page', [PageController::class, 'validation'])->name('validation');
-//     Route::get('chart-page', [PageController::class, 'chart'])->name('chart');
-//     Route::get('slider-page', [PageController::class, 'slider'])->name('slider');
-//     Route::get('image-zoom-page', [PageController::class, 'imageZoom'])->name('image-zoom');
-// });
-
-
 //admin routes
 
 Route::prefix('admin')->middleware('guest')->group(function() {
@@ -212,6 +142,14 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
 
     Route::get('user', [UserController::class, 'user_management'])->name('admin/user');
     Route::get('user_data', [UserController::class, 'user_data'])->name('admin/user_data');
+
+    Route::resources(['team' => TeamController::class,]);
+
+    // regions
+   Route::resources(['region' => RegionController::class]);
+   //seasons
+   Route::resources(['season' => SeasonController::class,]);
+
     Route::get('fixtures', [FixtureController::class, 'fixtures'])->name('admin/fixtures');
     Route::post('fixture/section_heading', [FixtureController::class, 'section_heading'])->name('admin/fixture/section_heading');
     Route::get('fixtures_data', [FixtureController::class, 'fixtures_data'])->name('admin/fixtures_data');
@@ -231,6 +169,11 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::post('add_scores/{id}',[ScoreboardController::class, 'add_scores']);
     Route::match(['get', 'post'], 'add_scores/{id}',[ScoreboardController::class, 'add_scores']);
 
+    Route::resources([
+        'prize' => PrizeController::class,
+    ]);
+
+
     //Winner rotues
     Route::get('winner', [WinnerController::class, 'index'])->name('admin/winner');
     Route::get('winner/assign_prize/{id}', [WinnerController::class, 'assign_prize'])->name('admin/winner/assign_prize');
@@ -242,33 +185,55 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
         'contact' => ContactController::class,
     ]);
 
+    //reviews
+    Route::resources([
+        'reviews' => ReviewsController::class,
+    ]);
+
+
+    //sitesettings
+
+      //menu setting
+      Route::resources(['menu' => MenuController::class]);
+      Route::get('menuList',[MenuController::class,'menuList'])->name('menuList');
+      Route::get('menuDelete/{id}',[MenuController::class,'destroy'])->name('menuDelete');
+
+      //general settings
+      Route::get('general', [GeneralController::class , 'general'])->name('admin/general');
+      Route::post('general_post', [GeneralController::class , 'general_update'])->name('admin/general_post');
+
+      //banner setting
+      Route::resources([
+        'banner' => BannerController::class,
+    ]);
+    //vacation setting
+    Route::resources(['vacation' => VacationController::class]);
+    Route::post('vacation/section_heading',[VacationController::class,'section_heading'])->name('admin/vacation/section_heading');
+
+    //News setting
+    Route::resources(['news' => NewsController::class]);
+    Route::get('news_data/',[NewsController::class,'news_data'])->name('admin/news_data');
+    Route::get('news/delete/{id}',[NewsController::class,'destroy']);
+    Route::post('news/section_heading',[NewsController::class,'section_heading'])->name('admin/news/section_heading');
+
     //color setting
     Route::get('color_setting', [ColorSettingController::class, 'index'])->name('admin/color_setting');
     Route::get('edit_color/{id}', [ColorSettingController::class, 'edit_color'])->name('admin/edit_color/{id}');
     Route::post('update_color/{id}', [ColorSettingController::class, 'update_color'])->name('admin/update_color/{id}');
 
+    // //about page
+    // Route::resources([ 'about' => AboutPageController::class, ]);
+
+    //static page
+   Route::match(['get' , 'put'] ,'contact_page/{id?}' , [ StaticPageController::class , 'contactPage'])->name('admin/contact_page');
+   Route::match(['get' , 'put'] ,'about_page/{id?}' , [ StaticPageController::class , 'aboutPage'])->name('admin/about_page');
 
     Route::get('allPayments',[PaymentController::class,'getAll'])->name('admin/allPayments');
-
     Route::get('payments',[PaymentController::class,'index'])->name('admin/payments');
 
-    Route::resources([
-        'season' => SeasonController::class,
-    ]);
 
-    Route::resources([
-        'team' => TeamController::class,
-    ]);
-    Route::resources([
-        'prize' => PrizeController::class,
-    ]);
 
-    Route::get('general', [GeneralController::class , 'general'])->name('admin/general');
-    Route::post('general_post', [GeneralController::class , 'general_update'])->name('admin/general_post');
 
-    Route::resources([
-        'banner' => BannerController::class,
-    ]);
 
    Route::get('team_result/delete/{id}' ,[TeamResultController::class , 'delete_teamResult']);
 
@@ -280,35 +245,18 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
    Route::get('leaderboard/delete/{id}' ,[LeaderboardController::class , 'delete']);
    Route::post('leaderboard/section_heading' ,[LeaderboardController::class , 'section_heading'])->name('admin/leaderboard/section_heading');
 
-   // regions
-   Route::resources(['region' => RegionController::class]);
+
     //home setting
-
-
-    //News setting
-    Route::resources(['news' => NewsController::class]);
-    Route::get('news_data/',[NewsController::class,'news_data'])->name('admin/news_data');
-    Route::get('news/delete/{id}',[NewsController::class,'destroy']);
-    Route::post('news/section_heading',[NewsController::class,'section_heading'])->name('admin/news/section_heading');
-
     Route::resources(['videoSetting' => VideoController::class]);
     Route::get('videoSettingList/{section?}',[VideoController::class,'videoSettingList'])->name('videoSettingList');
     Route::get('videoSettingDelete/{id}',[VideoController::class,'destroy'])->name('videoSettingDelete');
     Route::post('video/section_heading',[VideoController::class,'section_heading'])->name('admin/video/section_heading');
 
-
-    Route::resources(['vacation' => VacationController::class]);
-    Route::post('vacation/section_heading',[VacationController::class,'section_heading'])->name('admin/vacation/section_heading');
-
-
-    //menu setting
-    Route::resources(['menu' => MenuController::class]);
-    Route::get('menuList',[MenuController::class,'menuList'])->name('menuList');
-    Route::get('menuDelete/{id}',[MenuController::class,'destroy'])->name('menuDelete');
-
     //players
 
     Route::get('players',[PlayersController::class,'index'])->name('admin/players');
+
+
 
      Route::get('logout', [AuthController::class, 'Adminlogout'])->name('admin/logout');
 });

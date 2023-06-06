@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Banners</title>
+    <title>NFL | Review</title>
 @endsection
 
 @section('subcontent')
@@ -32,81 +32,55 @@
         @endif
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-            <h2 class="font-medium text-base mr-auto">Edit Contact Page  </h2>
+            <h2 class="font-medium text-base mr-auto">Edit Review </h2>
+            <a href="{{ route('reviews.index') }}"><button class="btn btn-primary">Back</button></a>
         </div>
-        <form action="{{route('contact.update' , $contact_page_details->id)}}" method="post" enctype="multipart/form-data">
 
+        <form action="{{route('reviews.update' , $review->id)}}" method="post" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+@method('put')
             <div id="horizontal-form" class="p-5">
                 <div class="preview  mr-5">
                     <div class="form-inline">
-                        <label for="heading" class="font-medium form-label sm:w-60">Heading <span class="text-danger">*</span></label>
-                        <input id="heading" type="text" class="form-control" placeholder="Heading" name="heading" value="{{$contact_page_details->heading}}">
-                    </div>
-                    <div class="form-inline mt-2">
-                        <label for="heading" class="font-medium form-label sm:w-60"></label>
-                        @error('heading')<p class="text-danger">{{$message}}</p> @enderror
-                    </div>
-
-                    <div class="form-inline">
-                        <label for="sub_heading" class="font-medium form-label sm:w-60">Sub Heading </label>
-                        <input id="sub_heading" type="text" class="form-control" placeholder="Sub Heading" name="sub_heading" value="{{$contact_page_details->sub_heading}}">
+                        <label for="username" class="font-medium form-label sm:w-60">Name <span class="text-danger">*</span></label>
+                        <input id="username" type="text" class="form-control" placeholder="Enter username" name="username"  value="{{ ucwords($review->username) }}" readonly>
                     </div>
                     <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>
-                        @error('sub_heading')<p class="text-danger">{{$message}}</p> @enderror
-                    </div>
-
-                    <div class="form-inline">
-                        <label for="content" class="font-medium form-label sm:w-60">Content <span class="text-danger">*</span></label>
-                        <textarea name="content" id="content" cols="10" rows="5" class="form-control">{{$contact_page_details->content}}</textarea>
-                    </div>
-                    <div class="form-inline mt-2">
-                        <label for="" class="font-medium form-label sm:w-60"></label>
-                        @error('content')<p class="text-danger">{{$message}}</p> @enderror
+                        @error('username')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
 
                     <div class="form-inline mt-5">
-                        <label for="image" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
-                        <input id="image" type="file" class="form-control" placeholder="Banner Image" name="image">
+                        <label for="comment" class="font-medium form-label sm:w-60">Comment <span class="text-danger">*</span></label>
+                        <textarea name="comment" id="comment" cols="50" rows="2" class="form-control" readonly>{{($review->comment) }}</textarea>
 
                     </div>
-                    <div class="form-inline mt-2">
-                        <label for="" class="font-medium form-label sm:w-60"></label>
-                        @error('image')<p class="text-danger">{{$message}}</p> @enderror
+                    {{-- <div class="form-inline mt-5">
+                        <label for="logo" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
+                        <input id="logo" type="file" class="form-control" placeholder="Image" name="logo">
+
                     </div>
-
-
-                    @if (!empty($contact_page_details->image))
                     <div class="form-inline mt-5">
-                        <label for="image" class="font-medium form-label sm:w-60"></label>
-                        <img src="{{asset('storage/images/contactPage/'.$contact_page_details->image)}}" alt=""  class="img-fluid" srcset="" height="50px" width="200px">
-
-                    </div>
-                    @else
-                            <div class="form-inline mt-5">
-                                <label for="image" class="font-medium form-label sm:w-60"></label>
-                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid" height="50px"  width="100px">
-                            </div>
-
-                    @endif
-
+                        <label for="logo" class="font-medium form-label sm:w-60"></label>
+                      <img src="{{asset('storage/images/team_logo/'.$team->logo)}}" alt="" height="40px" width="80px">
+                    </div> --}}
 
 
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
                         <select class="form-control" id="status" name="status">
 
-                            <option value="active" {{$contact_page_details->status == 'active' ? 'selected' : ''}}>Active</option>
-                            <option value="inactive" {{$contact_page_details->status == 'inactive' ? 'selected' : ''}}>Inactive</option>
+                            <option value="active" {{$review->status == 'active' ? 'selected' : ''}}>Active</option>
+                            <option value="inactive" {{$review->status == 'inactive' ? 'selected' : ''}}>Inactive</option>
                         </select>
                     </div>
                     <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('status')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
+
+
                 </div>
 
                 <br><br>

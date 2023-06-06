@@ -18,7 +18,7 @@
                     </svg>
                     &nbsp; {{ session()->get('success') }}
                 </div>
-            @endif
+                @endif
 
                 @if (session()->has('userLogin_error'))
                 <div class="alert alert-danger show flex items-center mb-2 alert_messages" role="alert">
@@ -32,26 +32,11 @@
                     &nbsp; {{ session()->get('userLogin_error') }}
                 </div>
                 @endif
-
-
-
-            {{-- @if (session('userLogin_error'))
-                    <div class="alert alert-danger-soft show flex items-center mb-2 alert_messages" role="alert">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-alert-octagon w-6 h-6 mr-2">
-                            <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                        {{ session('userLogin_error') }}
-                    </div>
-                    @endif --}}
                 <div class="formStart">
-                  <div class="logoImage text-center">
+                  <!-- <div class="logoImage text-center">
                     <a class="navbar-brand" href="#">
                       <img src="img/NFL-small.png" alt="" class="img-fluid"> </a>
-                  </div>
+                  </div> -->
                   <h2>Log in</h2>
                   <div class="inputsForm">
                     <form method="post" action="{{route('login')}}">
@@ -64,18 +49,24 @@
                           <label for="password" class="form-label">Password</label>
                           <input type="password" class="form-control" id="password" name="password" placeholder="**********">
                           </div>
-                      <div class="checkButton d-flex">
+                      <div class="checkButton text-center">
                       <button type="submit" name="submit" class="btn btn-primary">Log In</button>
 
-                        <a href="{{route('register')}}">
+                        <!-- <a href="{{route('register')}}">
                           SIGN UP
-                        </a>
-
+                        </a> -->
                       </div>
                     </form>
-                    <div class="text-center">
-                        <a href="{{ route('forget_password') }}">Forgot Password</a>
-                    </div>
+                    <!-- <div class="forgotPassword">
+                      <a href="{{ route('forget_password') }}">Forgot Password</a>
+                  </div> -->
+<div class="sinupForgot text-center">
+<div class="loginForForgot">
+  <a href="{{ route('forget_password') }}"> Forgot Password</a><br>
+  <span class="fontDiff">Don't have an account?<span> <a class="signupLink" href="{{route('register')}}">Sign up </a>
+</div>
+</div>
+
                   </div>
                 </div>
         </div>

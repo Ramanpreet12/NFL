@@ -1,7 +1,7 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Banners</title>
+    <title>NFL | Contact </title>
 @endsection
 
 @section('subcontent')
@@ -34,7 +34,7 @@
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Edit Contact Page  </h2>
         </div>
-        <form action="{{route('contact.update' , $contact_page_details->id)}}" method="post" enctype="multipart/form-data">
+        <form action="{{url('admin/contact_page/'.$contact_page_details->id)}}" method="post" enctype="multipart/form-data">
 
             @csrf
             @method('PUT')
@@ -79,10 +79,10 @@
                     </div>
 
 
-                    @if (!empty($contact_page_details->image))
+                    @if (!empty($contact_page_details->images))
                     <div class="form-inline mt-5">
                         <label for="image" class="font-medium form-label sm:w-60"></label>
-                        <img src="{{asset('storage/images/contactPage/'.$contact_page_details->image)}}" alt=""  class="img-fluid" srcset="" height="50px" width="200px">
+                        <img src="{{asset('storage/images/static_page/'.$contact_page_details->images)}}" alt=""  class="img-fluid" srcset="" height="50px" width="200px">
 
                     </div>
                     @else

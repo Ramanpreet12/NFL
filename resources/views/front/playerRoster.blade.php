@@ -48,17 +48,17 @@
                 <div class="col-lg-12">
 
                     @if ($roster_data)
-                        @foreach ($roster_data as $regions => $teams)
+                        @foreach ($roster_data as $regions => $players)
                             <table
-                                class="mb-5 table roaster-table table-striped table-responsive table-hover result-point table-{{ $regions }} @if ($teams->isEmpty()) hide-table @endif">
+                                class="mb-5 table roaster-table table-striped table-responsive table-hover result-point table-{{ $regions }} @if (empty($players)) hide-table @endif">
                                 <thead class="point-table-head">
                                     <tr>
                                         <th class="text-left">No</th>
                                         <th class="text-left">Region : {{ $regions }}</th>
-                                        <th class="text-center">Team Win</th>
-                                        <th class="text-center">Team Loss</th>
+                                        <th class="text-center"> Win</th>
+                                        <th class="text-center">Loss</th>
 
-                                        <th class="text-center">User PTS</th>
+                                        <th class="text-center">PTS</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center table-data tbody-{{ $regions }}">
@@ -66,17 +66,17 @@
                                         $count = '';
                                     @endphp
 
-                                    @if ($teams->isNotEmpty())
-                                        @foreach ($teams as $i => $value)
+                                    @if (!empty($players))
+                                        @foreach ($players as $i => $value)
                                             <tr>
                                                 <td class="text-left number">{{ ++$count }} </td>
                                                 <td class="text-left">
-                                                    <img src="{{ asset('storage/images/team_logo/' . $value->logo) }}"
-                                                        alt="Colombia"><span>{{ $value->name ?? '' }}</span>
+                                                    <img src="{{ asset('storage/images/team_logo/' . $value['team_logo']) }}"
+                                                        alt="Colombia"><span>{{ $value['user_name'] ?? '' }}</span>
                                                 </td>
-                                                <td>{{ $value->win ?? '' }}</td>
-                                                <td>{{ $value->loss ?? '' }}</td>
-                                                <td>{{ $value->points ?? '' }}</td>
+                                                <td>{{ $value['user_points']['win'] ?? '' }}</td>
+                                                <td>{{ $value['user_points']['loss'] ?? '' }}</td>
+                                                <td>{{ $value['user_points']['win'] ?? '' }}</td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -97,7 +97,7 @@
                             <div class="row justify-content-center text-center">
                                 <div class="col-auto">
                                     <div class="notFoundImg">
-                                        <img src="https://nfl.kloudexpert.com/front/img/soccerFootball.png" alt="">
+                                        <img src="{{asset('front/img/soccerFootball.png')}}" alt="">
                                     </div>
                                     <h3>No Data Found</h3>
 
@@ -151,8 +151,9 @@
                     if (data.roster_data != 'error') {
                         $('.no_data_found').css('display','none');
                         // alert(data);
-                        JSON.stringify(data)
+
                         let entries = Object.entries(data.roster_data)
+
 
 
 
@@ -167,62 +168,74 @@
                         let noData = '';
 
                         entries.map(([key, val] = entry) => {
-                            val.forEach(element => {
-                                // console.log(element);
+                            if ( typeof val === 'object' && !Array.isArray(val) && val !== null) {
+                               let data =  Object.values(val);
+                            }else{
+                                let data = val;
+                            }
 
-                                    console.log('fgjfjfgfg',element);
-
-                                let trHTML = ''
-                                let log_image =
-                                    "{{ asset('storage/images/team_logo/') }}" + "/" +
-                                    element.logo;
-                                trHTML += '<tr>';
-                                trHTML += '<td class="text-left number">' + count +
-                                    '</td>';
-                                trHTML += '<td class="text-left">' + '<img src="' +
-                                    log_image + '" alt="" class="img-fluid">' + element
-                                    .name + '</td>';
-                                trHTML += '<td>' + element.win + '</td>';
-                                trHTML += '<td>' + element.loss + '</td>';
-                                trHTML += '<td>' + element.points + '</td></tr>';
-
-                                switch (element.region) {
-                                    case 'North':
-                                        north += trHTML;
-                                        break;
-
-                                    case 'East':
-                                        east += trHTML;
-                                        console.log(east);
-                                        break;
-
-
-                                    case 'South':
-                                        south += trHTML;
-                                        break;
-
-                                    case 'West':
-                                        west += trHTML;
-                                        break;
-
-                                    case 'Mid-West':
-                                        midwest += trHTML;
-                                        break;
-
-                                    case 'Overseas':
-                                        overseas += trHTML;
-                                        break;
-
-                                    default:
-                                        noData += '';
-
-
-                                }
-                                count++;
+                            console.log(data);
 
 
 
-                            });
+                            //   val.forEach(element => {
+                            //     console.log(element);
+
+                            //     //     console.log('fgjfjfgfg',element);
+
+                            //     // let trHTML = ''
+                            //     // let log_image =
+                            //     //     "{{ asset('storage/images/team_logo/') }}" + "/" +
+                            //     //     element.logo;
+                            //     // trHTML += '<tr>';
+                            //     // trHTML += '<td class="text-left number">' + count +
+                            //     //     '</td>';
+                            //     // trHTML += '<td class="text-left">' + '<img src="' +
+                            //     //     log_image + '" alt="" class="img-fluid">' + element
+                            //     //     .name + '</td>';
+                            //     // trHTML += '<td>' + element.win + '</td>';
+                            //     // trHTML += '<td>' + element.loss + '</td>';
+                            //     // trHTML += '<td>' + element.points + '</td></tr>';
+
+                            //     // switch (element.region) {
+                            //     //     case 'North':
+                            //     //         north += trHTML;
+                            //     //         break;
+
+                            //     //     case 'East':
+                            //     //         east += trHTML;
+                            //     //         console.log(east);
+                            //     //         break;
+
+
+                            //     //     case 'South':
+                            //     //         south += trHTML;
+                            //     //         break;
+
+                            //     //     case 'West':
+                            //     //         west += trHTML;
+                            //     //         break;
+
+                            //     //     case 'Mid-West':
+                            //     //         midwest += trHTML;
+                            //     //         break;
+
+                            //     //     case 'Overseas':
+                            //     //         overseas += trHTML;
+                            //     //         break;
+
+                            //     //     default:
+                            //     //         noData += '';
+
+
+                            //     // }
+                            //     // count++;
+
+
+
+                            // });
+
+
                         });
 
 

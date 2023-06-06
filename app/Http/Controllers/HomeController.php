@@ -17,6 +17,7 @@ use App\Models\Region;
 use App\Models\Vacation;
 use Illuminate\Http\Request;
 use App\Models\Season;
+use App\Models\Reviews;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SubscriptionExpire;
@@ -28,14 +29,111 @@ class HomeController extends Controller
 {
 
 
+    private function getTheTopPlayersDataBasedOnRegion($region="",$limit=3,$alphabet="",$group=""){
+
+
+        $leaderboard_data = array();
+        $leaderBoard_users_win_data_1  = DB::table('user_teams')
+        ->select((DB::raw("COUNT(user_teams.points) as total_win_pts_in_region")) , 'user_teams.user_id as user_id' ,'users.name as user_name' , 'user_teams.points as user_pts' , 'regions.region as region_name' , 'teams.logo as team_logo' , 'teams.name as team_name')
+        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
+        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
+        ->join('regions', 'regions.id', '=', 'user_teams.user_region_id');
+
+
+         if(isset($alphabet) && !empty($alphabet)){
+            $leaderBoard_users_win_data_1->where('users.name', 'like', "{$alphabet}%");
+         }
+
+         if(isset($group) && !empty($group)){
+            $leaderBoard_users_win_data_1->where('users.group',$group);
+         }
+
+
+         $leaderBoard_users_win_data_1->where('user_teams.points', '!=' , 0)
+        ->where('regions.region', '=' , $region)
+        ->groupBy(['region_name','user_id'])
+        ->orderBy('total_win_pts_in_region','DESC')
+        ->limit($limit);
+
+
+        $leaderBoard_users_win_data = $leaderBoard_users_win_data_1->get();
+
+
+
+         if($leaderBoard_users_win_data->isNotEmpty()){
+            foreach($leaderBoard_users_win_data as $leaderBoard_user_win_data){
+                $leaderboard_data[$leaderBoard_user_win_data->user_id]['user_name'] =$leaderBoard_user_win_data->user_name;
+                $leaderboard_data[$leaderBoard_user_win_data->user_id]['team_logo'] =$leaderBoard_user_win_data->team_logo;
+                $leaderboard_data[$leaderBoard_user_win_data->user_id]['user_points']['win'] = $leaderBoard_user_win_data->total_win_pts_in_region;
+            }
+         }
+
+        $leaderBoard_users_loss_data_1  = DB::table('user_teams')
+        ->select((DB::raw("COUNT(user_teams.points) as total_loss_pts_in_region")) , 'user_teams.user_id as user_id' ,'users.name as user_name' , 'user_teams.points as user_pts' , 'regions.region as region_name' , 'teams.logo as team_logo' , 'teams.name as team_name')
+        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
+        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
+        ->join('regions', 'regions.id', '=', 'user_teams.user_region_id');
+
+        if(isset($alphabet) && !empty($alphabet)){
+            $leaderBoard_users_loss_data_1->where('users.name', 'like', "{$alphabet}%");
+         }
+
+         if(isset($group) && !empty($group)){
+            $leaderBoard_users_loss_data_1->where('users.group',$group);
+         }
+         $leaderBoard_users_loss_data_1->groupBy(['region_name','user_id'])
+        ->orderBy('total_loss_pts_in_region','ASC')
+        ->limit($limit)
+        ->where('user_teams.points', '=' , 0)
+        ->where('regions.region', '=' ,$region);
+
+
+        $leaderBoard_users_loss_data = $leaderBoard_users_loss_data_1->get();
+
+
+
+        if($leaderBoard_users_win_data->isEmpty()){
+            foreach($leaderBoard_users_loss_data as $leaderBoard_user_loss_data){
+                $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_name'] =$leaderBoard_user_loss_data->user_name;
+                $leaderboard_data[$leaderBoard_user_loss_data->user_id]['team_logo'] =$leaderBoard_user_loss_data->team_logo;
+                $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_points']['loss'] = $leaderBoard_user_loss_data->total_loss_pts_in_region;
+                $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_points']['win'] = 0;
+            }
+         }else{
+            foreach($leaderBoard_users_loss_data as $leaderBoard_user_loss_data){
+                $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_name'] =$leaderBoard_user_loss_data->user_name;
+                $leaderboard_data[$leaderBoard_user_loss_data->user_id]['team_logo'] =$leaderBoard_user_loss_data->team_logo;
+                $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_points']['loss'] = $leaderBoard_user_loss_data->total_loss_pts_in_region;
+                if(isset( $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_points']['win'])){
+                    $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_points']['win']  =  $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_points']['win'];
+                }else{
+                    $leaderboard_data[$leaderBoard_user_loss_data->user_id]['user_points']['win']  =  0;
+                }
+            }
+         }
+
+         if( $leaderboard_data){
+            foreach($leaderboard_data as $user_id_as_key => $leaderboard){
+                if(empty($leaderboard['user_points']['loss'])){
+                    $leaderboard_data[$user_id_as_key]['user_points']['loss'] = 0;
+                }
+            }
+         }
+
+        return  $leaderboard_data;
+    }
+
     public function index()
     {
         //get menu
 
         $menus = Menu::with('menu')->where('status', 'active')->get();
         $mainMenus = Menu::where('parent_id', 0)->get();
+
         $subMenus = Menu::where('parent_id', '!=', 0)->get();
+
         $colorSection = array();
+
         $color_setting = ColorSetting::get();
         if (!empty($color_setting)) {
             foreach ($color_setting as $color) {
@@ -44,35 +142,24 @@ class HomeController extends Controller
         }
         //get banners
         $banners = Banner::where('status', 'Active')->get();
-
-        //get Team results
-        //  $team_results = TeamResult::with('team_result_id1' , 'team_result_id2')->where('status' , 'active')->inRandomOrder()->limit(1)->get();
-
         $matchBoards = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(1)->get();
-    //    dd($matchBoards);
-        //get upcoming matches
         $upcoming_matches = Fixture::with('first_team_id', 'second_team_id', 'season')->inRandomOrder()->limit(4)->get();
+        if (Cache::has('leader_board_regions_wise_users_results')) {
 
-        //get leaderboard
-        // $leaderboards = Leaderboard::with('teams')->get();
+            $leader_board_regions_wise_users_results =  Cache::get('leader_board_regions_wise_users_results');
+        }else{
 
-        //get regions for leaderboard
-        // $get_regions = Region::with(['teams'])->orderBy('position' , 'asc')->get()->groupBy('region')->toArray();
-        // dd($get_regions);
+            $leader_board_regions_wise_user_result = array();
+            $leader_board_regions_wise_user_result['North'] =    $this->getTheTopPlayersDataBasedOnRegion('North');
+            $leader_board_regions_wise_user_result['East'] =    $this->getTheTopPlayersDataBasedOnRegion('East');
+            $leader_board_regions_wise_user_result['South'] =    $this->getTheTopPlayersDataBasedOnRegion('South');
+            $leader_board_regions_wise_user_result['West'] =    $this->getTheTopPlayersDataBasedOnRegion('West');
+            $leader_board_regions_wise_user_result['Mid-West'] =    $this->getTheTopPlayersDataBasedOnRegion('Mid-West');
+            $leader_board_regions_wise_user_result['Overseas'] =    $this->getTheTopPlayersDataBasedOnRegion('Overseas');
 
-        $leaderBoard_data = DB::table('user_teams')
-        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
-        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
-        ->join('regions', 'regions.id', '=', 'teams.region_id')
-        ->orderBy('position' , 'asc')->get()->groupBy('region')->toArray();
-
-    //   echo "<pre>";
-    //   print_r($leaderBoard_data);
-    //   die();
-
-        //get user based on alphabets
-
-        //section heading
+            $leader_board_regions_wise_users_results  =  $leader_board_regions_wise_user_result;
+            Cache::put('leader_board_regions_wise_users_results', $leader_board_regions_wise_user_result, now()->addMinutes(60));
+        }
 
         $fixtureHeading = SectionHeading::where('name', 'Upcoming Fixture')->first();
         $leaderboardHeading = SectionHeading::where('name', 'leaderboard')->first();
@@ -83,48 +170,117 @@ class HomeController extends Controller
         $news = News::where('type', "news")->where('status', "active")->get();
         // $video = News::where('type',"video")->where('status',"active")->get();
         $vacations = Vacation::where('status', "active")->get();
-
-        return view('home.index',compact('colorSection' , 'banners', 'upcoming_matches' ,'leaderBoard_data', 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' ,'matchBoards'));
+        //get reviews
+        $get_reviews = Reviews::inRandomOrder()->limit(10)->get();
+        return view('home.index',compact('get_reviews' ,'colorSection' , 'banners', 'upcoming_matches' ,'leader_board_regions_wise_users_results', 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' ,'matchBoards'));
     }
 
 
-     private function getPlayersData($group='',$PlayerName=''){
+    //  private function getPlayersData($group='',$PlayerName=''){
+    //     $roster_data_query = DB::table('user_teams')
+    //     ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
+    //     ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
+    //     ->join('regions', 'regions.id', '=', 'teams.region_id')
+    //     ->select('')
+    //     ->orderBy('position' , 'asc');
+
+    //     if(isset($PlayerName)){
+    //         $roster_data_query->where('users.name', 'like', "{$PlayerName}%");
+    //       }
+
+    //     $roster_data_query->where('users.group',$group);
+    //     $customer_players_data = $roster_data_query->get()->groupBy(['region']);
+
+    //      if($customer_players_data->isEmpty()){
+    //         return 0;
+    //      };
 
 
-        $roster_data_query = DB::table('user_teams')
+    //     if(Cache::has('regions')){
+    //         $PlayersRegions = Cache::get('regions');
+    //       }else{
+    //          $get_regions =  Region::where('status' , 'active')->select('region')->get();
+    //          $PlayersRegions =  Cache::put('regions', $get_regions);
+    //       }
+    //        $roster_data = [];
+    //        foreach($PlayersRegions as $regions){
+    //         if(isset($customer_players_data[$regions->region])){
+    //             $roster_data[$regions->region] = $customer_players_data[$regions->region];
+    //         }else{
+    //             $roster_data[$regions->region] = collect([]);
+    //         }
+    //        }
+    //        return   $roster_data;
+
+    //  }
+
+    private function getPlayersData($group='',$PlayerName='' , $region = ""){
+        $roster_data = array();
+        $roster_win_data_query  = DB::table('user_teams')
+        ->select((DB::raw("COUNT(user_teams.points) as total_win_pts_in_region")) , 'user_teams.user_id as user_id' ,'users.name as user_name' , 'user_teams.points as user_pts' , 'regions.region as region_name' , 'teams.logo as team_logo' , 'teams.name as team_name')
         ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
         ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
-        ->join('regions', 'regions.id', '=', 'teams.region_id')
-        ->orderBy('position' , 'asc');
+        ->join('regions', 'regions.id', '=', 'user_teams.user_region_id')
+        ->groupBy(['region_name','user_id'])
+        ->orderBy('total_win_pts_in_region','DESC')
+        ->limit(3)
+        ->where('user_teams.points', '!=' , 0)
+        ->where('regions.region', '=' , 'North')
+        ->get();
+
+
+
 
         if(isset($PlayerName)){
-            $roster_data_query->where('users.name', 'like', "{$PlayerName}%");
+            $roster_win_data_query->where('users.name', 'like', "{$PlayerName}%");
           }
 
-        $roster_data_query ->where('users.group',$group);
-        $customer_players_data = $roster_data_query->get()->groupBy(['region']);
-
-         if($customer_players_data->isEmpty()){
-            return 0;
-         };
-
-
-        if(Cache::has('regions')){
-            $PlayersRegions = Cache::get('regions');
-          }else{
-             $get_regions =  Region::where('status' , 'active')->select('region')->get();
-             $PlayersRegions =  Cache::put('regions', $get_regions);
-          }
-           $roster_data = [];
-           foreach($PlayersRegions as $regions){
-            if(isset($customer_players_data[$regions->region])){
-                $roster_data[$regions->region] = $customer_players_data[$regions->region];
-            }else{
-                $roster_data[$regions->region] = collect([]);
+        $roster_win_data_query->where('users.group',$group);
+        if($roster_win_data_query->isNotEmpty()){
+            foreach($roster_win_data_query as $roster_win_data){
+                $roster_data[$roster_win_data->user_id]['user_name'] =$roster_win_data->user_name;
+                $roster_data[$roster_win_data->user_id]['team_logo'] =$roster_win_data->team_logo;
+                $roster_data[$roster_win_data->user_id]['user_points']['win'] = $roster_win_data->total_win_pts_in_region;
             }
-           }
+         }
 
-           return   $roster_data;
+         $roster_loss_data_query  = DB::table('user_teams')
+        ->select((DB::raw("COUNT(user_teams.points) as total_loss_pts_in_region")) , 'user_teams.user_id as user_id' ,'users.name as user_name' , 'user_teams.points as user_pts' , 'regions.region as region_name' , 'teams.logo as team_logo' , 'teams.name as team_name')
+        ->join('teams' , 'teams.id' , '=' , 'user_teams.team_id')
+        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
+        ->join('regions', 'regions.id', '=', 'user_teams.user_region_id')
+        ->groupBy(['region_name','user_id'])
+        ->orderBy('total_loss_pts_in_region','ASC')
+        ->limit(3)
+        ->where('user_teams.points', '=' , 0)
+        ->where('regions.region', '=' ,'North')
+        ->get();
+
+
+         dd($roster_loss_data_query);
+
+        // $customer_players_data = $roster_data_query->get()->groupBy(['region']);
+
+        //  if($customer_players_data->isEmpty()){
+        //     return 0;
+        //  };
+
+
+        // if(Cache::has('regions')){
+        //     $PlayersRegions = Cache::get('regions');
+        //   }else{
+        //      $get_regions =  Region::where('status' , 'active')->select('region')->get();
+        //      $PlayersRegions =  Cache::put('regions', $get_regions);
+        //   }
+        //    $roster_data = [];
+        //    foreach($PlayersRegions as $regions){
+        //     if(isset($customer_players_data[$regions->region])){
+        //         $roster_data[$regions->region] = $customer_players_data[$regions->region];
+        //     }else{
+        //         $roster_data[$regions->region] = collect([]);
+        //     }
+        // }
+         //  return   $roster_data;
 
      }
 
@@ -133,7 +289,15 @@ class HomeController extends Controller
     {
         $name = $request->letters;
         $gp = $request->path;
-        $roster_data =  $this->getPlayersData($gp,$name);
+
+        $roster_data['North'] =  $this->getTheTopPlayersDataBasedOnRegion('North',100,$name,$gp);
+        $roster_data['East'] =  $this->getTheTopPlayersDataBasedOnRegion('East',100,$name,$gp);
+        $roster_data['South'] =  $this->getTheTopPlayersDataBasedOnRegion('South',100,$name,$gp);
+        $roster_data['West'] =  $this->getTheTopPlayersDataBasedOnRegion('West',100,$name,$gp);
+        $roster_data['Mid-West'] =  $this->getTheTopPlayersDataBasedOnRegion('Mid-West',100,$name,$gp);
+        $roster_data['Overseas'] =  $this->getTheTopPlayersDataBasedOnRegion('Overseas',100,$name,$gp);
+
+
 
         if ($roster_data) {
             return response()->json(['roster_data' =>  $roster_data, 'status' => true], 200);
@@ -145,7 +309,17 @@ class HomeController extends Controller
     public function player_roster($alphabets)
     {
         $gp = $alphabets;
-        $roster_data =  $this->getPlayersData($gp);
+        $roster_data['North'] =  $this->getTheTopPlayersDataBasedOnRegion('North',100,'',$gp);
+        $roster_data['East'] =  $this->getTheTopPlayersDataBasedOnRegion('East',100,'',$gp);
+        $roster_data['South'] =  $this->getTheTopPlayersDataBasedOnRegion('South',100,'',$gp);
+        $roster_data['West'] =  $this->getTheTopPlayersDataBasedOnRegion('West',100,'',$gp);
+        $roster_data['Mid-West'] =  $this->getTheTopPlayersDataBasedOnRegion('Mid-West',100,'',$gp);
+        $roster_data['Overseas'] =  $this->getTheTopPlayersDataBasedOnRegion('Overseas',100,'',$gp);
+
+
+
+
+
         return view('front.playerRoster' , compact('roster_data'));
     }
 

@@ -1,22 +1,15 @@
 <footer id="footerPart">
     <div class="container">
       <div class="row">
-        <div class="col-sm-4">
-          {{-- <a class="footerLogo" href="index.html">
-
-            <img src="{{$general->logo}}" alt="" class="img-fluid">
-
-          </a> --}}
-          <a class="footerLogo" href="{{ url('/') }}">
+        <div class="col-sm-4 mb-3">
+          <a class="footerLogo" href="{{route('home')}}">
 
             @if (!empty($general->logo))
-                <img src="{{ asset('storage/images/general/' . $general->logo) }}" alt="" height="80px"
-                    width="200px"  class="img-fluid">
-            @else
-                <img src="{{ asset('front/img/football picks.png') }}" alt="" class="img-fluid">
-            @endif
-        </a>
-
+            <img src="{{asset('storage/images/general/'.$general->logo)}}" alt="" class="img-fluid" height="100px" width="200px">
+           @else
+            <img src="{{ asset('front/img/NFL-small.png') }}" alt="" class="img-fluid">
+          @endif
+          </a>
 
           <div class="contactDetail">
             <div class="contactUs d-flex">
@@ -40,7 +33,7 @@
                 <i class="fa-solid fa-fax"></i>
               </div>
               <div class="inputText">
-                <span>{{$general->footer_contact}}</span>
+                <span>{{$general->footer_contact2}}</span>
               </div>
             </div>
             <div class="contactUs d-flex">
@@ -54,7 +47,7 @@
           </div>
 
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 mb-3">
           <div class="headerPart">
             <h4 style="color:{{ $colorSection['footer']["header_color"] }};" >QUICK LINKS</h4>
           </div>
@@ -66,11 +59,11 @@
             <li><a href="#">Contact us</a></li>
           </ul>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 mb-3">
           <div class="headerPart">
             <h4 style="color:{{ $colorSection['footer']["header_color"] }};" >SIGN UP FOR EMAIL ALERT</h4>
           </div>
-          <p>Select topics and stay current with our latest news.</p>
+          <p>{{$general->footer_content}}</p>
           <div class="formInput">
             <input type="email" name="EMAIL" placeholder="Your email address" required="">
             <button type="button" class="btn btn-primary  btn-lg" style="">Submit</button>
@@ -108,15 +101,10 @@
   <script src="{{ asset('front/js/owl.carousel.min.js') }}"></script>
   <script src="https://kit.fontawesome.com/58d36e6221.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-  {{-- <script src="{{ asset('front/js/custom-front.js') }}"></script> --}}
   <script src="{{ asset('dist/js/jquery.validate.min.js') }}"></script>
   <script src="{{ asset('dist/js/custom.js') }}"></script>
   <!-- intl-tel-input -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/intlTelInput.js"></script>
-  <!--Set Initial Country Based on IP address-->
-  {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
-
-
 
   <script>
     $(document).ready(function () {
@@ -133,6 +121,28 @@
       nav: true,
       dots: false,
     });
+
+    $(".owl-testimonial").owlCarousel({
+
+loop: true,
+items: 1,
+margin: 30,
+dots: false,
+autoplay: true,
+nav: true,
+dots: false,
+responsive: {
+        300: {
+          items: 1,
+        },
+        600: {
+          items: 2,
+        },
+        992: {
+          items: 3,
+        },
+      },
+});
 
     $(".owl-videoslider").owlCarousel({
 
@@ -203,49 +213,48 @@
     --bs-btn-color:<?php echo $colorSection['footer']["text_color"] ?>;
     }
 </style>
-
 @yield('script')
 <script>
-    $('.icon-click').on('click', function(){
-    var temp = $(this).attr('id');
-    temp     = temp.split('-');
-    var name = temp[0];
-    var val  = temp[1];
+  $('.icon-click').on('click', function(){
+  var temp = $(this).attr('id');
+  temp     = temp.split('-');
+  var name = temp[0];
+  var val  = temp[1];
 
-    var prv  = $('#'+name).val();
-        $('#'+name).val(val);
-        $('#rating_1').val(val);
+  var prv  = $('#'+name).val();
+      $('#'+name).val(val);
+      $('#rating_1').val(val);
 
-    for(i = 1; i <= prv; i++){
-      $('#'+name+'-'+i).removeClass('text-warning');
-      $('#'+name+'-'+i).addClass('text-secondary');
-    }
-    for(i = 1; i <= val; i++){
-      $('#'+name+'-'+i).removeClass('text-secondary');
-      $('#'+name+'-'+i).addClass('text-warning');
-    }
-  })
-  </script>
-
+  for(i = 1; i <= prv; i++){
+    $('#'+name+'-'+i).removeClass('text-warning');
+    $('#'+name+'-'+i).addClass('text-secondary');
+  }
+  for(i = 1; i <= val; i++){
+    $('#'+name+'-'+i).removeClass('text-secondary');
+    $('#'+name+'-'+i).addClass('text-warning');
+  }
+})
+</script>
 <script>
-    $("#reviewForm").submit(function(e){
-    e.preventDefault();
-    $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-    $.ajax({
-        type : 'POST',
-        data: $("#reviewForm").serialize(),
-        url : 'reviews',
-        success : function(data){
-            console.log(data);
-            // $("#download_link").html(data);
-             $("#reviews_success_modal").modal("show");
-             $("#addReviewModal").modal("hide");
-        }
-    });
-    return false;
+  $("#reviewForm").submit(function(e){
+  e.preventDefault();
+  $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+              });
+  $.ajax({
+      type : 'POST',
+      data: $("#reviewForm").serialize(),
+      url : 'reviews',
+      success : function(data){
+       // console.log(data);
+           $("#reviews_success_modal").modal("show");
+           $("#addReviewModal").modal("hide");
+           $("#reviewForm")[0].reset();
+           $('.icon-click').removeClass('text-warning');
+      }
+  });
+  return false;
 });
 </script>

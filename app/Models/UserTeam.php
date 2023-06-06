@@ -9,7 +9,7 @@ use App\Models\Season;
 class UserTeam extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id','leauge_id','season_id','week','team_id','points','fixture_id'];
+    protected $fillable = ['user_id','leauge_id','season_id','week','team_id','points','fixture_id' , 'user_region_id'];
 
     protected $append = ['season_name'];
 

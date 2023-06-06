@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(PlayerSeeders::class);
         // $this->call(VacationSeeder::class);
         //$this->call(SeasonTableSeeder::class);
-        $this->call(ContactPageSeeder::class);
+        // $this->call(ContactPageSeeder::class);
+        // $this->call(AboutPageSeeder::class);
+        $this->call(StaticPageSeeder::class);
     }
 }

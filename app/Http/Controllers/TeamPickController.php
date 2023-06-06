@@ -49,6 +49,7 @@ class TeamPickController extends Controller
             $fixture = $request->fixture;
             $id = auth()->user()->id;
 
+
             // $c_date = Carbon::now();
             $c_date = Season::where('status' , 'active')->value('starting');
             $expire_date = Payment::where(['season_id' => $season_id, 'user_id' => $id])->value('expire_on');
@@ -77,6 +78,7 @@ class TeamPickController extends Controller
                         'team_id' => $team,
                         'fixture_id'=>$fixture,
                     ]);
+
                     $user = User::where('id',$id)->first();
                     $team = Team::where('id',$team)->value('name');
                     $data = ['week'=>$week,'team'=>$team,'user_name'=>$user->name];

@@ -26,8 +26,8 @@
                         <div class="imagesBoth">
                             <div class="row mt-3">
                                 <div class="col-sm-6">
-                                    @if (!empty($get_contact_details->image))
-                                    <img src="{{asset('storage/images/contactPage/'.$get_contact_details->image)}}" alt="" class="img-fluid">
+                                    @if (!empty($get_contact_details->images))
+                                    <img src="{{asset('storage/images/static_page/'.$get_contact_details->images)}}" alt="" class="img-fluid">
                                     @else
                                     <img src="front/img/contacts-1.jpg" alt="" class="img-fluid">
                                     @endif
