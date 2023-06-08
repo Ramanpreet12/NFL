@@ -26,6 +26,7 @@
                                         </div>
                                     </div>
 
+
                                     <input type="hidden" name="leauge" id="leauge" value="{{ $season->league }}">
                                     <input type="hidden" name="season" id="season" value="{{ $season->id }}">
                                     <div class="mb-3">

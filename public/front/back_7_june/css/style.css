@@ -819,53 +819,45 @@ h1, h2, h3, h4, h5, h6 {
 #matchFixture {
   padding: 50px 0;
   color: white; }
-
-.headerMenu .seasonFixed {
-  margin: 0;
-  white-space: nowrap; }
-
-.table-striped {
-  text-align: center; }
-  .table-striped .rollPlay {
-    text-align: left;
-    padding: 0 20px; }
-  .table-striped .table-dark {
-    --bs-table-striped-bg: #2c3034;
-    --bs-table-hover-bg: #323539;
-    --bs-table-bg: #212529; }
-
-.sideBar {
-  background-color: #eaeaea; }
-
-.tabletwo {
-  margin-top: 40px; }
-
-.matchTable {
-  background-color: rgba(0, 0, 0, 0.35);
-  border-top: 2px solid #db9a29;
-  display: flex;
-  padding: 20px; }
-  .matchTable img.img-fluid {
-    height: 50px; }
-  .matchTable .teamVs {
-    background-color: #db9a29;
+  #matchFixture .headerMenu .seasonFixed {
+    margin: 0; }
+  #matchFixture .table-striped {
+    text-align: center; }
+    #matchFixture .table-striped .rollPlay {
+      text-align: left;
+      padding: 0 20px; }
+    #matchFixture .table-striped .table-dark {
+      --bs-table-striped-bg: #2c3034;
+      --bs-table-hover-bg: #323539;
+      --bs-table-bg: #212529; }
+  #matchFixture .sideBar {
+    background-color: #eaeaea; }
+  #matchFixture .tabletwo {
+    margin-top: 40px; }
+  #matchFixture .matchTable {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-top: 2px solid #db9a29;
+    display: flex;
+    padding: 20px; }
+    #matchFixture .matchTable img.img-fluid {
+      height: 50px; }
+    #matchFixture .matchTable .teamVs {
+      background-color: #db9a29;
+      padding: 10px;
+      margin: 0 20px 0 20px; }
+      #matchFixture .matchTable .teamVs h5 {
+        margin: 0; }
+  #matchFixture .fixureMatch .teamOne .img-fluid {
+    height: 30px; }
+  #matchFixture .fixureMatch .versis {
     padding: 10px;
     margin: 0 20px 0 20px; }
-    .matchTable .teamVs h5 {
+    #matchFixture .fixureMatch .versis h5 {
       margin: 0; }
-
-.fixureMatch .teamOne .img-fluid {
-  height: 30px; }
-.fixureMatch .versis {
-  padding: 10px;
-  margin: 0 20px 0 20px; }
-  .fixureMatch .versis h5 {
-    margin: 0; }
-  .fixureMatch .versis span {
-    font-size: 14px; }
-
-.table th, .table td {
-  vertical-align: middle; }
+    #matchFixture .fixureMatch .versis span {
+      font-size: 14px; }
+  #matchFixture .table th, #matchFixture .table td {
+    vertical-align: middle; }
 
 #resultLeaderboard {
   padding: 70px 0px 40px 0; }
@@ -1344,35 +1336,6 @@ h1#addReviewModalLabel {
 nav.navbarMobile {
   display: none; }
 
-.leaderBoard .table-group-divider th.region_South, .leaderBoard .table-group-divider th.region_Overseas {
-  --bs-table-bg: #393a51;
-  --bs-table-striped-bg: #393a51;
-  --bs-table-hover-bg: #444782; }
-
-.dashboardCard-inner td.teamName {
-  text-align: left; }
-
-.teamLogo .img-fluid {
-  max-width: 40px; }
-
-.teamCard .img-fluid, .tableBoard .img-fluid {
-  max-width: 40px; }
-
-.tableBoard thead th {
-  white-space: pre; }
-
-.inner_form {
-  display: flex;
-  justify-content: center;
-  align-items: center; }
-
-.headerMenu {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  flex-wrap: wrap; }
-
 @media only screen and (min-width: 320px) and (max-width: 575px) {
   .navbar {
     background-color: #000; }
@@ -1538,14 +1501,14 @@ nav.navbarMobile {
     #resultLeaderboard .modrenFixture .fixtureContent span {
       font-size: 30px; }
 
-  .headerMenu h5#set_week {
+  #matchFixture .headerMenu h5#set_week {
     text-align: end; }
-  .headerMenu .formSpacing {
+  #matchFixture .headerMenu .formSpacing {
     margin: 15px 0; }
-  .headerMenu .seasonFixed {
+  #matchFixture .headerMenu .seasonFixed {
     font-size: 18px;
     white-space: nowrap; }
-  .headerMenu .seasonFixed .inner_form label {
+  #matchFixture .headerMenu .seasonFixed .inner_form label {
     font-size: 18px !important; }
 
   #footerPart .formInput input {
@@ -1583,8 +1546,9 @@ nav.navbarMobile {
     padding: 6px 15px;
     font-size: 16px; }
 
-  .btn-primary:after {
-    background-color: #e4a101; }
+  .btn:before {
+    right: -6px;
+    width: 3px; }
 
   #fixtureContentPart .modrenFixture h3 {
     line-height: 22px; }
@@ -1715,7 +1679,7 @@ nav.navbarMobile {
   #resultLeaderboard {
     padding: 50px 0px 40px 0; }
 
-  #matchFixture .matchFColTime, #matchFixture .matchFColDate, #nextmatchBoard .matchFColTime, #nextmatchBoard .matchFColDate {
+  #matchFixture .matchFColTime, #matchFixture .matchFColDate {
     display: none; }
 
   #prizePart {
@@ -1747,18 +1711,7 @@ nav.navbarMobile {
     height: auto; }
 
   .tableCardMobile tr {
-    margin-bottom: 30px; }
-
-  table.tableBoard .btn {
-    padding: 6px 10px;
-    white-space: nowrap; }
-
-  .btn:before {
-    right: -6px;
-    width: 3px;
-    transform: skewX(-10deg); }
-  .btn:after {
-    transform: skewX(-10deg); } }
+    margin-bottom: 30px; } }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .navbar {
     background-color: #000; }

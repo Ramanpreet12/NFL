@@ -19,6 +19,18 @@
     </div>
 
 @endif
+@if (session('error_msg'))
+<div class="alert alert-danger-soft show flex items-center mb-2 alert_messages" role="alert">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+        class="feather feather-alert-octagon w-6 h-6 mr-2">
+        <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    {{ session('error_msg') }}
+</div>
+@endif
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
 
 
@@ -37,12 +49,14 @@
                         <th class="text-center whitespace-nowrap">Name</th>
                         <th class="text-center whitespace-nowrap">starting</th>
                         <th class="text-center whitespace-nowrap">Ending</th>
+                        <th class="text-center whitespace-nowrap">Active</th>
                         <th class="text-center whitespace-nowrap">Created At</th>
                         <th class="text-center whitespace-nowrap">Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    @if ($seasons->isNotEmpty())
                     @forelse ($seasons as $season)
                         <tr class="intro-x">
                             <td>
@@ -50,6 +64,11 @@
                             </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($season->starting)->format('j F, Y') }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($season->ending)->format('j F, Y') }}</td>
+                            <td class="">
+                                <div class="flex items-center justify-center {{ $season->status =='active' ? 'text-success' : 'text-danger' }}">
+                                    <i data-feather="check-square" class="w-4 h-4 mr-2"></i> {{ $season->status =='active' ? 'Active' : 'Inactive' }}
+                                </div>
+                            </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($season->created_at)->format('j F, Y') }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
@@ -73,10 +92,10 @@
                         @empty
                         <tr>
                             <td colspan="7" class="text-center">No Records found</td>
-                          <p>No Records found</p>
+
                         </tr>
                     @endforelse
-
+                    @endif
                 </tbody>
             </table>
         </div>

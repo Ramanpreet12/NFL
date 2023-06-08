@@ -38,4 +38,9 @@ class Payment extends Model
       return $t;
     }
 
+    public function season()
+    {
+       return $this->belongsTo(Season::class , 'season_id' , 'id' );
+    }
+
 }

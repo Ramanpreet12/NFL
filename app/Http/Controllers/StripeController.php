@@ -26,12 +26,17 @@ class StripeController extends Controller
         // ->where('league','1')
         // ->first();
 
-        $date = Season::where('status' , 'active')->value('starting');
+        // $date = Season::where('status' , 'active')->value('starting');
+        $get_current_year = Carbon::now()->format('Y');
+       $date = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->value('starting');
+
+
         $season = DB::table('seasons')
             ->whereRaw('"' . $date . '" between `starting` and `ending`')
             ->where('status' , 'active')
             ->where('league','1')
             ->first();
+
         return view('front.payment.index',compact('season'));
     }
 
@@ -105,7 +110,11 @@ class StripeController extends Controller
             //     ->whereRaw('"'.$c_date.'" between `starting` and `ending`')
             //     ->first();
 
-                $c_date = Season::where('status' , 'active')->value('starting');
+            $get_current_year = Carbon::now()->format('Y');
+            $c_date = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->value('starting');
+
+                // $c_date = Season::where('status' , 'active')->value('starting');
+
         $c_season = DB::table('seasons')
             ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
             ->where('status' , 'active')
@@ -125,6 +134,7 @@ class StripeController extends Controller
                 // 'expire_on'=> $c_date->addDays($dayDiff)
                 'expire_on'=> $getSeason->ending
             ];
+
             // $Payment = Payment::create($data);
             // User::withTrashed()->where('id', auth()->user()->id)->update(['subscribed' => 1]);
             // DB::commit();
@@ -134,7 +144,18 @@ class StripeController extends Controller
             //     return redirect()->route('payment')->with('error', "Some thing is went wrong");
             // }
 
-            $Payment = Payment::create($data);
+           $payment_data = Payment::where(['user_id' =>$data['user_id'] , 'season_id' => $data['season_id']])->first();
+        //    dd($payment_data);
+           if (empty($payment_data)) {
+              $Payment = Payment::create($data);
+           }
+           else{
+            $season_name_for_msg = $c_season->season_name;
+            $season_for_msg = 'You are already subscribed for season :'  .$season_name_for_msg;
+             return redirect()->back()->with('error' ,$season_for_msg);
+
+           }
+
 
             $user = User::where('id',auth()->user()->id)->first();
             $mdata = ['user_name'=>$user->name];

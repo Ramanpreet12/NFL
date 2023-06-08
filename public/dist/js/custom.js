@@ -101,6 +101,11 @@ $('#admin_profile_form').validate({
             password:               {  required: true},
             password_confirmation:  {  required: true},
             phone:                  {  required: true},
+            address:                  {  required: true},
+            city:                  {  required: true},
+            zipcode:                  {  required: true},
+            id_proof:                  {  required: true},
+            country:                  {  required: true},
         },
         messages: {
             fname:                  {  required: "Name is required",  },
@@ -109,6 +114,11 @@ $('#admin_profile_form').validate({
             password:               {  required: "Password is required",  },
             password_confirmation:  {  required: "Password Confirmation is required",  },
             phone:                  {  required: "Phone is required",  },
+            address:                  {  required: "Address is required",  },
+            city:                  {  required: "City is required",  },
+            zipcode:                  {  required: "Zipcode is required",  },
+            country:                  {  required: "Country is required",  },
+            id_proof:                  {  required: "ID Proof is required",  },
         }
     });
 

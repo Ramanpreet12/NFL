@@ -73,17 +73,20 @@
                                     <tr class="table-primary">
                                         <th scope="col">Sno.</th>
                                         <th scope="col">Intended Id</th>
+                                        <th scope="col">Season</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Payed At</th>
                                         <th scope="col">Time Before</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
+
                                     @if ($payment)
                                         @foreach ($payment as $key => $item)
                                             <tr>
                                                 <td>{{ $key+1 }}</td>
                                                 <td>{{ $item->payment }}</td>
+                                                <td>{{ $item->season->season_name }}</td>
                                                 <td>{{ $item->status }}</td>
                                                 <td class="text-center">{{ \Carbon\Carbon::parse( $item->created_at)->format('j F, Y') }}</td>
                                                 <td>{{ $item->created_date }}</td>

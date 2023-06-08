@@ -503,7 +503,7 @@
             background-color:#06083b;
             padding: 30px;
 
-            h2 {
+            h2{
                 color: #db9a29;
                 font-weight: 600;
                 position: relative;
@@ -857,11 +857,9 @@
         h2{
             @extend %extend-heading;
         }
-    }
         .headerMenu{
         .seasonFixed{
             margin: 0;
-            white-space: nowrap;
         }
     }
         .table-striped{
@@ -923,7 +921,7 @@
                 vertical-align: middle;
             }
         }
-    
+    }
 
     // matchresult page
 
@@ -1564,36 +1562,11 @@
     nav.navbarMobile {
         display: none;
     }
-    .leaderBoard .table-group-divider th.region_South, .leaderBoard .table-group-divider th.region_Overseas {
-        --bs-table-bg: #393a51;
-        --bs-table-striped-bg: #393a51;
-        --bs-table-hover-bg: #444782;
-    }
-    .dashboardCard-inner td.teamName {
-        text-align: left;
-    }
-    .teamLogo .img-fluid {
-        max-width: 40px;
-    }
-.teamCard .img-fluid, .tableBoard .img-fluid{
-        max-width: 40px;
-    } 
-.tableBoard thead th {
-    white-space: pre;
-}
-.inner_form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.headerMenu {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
+
+
+   
+
 
             // media query
     @media only screen and (min-width: 320px) and (max-width: 575px)  {
@@ -1889,7 +1862,7 @@
     // }
     // }
     // }
- 
+    #matchFixture{
         .headerMenu {
             h5#set_week {
                 text-align: end;
@@ -1909,7 +1882,7 @@
                 }
             }
         }
-    
+    }
     #footerPart .formInput input { 
         width: 100px;
     }
@@ -1946,14 +1919,12 @@
    
     .btn {
         padding: 6px 15px;
-        font-size: 16px; 
-   
-}
-    .btn-primary:after {
-        background-color: #e4a101;
+        font-size: 16px;
     }
- 
-   
+    .btn:before{
+        right: -6px;
+        width: 3px;
+    }
     #fixtureContentPart{
         .modrenFixture{
             h3{
@@ -2191,7 +2162,7 @@
     #resultLeaderboard {
         padding: 50px 0px 40px 0;
     }
-    #matchFixture .matchFColTime, #matchFixture .matchFColDate, #nextmatchBoard .matchFColTime, #nextmatchBoard .matchFColDate {
+    #matchFixture .matchFColTime, #matchFixture .matchFColDate {
         display: none;
     }
 
@@ -2231,21 +2202,7 @@
     }
     // tablecardclose
 
-    table.tableBoard .btn {
-        padding: 6px 10px;
-        white-space: nowrap;
     }
-.btn{
-    &:before{
-        right: -6px;
-        width: 3px;
-        transform: skewX(-10deg);
-    }
-    &:after { 
-        transform: skewX(-10deg); 
-    } 
-}
-    } 
 
     @media only screen and (min-width: 768px) and (max-width: 991px) {
 
@@ -2446,6 +2403,7 @@
     padding: 0 15px;
     }
    
+
     }
 
 

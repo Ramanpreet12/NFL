@@ -27,12 +27,17 @@ class UserRegisterRequest extends FormRequest
 
             'fname'            => 'required' ,
             'email'            => 'required|unique:users' ,
-            'password'         =>'required|confirmed' ,
+            // 'password'         =>'required|confirmed' ,
             'phone'            => 'required' ,
             'birthday'         => 'required|before_or_equal:'.\Carbon\Carbon::now()->subYears(21)->format('Y-m-d'),
             // 'password'         => 'required|string|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             'password'         => 'required|string|min:6|regex:/[a-z]/',
             'password_confirmation' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'zipcode' => 'required',
+            'country' => 'required',
+            'id_proof' => 'required',
         ];
     }
 
@@ -44,7 +49,12 @@ class UserRegisterRequest extends FormRequest
             'password' => 'Password',
             'phone' => 'Phone' ,
             'birthday' => 'Birthday',
-            'password_confirmation' => 'Confirm Password'
+            'password_confirmation' => 'Confirm Password',
+            'address' => 'Address',
+            'city' => 'City',
+            'zipcode' => 'Zipcode',
+            'country' => 'Country',
+            'id_proof' => 'ID Proof'
         ];
     }
 

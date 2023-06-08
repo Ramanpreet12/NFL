@@ -53,7 +53,8 @@ class UserDashboardController extends Controller
     }
     public function userPayment()
     {
-        $payment = Payment::where('user_id', auth()->user()->id)->paginate(6);
+        $payment = Payment::with('season')->where('user_id', auth()->user()->id)->paginate(6);
+
         return view('front.payment', compact('payment'));
     }
 

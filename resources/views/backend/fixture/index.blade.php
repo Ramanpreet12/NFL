@@ -43,11 +43,16 @@
                         <th class="text-center whitespace-nowrap">Week </th>
                         <th class="text-center whitespace-nowrap">Date </th>
                         <th class="text-center whitespace-nowrap">Time </th>
+                        <th class="text-center whitespace-nowrap">Created At  </th>
+                        <th class="text-center whitespace-nowrap">Updated At </th>
                         <th class="text-center whitespace-nowrap">Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
+
+                    @if ($fixtures->isNotEmpty())
+
 
                     @forelse ($fixtures as $fixture)
 
@@ -84,6 +89,8 @@
                             <td class="text-center">{{ $fixture->week }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($fixture->date)->format('j F, Y') }}</td>
                             <td class="text-center"> {{ \Carbon\Carbon::createFromFormat('H:i:s', $fixture->time)->format('g:i') }} {{ ucfirst($fixture->time_zone) }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($fixture->created_at)->format('j F, Y') }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($fixture->updated_at)->format('j F, Y') }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3" href="{{ url('admin/edit_fixture/'.$fixture->id) }}">
@@ -102,11 +109,11 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center">No Records found</td>
-                          <p>No Records found</p>
+                            <td colspan="11" class="text-center">No Records found</td>
+
                         </tr>
                     @endforelse
-
+                    @endif
                 </tbody>
             </table>
         </div>

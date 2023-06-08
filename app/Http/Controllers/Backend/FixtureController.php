@@ -23,7 +23,7 @@ class FixtureController extends Controller
 
     public function fixtures()
     {
-        $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
+        $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season')->orderBy('id' , 'desc')->get();
         $fixtureHeading = SectionHeading::where('name' , 'Upcoming Fixture')->first();
         //dd($fixtures);
         $seasons = Season::get();
@@ -44,14 +44,16 @@ class FixtureController extends Controller
     }
 
     public function store_fixture(FixtureRequest $request){
+
             if($request->isMethod('post')){
+
               $duration = Season::where('id',$request->season)->first();
 
               $start = Carbon::parse($duration->starting);
               $end = Carbon::parse($duration->ending);
               $store = Carbon::parse($request->date);
               if($end < $store){
-                return redirect()->back()->with('error_date','Enter a valid date');
+                return redirect()->back()->with('error_date','Please Enter the  valid date.(Fixture date should be in between season starting and ending date.)');
               }
                 $diff = $start->diff($store);
 
@@ -61,6 +63,12 @@ class FixtureController extends Controller
                     $f_week = 1;
                 }
 
+                $fixture_data = Fixture::where(['season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$f_week , 'date' =>$request->date ])->first();
+                if ($fixture_data) {
+                    return redirect()->back()->with('message_error' , 'Fixture already exists !');
+                //  dd($fixture_data);
+                }
+                else{
               Fixture::create([
                 'season_id' => $request->season,
                 'first_team' => $request->first_team,
@@ -72,6 +80,7 @@ class FixtureController extends Controller
               ]);
               return redirect('admin/fixtures')->with('success' , 'Fixture Created successfully');
             }
+        }
     }
 
     public function edit_fixture($id){
@@ -92,11 +101,23 @@ class FixtureController extends Controller
             $end = Carbon::parse($duration->ending);
             $store = Carbon::parse($request->date);
             if($end < $store){
-              return redirect()->back()->with('error_date','Enter a valid date');
+                return redirect()->back()->with('error_date','Please Enter the  valid date.(Fixture date should be in between season starting and ending date.)');
             }
               $diff = $start->diff($store);
               $week = ceil($diff->d/7);
               $f_week = ((int)$week);
+              if($f_week == 0){
+                $f_week = 1;
+            }
+
+            //   $fixture_data = Fixture::where([[('id' , '!=' , $id)] ,  'season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$f_week , 'date' =>$request->date ])->first();
+              $fixture_data = Fixture::where([['id' , '!=' , $id] , ['season_id' , '=' ,  $request->season] , ['first_team' ,'=' ,  $request->first_team ]  , ['second_team' , '=', $request->second_team ], ['week' , '=', $f_week ], ['date' , '=' , $request->date] ])->first();
+
+              if ($fixture_data) {
+                    return redirect()->back()->with('message_error' , 'Fixture already exists !');
+                //  dd($fixture_data);
+                }
+                else{
 
             Fixture::where('id' , $id)->update([
                 'season_id' => $request->season,
@@ -109,6 +130,7 @@ class FixtureController extends Controller
             ]);
             return redirect('admin/fixtures')->with('success' , 'Fixture updated successfully');
         }
+    }
     }
 
     public function delete_fixture($id){
@@ -232,65 +254,65 @@ class FixtureController extends Controller
 
     // }
 
-    public function checkUser(Request $request)
-    {
-        if (!Auth::check()) {
-           return response()->json(['message' => 'login','status'=>false], 200);
-        }
-            $team_id = $request->team_id;
-            $season_id = $request->season_id;
-            $week = $request->week;
-            $fixture_id = $request->fixture_id;
-            $user_id = auth()->user()->id;
-            $user_region_id = auth()->user()->region_id;
-            $user_status = Payment::where(['user_id' => $user_id,'season_id'=> $season_id,'status'=>'succeeded'])->first();
-            if ($user_status) {
-                $current_date = Carbon::now();  // current time and date
-                $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week])->orderBy('date','ASC')->first();
-                if($is_user_allowed_to_choose_fixture == null){
-                    return response()->json(['message' => 'Sorry.Please try again','status'=>false], 200);
-                }
-                $DeferenceInDays = Carbon::parse(Carbon::now())->diffInDays($is_user_allowed_to_choose_fixture->date);
-                if($DeferenceInDays <= 0){
-                    return response()->json(['message' => 'Time_id_over','status'=>false], 200);
-                }
-               // $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>', $current_date ]])->first();
+    // public function checkUser(Request $request)
+    // {
+    //     if (!Auth::check()) {
+    //        return response()->json(['message' => 'login','status'=>false], 200);
+    //     }
+    //         $team_id = $request->team_id;
+    //         $season_id = $request->season_id;
+    //         $week = $request->week;
+    //         $fixture_id = $request->fixture_id;
+    //         $user_id = auth()->user()->id;
+    //         $user_region_id = auth()->user()->region_id;
+    //         $user_status = Payment::where(['user_id' => $user_id,'season_id'=> $season_id,'status'=>'succeeded'])->first();
+    //         if ($user_status) {
+    //             $current_date = Carbon::now();  // current time and date
+    //             $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week])->orderBy('date','ASC')->first();
+    //             if($is_user_allowed_to_choose_fixture == null){
+    //                 return response()->json(['message' => 'Sorry.Please try again','status'=>false], 200);
+    //             }
+    //             $DeferenceInDays = Carbon::parse(Carbon::now())->diffInDays($is_user_allowed_to_choose_fixture->date);
+    //             if($DeferenceInDays <= 0){
+    //                 return response()->json(['message' => 'Time_id_over','status'=>false], 200);
+    //             }
+    //            // $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>', $current_date ]])->first();
 
-                // if no, redirect with error
-                 if(!$is_user_allowed_to_choose_fixture){
-                    return response()->json(['message' => 'Selection time is over for this fixture.You can choose the fixture till day before the match.','status'=>false], 200);
-                 }
-                 // if user selected the fixture or not
-                $user_selected_fixture_team = UserTeam::where(['user_id' => $user_id, 'season_id' => $season_id, 'week' => $week,'fixture_id'=> $fixture_id ])->first();
-                 //dd('user_selected_fixture_team' ,$user_selected_fixture_team);
-                 if($user_selected_fixture_team){
-                    $user_selected_fixture_team->update(['team_id'=>$team_id ]);
-                    return response()->json(['message' => 'update','status'=>true], 200);
-                 }else{
-                    $created =  UserTeam::create([
-                        'user_id' => $user_id,
-                        'user_region_id' => $user_region_id,
-                        'leauge_id' => $this->league_id,
-                        'season_id' => $season_id,
-                        'week' => $week,
-                        'team_id' => $team_id,
-                        'fixture_id'=>$fixture_id,
-
-
-                    ]);
+    //             // if no, redirect with error
+    //              if(!$is_user_allowed_to_choose_fixture){
+    //                 return response()->json(['message' => 'Selection time is over for this fixture.You can choose the fixture till day before the match.','status'=>false], 200);
+    //              }
+    //              // if user selected the fixture or not
+    //             $user_selected_fixture_team = UserTeam::where(['user_id' => $user_id, 'season_id' => $season_id, 'week' => $week,'fixture_id'=> $fixture_id ])->first();
+    //              //dd('user_selected_fixture_team' ,$user_selected_fixture_team);
+    //              if($user_selected_fixture_team){
+    //                 $user_selected_fixture_team->update(['team_id'=>$team_id ]);
+    //                 return response()->json(['message' => 'update','status'=>true], 200);
+    //              }else{
+    //                 $created =  UserTeam::create([
+    //                     'user_id' => $user_id,
+    //                     'user_region_id' => $user_region_id,
+    //                     'leauge_id' => $this->league_id,
+    //                     'season_id' => $season_id,
+    //                     'week' => $week,
+    //                     'team_id' => $team_id,
+    //                     'fixture_id'=>$fixture_id,
 
 
-                    return response()->json(['message' => 'added','status'=>true], 200);
-                 }
-            }
-            else{
-                return response()->json(['message' => 'subscribe','status'=>false], 200);
-
-            }
+    //                 ]);
 
 
+    //                 return response()->json(['message' => 'added','status'=>true], 200);
+    //              }
+    //         }
+    //         else{
+    //             return response()->json(['message' => 'subscribe','status'=>false], 200);
 
-    }
+    //         }
+
+
+
+    // }
 
 
     public function loss_user()

@@ -73,12 +73,12 @@ Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->n
 // Route::match(['get'], 'fixtures', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
 // Route::match(['get' , 'post'], 'fixtures/{season?}/{week?}', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
 Route::get('fixtures', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
+//pick the team from match fixture page
+Route::post('fixture_team_pick',[FrontPagesController::class, 'fixture_team_pick'])->name('fixture_team_pick');
+
 Route::get('tesst', [FrontPagesController::class,'test'] )->name('tesst');
 
-
-
-
-Route::post('check_user',[FixtureController::class, 'checkUser']);
+// Route::post('check_user',[FixtureController::class, 'checkUser']);
 Route::get('loss_user',[FixtureController::class, 'loss_user']);
 
 Route::match(['GET','POST'], 'contact', [FrontPagesController::class,'contact'])->name('contact');
@@ -105,7 +105,8 @@ Route::match(['get','post'],'change_password',[AuthController::class,'changePass
 Route::middleware(['auth' , 'user'])->group(function() {
 //pick a team for user
 Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
-Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam')->middleware('timeOver');
+Route::post('dashboard_team_pick',[TeamPickController::class, 'dashboard_team_pick'])->name('dashboard_team_pick');
+// Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam')->middleware('timeOver');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('dashboard' , [UserDashboardController::class, 'dashboard'])->name('dashboard');

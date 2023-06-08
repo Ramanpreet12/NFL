@@ -6,18 +6,19 @@
 
                 <div class="col-12">
                     <h2>Match Fixture</h2>
+
                     <div class="headerMenu row">
                         <div class="col">
-                            <h5 class="seasonFixed" style="color:#444" id="">Season: {{ $c_season->season_name }}
+                            <h5 class="seasonFixed" style="color:#444" id="">Season: {{ $c_season->season_name ?? '' }}
                             </h5>
                         </div>
                         <div class="col">
-                            @if (Request::url() == config('app.url') . '/fixtures/weeks')
+                            {{-- @if (Request::url() == config('app.url') . '/fixtures/weeks') --}}
                                 @foreach ($fixtures as $week => $data)
                                     <h5 style="color:#444" id="set_week" class="seasonFixed selectWeekPart">Week :
                                         {{ $week }}</h5>
                                 @endforeach
-                            @endif
+                            {{-- @endif --}}
                         </div>
                         <div class="fixtureForms col">
                             <form action="{{ url('fixtures') }}" method="get" class="seasonFixed formSpacing">
@@ -26,17 +27,21 @@
                                     <label for=""
                                         style="color:#444; margin-right:10px; font-weight:800; font-size: 20px; font-family: 'Oxanium', 'cursive';">Seasons:
                                     </label>
+                                    @if ($get_all_seasons->isNotEmpty())
                                     <select class="form-control" name="seasons" id="seasons">
                                         {{-- <option value="">{{$c_season->season_name ?? ''}}</option> --}}
                                         {{-- <input type="text" name="" value=""> --}}
                                         {{-- <option value="">select </option> --}}
+
                                         @foreach ($get_all_seasons as $season)
-                                            <option value="{{ $season->id }}"
-                                                {{ $c_season->id == $season->id ? 'selected' : '' }}>
-                                                {{ $season->season_name }}</option>
+                                        <option value="{{ $season->id ?? '' }}"
+                                            {{ $c_season->id == $season->id ? 'selected' : '' }}>
+                                            {{ $season->season_name }}</option>
                                         @endforeach
+
                                         <i class="fa-solid fa-angle-down"></i>
                                     </select>
+                                    @endif
                                 </div>
                             </form>
                         </div>
@@ -45,10 +50,11 @@
                             <form action="{{ url('fixtures') }}" method="get" class="seasonFixed ">
                                 <div class="inner_form">
                                     @csrf
-                                    <input type="hidden" value="{{ $c_season->id }}" name="season_id">
+                                    <input type="hidden" value="{{ $c_season->id ?? '' }}" name="season_id">
                                     <label for=""
                                         style="color:#444; margin-right:10px; font-weight:800; font-size: 20px; font-family: 'Oxanium', 'cursive';">Weeks:
                                     </label>
+                                    @if ($get_all_seasons->isNotEmpty())
                                     <select class="form-control" name="weeks" id="weeks">
                                         @for ($i = 1; $i <= 18; $i++)
                                             <option value="{{ $i }}"
@@ -56,6 +62,7 @@
                                                 {{ $i }}</option>
                                         @endfor
                                     </select>
+                                    @endif
                                 </div>
                             </form>
                         </div>
@@ -125,6 +132,20 @@
                                                         <div
                                                             class="fixureMatch d-flex align-items-center justify-content-center">
                                                             <div class="teamOne">
+                                                                @if (\Carbon\Carbon::now() > $team->season->ending  )
+                                                                <button data-bs-toggle="modal" data-bs-target="#SeasonExpireModal"
+                                                                    style="background:none;  border:none; color:#212529"
+                                                                    class="expire_season_msg" >
+
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                        alt="" class="img-fluid">
+
+                                                                    <div style="min-width:200px">
+                                                                        {{ $team->first_team_id->name }}
+                                                                    </div>
+                                                                </button>
+                                                                @else
+
                                                                 <button data-bs-toggle="modal" data-bs-target="#selectTeam"
                                                                     style="background:none;  border:none; color:#212529"
                                                                     class="team_name" fixture_id={{ $team->id }}
@@ -141,12 +162,26 @@
                                                                         {{ $team->first_team_id->name }}
                                                                     </div>
                                                                 </button>
+                                                                @endif
                                                             </div>
                                                             <div class="versis">
                                                                 <h5>VS</h5>
 
                                                             </div>
                                                             <div class="teamOne">
+                                                                @if (\Carbon\Carbon::now() > $team->season->ending  )
+                                                                <button data-bs-toggle="modal" data-bs-target="#SeasonExpireModal"
+                                                                    style="background:none;  border:none; color:#212529"
+                                                                    class="expire_season_msg" >
+
+                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                    alt="" class="img-fluid">
+
+                                                                <div style="min-width:200px">
+                                                                    {{ $team->second_team_id->name }}
+                                                                </div>
+                                                                </button>
+                                                                @else
                                                                 <button data-bs-toggle="modal" data-bs-target="#selectTeam"
                                                                     class="team_name"
                                                                     style="background:none;  border:none; color:#212529"
@@ -164,6 +199,7 @@
                                                                         {{ $team->second_team_id->name }}
                                                                     </div>
                                                                 </button>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </td>
@@ -220,6 +256,25 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="SeasonExpireModal" tabindex="-1" aria-labelledby="selectTeamLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="expire_season_msg">
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary pr-4" data-bs-dismiss="modal">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 
@@ -252,7 +307,8 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '/check_user',
+                    // url: '/check_user',
+                    url: '/fixture_team_pick',
                     data: {
                         season_id: season_id,
                         fixture_id: fixture_id,
@@ -297,6 +353,12 @@
 
                     },
                 })
+            });
+
+            $('.expire_season_msg').click(function(){
+                $('#SeasonExpireModal #expire_season_msg').html(
+                                '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span style="color:red" >Season has been expired </span></p>'
+                                );
             });
 
         });

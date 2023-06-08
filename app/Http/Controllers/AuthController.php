@@ -87,7 +87,7 @@ class AuthController extends Controller
 
   //user Signup
 
-  public function new_reg(Request $request)
+  public function new_reg(UserRegisterRequest $request)
   {
       if ($request->isMethod('post')){
           $count =  User::count();
@@ -170,29 +170,26 @@ class AuthController extends Controller
           else{
            $group = 'Z';
           }
-
           $user_region_id =  '';
-        //   $set_user_region_id=implode(",",$user_region_id);
+        $get_state = UsaState::where('id' , $request->state)->first();
+        if ($request->state) {
+            $user_region_id =  $get_state->region_id;
+        }
+        else{
+            $user_region_id =6;
+        }
 
-          $get_state = UsaState::get();
-          foreach ($get_state as $state) {
-              if ($state->id ==  $request->state ) {
-                $user_region_id =  $state->region_id;
-              }
-              else{
-                $user_region_id = 6 ;
-              }
-          }
 
           //if user select overseas country then store state_id as 50 , otherwise store state_id which is coming in request
           if ($request->state) {
             $state_id =  $request->state;
           } else {
-            $state_id = 50;
+            $state_id = 51;
           }
-
-
-
+          if ($request->country == 'us') {
+            $request->validate(['state' => 'required']);
+         }
+         else{
             User::create([
               'team_id' => 0,
             'name' => $request->fname,
@@ -214,6 +211,7 @@ class AuthController extends Controller
 
           return redirect()->route('login')->with('success' , 'registration sucessfull');
       }
+    }
   }
 
 

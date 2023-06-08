@@ -26,8 +26,7 @@
           </div> -->
           <h2>Sign Up</h2>
           <div class="inputsForm">
-            {{-- <form id="register_form" action="{{route('new_reg')}}" method="POST"> --}}
-            <form id="" action="{{route('new_reg')}}" method="POST">
+            <form id="register_form" action="{{route('new_reg')}}" method="POST">
               @csrf
               <div class="row">
                 <div class="col-sm-6 mb-3">
@@ -89,7 +88,7 @@
 
               <div class="col-sm-4 mb-3">
                   <label for="city" class="form-label">city</label>
-                  <input type="text" class="form-control" name="city" id="city" placeholder="Enter city">
+                  <input type="text" class="form-control" name="city" id="city" placeholder="Enter city" value="{{old('city')}}">
                   @error('city')<p class="text-danger">{{$message}}</p> @enderror
                 </div>
                 <div class="col-sm-4 mb-3" id="state_div">
@@ -113,7 +112,7 @@
 
                 <div class=" col-sm-4 mb-3">
                   <label for="zipcode" class="form-label">Zip Code</label>
-                  <input type="text" name="zipcode" id="zipcode" class="form-control" placeholder="Enter Zip Code">
+                  <input type="text" name="zipcode" id="zipcode" class="form-control" placeholder="Enter Zip Code" value="{{old('zipcode')}}" >
                   @error('zipcode')<p class="text-danger">{{$message}}</p> @enderror
                 </div>
 
@@ -134,7 +133,7 @@
 
                 <div class="col-sm-6 mb-3">
                   <label for="id_proof" class="form-label">ID Proof</label>
-                  <input type="text" name="id_proof" id="id_proof" class="form-control" placeholder="Enter ID proof">
+                  <input type="text" name="id_proof" id="id_proof" class="form-control" placeholder="Enter ID proof" value="{{old('id_proof')}}">
                   @error('id_proof')<p class="text-danger">{{$message}}</p> @enderror
                 </div>
               </div>
