@@ -48,6 +48,7 @@
                     <tr>
                         <th class="text-center whitespace-nowrap">S.no.</th>
                         <th class="text-center whitespace-nowrap">User Name</th>
+                        <th class="text-center whitespace-nowrap">Email </th>
                         <th class="text-center whitespace-nowrap">Image </th>
                         <th class="text-center whitespace-nowrap">Status</th>
                         <th class="text-center whitespace-nowrap">Created At</th>
@@ -55,23 +56,33 @@
                 </thead>
 
                 <tbody>
-                    @forelse ($get_users as $user)
+
+                    @if ($get_users->isNotEmpty())
+
+                    @php
+                    $count = '';
+                @endphp
+                    @foreach ($get_users as $user)
+
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->id}} </div>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{++$count}} </div>
                             </td>
                             {{-- <td class="text-center">{{ $user->name}}</td> --}}
                             <td> <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->name}} </div></td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->email}} </div>
+                            </td>
+
                             <td class="">
                                 <div class="flex">
                                     <div class="w-10 h-10 image-fit zoom-in">
                                         @if (!empty($user->photo))
-                                        <img src="{{asset('storage/images/team_logo/'.$user->photo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        <img src="{{asset('storage/images/user_images/'.$user->photo)}}" alt="" height="50px" width="100px" class="rounded-full">
                                         @else
-                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
+                                                <img src="{{asset('dist/images/dummy_image.webp')}}" alt="" class="img-fluid rounded-full">
                                         @endif
                                     </div>
-
                                 </div>
                             </td>
 
@@ -90,12 +101,14 @@
                             <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('j F, Y') }}</td>
 
                         </tr>
-                        @empty
-                        <tr>
-                            <td colspan="7" class="text-center">No Records found</td>
-                          <p>No Records found</p>
-                        </tr>
-                    @endforelse
+
+                    @endforeach
+                    @else
+                    <tr>
+                        <td colspan="7" class="text-center">No Records found</td>
+
+                    </tr>
+                    @endif
 
                 </tbody>
             </table>

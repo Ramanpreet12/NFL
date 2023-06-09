@@ -50,12 +50,28 @@
                         @error('username')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
-
                     <div class="form-inline mt-5">
                         <label for="comment" class="font-medium form-label sm:w-60">Comment <span class="text-danger">*</span></label>
                         <textarea name="comment" id="comment" cols="50" rows="2" class="form-control" readonly>{{($review->comment) }}</textarea>
 
                     </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="comment" class="font-medium form-label sm:w-60">Rating <span class="text-danger"></span></label>
+                        <div class="ratingStar text-center flex">
+
+                            @for ($i = 0; $i < 5; $i++)
+                                @if ($i < $review->rating)
+                                <svg style="color: rgb(255, 221, 0);" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-star-fill mx-1" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" fill="#ffdd00"></path> </svg>
+                                @else
+                                <svg style="color: rgb(148, 148, 148);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill mx-1" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" fill="#949494"></path> </svg>
+                                @endif
+                            @endfor
+                        </div>
+                    </div>
+
+
+
                     {{-- <div class="form-inline mt-5">
                         <label for="logo" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
                         <input id="logo" type="file" class="form-control" placeholder="Image" name="logo">

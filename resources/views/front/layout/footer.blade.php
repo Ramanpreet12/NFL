@@ -52,11 +52,36 @@
             <h4 style="color:{{ $colorSection['footer']["header_color"] }};" >QUICK LINKS</h4>
           </div>
           <ul class="footerlist">
-            <li><a href="#">Home</a></li>
+            @foreach ($mainMenus as $menuMenu)
+                    <li>
+                        <a @if ($menuMenu->url) href="<?php echo url($menuMenu->url); ?>" @else href="javascript:void(0)" @endif>
+                            {{ $menuMenu->title }}</a>
+
+                        {{-- @if ($check_submenu != '')
+                            <div class="dropdown-menu megaMenu" x-placement="bottom-start"
+                                style="position: absolute; background-color:{{ $colorSection['navbar']['bg_color'] }};">
+                                <div class="container">
+                                    <div class="row">
+                                        <ul class="navbar-nav dropList">
+                                            @foreach ($subMenus as $subMenu)
+                                                @if ($subMenu->parent_id == $menuMenu->id)
+                                                    <li class="nav-item"> <a class="dropdown-item"
+                                                            href="{{ $subMenu->url }}">{{ $subMenu->title }}</a></li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif --}}
+                    </li>
+                @endforeach
+
+            {{-- <li><a href="#">Home</a></li>
             <li><a href="#">About us</a></li>
             <li><a href="#">Match Result</a></li>
             <li><a href="#">Match Fixture</a></li>
-            <li><a href="#">Contact us</a></li>
+            <li><a href="#">Contact us</a></li> --}}
           </ul>
         </div>
         <div class="col-sm-4 mb-3">
@@ -237,7 +262,13 @@ responsive: {
 </script>
 <script>
   $("#reviewForm").submit(function(e){
+
+   var rating =  $("#rating").val();
   e.preventDefault();
+  if (rating == '') {
+    $("#rating_empty_msg").html('Rating is required');
+  }
+
   $.ajaxSetup({
                   headers: {
                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -251,8 +282,10 @@ responsive: {
        // console.log(data);
            $("#reviews_success_modal").modal("show");
            $("#addReviewModal").modal("hide");
+           location.reload();
            $("#reviewForm")[0].reset();
            $('.icon-click').removeClass('text-warning');
+        //    $("#rating_empty_msg").html('');
       }
   });
   return false;

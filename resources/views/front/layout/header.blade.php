@@ -220,6 +220,7 @@
                             @error('rating')
                                 <p class="text-danger text-xs"> {{ $message }}</p>
                             @enderror
+                           <p id="rating_empty_msg" style="color:red"></p>
                             {{-- <i class="fa-solid fa-star ratingStarColor"></i>
           <i class="fa-solid fa-star ratingStarColor"></i>
           <i class="fa-solid fa-star ratingStarColor"></i>

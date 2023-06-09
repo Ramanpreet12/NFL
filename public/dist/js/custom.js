@@ -128,13 +128,34 @@ $('#admin_profile_form').validate({
             username:   {  required: true},
             email:      {  required: true ,  email: true},
             comment:    {  required: true},
+            rating:    {  required: true},
 
         },
         messages: {
             username:   {  required: "Name is required",  },
             email:      {  required: "Email is required",  },
             comment:    {  required: "Comment is required",  },
+            rating:    {  required: "Rating is required",  },
 
         }
     });
+
+     // front contact form validation
+     $('#contactForm').validate({
+        rules: {
+            name:   {  required: true},
+            email:      {  required: true ,  email: true},
+            subject:    {  required: true},
+            message:    {  required: true},
+
+        },
+        messages: {
+            name:   {  required: "jqereName is required",  },
+            email:      {  required: "Email is required",  },
+            subject:    {  required: "Subject is required",  },
+            message:    {  required: "Message is required",  },
+
+        }
+    });
+
 

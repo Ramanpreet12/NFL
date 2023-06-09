@@ -188,8 +188,10 @@ class AuthController extends Controller
           }
           if ($request->country == 'us') {
             $request->validate(['state' => 'required']);
+            // return redirect()->back()->withInput($request->only('name'));
+
          }
-         else{
+        //  else{
             User::create([
               'team_id' => 0,
             'name' => $request->fname,
@@ -210,7 +212,7 @@ class AuthController extends Controller
           ]);
 
           return redirect()->route('login')->with('success' , 'registration sucessfull');
-      }
+    //   }
     }
   }
 

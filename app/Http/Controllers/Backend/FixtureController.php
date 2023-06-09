@@ -15,13 +15,14 @@ use App\Models\UserTeam;
  use App\Http\Requests\FixtureRequest;
  use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+// use Carbon\CarbonImmutable;
 
 class FixtureController extends Controller
 {
     private $league_id = 1 ;// league id basically determines the leagues for eg NFL ,FIFA etc
 
 
-    public function fixtures()
+    public function index()
     {
         $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season')->orderBy('id' , 'desc')->get();
         $fixtureHeading = SectionHeading::where('name' , 'Upcoming Fixture')->first();
@@ -36,14 +37,14 @@ class FixtureController extends Controller
         return response()->json($fixture , 200);
     }
 
-    public function add_fixtures(){
+    public function create(){
         $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
         $seasons = Season::get();
         $teams = Team::get();
         return view('backend.fixture.add_fixture' , compact('fixtures' , 'seasons' ,'teams'));
     }
 
-    public function store_fixture(FixtureRequest $request){
+    public function store(FixtureRequest $request){
 
             if($request->isMethod('post')){
 
@@ -62,6 +63,17 @@ class FixtureController extends Controller
                 if($f_week == 0){
                     $f_week = 1;
                 }
+
+//                 $start = Carbon::createFromTimestamp(strtotime($duration->starting));
+// $end = Carbon::createFromTimestamp(strtotime($duration->starting))->add($store . ' minutes');
+// $diff_in_weeks=  $start->diffInWeeks($end);
+// dd($diff_in_weeks);
+
+$startDate = Carbon::parse($start);
+$endDate = Carbon::parse($store);
+
+$weekdays = $startDate->diffInWeekdays($endDate);
+dd($weekdays);
 
                 $fixture_data = Fixture::where(['season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$f_week , 'date' =>$request->date ])->first();
                 if ($fixture_data) {
@@ -83,7 +95,12 @@ class FixtureController extends Controller
         }
     }
 
-    public function edit_fixture($id){
+    public function show($id)
+    {
+        //
+    }
+
+    public function edit($id){
         // $fixtures = Fixture::where('id' , $id)->with('first_team_id' , 'second_team_id' , 'season')->get();
         // $season = Season::get();
 
@@ -93,9 +110,10 @@ class FixtureController extends Controller
 
         return view('backend.fixture.edit_fixture' , compact('fixture' ,'seasons' , 'teams'));
     }
-    public function update_fixture(FixtureRequest $request , $id){
 
-        if($request->isMethod('post')){
+    public function update(FixtureRequest $request , $id){
+
+        if($request->isMethod('put')){
             $duration = Season::where('id',$request->season)->first();
             $start = Carbon::parse($duration->starting);
             $end = Carbon::parse($duration->ending);
@@ -133,7 +151,7 @@ class FixtureController extends Controller
     }
     }
 
-    public function delete_fixture($id){
+    public function destroy($id){
         Fixture::where('id' , $id)->delete();
         return redirect()->back()->with('success' , 'Fixture deleted successfully');
     }

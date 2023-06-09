@@ -4,15 +4,14 @@
         style="background-image:url({{ asset('front/img/football-2-bg.jpg') }});color:{{ $colorSection['leaderboard']['text_color'] }};">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-12">
-                    <div class="leaderBoard">
-                        <br>
-                        <div class="loader d-none">
+
+                    <div class="leaderBoard d-none">
+                        <div class="loader">
                             <img height="100px" width="100px" src="{{ asset('front/img/orange_circles.gif') }}"
                                 alt="loader">
                         </div>
                     </div>
-                </div>
+
                 @include('front.layout.sidebar')
                 <div class="col-sm-8 col-md-9">
                     <h2 class="mb-3 text-center" style="color:{{ $colorSection['leaderboard']['header_color'] }};">

@@ -151,15 +151,19 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
    //seasons
    Route::resources(['season' => SeasonController::class,]);
 
-    Route::get('fixtures', [FixtureController::class, 'fixtures'])->name('admin/fixtures');
-    Route::post('fixture/section_heading', [FixtureController::class, 'section_heading'])->name('admin/fixture/section_heading');
-    Route::get('fixtures_data', [FixtureController::class, 'fixtures_data'])->name('admin/fixtures_data');
-    Route::get('add_fixtures', [FixtureController::class, 'add_fixtures'])->name('admin/add_fixtures');
-    Route::post('store_fixture', [FixtureController::class, 'store_fixture'])->name('admin/store_fixture');
-    Route::get('edit_fixture/{id}', [FixtureController::class, 'edit_fixture'])->name('admin/edit_fixture/{id}');
-    Route::post('update_fixture/{id}', [FixtureController::class, 'update_fixture'])->name('admin/update_fixture/{id}');
-    // Route::get('delete_fixture/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/delete_fixture/{id}');
-    Route::get('fixtures/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/fixtures/{id}');
+   //fixtures
+   Route::resources(['fixtures' => FixtureController::class,]);
+
+
+    // Route::get('fixtures', [FixtureController::class, 'fixtures'])->name('admin/fixtures');
+    // Route::post('fixture/section_heading', [FixtureController::class, 'section_heading'])->name('admin/fixture/section_heading');
+    // Route::get('fixtures_data', [FixtureController::class, 'fixtures_data'])->name('admin/fixtures_data');
+    // Route::get('add_fixtures', [FixtureController::class, 'add_fixtures'])->name('admin/add_fixtures');
+    // Route::post('store_fixture', [FixtureController::class, 'store_fixture'])->name('admin/store_fixture');
+    // Route::get('edit_fixture/{id}', [FixtureController::class, 'edit_fixture'])->name('admin/edit_fixture/{id}');
+    // Route::post('update_fixture/{id}', [FixtureController::class, 'update_fixture'])->name('admin/update_fixture/{id}');
+    // // Route::get('delete_fixture/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/delete_fixture/{id}');
+    // Route::get('fixtures/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/fixtures/{id}');
 
     Route::get('teams/result' ,[TeamResultController::class , 'index'] )->name('admin/teams/result');
     // Route::get('teams/result' ,[FixtureController::class , 'teamResult_index'] )->name('admin/teams/result');

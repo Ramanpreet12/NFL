@@ -24,7 +24,7 @@
 
         <h2 class="text-lg font-medium mr-auto">Fixture Management</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            <a class="btn btn-primary shadow-md mr-2" href="{{route('admin/add_fixtures')}}" id="add_fixture">Add New Fixture</a>
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('fixtures.create')}}" id="add_fixture">Add New Fixture</a>
         </div>
     </div>
 
@@ -93,17 +93,21 @@
                             <td class="text-center">{{ \Carbon\Carbon::parse($fixture->updated_at)->format('j F, Y') }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="{{ url('admin/edit_fixture/'.$fixture->id) }}">
+
+                                    <a class="flex items-center mr-3" href="{{ route('fixtures.edit',$fixture->id) }}">
                                         <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
                                     </a>
-                                    <a class="flex items-center mr-3" href="{{ url('admin/fixtures/'.$fixture->id) }}" onclick="return confirm('{{ __('Are you sure you want to delete?') }}')">
+                                    {{-- <a class="flex items-center mr-3 show_sweetalert" href="{{ url('admin/fixtures/'.$fixture->id) }}">
                                         <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                    </a>
-                                    {{-- <form action="{{ route('banner.destroy', $fixture->id)}}" method="post">
+                                    </a> --}}
+                                    {{-- <a class="flex items-center mr-3 show_sweetalert" href="{{ url('admin/fixtures/'.$fixture->id) }}">
+                                        <button class="btn btn-danger" type="submit" data-toggle="tooltip">  <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
+                                    </a> --}}
+                                    <form action="{{ route('fixtures.destroy',$fixture->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                             <button class="btn btn-danger show_sweetalert" type="submit" data-toggle="tooltip">  <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
-                                      </form> --}}
+                                      </form>
                                 </div>
                             </td>
                         </tr>

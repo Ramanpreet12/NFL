@@ -71,7 +71,7 @@ class SideMenu
             ],
             'fixtures' => [
                 'icon' => 'calendar',
-                'route_name' => 'admin/fixtures',
+                'route_name' => 'fixtures.index',
                 'params' => '',
                 'title' => 'Fixtures'
             ],

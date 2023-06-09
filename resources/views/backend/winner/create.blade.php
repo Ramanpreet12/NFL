@@ -44,7 +44,7 @@
                     <div class="form-inline mt-5">
                         <label for="name" class="font-medium form-label sm:w-60">User Name <span class="text-danger">*</span></label>
                         <input type="hidden" value="{{$get_winning_user->user_id}}" name="user_id" >
-                        <input id="name" type="text" class="form-control" placeholder="Enter Team name"  value="{{$get_winning_user->name}}" readonly>
+                        <input id="name" name="" type="text" class="form-control" placeholder="Enter Team name"  value="{{$get_winning_user->name}}" readonly>
                     </div>
 
 

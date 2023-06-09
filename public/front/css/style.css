@@ -221,6 +221,54 @@
 .numberBiling .textItem h6 {
   line-height: 2; }
 
+  /* optimizing css code -----------------opitmizing css code -----------------opitimizing css code */
+
+  .tabletwo tr .teamRegion {
+    width: 98px;
+}
+
+.tabletwo tr .teamNumber {
+    width: 85px;
+}
+
+.tabletwo tr .teamLogo {
+    width: 80px;
+}
+
+.tabletwo tr .teamName {
+    width: 170px;
+}
+
+.tabletwo tr .teamW {
+    width: 85px;
+}
+
+.tabletwo tr .teamL {
+    width: 85px;
+}
+
+.tabletwo tr .teamPts {
+    width: 92px;
+}
+
+.tabletwo tbody.directionTbody {
+    height: 180px;
+    overflow-y: auto;
+}
+
+
+
+.tabletwo table.table {
+    min-width: 500px;
+}
+
+/* 24-april-2023 */
+#alphabets_links a {
+    text-decoration: none;
+    color: white;
+}
+
+
 @media only screen and (min-width: 320px) and (max-width: 575px) {
   #signupForm .formStart {
     padding: 25px; }

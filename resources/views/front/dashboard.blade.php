@@ -206,11 +206,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-group-divider">
-                                                    @if ($prize)
-                                                        @foreach ($prize as $key => $item)
+
+                                                    @if ($get_prizes)
+                                                        @foreach ($get_prizes as $prize)
                                                             <tr>
-                                                                <td>{{ $item->payment }}</td>
-                                                                <td>{{ $item->status }}</td>
+                                                                <td>{{$prize->season->season_name}}</td>
+                                                                <td>{{$prize->prize->name}}</td>
                                                             </tr>
                                                         @endforeach
                                                     @else

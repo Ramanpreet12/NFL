@@ -670,7 +670,7 @@
     }
 
     /* 21-4-23 */
-    .tabletwo tr .teamRegion {
+    /* .tabletwo tr .teamRegion {
         width: 98px;
     }
 
@@ -713,6 +713,6 @@
     #alphabets_links a {
         text-decoration: none;
         color: white;
-    }
+    } */
 </style>
 @endsection

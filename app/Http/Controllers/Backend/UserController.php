@@ -10,8 +10,8 @@ class UserController extends Controller
 {
     public function user_management()
     {
-        $get_users = User::where('role_as' , '0')->orderBy('id' , 'desc')->get();
-        // dd($get_users);
+        $get_users = User::where('role_as' , '0')->orderBy('id' , 'desc')->select('name' , 'email' , 'photo' ,'subscribed')->get();
+        //  dd($get_users);
          return view('backend.users.index' , compact('get_users'));
     }
 

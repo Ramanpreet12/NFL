@@ -17,9 +17,13 @@ class WinnerController extends Controller
     public function index(){
        $get_users =  DB::table('user_teams')
        ->join('users' , 'users.id' , '=' , 'user_teams.user_id')
-        ->select(DB::raw('sum(points) as total_points'),'users.*' , 'user_teams.*' )
+       ->join('seasons' ,'seasons.id', '=' , 'user_teams.season_id')
+        ->select(DB::raw('sum(points) as total_points'),'users.name as user_name' , 'users.id as user_id' , 'users.email as user_email' , 'users.photo as user_photo' , 'seasons.season_name as season_name')
+        ->orderBy('total_points' , 'desc')
         ->groupBy(DB::raw('user_id') )
         ->get();
+
+
         return view('backend.winner.index',compact('get_users'));
     }
     public function assign_prize($id)
@@ -39,9 +43,11 @@ class WinnerController extends Controller
     {
         // try{
             if ($request->isMethod('post')) {
+
                 $input = $request->all();
                 $validatedData = $request->validate([
                     'prize_id' => 'required',
+
                 ],
                 [
                  'prize_id.required'=> 'The Prize field is required',

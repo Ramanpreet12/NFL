@@ -29,13 +29,13 @@
 @endif
     <div class="intro-y flex items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">Add Fixture</h2>
-        <a href="{{route('admin/fixtures')}}"><button class="btn btn-primary">Back</button></a>
+        <a href="{{route('fixtures.index')}}"><button class="btn btn-primary">Back</button></a>
 
     </div>
     <div class="grid grid-cols-6 gap-6 mt-5">
         <div class="intro-y col-span-12 lg:col-span-6">
             <!-- BEGIN: Form Layout -->
-            <form action="{{ route('admin/store_fixture') }}" method="post">
+            <form action="{{ route('fixtures.store') }}" method="post">
                 @csrf
                 <div class="intro-y box p-5">
                     <div class="mt-3">

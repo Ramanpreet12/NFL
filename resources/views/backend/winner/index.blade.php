@@ -44,8 +44,10 @@
             <table class="table table-report -mt-2" id="prize_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        {{-- <th class="text-center whitespace-nowrap">Season </th> --}}
+                        <th class="text-center whitespace-nowrap">Season </th>
                         <th class="text-center whitespace-nowrap">User Name </th>
+                        <th class="text-center whitespace-nowrap">Email </th>
+                        <th class="text-center whitespace-nowrap">Photo</th>
                         <th class="text-center whitespace-nowrap">Points </th>
                         {{-- <th class="text-center whitespace-nowrap">Created At</th> --}}
                         <th class="text-center whitespace-nowrap">Action</th>
@@ -56,12 +58,28 @@
                     @forelse ($get_users as $user)
 
                         <tr class="intro-x">
-                            {{-- <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->season_name}} </div>
-                            </td> --}}
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ $user->name ?? ''}} </div>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->season_name}} </div>
                             </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ $user->user_name ?? ''}} </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ $user->user_email ?? ''}} </div>
+                            </td>
+                            <td class="">
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($user->photo))
+                                        <img src="{{asset('storage/images/user_images/'.$user->photo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        @else
+                                        <img src="{{asset('dist/images/dummy_image.webp')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+
+                                </div>
+                            </td>
+
                             <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $user->total_points }} </div>
                             </td>

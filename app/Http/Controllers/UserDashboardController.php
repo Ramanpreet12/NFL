@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Fixture;
 use App\Models\UserTeam;
 use App\Models\Season;
+use App\Models\Winner;
 use Auth , Hash;
 
 class UserDashboardController extends Controller
@@ -46,10 +47,11 @@ class UserDashboardController extends Controller
         ->orderby('date','asc')
         ->latest()->take(5)->get()->groupby('week');
 
-        $prize = [];
+        $get_prizes = Winner::with('prize' , 'season')->where('user_id', auth()->user()->id)->orderBy('id' , 'desc')->get();
+        //  dd($prize);
 
          //return view('front.dashboard', compact('user', 'payment','upcoming','prize'));
-        return view('front.dashboard',compact('user', 'payment','upcoming','prize'));
+        return view('front.dashboard',compact('user', 'payment','upcoming','get_prizes'));
     }
     public function userPayment()
     {

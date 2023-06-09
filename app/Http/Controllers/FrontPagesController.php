@@ -51,9 +51,10 @@ class FrontPagesController extends Controller
         if ($request->isMethod('POST')) {
 
             $request->validate([
-                        'name'=> 'required|min:4|max:20',
+                        'name'=> 'required',
                         'subject'=>'required',
                         'email'=>'required|email',
+                        'message' => 'required',
                         'g-capcha'=>'required'
                     ]);
 
@@ -367,7 +368,7 @@ class FrontPagesController extends Controller
        return 'Results by regions';
     }
 
-    public function reviews(Request $request)
+    public function reviews(ReviewsRequest $request)
     {
 
 

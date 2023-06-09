@@ -146,6 +146,9 @@
                         <h2 class="text-lg font-medium truncate mr-5">Upcoming Matches</h2>
                     </div>
                     <div class="mt-5">
+                      @if ($get_upcoming_matches->isNotEmpty())
+
+
                         @foreach ($get_upcoming_matches as $upcoming_match)
                             <div class="intro-y">
                                 <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
@@ -183,7 +186,11 @@
                                 </div>
                             </div>
                         @endforeach
-                        <a href="{{route('admin/fixtures')}}" class="intro-y w-full block text-center rounded-md py-4 border border-dotted border-slate-400 dark:border-darkmode-300 text-slate-500">View More</a>
+                        <a href="{{route('fixtures.index')}}" class="intro-y w-full block text-center rounded-md py-4 border border-dotted border-slate-400 dark:border-darkmode-300 text-slate-500">View More</a>
+
+                        @else
+                        <p class="intro-y w-full block text-center rounded-md py-4 border border-dotted border-slate-400 dark:border-darkmode-300 text-slate-500">No Upcoming Match Found</p>
+                        @endif
                     </div>
                 </div>
                 <!-- END: Weekly Best Sellers -->

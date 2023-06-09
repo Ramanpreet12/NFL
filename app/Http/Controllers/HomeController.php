@@ -289,7 +289,7 @@ class HomeController extends Controller
     {
         $name = $request->letters;
         $gp = $request->path;
-
+        $roster_data=[];
         $roster_data['North'] =  $this->getTheTopPlayersDataBasedOnRegion('North',100,$name,$gp);
         $roster_data['East'] =  $this->getTheTopPlayersDataBasedOnRegion('East',100,$name,$gp);
         $roster_data['South'] =  $this->getTheTopPlayersDataBasedOnRegion('South',100,$name,$gp);
@@ -297,13 +297,26 @@ class HomeController extends Controller
         $roster_data['Mid-West'] =  $this->getTheTopPlayersDataBasedOnRegion('Mid-West',100,$name,$gp);
         $roster_data['Overseas'] =  $this->getTheTopPlayersDataBasedOnRegion('Overseas',100,$name,$gp);
 
-
-
-        if ($roster_data) {
-            return response()->json(['roster_data' =>  $roster_data, 'status' => true], 200);
-        } else {
-            return response()->json(['roster_data' =>  'error', 'status' => false], 200);
+        foreach($roster_data as $rd){
+            $region = $rd;
+            if(!empty($region)){
+                // return response()->json(['roster_data' =>  $roster_data, 'status' => true], 200);
+                $msg = $roster_data;
+                $status = "true";
+                break;
+            }else{
+               $msg = "error";
+               $status = "false";
+            }
         }
+
+        return response()->json(['roster_data' => $msg, 'status' => $status]);
+
+        // if ($roster_data) {
+        //     return response()->json(['roster_data' =>  $roster_data, 'status' => true], 200);
+        // } else {
+        //     return response()->json(['roster_data' =>  'error', 'status' => false], 200);
+        // }
     }
 
     public function player_roster($alphabets)

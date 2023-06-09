@@ -86,14 +86,25 @@
                         </div>
                     </div>
                     <div class="col-sm-8 col-md-6 col-lg-4">
+
+
+                        @if (Session::has('success'))
+                        <div class="alert alert-success show flex items-center mb-2 " role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                            </svg>
+                            &nbsp; {{ session()->get('success') }}
+                        </div>
+
+                    @endif
+                    @if (Session::has('error'))
+                    <span class="input-error">{{ session()->get('error', 'Something went wrong'); }}</span>
+                    @endif
                         <div class="contactForm">
                             <h4>CLUB ENQUIRIES</h4>
-                            @if (Session::has('success'))
-                                <span class="input-success">{{ session()->get('success', 'Request is send successfully'); }}</span>
-                            @endif
-                            @if (Session::has('error'))
-                            <span class="input-error">{{ session()->get('error', 'Something went wrong'); }}</span>
-                            @endif
+
                             <form id="contactForm" method="post">
                                 @csrf
                                 <div class="mb-3">
@@ -184,6 +195,7 @@
                 }
              });
          });
+
 </script>
 
 @endsection
