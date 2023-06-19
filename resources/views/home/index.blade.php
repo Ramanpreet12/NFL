@@ -254,13 +254,13 @@
             <div class="col-sm-12">
                 <div class="leaderBoard">
                     <h2 style="color:{{ $colorSection['leaderboard']['header_color'] }};">
-                        Player's Roster
+                        {{-- Player's Roster --}}
 
-                        {{-- @if (!empty($leaderboardHeading->value))
-                    {{ $leaderboardHeading->value }}
-                @else
-                    Player's Roster
-                @endif --}}
+                        @if (!empty($playerRosterHeading->value))
+                                {{ strtoupper($playerRosterHeading->value) }}
+                            @else
+                            Player's Roster
+                            @endif
                     </h2>
                     <br>
                     <h4 id="alphabets_links">
@@ -444,7 +444,12 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2>Reviews</h2>
+                {{-- <h2>Reviews</h2> --}}
+                @if (!empty($reviewsHeading->value))
+                <h2>{{ strtoupper($reviewsHeading->value) }}</h2>
+            @else
+            <h2>Reviews</h2>
+            @endif
             </div>
         </div>
 

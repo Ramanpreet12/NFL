@@ -104,7 +104,7 @@
                         </div>
         </div>
         <div class="col-md-6">
-            <p>{{$get_about_details->content}}</p>
+            <p>{!! $get_about_details->content !!}</p>
         </div>
     </div>
 </div>

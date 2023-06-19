@@ -33,6 +33,7 @@
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Add Prize </h2>
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('prize.index')}}" id="">Back</a>
         </div>
         <form action="{{ route('prize.store') }}" method="post" enctype="multipart/form-data">
             @csrf
@@ -40,19 +41,29 @@
             <div id="horizontal-form" class="p-5">
                 <div class="preview  mr-5">
                     <div class="form-inline">
-                        <label for="season" class="font-medium form-label sm:w-60">Season</label>
+                        <label for="season" class="font-medium form-label sm:w-60">Season <span class="text-danger">*</span></label>
                         <select data-placeholder="Select Season" class="form-control" id="season" name="season_id">
                             <option value="">--select--</option>
+                            @if ($seasons->isNotEmpty())
                             @foreach ($seasons as $season)
-                                <option value="{{ $season->id }}">{{ $season->season_name }}</option>
-                            @endforeach
+                            <option value="{{ $season->id }}">{{ $season->season_name }}</option>
+                        @endforeach
+                            @endif
+
                         </select>
+                    </div>
+                    <div class="form-inline">
+                        <label for="season" class="font-medium form-label sm:w-60"></label>
                         @error('season_id') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
                     <div class="form-inline mt-5">
                         <label for="name" class="font-medium form-label sm:w-60">Prize Name <span class="text-danger">*</span></label>
                         <input id="name" type="text" class="form-control" placeholder="Enter prize name" name="name" value="">
+                    </div>
+                    <div class="form-inline">
+                        <label for="name" class="font-medium form-label sm:w-60"></label>
+                        @error('name') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
 
@@ -62,15 +73,17 @@
                     </div>
 
                     <div class="form-inline mt-5">
-                        <label for="image" class="font-medium form-label sm:w-60">Image</label>
+                        <label for="image" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
                         <input id="image" type="file" class="form-control" placeholder="Enter image" name="image" value="">
+                    </div>
+                    <div class="form-inline">
+                        <label for="image" class="font-medium form-label sm:w-60"></label>
+                        @error('image') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
                     <div class="form-inline mt-5">
                         <label for="content" class="font-medium form-label sm:w-60">Content</label>
-                     <textarea name="content" id="" cols="30" rows="5" class="form-control"></textarea>
+                     <textarea name="content" id="editor" cols="30" rows="5" class="form-control"></textarea>
                     </div>
-
-
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
                         <select class="form-control" id="status" name="status">
@@ -98,5 +111,16 @@
 @endsection
 
 @section('script')
-    <script src="{{ mix('dist/js/ckeditor-classic.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
+
 @endsection

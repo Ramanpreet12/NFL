@@ -66,6 +66,7 @@
                         <label for="image" class="font-medium form-label sm:w-60">Image</label>
                         <input id="image" type="file" class="form-control" placeholder="Enter image" name="image" value="">
                     </div>
+
                     <div class="form-inline mt-5">
                         <label for="image" class="font-medium form-label sm:w-60"></label>
                         <img src="{{asset('storage/images/prize/'.$prize->image)}}" alt="" height="100px" width="250px">

@@ -36,6 +36,32 @@
 
         <h2 class="text-lg font-medium mr-auto">Reviews Management</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+            <form action="{{route('admin/reviews/section_heading')}}" method="post">
+                @csrf
+                    <div id="horizontal-form" class="px-3 flex">
+
+                        <div class="preview mx-3">
+                            <div class="form-inline">
+                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title <span class="text-danger">*</span></label>
+                                <input id="section_heading" type="text" class="form-control" placeholder="Section Name" name="section_heading"
+                                 @if (!empty($reviewsHeading->value))
+                                value="{{$reviewsHeading->value}}" @else value="Reviews" @endif >
+                            </div>
+                            <div class="form-inline">
+                                <label for="section_heading" class="font-medium form-label sm:w-60"></label>
+                                @error('section_heading') <p class="text-danger">{{ $message }}</p>@enderror
+                            </div>
+
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary w-30">Update Title</button>
+                        </div>
+
+                    </div>
+            </form>
+        </div>
+
+        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
             {{-- <a class="btn btn-primary shadow-md mr-2" href="" id="add_banner"></a> --}}
         </div>
     </div>

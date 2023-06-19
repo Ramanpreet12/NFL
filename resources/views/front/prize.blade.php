@@ -1,6 +1,12 @@
 @extends('front.layout.app')
 @section('content')
+@if ($get_prize_banner->prize_banner)
+{{-- {{dd(url(asset('storage/images/prize/'.$get_prize_banner->prize_banner)))}} --}}
+<section id="aboutBanner" style="background-image:url({{asset('storage/images/general/'.$get_prize_banner->prize_banner)}})">
+@else
 <section id="aboutBanner" style="background-image:url(front/img/new_banner_2.jpg)">
+@endif
+
     <div class="container">
         <div class="row">
             <div class="col">
@@ -13,7 +19,14 @@
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-12">
-                <h2>Prizes</h2>
+
+
+                @if (!empty($get_prize_heading->value))
+                <h2>{{ strtoupper($get_prize_heading->value) }}</h2>
+                    @else
+                    <h2>Prizes</h2>
+                    @endif
+
             </div>
         </div>
         @foreach ($prizes as $prize)

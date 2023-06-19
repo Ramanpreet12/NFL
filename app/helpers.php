@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Support\Str;
+
 if (!function_exists('get_main_menus')) {
     function get_main_menus($id){
         $menuData = Illuminate\Support\Facades\DB::table('menus')->where('parent_id' , '=' , $id)->count();
@@ -28,9 +30,11 @@ if (!function_exists('general_images')) {
     {
         if ($img_file) {
             if(is_file($img_file)){
-                $filename = rand('111' , '9999').'.'.$img_file->getClientOriginalExtension();
-                $img_file->storeAs('public/images/general/' , $filename);
-                return $filename;
+                $filename = $img_file->getClientOriginalName();
+                $image_file_name = str_replace( " ", "-", $filename );
+
+                $img_file->storeAs('public/images/general/' , $image_file_name);
+                return $image_file_name;
             }else{
                 return false;
             }

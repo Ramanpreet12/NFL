@@ -36,6 +36,9 @@ class GeneralRequest extends FormRequest
             'footer_contact' => 'required',
             'footer_address' => 'required',
             'footer_content' => 'required',
+            'privacy_policy' => 'required',
+            'santa_game_store' => 'required',
+            'footer_bar' => 'required',
 
         ];
     }
@@ -51,6 +54,9 @@ class GeneralRequest extends FormRequest
             'footer_contact' => 'Footer Contact',
             'footer_address' => 'Footer Address',
             'footer_content' => 'Footer Content',
+            'privacy_policy' => 'Privacy Policy',
+            'santa_game_store' => 'Santa Game Store',
+            'footer_bar' => 'Footer Bar',
 
         ];
     }

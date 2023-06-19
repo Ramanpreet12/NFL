@@ -5,6 +5,19 @@
 @endsection
 
 @section('subcontent')
+@if (session()->has('success'))
+<div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+        class="bi bi-check2-circle" viewBox="0 0 16 16">
+        <path
+            d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+        <path
+            d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+    </svg>
+    &nbsp; {{ session()->get('success') }}
+</div>
+
+@endif
     {{-- <h2 class="intro-y text-lg font-medium mt-10">Banners Management</h2> --}}
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">Regions Management</h2>
@@ -16,19 +29,23 @@
     <div class="grid grid-cols-12 gap-6 mt-5 p-5 bg-white">
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-            <table class="table table-report -mt-2">
+            <table class="table table-report -mt-2" id="region_table">
                 <thead class="bg-primary text-white">
                     <tr>
 
                         <th class="text-center whitespace-nowrap">Region Name</th>
                         <th class="text-center whitespace-nowrap">Serial Order</th>
+                        <th class="text-center whitespace-nowrap">Created At</th>
+                        <th class="text-center whitespace-nowrap">Updated At</th>
                         <th class="text-center whitespace-nowrap">Status</th>
-
                         <th class="text-center whitespace-nowrap">Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    @if ($regions->isNotEmpty())
+
+
                     @forelse ($regions as $region)
                         <tr class="intro-x">
                             <td  class="text-center">
@@ -36,6 +53,8 @@
                             </td>
 
                             <td class="text-center">{{$region->position}}</td>
+                            <td class="text-center">{{$region->created_at}}</td>
+                            <td class="text-center">{{$region->updated_at}}</td>
                             {{-- <td class="text-center">{{ $region->status }}</td> --}}
 
                             <td class="w-40">
@@ -64,60 +83,12 @@
                           <p>No Records found</p>
                         </tr>
                     @endforelse
-
+                    @endif
                 </tbody>
             </table>
         </div>
         <!-- END: Data List -->
-        <!-- BEGIN: Pagination -->
-        <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
-            <nav class="w-full sm:w-auto sm:mr-auto">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="w-4 h-4" data-feather="chevrons-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="w-4 h-4" data-feather="chevron-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">...</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">...</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="w-4 h-4" data-feather="chevron-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="w-4 h-4" data-feather="chevrons-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <select class="w-20 form-select box mt-3 sm:mt-0">
-                <option>10</option>
-                <option>25</option>
-                <option>35</option>
-                <option>50</option>
-            </select>
-        </div>
-        <!-- END: Pagination -->
+
     </div>
     <!-- BEGIN: Delete Confirmation Modal -->
     <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
@@ -144,29 +115,9 @@
 @endsection
 
 @section('script')
-
-
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-<script type="text/javascript">
-
-    $('.show_confirm').click(function(event) {
-         var form =  $(this).closest("form");
-        //  var name = $(this).data("name");
-         event.preventDefault();
-         swal({
-             title: `Are you sure you want to delete this record?`,
-             text: "If you delete this, it will be gone forever.",
-             icon: "warning",
-             buttons: true,
-             dangerMode: true,
-         })
-         .then((willDelete) => {
-           if (willDelete) {
-             form.submit();
-           }
-         });
-     });
-
-</script> --}}
-
+<script>
+ $(function() {
+   $('#region_table').DataTable();
+ });
+</script>
 @endsection

@@ -30,6 +30,7 @@
 
 
         <script src="{{{ URL::asset('js/jquery.dataTables.bootstrap.min.js')}}}"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
 
         <!-- END: JS Assets-->
 

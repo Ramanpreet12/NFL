@@ -78,6 +78,29 @@ class StaticPageController extends Controller
     }
 
 
+
+    public function privacyPage (Request $request)
+    {
+        if ($request->isMethod('put')) {
+            $data = array();
+                $data["heading"]=$request->heading;
+                $data["sub_heading"]=$request->sub_heading;
+                $data["content"]=$request->content;
+                $data["status"]=$request->status;
+                $data["type"]="privacy";
+                $result=StaticPage::where('type','privacy')->update($data);
+                return redirect()->back()->with('success' , 'Privacy Page updated successfully');;
+            }
+        else {
+            $privacy_page_details = StaticPage::where('type' , 'privacy')->first();
+
+
+            return view('backend.site_setting.privacyPage' , compact('privacy_page_details'));
+        }
+
+
+    }
+
     public function index()
     {
         //

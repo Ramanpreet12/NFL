@@ -11,6 +11,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TeamPickController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\FrontPagesController;
+use App\Http\Controllers\MatchResultController;
 
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\AdminSettingController;
@@ -65,13 +66,6 @@ Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->n
 // Route::get('payment' , [PaymentController::class , 'paymentPage'])->name('payment');
 
 
-// Route::get('fixtures' , [FixtureController::class, 'showFixtures'])->name('fixtures');
-// //get fixture on select of seasons
-// Route::post('get_seasons' , [FixtureController::class, 'get_seasons'])->name('get_seasons');
-
-// fixture data according to season and weeks
-// Route::match(['get'], 'fixtures', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
-// Route::match(['get' , 'post'], 'fixtures/{season?}/{week?}', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
 Route::get('fixtures', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
 //pick the team from match fixture page
 Route::post('fixture_team_pick',[FrontPagesController::class, 'fixture_team_pick'])->name('fixture_team_pick');
@@ -83,6 +77,7 @@ Route::get('loss_user',[FixtureController::class, 'loss_user']);
 
 Route::match(['GET','POST'], 'contact', [FrontPagesController::class,'contact'])->name('contact');
 Route::get('about', [FrontPagesController::class,'about'])->name('about');
+Route::get('privacy', [FrontPagesController::class,'privacy'])->name('privacy');
 Route::match(['get' , 'post'] , 'match-result/{season?}', [FrontPagesController::class,'matchResult'])->name('match-result');
 // Route::get('match-result/{season?}', [FrontPagesController::class,'matchResult'] )->name('match-result');
 Route::get('game-result', [FrontPagesController::class,'gameResult'])->name('game-result');
@@ -91,18 +86,29 @@ Route::get('standings', [FrontPagesController::class,'standings'])->name('standi
 Route::get('results_by_regions',[FrontPagesController::class, 'results_by_regions'])->name('results_by_regions');
 Route::post('reviews',[FrontPagesController::class, 'reviews'])->name('reviews');
 
-Route::get('payment', [StripeController::class, 'stripe'])->name('payment');
-Route::post('payment/store', [StripeController::class, 'stripePost'])->name('payment.store');
-Route::get('success', [StripeController::class, 'success'])->name('success');
-Route::post('selectTeam', [StripeController::class, 'selectTeam'])->name('selectTeam');
-Route::get('success-message',function(){
-    return view('front.payment.success');
-})->name('success-message');
+//payment
+
+//clover
+
 Route::match(['get','post'],'forget_password',[AuthController::class,'forgotPassword'])->name('forget_password');
 Route::match(['get','post'],'change_password',[AuthController::class,'changePassword'])->name('change_password');
 
 
 Route::middleware(['auth' , 'user'])->group(function() {
+
+    Route::get('payment', [StripeController::class, 'stripe'])->name('payment');
+
+Route::post('payment/store', [StripeController::class, 'stripePost'])->name('payment.store');
+
+Route::post('clover_charge', [StripeController::class, 'clover_charge'])->name('clover_charge');
+
+Route::get('success', [StripeController::class, 'success'])->name('success');
+Route::post('selectTeam', [StripeController::class, 'selectTeam'])->name('selectTeam');
+// Route::get('success-message',function(){
+//     return view('front.payment.success' , compact('Payment'));
+// })->name('success-message');
+
+
 //pick a team for user
 Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
 Route::post('dashboard_team_pick',[TeamPickController::class, 'dashboard_team_pick'])->name('dashboard_team_pick');
@@ -142,6 +148,7 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
 
 
     Route::get('user', [UserController::class, 'user_management'])->name('admin/user');
+    Route::post('player_roster/section_heading' ,[UserController::class , 'section_heading'])->name('admin/player_roster/section_heading');
     Route::get('user_data', [UserController::class, 'user_data'])->name('admin/user_data');
 
     Route::resources(['team' => TeamController::class,]);
@@ -153,22 +160,13 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
 
    //fixtures
    Route::resources(['fixtures' => FixtureController::class,]);
-
-
-    // Route::get('fixtures', [FixtureController::class, 'fixtures'])->name('admin/fixtures');
-    // Route::post('fixture/section_heading', [FixtureController::class, 'section_heading'])->name('admin/fixture/section_heading');
-    // Route::get('fixtures_data', [FixtureController::class, 'fixtures_data'])->name('admin/fixtures_data');
-    // Route::get('add_fixtures', [FixtureController::class, 'add_fixtures'])->name('admin/add_fixtures');
-    // Route::post('store_fixture', [FixtureController::class, 'store_fixture'])->name('admin/store_fixture');
-    // Route::get('edit_fixture/{id}', [FixtureController::class, 'edit_fixture'])->name('admin/edit_fixture/{id}');
-    // Route::post('update_fixture/{id}', [FixtureController::class, 'update_fixture'])->name('admin/update_fixture/{id}');
-    // // Route::get('delete_fixture/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/delete_fixture/{id}');
-    // Route::get('fixtures/{id}', [FixtureController::class, 'delete_fixture'])->name('admin/fixtures/{id}');
+   Route::post('fixture/section_heading' , [FixtureController::class , 'section_heading'])->name('admin/fixture/section_heading');
 
     Route::get('teams/result' ,[TeamResultController::class , 'index'] )->name('admin/teams/result');
-    // Route::get('teams/result' ,[FixtureController::class , 'teamResult_index'] )->name('admin/teams/result');
-    // Route::match(['get', 'post'], 'team_result/edit/{id}',[FixtureController::class, 'edit_teamResult'])->name('admin/team_result/edit');
+
     Route::match(['get', 'post'], 'team_result/edit/{id}',[TeamResultController::class, 'edit_teamResult'])->name('admin/team_result/edit');
+    Route::post('leaderboard/section_heading' ,[TeamResultController::class , 'section_heading'])->name('admin/leaderboard/section_heading');
+
 
     Route::get('scores',[ScoreboardController::class, 'index'])->name('admin/scores');
     Route::post('add_scores/{id}',[ScoreboardController::class, 'add_scores']);
@@ -177,6 +175,9 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::resources([
         'prize' => PrizeController::class,
     ]);
+
+    Route::post('prize_banner' , [GeneralController::class , 'prize_banner'])->name('admin/prize_banner');
+    Route::post('prize/section_heading' , [PrizeController::class , 'section_heading'])->name('admin/prize/section_heading');
 
 
     //Winner rotues
@@ -194,6 +195,7 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::resources([
         'reviews' => ReviewsController::class,
     ]);
+    Route::post('reviews/section_heading' ,[ReviewsController::class , 'section_heading'])->name('admin/reviews/section_heading');
 
 
     //sitesettings
@@ -206,6 +208,9 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
       //general settings
       Route::get('general', [GeneralController::class , 'general'])->name('admin/general');
       Route::post('general_post', [GeneralController::class , 'general_update'])->name('admin/general_post');
+      //Match results settings
+      Route::get('match_result', [MatchResultController::class , 'match_result'])->name('admin/match_result');
+      Route::post('match_result_edit', [MatchResultController::class , 'match_result_edit'])->name('admin/match_result_edit');
 
       //banner setting
       Route::resources([
@@ -232,6 +237,7 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     //static page
    Route::match(['get' , 'put'] ,'contact_page/{id?}' , [ StaticPageController::class , 'contactPage'])->name('admin/contact_page');
    Route::match(['get' , 'put'] ,'about_page/{id?}' , [ StaticPageController::class , 'aboutPage'])->name('admin/about_page');
+   Route::match(['get' , 'put'] ,'privacy/{id?}' , [ StaticPageController::class , 'privacyPage'])->name('admin/privacy');
 
     Route::get('allPayments',[PaymentController::class,'getAll'])->name('admin/allPayments');
     Route::get('payments',[PaymentController::class,'index'])->name('admin/payments');
@@ -248,7 +254,6 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
    Route::match(['get', 'post'], 'leaderboard/create',[LeaderboardController::class, 'create'])->name('admin/leaderboard/create');
    Route::match(['get', 'post'], 'leaderboard/edit/{id}',[LeaderboardController::class, 'edit'])->name('admin/leaderboard/edit');
    Route::get('leaderboard/delete/{id}' ,[LeaderboardController::class , 'delete']);
-   Route::post('leaderboard/section_heading' ,[LeaderboardController::class , 'section_heading'])->name('admin/leaderboard/section_heading');
 
 
     //home setting

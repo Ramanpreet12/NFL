@@ -23,16 +23,25 @@ class VacationController extends Controller
     public function section_heading(Request $request)
     {
         if ($request->isMethod('post')) {
-            SectionHeading::where('name' , 'Videos')->update([
-                        'value' => $request->section_heading,
-                    ]);
+            $request->validate(['section_heading'=> 'required']);
+            if ($request->section_heading) {
+                SectionHeading::where('name' , 'Vacation')->update([
+                    'value' => $request->section_heading,
+                ]);
+            }
+            else{
+                SectionHeading::where('name' , 'Vacation')->update([
+                    'value' => 'Vacation'
+                ]);
+            }
+
                     return redirect()->route('vacation.index')->with('success' , 'Video title updated successfully');
         }
     }
 
     public function index()
     {
-        $VacationHeading = SectionHeading::where('name' , 'Videos')->first();
+        $VacationHeading = SectionHeading::where('name' , 'Vacation')->first();
         $vacations = Vacation::get();
         return view('backend.site_setting.vacationPac.index' , compact('VacationHeading' , 'vacations'));
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Reviews;
+use App\Models\SectionHeading;
 
 class ReviewsController extends Controller
 {
@@ -13,10 +14,22 @@ class ReviewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function section_heading(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate(['section_heading'=> 'required']);
+            SectionHeading::where('name' , 'Reviews')->update([
+                        'value' => $request->section_heading,
+                    ]);
+        return redirect('admin/reviews')->with('success_msg' , 'Reviews Title updated successfully');
+        }
+    }
+
     public function index()
     {
         $get_reviews = Reviews::get();
-        return view('backend.reviews.index' , compact('get_reviews'));
+        $reviewsHeading = SectionHeading::where('name' , 'Reviews')->first();
+        return view('backend.reviews.index' , compact('get_reviews' ,'reviewsHeading'));
     }
 
     /**

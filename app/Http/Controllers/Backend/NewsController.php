@@ -20,6 +20,7 @@ class NewsController extends Controller
      public function section_heading(Request $request)
      {
          if ($request->isMethod('post')) {
+            $request->validate(['section_heading'=> 'required']);
              SectionHeading::where('name' , 'News')->update([
                          'value' => $request->section_heading,
                      ]);
@@ -93,7 +94,7 @@ class NewsController extends Controller
                     $result=News::create($data);
 
                     if($result){
-                        return redirect()->route('news.index')->with('message_success','New Record Added Successfully');
+                        return redirect()->route('news.index')->with('success','New Record Added Successfully');
                     }else{
                         return redirect()->route('news.index')->with('message_error','Something went wrong');
                     }
@@ -172,7 +173,7 @@ class NewsController extends Controller
                      $result=News::where('id',$id)->update($data);
 
                      if($result){
-                         return redirect()->route('news.index')->with('message_success','New Record Added Successfully');
+                         return redirect()->route('news.index')->with('success','New Record Added Successfully');
                      }else{
                          return redirect()->route('news.index')->with('message_error','Something went wrong');
                      }
@@ -197,7 +198,7 @@ class NewsController extends Controller
     {
         $del = News::find($id)->delete();
         if($del){
-            return redirect()->route('news.index')->with('message_success','Reocrd Deleted Successfully');
+            return redirect()->route('news.index')->with('success','Reocrd Deleted Successfully');
         }else{
             return redirect()->route('news.index')->with('message_error','Something went wrong');
         }

@@ -15,11 +15,14 @@ use App\Models\UserTeam;
  use App\Http\Requests\FixtureRequest;
  use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use DateTime;
 // use Carbon\CarbonImmutable;
 
 class FixtureController extends Controller
 {
     private $league_id = 1 ;// league id basically determines the leagues for eg NFL ,FIFA etc
+
+
 
 
     public function index()
@@ -56,26 +59,49 @@ class FixtureController extends Controller
               if($end < $store){
                 return redirect()->back()->with('error_date','Please Enter the  valid date.(Fixture date should be in between season starting and ending date.)');
               }
-                $diff = $start->diff($store);
-
-                $week = ceil($diff->d/7);
+                $diff = $start->diffInDays($store);
+                $week = ceil(($diff/7));
                 $f_week = ((int)$week);
                 if($f_week == 0){
                     $f_week = 1;
                 }
 
-//                 $start = Carbon::createFromTimestamp(strtotime($duration->starting));
-// $end = Carbon::createFromTimestamp(strtotime($duration->starting))->add($store . ' minutes');
-// $diff_in_weeks=  $start->diffInWeeks($end);
-// dd($diff_in_weeks);
 
-$startDate = Carbon::parse($start);
-$endDate = Carbon::parse($store);
 
-$weekdays = $startDate->diffInWeekdays($endDate);
-dd($weekdays);
+                // while (strtotime($duration->starting) <= strtotime($request->date)) {
+                //     $oldStartDate = $duration->starting;
+                //     // dd($oldStartDate);
+                //     $startDate = date('Y-m-d', strtotime('+7 day', strtotime($duration->starting)));
 
-                $fixture_data = Fixture::where(['season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$f_week , 'date' =>$request->date ])->first();
+                //     if (strtotime($startDate) > strtotime($request->date)) {
+                //         $week = [$oldStartDate, $endDate];
+
+                //     }
+                //     else {
+                //         $week = [$oldStartDate, date('Y-m-d', strtotime('-1 day', strtotime($startDate))) ];
+                //     }
+
+                //     $weeks[] = $week;
+                // }
+
+                // dd($weeks);
+
+
+
+                $strtDate = $duration->starting;
+                $endDate = $request->date;
+                $startDateWeekCnt = round(floor( date('d',strtotime($strtDate)) / 7)) ;
+                // echo $startDateWeekCnt ."\n";
+                $endDateWeekCnt = round(ceil( date('d',strtotime($endDate)) / 7)) ;
+                //echo $endDateWeekCnt. "\n";
+                $datediff = strtotime(date('Y-m-d',strtotime($endDate))."-01") - strtotime(date('Y-m-d',strtotime($strtDate))."-01");
+                // dd($datediff);
+                $totalnoOfWeek = round(floor($datediff/(60*60*24)) / 7) + $endDateWeekCnt - $startDateWeekCnt ;
+                // echo $totalnoOfWeek ."\n";
+                // dd($totalnoOfWeek);
+
+
+                $fixture_data = Fixture::where(['season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$totalnoOfWeek , 'date' =>$request->date ])->first();
                 if ($fixture_data) {
                     return redirect()->back()->with('message_error' , 'Fixture already exists !');
                 //  dd($fixture_data);
@@ -85,7 +111,7 @@ dd($weekdays);
                 'season_id' => $request->season,
                 'first_team' => $request->first_team,
                 'second_team' => $request->second_team,
-                'week' => $f_week,
+                'week' => $totalnoOfWeek,
                 'date' => $request->date,
                 'time' => $request->time,
                 'time_zone' => $request->time_zone,
@@ -128,8 +154,20 @@ dd($weekdays);
                 $f_week = 1;
             }
 
+                $strtDate = $duration->starting;
+                $endDate = $request->date;
+                $startDateWeekCnt = round(floor( date('d',strtotime($strtDate)) / 7)) ;
+                // echo $startDateWeekCnt ."\n";
+                $endDateWeekCnt = round(ceil( date('d',strtotime($endDate)) / 7)) ;
+                //echo $endDateWeekCnt. "\n";
+                $datediff = strtotime(date('Y-m-d',strtotime($endDate))."-01") - strtotime(date('Y-m-d',strtotime($strtDate))."-01");
+                $totalnoOfWeek = round(floor($datediff/(60*60*24)) / 7) + $endDateWeekCnt - $startDateWeekCnt ;
+                // echo $totalnoOfWeek ."\n";
+
+
+
             //   $fixture_data = Fixture::where([[('id' , '!=' , $id)] ,  'season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$f_week , 'date' =>$request->date ])->first();
-              $fixture_data = Fixture::where([['id' , '!=' , $id] , ['season_id' , '=' ,  $request->season] , ['first_team' ,'=' ,  $request->first_team ]  , ['second_team' , '=', $request->second_team ], ['week' , '=', $f_week ], ['date' , '=' , $request->date] ])->first();
+              $fixture_data = Fixture::where([['id' , '!=' , $id] , ['season_id' , '=' ,  $request->season] , ['first_team' ,'=' ,  $request->first_team ]  , ['second_team' , '=', $request->second_team ], ['week' , '=', $totalnoOfWeek ], ['date' , '=' , $request->date] ])->first();
 
               if ($fixture_data) {
                     return redirect()->back()->with('message_error' , 'Fixture already exists !');
@@ -141,7 +179,7 @@ dd($weekdays);
                 'season_id' => $request->season,
                 'first_team' => $request->first_team,
                 'second_team' => $request->second_team,
-                'week' => $f_week,
+                'week' => $totalnoOfWeek,
                 'date' => $request->date,
                 'time' => $request->time,
                 'time_zone' => $request->time_zone,
@@ -159,9 +197,17 @@ dd($weekdays);
     public function section_heading(Request $request)
     {
         if ($request->isMethod('post')) {
-            SectionHeading::where('name' , 'Upcoming Fixture')->update([
-                        'value' => $request->section_heading,
-                    ]);
+            $request->validate(['section_heading'=> 'required']);
+            if ($request->section_heading) {
+                SectionHeading::where('name' , 'Upcoming Fixture')->update([
+                    'value' => $request->section_heading,
+                ]);
+            }
+            else{
+                SectionHeading::where('name' , 'Upcoming Fixture')->update([
+                    'value' => 'Upcoming Fixture'
+                ]);
+            }
         return redirect('admin/fixtures')->with('success' , 'Fixture Title updated successfully');
         }
     }

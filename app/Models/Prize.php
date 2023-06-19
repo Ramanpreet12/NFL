@@ -10,26 +10,26 @@ class Prize extends Model
     use HasFactory;
     protected $fillable = ['season_id','name','amount' , 'image' , 'content' , 'status'];
 
-    protected $appends = ['season_name','team_name','player_name'];
+    // protected $appends = ['team_name','player_name'];
 
     public function season(){
         return $this->belongsTo('App\Models\Season','season_id');
     }
 
-    public function getSeasonNameAttribute(){
-        $name = \App\Models\Season::where('id',$this->season_id)->value('name');
-    return ucwords($name) ?? '';
-    }
+    // public function getSeasonNameAttribute(){
+    //     $name = \App\Models\Season::where('id',$this->season_id)->value('season_name');
+    // return ucwords($name) ?? '';
+    // }
 
-    public function getTeamNameAttribute(){
-        $name = \App\Models\Team::where('id',$this->team_id)->value('name');
-    return ucwords($name) ?? '';
-    }
+    // public function getTeamNameAttribute(){
+    //     $name = \App\Models\Team::where('id',$this->team_id)->value('name');
+    // return ucwords($name) ?? '';
+    // }
 
-    public function getPlayerNameAttribute(){
-        $name = \App\Models\Player::where('id',$this->player_id)->value('name');
-    return ucwords($name) ?? '';
-    }
+    // public function getPlayerNameAttribute(){
+    //     $name = \App\Models\Player::where('id',$this->player_id)->value('name');
+    // return ucwords($name) ?? '';
+    // }
 
     public function winner()
     {

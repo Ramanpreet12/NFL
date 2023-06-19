@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(ContactPageSeeder::class);
         // $this->call(AboutPageSeeder::class);
         $this->call(StaticPageSeeder::class);
+        // $this->call(MatchResultSeeder::class);
     }
 }

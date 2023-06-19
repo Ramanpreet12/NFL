@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 class Payment extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'season_id', 'payment', 'client_secret', 'status', 'expire_on'];
+    protected $fillable = ['user_id', 'season_id', 'amount', 'transaction_id','payment_method', 'status', 'currency', 'clover_payment_created_timestamp', 'ref_num', 'exp_month_card', 'exp_year_card', 'first6_digit_of_card' ,'last4_digit_of_card' ,'clover_payment_intiation_id'];
 
     protected $appends = ['user_name','invoice'];
 

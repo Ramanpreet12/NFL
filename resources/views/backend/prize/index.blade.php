@@ -34,10 +34,76 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">Prize Management</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+            <form action="{{route('admin/prize/section_heading')}}" method="post">
+                @csrf
+                    <div id="horizontal-form" class="px-3 flex">
+
+                        <div class="preview mx-3">
+                            <div class="form-inline">
+                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title <span class="text-danger">*</span></label>
+                                <input id="section_heading" type="text" class="form-control" placeholder="Section Name" name="section_heading"
+                                @if (!empty($prizeHeading->value))  value="{{$prizeHeading->value}}"  @else value="Prize" @endif >
+                            </div>
+                            <div class="form-inline">
+                                <label for="section_heading" class="font-medium form-label sm:w-60"></label>
+                                @error('section_heading') <p class="text-danger">{{ $message }}</p>@enderror
+                            </div>
+
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary w-30">Update Title</button>
+                        </div>
+
+                    </div>
+            </form>
+        </div>
+
+
+
+
+        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
             <a class="btn btn-primary shadow-md mr-2" href="{{route('prize.create')}}" id="">Add New Prize</a>
         </div>
     </div>
 
+    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+       <div class="w-full sm:w-auto flex mt-4 sm:mt-0"></div>
+       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+        <div id="horizontal-form" class="px-3 flex">
+
+            <form action="{{route('admin/prize_banner')}}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="preview mx-3">
+
+                <div class="form-inline mt-5">
+                    <label for="prize_banner" class="font-medium form-label sm:w-60">Add Prize Banner</label>
+                    <input id="prize_banner" type="file" class="form-control" placeholder="Enter prize banner" name="prize_banner" value="">
+                </div>
+                <div class="form-inline">
+                    <label for="prize_banner" class="font-medium form-label sm:w-60"></label>
+                    @error('prize_banner') <p class="text-danger">{{$message}}</p> @enderror
+                </div>
+                </div>
+                {{-- <button class="btn btn-primary" type="submit">Upload</button> --}}
+
+                <div class="form-inline mt-5">
+                    <label for="prize_banner" class="font-medium form-label sm:w-60"></label>
+
+                    @if (($get_prize_banner != '') && ($get_prize_banner->prize_banner))
+                    <img src="{{asset('storage/images/general/'.$get_prize_banner->prize_banner)}}" alt="" height="100px" width="250px">
+
+                    @else
+                    <img src="{{asset('dist/images/no-image.png')}}" alt="" height="100px" width="250px">
+
+                    @endif
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary w-30">Upload</button>
+                </div>
+            </form>
+        </div>
+       </div>
+    </div>
     <div class="grid grid-cols-12 gap-6 mt-5 p-5 bg-white mb-5">
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -56,6 +122,9 @@
                 </thead>
 
                 <tbody>
+                    @if ($prizes->isNotEmpty())
+
+                    {{-- @else --}}
                     @forelse ($prizes as $prize)
                         <tr class="intro-x">
                             <td>
@@ -80,7 +149,6 @@
                             <td class="text-center">{{ \Carbon\Carbon::parse($prize->created_at)->format('j F, Y') }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($prize->updated_at)->format('j F, Y') }}</td>
 
-
                             <td class="table-report__action">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3" href="{{ route('prize.edit',$prize->id) }}">
@@ -103,7 +171,7 @@
 
                         </tr>
                     @endforelse
-
+                    @endif
                 </tbody>
             </table>
         </div>

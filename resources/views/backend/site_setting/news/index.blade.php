@@ -23,22 +23,23 @@
             <form action="{{route('admin/news/section_heading')}}" method="post">
                 @csrf
                     <div id="horizontal-form" class="px-3 flex">
-                        @if (!empty($NewsHeading->value))
+
                         <div class="preview mx-3">
                             <div class="form-inline">
-                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title</label>
+                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title <span class="text-danger">*</span></label>
                                 <input id="section_heading" type="text" class="form-control" placeholder="Section Name" name="section_heading"
-                                @if (!empty($NewsHeading->value))
-                                value="{{$NewsHeading->value}}"
-                                @else
-                                value=""
-                                @endif>
+                                @if (!empty($NewsHeading->value)) value="{{$NewsHeading->value}}" @else value="News" @endif>
                             </div>
+                            <div class="form-inline">
+                                <label for="section_heading" class="font-medium form-label sm:w-60"></label>
+                                @error('section_heading') <p class="text-danger">{{ $message }}</p>@enderror
+                            </div>
+
+
                         </div>
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary w-30">Update Title</button>
                         </div>
-                        @endif
                     </div>
             </form>
 

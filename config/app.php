@@ -27,6 +27,9 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'clover_public_key' => env('CLOVER_PUBLIC_KEY', 'e21df6b3d1326f8aee8544e4c5952ca1'),
+    'clover_private_key' => env('CLOVER_PRIVATE_KEY', '621bd654-61f2-ef27-a38d-c180a0b953bd'),
+
 
     /*
     |--------------------------------------------------------------------------

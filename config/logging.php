@@ -113,6 +113,19 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+         // unsuceesfull payment logging file
+        'payment' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/payment.log'),
+            'level' => 'critical',
+        ],
+
+        // successfullpayment logging file
+        'successfullpayment' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/successfullpayment.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

@@ -16,34 +16,69 @@
               <div class="iconitem">
                 <i class="fa-solid fa-location-dot"></i>
               </div>
-              <div class="inputText">
-                <span>{{$general->footer_address}}</span>
+
+              <div style="color:{{$general->footer_add_color}};">
+                <span>{{$general->footer_address ? $general->footer_address : '
+                    3024 North Ashland Avenue, Unit # 578905 Chicago, IL 60657' }}</span>
               </div>
             </div>
             <div class="contactUs d-flex">
               <div class="iconitem">
                 <i class="fa-solid fa-mobile"></i>
               </div>
-              <div class="inputText">
-                <span>{{$general->footer_contact}}</span>
+              <div style="color:{{$general->footer_contact_color}};">
+                <span>{{$general->footer_contact ? $general->footer_contact :'+7 888 71 140 30 20'}}</span>
               </div>
             </div>
             <div class="contactUs d-flex">
               <div class="iconitem">
                 <i class="fa-solid fa-fax"></i>
               </div>
-              <div class="inputText">
-                <span>{{$general->footer_contact2}}</span>
+              <div style="color:{{$general->other_contact_color}};">
+                <span>{{$general->footer_contact2 ? $general->footer_contact2 : '+7 888 71 140 30 20'}}</span>
               </div>
             </div>
             <div class="contactUs d-flex">
               <div class="iconitem">
                 <i class="fa-solid fa-envelope"></i>
               </div>
-              <div class="inputText">
-                <span>{{$general->email}}</span>
+              <div style="color:{{$general->email_color}};">
+                <span>{{$general->email ? $general->email : '
+                    nfl@stylemixthemes.com'}}</span>
               </div>
             </div>
+
+            <div class="contactUs d-flex">
+              <div class="iconitem">
+                <i class="fa-solid fa-globe"></i>
+              </div>
+              <div>
+                @if (($general->footer_affliated_text) && ($general->footer_affliated_link))
+                    <span><a href="{{$general->footer_affliated_link}}" style="color:{{$general->footer_afilated_color}}; text-decoration:none;">{{$general->footer_affliated_text}}</a></span>
+                @endif
+              </div>
+            </div>
+
+            <div class="contactUs d-flex">
+                <div class="iconitem">
+                    {{-- <i class="fa-sharp fa-solid fa-file-shield"></i> --}}
+                    <i class="fa-sharp fa-solid fa-shield"></i>
+                </div>
+                <div>
+                      <span><a href="{{route('privacy')}}" style="color:{{$general->privacy_policy_color}}; text-decoration:none;">{{$general->privacy_policy ? $general->privacy_policy : 'Privacy Policy'}}</a></span>
+                </div>
+            </div>
+
+
+            @if (($general->santa_game_store) && ($general->santa_game_store_link))
+            <div class="contactUs d-flex">
+                <div class="iconitem">
+                  <i class="fa-solid fa-globe"></i>
+                </div>
+                <div><span><a href="{{$general->santa_game_store_link}}" style="color:{{$general->santa_game_store_color}}; text-decoration:none;">{{$general->santa_game_store}}</a></span>
+                </div>
+              </div>
+              @endif
           </div>
 
         </div>
@@ -53,42 +88,17 @@
           </div>
           <ul class="footerlist">
             @foreach ($mainMenus as $menuMenu)
-                    <li>
-                        <a @if ($menuMenu->url) href="<?php echo url($menuMenu->url); ?>" @else href="javascript:void(0)" @endif>
-                            {{ $menuMenu->title }}</a>
-
-                        {{-- @if ($check_submenu != '')
-                            <div class="dropdown-menu megaMenu" x-placement="bottom-start"
-                                style="position: absolute; background-color:{{ $colorSection['navbar']['bg_color'] }};">
-                                <div class="container">
-                                    <div class="row">
-                                        <ul class="navbar-nav dropList">
-                                            @foreach ($subMenus as $subMenu)
-                                                @if ($subMenu->parent_id == $menuMenu->id)
-                                                    <li class="nav-item"> <a class="dropdown-item"
-                                                            href="{{ $subMenu->url }}">{{ $subMenu->title }}</a></li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif --}}
-                    </li>
-                @endforeach
-
-            {{-- <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Match Result</a></li>
-            <li><a href="#">Match Fixture</a></li>
-            <li><a href="#">Contact us</a></li> --}}
+              <li><a @if ($menuMenu->url) href="<?php echo url($menuMenu->url); ?>" @else href="javascript:void(0)" @endif>
+                      {{ $menuMenu->title }}</a>
+                </li>
+            @endforeach
           </ul>
         </div>
         <div class="col-sm-4 mb-3">
           <div class="headerPart">
-            <h4 style="color:{{ $colorSection['footer']["header_color"] }};" >SIGN UP FOR EMAIL ALERT</h4>
+            <h4 style="color:{{ $colorSection['footer']["header_color"] }};" > {{$general->footer_content_head ? $general->footer_content_head : 'SIGN UP FOR EMAIL ALERT'}}</h4>
           </div>
-          <p>{{$general->footer_content}}</p>
+          <p style="color:{{$general->footer_content_color}};">{{$general->footer_content ? $general->footer_content : ''}}</p>
           <div class="formInput">
             <input type="email" name="EMAIL" placeholder="Your email address" required="">
             <button type="button" class="btn btn-primary  btn-lg" style="">Submit</button>
@@ -100,8 +110,9 @@
       <div class="footerDown">
         <div class="row">
           <div class="col-sm-6">
-            <p>NFL design © 2023. All Rights Reserved.
-            </p>
+
+            <p> {{$general->footer_bar ? $general->footer_bar : 'GAMEDAY PICKS, LLC © 2023. All Rights Reserved'}}</p>
+
           </div>
           <div class="col-sm-6">
             <div class="footerIcon">
@@ -131,86 +142,7 @@
   <!-- intl-tel-input -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/intlTelInput.js"></script>
 
-  <script>
-    $(document).ready(function () {
-      $(".owl-carousel").owlCarousel();
-    });
 
-    $(".owl-heroSlider").owlCarousel({
-
-      loop: true,
-      items: 1,
-      margin: 0,
-      dots: false,
-      autoplay: true,
-      nav: true,
-      dots: false,
-    });
-
-    $(".owl-testimonial").owlCarousel({
-
-loop: true,
-items: 1,
-margin: 30,
-dots: false,
-autoplay: true,
-nav: true,
-dots: false,
-responsive: {
-        300: {
-          items: 1,
-        },
-        600: {
-          items: 2,
-        },
-        992: {
-          items: 3,
-        },
-      },
-});
-
-    $(".owl-videoslider").owlCarousel({
-
-      loop: true,
-      margin: 20,
-      dots: false,
-      autoplay: true,
-      nav: false,
-      responsive: {
-        300: {
-          items: 1,
-        },
-        600: {
-          items: 2,
-        },
-        992: {
-          items: 3,
-        },
-      },
-    });
-  </script>
-  <!-- video player js -->
-  <script>
-    const video = document.getElementById("video");
-    const circlePlayButton = document.getElementById("circle-play-b");
-
-    function togglePlay() {
-      if (video.paused || video.ended) {
-        video.play();
-      } else {
-        video.pause();
-      }
-    }
-
-    circlePlayButton.addEventListener("click", togglePlay);
-    video.addEventListener("playing", function () {
-      circlePlayButton.style.opacity = 0;
-    });
-    video.addEventListener("pause", function () {
-      circlePlayButton.style.opacity = 1;
-    });
-
-  </script>
 
   <!-- bootstrap script -->
   <script src="{{ asset('front/js/bootstrap.bundle.min.js') }}"></script>
@@ -239,54 +171,75 @@ responsive: {
     }
 </style>
 @yield('script')
+
 <script>
-  $('.icon-click').on('click', function(){
+
+// front reviews form validation
+$('#reviewForm').validate({
+  rules: {
+    username: { required: true },
+    email: { required: true, email: true },
+    comment: { required: true },
+    rating: { required: true },
+
+  },
+  messages: {
+    username: { required: "Name is required", },
+    email: { required: "Email is required", },
+    comment: { required: "Comment is required", },
+    rating: { required: "Rating is required", },
+
+  }
+});
+
+
+//for rating stars on reviews popup
+$('.icon-click').on('click', function () {
   var temp = $(this).attr('id');
-  temp     = temp.split('-');
+  temp = temp.split('-');
   var name = temp[0];
-  var val  = temp[1];
+  var val = temp[1];
 
-  var prv  = $('#'+name).val();
-      $('#'+name).val(val);
-      $('#rating_1').val(val);
+  var prv = $('#' + name).val();
+  $('#' + name).val(val);
+  $('#rating_1').val(val);
 
-  for(i = 1; i <= prv; i++){
-    $('#'+name+'-'+i).removeClass('text-warning');
-    $('#'+name+'-'+i).addClass('text-secondary');
+  for (i = 1; i <= prv; i++) {
+    $('#' + name + '-' + i).removeClass('text-warning');
+    $('#' + name + '-' + i).addClass('text-secondary');
   }
-  for(i = 1; i <= val; i++){
-    $('#'+name+'-'+i).removeClass('text-secondary');
-    $('#'+name+'-'+i).addClass('text-warning');
+  for (i = 1; i <= val; i++) {
+    $('#' + name + '-' + i).removeClass('text-secondary');
+    $('#' + name + '-' + i).addClass('text-warning');
   }
-})
-</script>
-<script>
-  $("#reviewForm").submit(function(e){
+});
 
-   var rating =  $("#rating").val();
+
+//submit the reviews form with ajax
+$("#reviewForm").submit(function (e) {
+  var rating =  $("#rating").val();
   e.preventDefault();
-  if (rating == '') {
+if (rating == '') {
     $("#rating_empty_msg").html('Rating is required');
   }
 
   $.ajaxSetup({
-                  headers: {
-                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                  }
-              });
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
   $.ajax({
-      type : 'POST',
-      data: $("#reviewForm").serialize(),
-      url : 'reviews',
-      success : function(data){
-       // console.log(data);
-           $("#reviews_success_modal").modal("show");
-           $("#addReviewModal").modal("hide");
-           location.reload();
-           $("#reviewForm")[0].reset();
-           $('.icon-click').removeClass('text-warning');
-        //    $("#rating_empty_msg").html('');
-      }
+    type: 'POST',
+    data: $("#reviewForm").serialize(),
+    url: 'reviews',
+    success: function (data) {
+      // console.log(data);
+      $("#reviews_success_modal").modal("show");
+      $("#addReviewModal").modal("hide");
+ location.reload();
+      $("#reviewForm")[0].reset();
+      $('.icon-click').removeClass('text-warning');
+    }
   });
   return false;
 });

@@ -10,16 +10,35 @@ use Validator;
 use App\Models\Fixture;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\SectionHeading;
 
 
 class TeamResultController extends Controller
 {
+
+    public function section_heading(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $request->validate(['section_heading'=> 'required']);
+            if ($request->section_heading) {
+                SectionHeading::where('name' , 'Leaderboard')->update([
+                    'value' => $request->section_heading,
+                ]);
+            }
+            else{
+                SectionHeading::where('name' , 'Leaderboard')->update([
+                    'value' => 'Leaderboard'
+                ]);
+            }
+        return redirect('admin/teams/result')->with('success' , 'Leaderboard Title updated successfully');
+        }
+    }
+
     public function index()
     {
         $fixtures =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
-    // dd($fixtures);
-        // $team_results = TeamResult::where('status', 'active')->get();
-        return view('backend.team_result.index', compact('fixtures'));
+        $leaderboardHeading = SectionHeading::where('name' , 'Leaderboard')->first();
+        return view('backend.team_result.index', compact('fixtures' ,'leaderboardHeading'));
     }
     public function teamResult_data()
     {

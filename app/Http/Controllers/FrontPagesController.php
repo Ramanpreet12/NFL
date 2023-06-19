@@ -8,12 +8,15 @@ use App\Models\ContactPage;
 use App\Models\StaticPage;
 use App\Models\Fixture;
 use App\Models\Team;
+use App\Models\MatchResult;
 
 use App\Models\UserTeam;
 use App\Models\Season;
 use App\Models\Prize;
 use App\Models\Reviews;
 use App\Models\Payment;
+use App\Models\General;
+use App\Models\SectionHeading;
 use App\Http\Requests\ReviewsRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -108,8 +111,17 @@ class FrontPagesController extends Controller
     public function about()
     {
         $get_about_details = StaticPage::where('type' , 'about')->first();
+
         return view('front.about' , compact('get_about_details'));
     }
+
+    public function privacy()
+    {
+        $get_privacy_details = StaticPage::where('type' , 'privacy')->first();
+
+        return view('front.privacy' , compact('get_privacy_details'));
+    }
+
 
     public function matchResult(Request $request)
     {
@@ -197,7 +209,9 @@ class FrontPagesController extends Controller
                 $get_all_seasons = Season::where('status' , 'active')->get();
                 $total_players = UserTeam::where('season_id',$c_season->id)->count();
 
-        return view('front.match_result' , compact('total_win_loss' ,'season_name' ,'get_all_seasons' ,'c_season' , 'total_players'));
+                $get_match_results_details = MatchResult::first();
+
+        return view('front.match_result' , compact('total_win_loss' ,'season_name' ,'get_all_seasons' ,'c_season' , 'total_players' ,'get_match_results_details'));
      }
     }
 
@@ -336,8 +350,10 @@ class FrontPagesController extends Controller
     public function prize()
     {
         $prizes = Prize::with('season')->where('status' , 'active')->get();
+        $get_prize_banner = General::where('prize_banner' , '!=' , null)->select('prize_banner')->first();
+        $get_prize_heading = SectionHeading::where('name', 'Prize')->first();
 
-        return view('front.prize' , compact('prizes'));
+        return view('front.prize' , compact('prizes' , 'get_prize_banner' , 'get_prize_heading'));
     }
 
 

@@ -1,18 +1,15 @@
 @extends('../layout/' . $layout)
-
 @section('subhead')
     <title>NFL | General</title>
 @endsection
 @section('subcontent')
     <div class="intro-y box mt-5">
         @if (session()->has('success'))
-            <div class="alert alert-success show flex items-center alert_messages mb-5" role="alert">
+            <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-check2-circle" viewBox="0 0 16 16">
-                    <path
-                        d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-                    <path
-                        d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
                 </svg>
                 &nbsp; {{ session()->get('success') }}
             </div>
@@ -33,18 +30,16 @@
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">General Setting</h2>
         </div>
-        <form action="{{route('admin/general_post')}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('admin/general_post')}}" method="POST" enctype="multipart/form-data">
             @csrf
-
             <div id="horizontal-form" class="p-5">
                 <div class="preview">
                     <div class="form-inline">
-                        <label for="name" class="font-medium form-label sm:w-60">Name<span class="text-danger">*</span></label>
+                        <label for="name" class="font-medium form-label sm:w-60">Name <span class="text-danger">*</span></label>
                         <input id="name" type="text" class="form-control" placeholder="Name" name="name" value="{{$general->name}}">
-
                     </div>
                     <div class="form-inline">
-                        <label for="" class="font-medium form-label sm:w-60"> </label>
+                        <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('name')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
@@ -56,6 +51,13 @@
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('email')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
+                    <div class=" form-inline mt-3">
+                        <label for="email_color" class="font-medium form-label sm:w-60"> Email Text Color<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input id="Emailtext_color" type="color" class="form-control" placeholder="color code" aria-describedby="input-group-1" name="Emailtext_color" style="width: 20rem;" value="{{$general->email_color}}">
+                        </div>
+                    </div>
+
 
                     <div class="form-inline mt-5">
                         <label for="homepage_title" class="font-medium form-label sm:w-60">Homepage Banner Title <span class="text-danger">*</span></label>
@@ -81,11 +83,13 @@
                     <div class="form-inline mt-5">
                         <label for="logo" class="font-medium form-label sm:w-60">Logo <span class="text-danger">*</span></label>
                         <input id="logo" type="file" class="form-control" placeholder="Website Logo" name="logo">
+                        <input id="logo" type="hidden" class="form-control" placeholder="Website Logo" name="current_logo" value="{{$general->logo}}">
                     </div>
                     <div class="form-inline">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('logo')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
+
 
                     @if (!empty($general->logo))
                         <div class="form-inline mt-5">
@@ -96,34 +100,30 @@
                         <div class="form-inline mt-5">
                             <label for="logo" class="font-medium form-label sm:w-60"></label>
                             <img alt="Admin Image" class="rounded-full" height="50px" width="100px"
-                            src="{{asset('dist/images/no-image.png')}}">
+                            src="{{asset('dist/images/dummy_image.webp')}}">
                         </div>
                     @endif
-
                     <div class="form-inline mt-5">
                         <label for="favicon" class="font-medium form-label sm:w-60">Favicon <span class="text-danger">*</span></label>
                         <input id="favicon" type="file" class="form-control" placeholder="Favicon" name="favicon">
+                        <input id="favicon" type="hidden" class="form-control" placeholder="Favicon" name="current_favicon" value="{{$general->favicon}}">
                     </div>
-
                     <div class="form-inline">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('favicon')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
-
                     @if (!empty($general->favicon))
                         <div class="form-inline mt-5">
                             <label for="logo" class="font-medium form-label sm:w-60"></label>
                             <img src="{{asset('storage/images/general/'.$general->favicon)}}" alt="" height="50px" width="100px">
                         </div>
-
                     @else
                         <div class="form-inline mt-5">
                             <label for="logo" class="font-medium form-label sm:w-60"></label>
                             <img alt="Admin Image" class="rounded-full" height="50px" width="100px"
-                            src="{{asset('dist/images/no-image.png')}}">
+                            src="{{asset('dist/images/dummy_image.webp')}}">
                         </div>
                     @endif
-
                     <div class="form-inline mt-5">
                         <label for="footer_contact" class="font-medium form-label sm:w-60">Footer contact <span class="text-danger">*</span></label>
                         <input id="footer_contact" type="text" class="form-control" placeholder="Contact" name="footer_contact" value="{{$general->footer_contact}}">
@@ -132,24 +132,150 @@
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('footer_contact')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
+                    <div class=" form-inline mt-3">
+                        <label for="button_color" class="font-medium form-label sm:w-60">Footer Contact Color<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input id="FooterContact_color" type="color" class="form-control" placeholder="color code" aria-describedby="input-group-1" name="FooterContact_color" style="width: 20rem;" value="{{$general->footer_contact_color}}">
+                        </div>
+                    </div>
+
+
+                    <div class="form-inline mt-5">
+                        <label for="footer_contact2" class="font-medium form-label sm:w-60">Other contact</label>
+                        <input id="footer_contact2" type="text" class="form-control" placeholder="Other Contact" name="footer_contact2" value="{{$general->footer_contact2}}">
+                    </div>
+                    <div class=" form-inline mt-3">
+                        <label for="button_color" class="font-medium form-label sm:w-60">Other Contact Color<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input id="otherContact_color" type="color" class="form-control" placeholder="color code" aria-describedby="input-group-1" name="otherContact_color" style="width: 20rem;" value="{{$general->other_contact_color}}">
+                        </div>
+                    </div>
 
                     <div class="form-inline mt-5">
                         <label for="footer_address" class="font-medium form-label sm:w-60">Footer Address <span class="text-danger">*</span></label>
-                        <textarea name="footer_address" id="footer_address" cols="20" rows="5" placeholder="Address" >{{$general->footer_address}}</textarea>
+                        <textarea name="footer_address" id="footer_address" cols="20" rows="3" placeholder="Address" class="form-control">{{$general->footer_address}}</textarea>
                     </div>
                     <div class="form-inline">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('footer_address')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
+                    <div class=" form-inline mt-3">
+                        <label for="button_color" class="font-medium form-label sm:w-60">Footer Address Color<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input id="Footeraddress_color" type="color" class="form-control" placeholder="color code" aria-describedby="input-group-1" name="Footeraddress_color" style="width: 20rem;" value="{{$general->footer_add_color}}">
+                        </div>
+                    </div>
+
+
+                    <div class="form-inline mt-5">
+                        <label for="footer_content_head" class="font-medium form-label sm:w-60">Footer Content Head<span class="text-danger"></span></label>
+                        <textarea name="footer_content_head" id="footer_content_head" cols="20" rows="3" placeholder="Content Heading"  class="form-control" class="form-control">{{$general->footer_content_head}}</textarea>
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('footer_content_head')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
 
                     <div class="form-inline mt-5">
                         <label for="footer_content" class="font-medium form-label sm:w-60">Footer Content <span class="text-danger">*</span></label>
-                        <textarea name="footer_content" id="footer_content" cols="20" rows="5" placeholder="Content" >{{$general->footer_content}}</textarea>
+                        <textarea name="footer_content" id="footer_content" cols="20" rows="3" placeholder="Content" class="form-control" >{{$general->footer_content}}</textarea>
                     </div>
                     <div class="form-inline">
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('footer_content')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
+                    <div class=" form-inline mt-3">
+                        <label for="button_color" class="font-medium form-label sm:w-60">Footer Content Color<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input id="FooterContent_color" type="color" class="form-control" placeholder="color code" aria-describedby="input-group-1" name="FooterContent_color" style="width: 20rem;" value="{{$general->footer_content_color}}">
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-inline mt-5">
+                        <label for="footer_affliated_text" class="font-medium form-label sm:w-60">Footer Affliated text </label>
+                        <input id="footer_affliated_text" type="text" class="form-control" placeholder="For eg  Illinois secretary " name="footer_affliated_text" value="{{$general->footer_affliated_text}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('footer_affliated_text')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+                    <div class=" form-inline mt-3">
+                        <label for="button_color" class="font-medium form-label sm:w-60">Footer Affliated  Color<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input id="FooterAffliated_color" type="color" class="form-control" placeholder="color code" aria-describedby="input-group-1" name="FooterAffliated_color" style="width: 20rem;" value="{{$general->footer_afilated_color}}">
+                        </div>
+                    </div>
+
+
+                    <div class="form-inline mt-5">
+                        <label for="footer_affliated_link" class="font-medium form-label sm:w-60">Footer Affliated URL <span class="text-danger"></span></label>
+                        <input id="footer_affliated_link" type="text" class="form-control" placeholder="For eg   State of Illinois Secretary State's website  link" name="footer_affliated_link" value="{{$general->footer_affliated_link}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('footer_affliated_link')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="privacy_policy" class="font-medium form-label sm:w-60">Privacy Policy <span class="text-danger">*</span></label>
+                        <input id="privacy_policy" type="text" class="form-control" placeholder="Privacy Policy" name="privacy_policy" value="{{$general->privacy_policy}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('privacy_policy')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+                    <div class="form-inline mt-3">
+                        <label for="privacy_policy_color" class="font-medium form-label sm:w-60">Privacy Policy Color<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input id="privacy_policy_color" type="color" class="form-control" placeholder="color code for Privacy Policy" aria-describedby="privacy_policy_color" name="privacy_policy_color" style="width: 20rem;" value="{{$general->privacy_policy_color}}">
+                        </div>
+                    </div>
+
+
+                    <div class="form-inline mt-5">
+                        <label for="santa_game_store" class="font-medium form-label sm:w-60">Santa Game Store <span class="text-danger">*</span></label>
+                        <input id="santa_game_store" type="text" class="form-control" placeholder="Santa Game Store" name="santa_game_store" value="{{$general->santa_game_store}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('santa_game_store')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+                    <div class="form-inline mt-3">
+                        <label for="santa_game_store_color" class="font-medium form-label sm:w-60">Santa Game Color<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input id="santa_game_store_color" type="color" class="form-control" placeholder="color code for Santa Game Store" aria-describedby="santa_game_store_color" name="santa_game_store_color" style="width: 20rem;" value="{{$general->santa_game_store_color}}">
+                        </div>
+                    </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="santa_game_store_link" class="font-medium form-label sm:w-60">Santa Game Store Link <span class="text-danger"></span></label>
+                        <input id="santa_game_store_link" type="text" class="form-control" placeholder="Santa Game Store link" name="santa_game_store_link" value="{{$general->santa_game_store_link}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('santa_game_store_link')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+
+
+                    <div class="form-inline mt-5">
+                        <label for="footer_bar" class="font-medium form-label sm:w-60">Copyright <span class="text-danger">*</span></label>
+                        <input id="footer_bar" type="text" class="form-control" placeholder="GAMEDAY PICKS, LLC © 2023. All Rights Reserved" name="footer_bar" value="{{$general->footer_bar}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('footer_bar')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+
+
+
+
                 </div>
                 <br><br>
                 <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">

@@ -165,6 +165,8 @@ class HomeController extends Controller
         $leaderboardHeading = SectionHeading::where('name', 'leaderboard')->first();
         $videosHeading = SectionHeading::where('name', 'Videos')->first();
         $newsHeading = SectionHeading::where('name', 'News')->first();
+        $playerRosterHeading = SectionHeading::where('name' , 'Player Roster')->first();
+        $reviewsHeading = SectionHeading::where('name' , 'Reviews')->first();
 
         //get videos and news
         $news = News::where('type', "news")->where('status', "active")->get();
@@ -172,7 +174,7 @@ class HomeController extends Controller
         $vacations = Vacation::where('status', "active")->get();
         //get reviews
         $get_reviews = Reviews::inRandomOrder()->limit(10)->get();
-        return view('home.index',compact('get_reviews' ,'colorSection' , 'banners', 'upcoming_matches' ,'leader_board_regions_wise_users_results', 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'videosHeading' ,'newsHeading' ,'matchBoards'));
+        return view('home.index',compact('get_reviews' ,'colorSection' , 'banners', 'upcoming_matches' ,'leader_board_regions_wise_users_results', 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'playerRosterHeading','videosHeading' ,'newsHeading' ,'matchBoards' ,'reviewsHeading'));
     }
 
 

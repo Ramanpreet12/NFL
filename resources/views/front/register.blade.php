@@ -133,7 +133,16 @@
 
                 <div class="col-sm-6 mb-3">
                   <label for="id_proof" class="form-label">ID Proof</label>
-                  <input type="text" name="id_proof" id="id_proof" class="form-control" placeholder="Enter ID proof" value="{{old('id_proof')}}">
+                  <select name="" id="" class="form-control">
+                    <option value="" selected>Valid Driver's License</option>
+                    <option value="">Birth Certificate</option>
+                    <option value="">State-issued Identification Card</option>
+                    <option value="">Social Security Card</option>
+                    <option value="">Military Identification Card</option>
+                    <option value="">Passport or Passport Card</option>
+                  </select>
+                  <br>
+                  <input type="text" name="id_proof" id="id_proof" class="form-control" placeholder="Enter ID Proof Number" value="{{old('id_proof')}}">
                   @error('id_proof')<p class="text-danger">{{$message}}</p> @enderror
                 </div>
               </div>

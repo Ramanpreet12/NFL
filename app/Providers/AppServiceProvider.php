@@ -7,6 +7,7 @@ use App\Models\General;
 use Illuminate\Support\Facades\View;
 use App\Models\ColorSetting;
 use App\Models\Menu;
+use App\Models\StaticPage;
 use Illuminate\Pagination\Paginator;
 
 
@@ -46,9 +47,9 @@ class AppServiceProvider extends ServiceProvider
 
        //site setting
         $general = General::first();
-    //    $general_logo =  $this->helper->key_value('name', 'value', $general);
-        // View::share('general', $general);
-        View::share(['general'=> $general , 'colorSection' => $colorSection , 'mainMenus' => $mainMenus , 'subMenus' => $subMenus ]);
+        $privacy_policy = StaticPage::where(['status' =>'active' , 'type' => 'privacy'])->first();
+
+        View::share(['general'=> $general , 'colorSection' => $colorSection , 'mainMenus' => $mainMenus , 'subMenus' => $subMenus ,'privacy_policy' =>$privacy_policy]);
 
 
     }

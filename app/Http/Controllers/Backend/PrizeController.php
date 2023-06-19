@@ -7,14 +7,37 @@ use Illuminate\Http\Request;
 use App\Models\Prize;
 use App\Models\Season;
 use App\Http\Requests\PrizeRequest;
+use Illuminate\Support\Str;
+use App\Models\General;
+use App\Models\SectionHeading;
 
 
 class PrizeController extends Controller
 {
     //
+    public function section_heading(Request $request) {
+        if ($request->isMethod('post')) {
+            $request->validate(['section_heading'=> 'required']);
+            if ($request->section_heading) {
+                SectionHeading::where('name' , 'Prize')->update([
+                    'value' => $request->section_heading,
+                ]);
+            }
+            else{
+                SectionHeading::where('name' , 'Prize')->update([
+                    'value' => 'Prize'
+                ]);
+            }
+                    return redirect()->route('prize.index')->with('success_msg' , 'Prize Heading updated successfully');
+        }
+     }
+
     public function index(){
         $prizes = Prize::with('season')->get();
-        return view('backend.prize.index' , compact('prizes'));
+        $get_prize_banner = General::select('prize_banner')->first();
+        $prizeHeading = SectionHeading::where('name' , 'Prize')->first();
+
+        return view('backend.prize.index' , compact('prizes' , 'get_prize_banner' , 'prizeHeading'));
     }
 
     public function create(){
@@ -23,15 +46,17 @@ class PrizeController extends Controller
     }
     public function store(PrizeRequest $request){
 
-        try{
+        // try{
+
+
            if ($request->isMethod('post')) {
                $input = $request->all();
                if ($request->hasFile('image')) {
-                $image_file = $request->file('image');
-                $image_filename = $image_file->getClientOriginalName();
-                $image_file->storeAs('public/images/prize/' , $image_filename);
-                $input['image'] = $image_filename;
-        }
+                    $image_file = $request->file('image');
+                    $image_filename = $image_file->getClientOriginalName();
+                    $image_file->storeAs('public/images/prize/' , $image_filename);
+                    $input['image'] = $image_filename;
+                }
 
                $prize = Prize::create($input);
                if($prize){
@@ -42,9 +67,9 @@ class PrizeController extends Controller
                }
 
            }
-       }catch(\Exception $e){
-           $e->getMessage();
-       }
+    //    }catch(\Exception $e){
+    //        $e->getMessage();
+    //    }
    }
 
 
@@ -56,9 +81,12 @@ class PrizeController extends Controller
     public function edit($id){
         $seasons = Season::get();
         $prize = Prize::find($id);
-        // dd($prize);
+
         return view('backend.prize.edit', compact('seasons' , 'prize'));
     }
+    public function show($id){
+    }
+
 
     public function update(PrizeRequest $request, $id){
         // try{
@@ -74,8 +102,6 @@ class PrizeController extends Controller
                         }
                         $data["image"]=$image_filename;
                     }
-
-
                     $data["season_id"]=$request->season_id;
                     $data["name"]=$request->name;
                     $data["amount"]=$request->amount;
@@ -104,4 +130,6 @@ class PrizeController extends Controller
          return redirect()->route('prize.index')->with('error_msg', 'Something went wrong');
         }
      }
+
+
 }

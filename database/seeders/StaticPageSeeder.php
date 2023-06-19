@@ -16,8 +16,9 @@ class StaticPageSeeder extends Seeder
     public function run()
     {
         $staticPageRecords = [
-            ['id' => 1 , 'heading' => ' Heading' , 'sub_heading' =>  ' SubHeading' ,'content' => 'lorem' ,'type' => 'contact',  'images' => '' , 'status' => 'active' , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now() ],
-            ['id' => 2 , 'heading' => ' Heading' , 'sub_heading' =>  ' SubHeading' ,'content' => 'lorem' ,'type' => 'about',  'images' => '' , 'status' => 'active' , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now() ],
+            ['id' => 1 , 'heading' => 'Heading' , 'sub_heading' =>  ' SubHeading' ,'content' => 'lorem' ,'type' => 'contact',  'images' => '' , 'status' => 'active' , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now() ],
+            ['id' => 2 , 'heading' => 'Heading' , 'sub_heading' =>  ' SubHeading' ,'content' => 'lorem' ,'type' => 'about',  'images' => '' , 'status' => 'active' , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now() ],
+            ['id' => 3 , 'heading' => 'Privacy Policy' , 'sub_heading' =>  ' Privacy Policy' ,'content' => 'lorem' ,'type' => 'privacy',  'images' => '' , 'status' => 'active' , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now() ],
 
         ];
         StaticPage::insert($staticPageRecords);
