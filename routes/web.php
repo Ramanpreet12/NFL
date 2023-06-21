@@ -39,6 +39,7 @@ use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\AboutPageController;
 use App\Http\Controllers\Backend\StaticPageController;
 use App\Http\Controllers\Backend\ReviewsController;
+use App\Http\Controllers\Backend\GeneralSettingController;
 use App\Models\Winner;
 
 /*
@@ -151,6 +152,11 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     Route::post('player_roster/section_heading' ,[UserController::class , 'section_heading'])->name('admin/player_roster/section_heading');
     Route::get('user_data', [UserController::class, 'user_data'])->name('admin/user_data');
 
+    Route::get('Userdetails/{id}', [UserController::class, 'user_datails'])->name('admin/Userdetails/{id}');
+    Route::get('UserPaymentdetails/{id}', [UserController::class, 'userPayment_datails'])->name('admin/UserPaymentdetails/{id}');
+    Route::get('PaymentInvoice/{id}', [UserController::class, 'payment_invoice'])->name('admin/PaymentInvoice');
+
+
     Route::resources(['team' => TeamController::class,]);
 
     // regions
@@ -235,7 +241,7 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
     // Route::resources([ 'about' => AboutPageController::class, ]);
 
     //static page
-   Route::match(['get' , 'put'] ,'contact_page/{id?}' , [ StaticPageController::class , 'contactPage'])->name('admin/contact_page');
+   Route::match(['get' , 'put'] ,'contact_page' , [ GeneralSettingController::class , 'contactPage'])->name('admin/contact_page');
    Route::match(['get' , 'put'] ,'about_page/{id?}' , [ StaticPageController::class , 'aboutPage'])->name('admin/about_page');
    Route::match(['get' , 'put'] ,'privacy/{id?}' , [ StaticPageController::class , 'privacyPage'])->name('admin/privacy');
 

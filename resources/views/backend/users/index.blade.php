@@ -39,28 +39,26 @@
             <form action="{{route('admin/player_roster/section_heading')}}" method="post">
                 @csrf
                     <div id="horizontal-form" class="px-3 flex">
-
+                        @if (!empty($playerRosterHeading->value))
                         <div class="preview mx-3">
                             <div class="form-inline">
-                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title <span class="text-danger">*</span></label>
+                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title</label>
                                 <input id="section_heading" type="text" class="form-control" placeholder="Section Name" name="section_heading"
                                  @if (!empty($playerRosterHeading->value))
-                                value="{{$playerRosterHeading->value}}"@else value="Player's Roster" @endif >
-
-                            </div>
-                            <div class="form-inline">
-                                <label for="section_heading" class="font-medium form-label sm:w-60"></label>
-                                @error('section_heading') <p class="text-danger">{{ $message }}</p>@enderror
+                                value="{{$playerRosterHeading->value}}"
+                                @else
+                                value=""
+                                @endif
+                                >
                             </div>
                         </div>
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary w-30">Update Title</button>
                         </div>
-
+                        @endif
                     </div>
             </form>
         </div>
-
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
             {{-- <a class="btn btn-primary shadow-md mr-2" href="{{route('team.create')}}" id="add_banner">Add New Team</a> --}}
         </div>
@@ -72,12 +70,13 @@
             <table class="table table-report -mt-2" id="user_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th class="text-center whitespace-nowrap">S.no.</th>
-                        <th class="text-center whitespace-nowrap">User Name</th>
-                        <th class="text-center whitespace-nowrap">Email </th>
-                        <th class="text-center whitespace-nowrap">Image </th>
-                        <th class="text-center whitespace-nowrap">Status</th>
-                        <th class="text-center whitespace-nowrap">Created At</th>
+                        <th class="text-center ">S.no.</th>
+                        <th class="text-center">User Name</th>
+                        <th class="text-center">Email </th>
+                        <th class="text-center">Image </th>
+                        {{-- <th class="text-center">Status</th> --}}
+                        <th class="text-center">Created At</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
 
@@ -92,12 +91,12 @@
 
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{++$count}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{++$count}} </div>
                             </td>
                             {{-- <td class="text-center">{{ $user->name}}</td> --}}
-                            <td> <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->name}} </div></td>
+                            <td> <div class="text-slate-500 font-medium mx-4">  {{$user->name}} </div></td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$user->email}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$user->email}} </div>
                             </td>
 
                             <td class="">
@@ -112,7 +111,7 @@
                                 </div>
                             </td>
 
-                            <td  class="text-center">
+                            {{-- <td  class="text-center">
                                 @if ($user->subscribed == 1 )
                                 <div class="flex items-center justify-center text-success">
                                     <i data-feather="check-square" class="w-4 h-4 mr-2"></i>{{'Paid'}}
@@ -123,9 +122,19 @@
                                 </div>
                                 @endif
 
-                            </td>
+                            </td> --}}
                             <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('j F, Y') }}</td>
+                            <td class="table-report__action w-60">
+                                <div class="flex justify-center items-center">
 
+                                <a class="flex items-center mr-3" href="{{ url('admin/Userdetails/'.$user->id) }}">
+                                    <button class="btn btn-primary"><i data-feather="eye" class="w-4 h-4 mr-2"></i> View User </button>
+                                </a>
+                                <a class="flex items-center mr-3" href="{{ url('admin/UserPaymentdetails/'.$user->id) }}">
+                                    <button class="btn btn-primary"> <i data-feather="dollar-sign" class="w-4 h-4 mr-2"></i> View Payments </button>
+                                </a>
+                                </div>
+                            </td>
                         </tr>
 
                     @endforeach

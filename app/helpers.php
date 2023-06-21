@@ -99,3 +99,13 @@ if (!function_exists('get_team_logo')) {
     }
 }
 
+if (!function_exists('key_value')) {
+function key_value($key, $value, $ar)
+{
+    $ret = [];
+    foreach($ar as $k => $v) {
+        $ret[$v[$key]] = $v[$value];
+    }
+    return $ret;
+}
+}

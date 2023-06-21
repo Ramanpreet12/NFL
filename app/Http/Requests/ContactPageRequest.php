@@ -25,7 +25,9 @@ class ContactPageRequest extends FormRequest
     {
         if (request()->ismethod('put')) {
            $rules = [
-            'heading' => 'required',
+            'section_heading' => 'required',
+            'contact_form_heading' => 'required',
+            'social_links_heading' => 'required',
 
              'content' => 'required',
            ];
@@ -36,7 +38,9 @@ class ContactPageRequest extends FormRequest
     public function attributes()
     {
        return [
-        'heading' => 'Heading',
+        'section_heading' => 'Heading',
+        'contact_form_heading' => 'Contact Form Heading',
+        'social_links_heading' => ' Social Links Heading',
 
         'content' => 'Content',
        ];

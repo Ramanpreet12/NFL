@@ -9,8 +9,8 @@ use App\Models\Payment;
 class PaymentController extends Controller
 {
     public function index(){
-        $get_payments = Payment::orderBy('id', 'desc')->get();
-       // dd($get_payments);
+        $get_payments = Payment::with(['season' ,'user'])->orderBy('id', 'desc')->get();
+      // dd($get_payments);
         return view('backend.payment.index' , compact('get_payments'));
     }
 

@@ -197,6 +197,38 @@ class UserDashboardController extends Controller
         if ($request->isMethod('put')) {
 
             $input = $request->all();
+
+            // $request->validate([
+
+            //     'new_password' => [
+            //         'required',
+            //         'string',
+            //         'min:6',             // must be at least 10 characters in length
+            //         // 'regex:/[a-z]/',      // must contain at least one lowercase letter
+            //         // 'regex:/[A-Z]/',      // must contain at least one uppercase letter
+            //         // 'regex:/[0-9]/',      // must contain at least one digit
+            //         // 'regex:/[@$!%*#?&]/', // must contain a special character
+            //     ],
+
+            //     [
+            //         'new_password.required'=> 'New Password field is Required', // custom message
+            //         'new_password.min:6'=> 'New Password Should be Minimum of 8 Character', // custom message
+            //         // 'l_name.required'=> 'Your Last Name is Required' // custom message
+            //        ]
+            //  ]);
+
+            $request->validate([
+                'new_password' => 'required|min:6|regex:/[a-z]/',
+
+            ],
+            [
+             'new_password.required'=> 'New Password field is Required', // custom message
+             'new_password.regex'=> 'incorrect format', // custom message
+
+            ]
+         );
+
+
             if (!(Hash::check($request->current_password ,Auth::user()->password))) {
                 // return redirect()->back()->with('pass_message_error' , 'Current password is incorrect');
                 return response()->json(['message' => 'Current password is incorrect' , 'status' => false ], 200);

@@ -17,7 +17,7 @@ class ContactPageSeeder extends Seeder
     public function run()
     {
         $ContactPageRecords = [
-            ['id' => 1 , 'heading' => 'ContactPage Heading' , 'sub_heading' =>  'ContactPage SubHeading' ,'content' => 'lorem' ,  'image' => '' , 'status' => 'Active' , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now() ],
+            ['id' => 1 , 'section_heading' => 'Contact Us' , 'location_heading' =>  'Head Office' ,'content' => 'lorem' ,  'image' => '' ,'contact_form_heading' => 'Club Enquiries' , 'social_links_heading' => 'Follow Us' ,  'status' => 'Active' , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now() ],
 
         ];
         ContactPage::insert($ContactPageRecords);

@@ -30,7 +30,8 @@ class ContactController extends Controller
     public function create()
     {
         $contact_page_details = ContactPage::first();
-        return view('backend.site_setting.contactPage' , compact('contact_page_details'));
+        dd($contact_page_details);
+        // return view('backend.site_setting.contactPage' , compact('contact_page_details'));
     }
 
     /**
@@ -88,9 +89,11 @@ class ContactController extends Controller
                 $data["image"]=$image_filename;
             }
 
-                $data["heading"]=$request->heading;
-                $data["sub_heading"]=$request->sub_heading;
+                $data["section_heading"]=$request->section_heading;
+                $data["location_heading"]=$request->location_heading;
                 $data["content"]=$request->content;
+                $data["contact_form_heading"]=$request->contact_form_heading;
+                $data["social_links_heading"]=$request->social_links_heading;
                 $data["status"]=$request->status;
                 $result=ContactPage::where('id',$id)->update($data);
                 return redirect()->route('contact.create')->with('success' , 'Contact Page updated successfully');;

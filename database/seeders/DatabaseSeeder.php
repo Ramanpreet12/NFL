@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
         //$this->call(SeasonTableSeeder::class);
         // $this->call(ContactPageSeeder::class);
         // $this->call(AboutPageSeeder::class);
-        $this->call(StaticPageSeeder::class);
+        // $this->call(StaticPageSeeder::class);
         // $this->call(MatchResultSeeder::class);
+        $this->call(GeneralSettingSeeder::class);
     }
 }

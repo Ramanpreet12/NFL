@@ -46,17 +46,19 @@
             <table class="table table-report -mt-2" id="team_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th class="text-center whitespace-nowrap">S.No.</th>
-                        <th class="text-center whitespace-nowrap">Name</th>
-                        <th class="text-center whitespace-nowrap">Email </th>
-                        <th class="text-center whitespace-nowrap">Subject </th>
-                        <th class="text-center whitespace-nowrap">Message </th>
-                        <th class="text-center whitespace-nowrap">Created At</th>
-                        <th class="text-center whitespace-nowrap">Updated At</th>
-                        <th class="text-center whitespace-nowrap">Action</th>
+                        <th class="text-center">S.No.</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Email </th>
+                        <th class="text-center">Phone No. </th>
+                        <th class="text-center">Subject </th>
+                        <th class="text-center">Message </th>
+                        <th class="text-center">Created At</th>
+                        <th class="text-center">Updated At</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
 
+                {{dd($contacts)}}
                 <tbody>
                     @php
                         $count = '';
@@ -64,25 +66,29 @@
                     @forelse ($contacts as $contact)
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{++$count}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{++$count}} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$contact->name}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$contact->name}} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$contact->email}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$contact->email}} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$contact->subject}} </div>
+                                <div class="text-slate-500 font-medium mx-4">{{$contact->country_code}}  {{$contact->phone_number}} </div>
+                            </td>
+
+                            <td>
+                                <div class="text-slate-500 font-medium mx-4">  {{$contact->subject}} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$contact->message}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$contact->message}} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ \Carbon\Carbon::parse($contact->created_at)->format('j F, Y') }}</div>
+                                <div class="text-slate-500 font-medium mx-4"> {{ \Carbon\Carbon::parse($contact->created_at)->format('j F, Y') }}</div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ \Carbon\Carbon::parse($contact->updated_at)->format('j F, Y') }}</div>
+                                <div class="text-slate-500 font-medium mx-4"> {{ \Carbon\Carbon::parse($contact->updated_at)->format('j F, Y') }}</div>
                             </td>
 
                             {{-- <td class="text-center">{{ \Carbon\Carbon::parse($team->created_at)->format('j F, Y') }}</td>

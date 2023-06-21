@@ -19,10 +19,10 @@ class Payment extends Model
     {
         return Carbon::parse($this->created_at)->diffForHumans();
     }
-    public function User()
-    {
-        return $this->belongsToMany(User::class);
-    }
+    // public function User()
+    // {
+    //     return $this->belongsToMany(User::class);
+    // }
     public function getUserNameAttribute()
     {
        $name = User::where('id',$this->user_id)->value('name');
@@ -42,5 +42,13 @@ class Payment extends Model
     {
        return $this->belongsTo(Season::class , 'season_id' , 'id' );
     }
+
+
+    public function user()
+    {
+       return $this->belongsTo(User::class , 'user_id' , 'id' );
+    }
+
+
 
 }

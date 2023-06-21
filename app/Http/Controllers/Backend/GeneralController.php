@@ -9,19 +9,21 @@ use App\Models\General;
 use Validator;
 use Illuminate\Support\Str;
 use Storage;
-
+use App\Models\GeneralSetting;
 class GeneralController extends Controller
 {
     public function general()
     {
         $general = General::first();
-        // echo "<pre>";
-        // print_r($general);die();
-            return view('backend.site_setting.general' , compact('general'));
+        // $social_links = GeneralSetting::where('type' , 'social_links')->get();
+        $get_social_links = GeneralSetting::where('type', 'social_links')->get()->toArray();
+        $social_links = key_value('name', 'value', $get_social_links);
+
+            return view('backend.site_setting.general' , compact('general' ,'social_links'));
     }
     public function general_update(GeneralRequest $request)
     {
-      // dd($request);die();
+
         // try {
 
                 $general = General::First();
@@ -31,6 +33,7 @@ class GeneralController extends Controller
                     'homepage_title' => $request->get('homepage_title'),
                     'homepage_subtitle' => $request->get('homepage_subtitle'),
                     'footer_contact' => $request->get('footer_contact'),
+                    'footer_contact2' => $request->get('footer_contact2'),
                     'footer_address' => $request->get('footer_address'),
                     'footer_content' => $request->get('footer_content'),
                     'email_color' => $request->get('Emailtext_color'),
@@ -47,6 +50,7 @@ class GeneralController extends Controller
                     'footer_bar' => $request->get('footer_bar'),
                     'footer_content_head' => $request->get('footer_content_head'),
                 ];
+
                 if($request->has('logo')){
                     // if ($request->hasFile('logo')) {
                     //         $logo_file = $request->file('logo');
@@ -62,6 +66,17 @@ class GeneralController extends Controller
                     $updateDetails['favicon'] = $favicon_filename;
                 }
               $update_query =   $general->update($updateDetails);
+
+              //social links update
+              GeneralSetting::where(['name' => 'Facebook'])->update(['value' => $request->facebook]);
+              GeneralSetting::where(['name' => 'Twitter'])->update(['value' => $request->twitter]);
+              GeneralSetting::where(['name' => 'Instagram'])->update(['value' => $request->instagram]);
+              GeneralSetting::where(['name' => 'Google Plus'])->update(['value' => $request->google_plus]);
+              GeneralSetting::where(['name' => 'Youtube'])->update(['value' => $request->youtube]);
+              GeneralSetting::where(['name' => 'Pinterest'])->update(['value' => $request->pinterest]);
+              GeneralSetting::where(['name' => 'Linkedin'])->update(['value' => $request->linkedin]);
+
+
               if ($update_query) {
                 return redirect()->back()->with('success' , 'General setting updated successfully');
               } else {

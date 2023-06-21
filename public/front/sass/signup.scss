@@ -33,9 +33,20 @@
         .form-control{
             border: 0.5px solid #bbb7b7;
         }
+        #register_form {
+            .text-danger {
+                margin-bottom: 0px;
+                font-size: 14px;
+                color: red;
+            }
+            label.error{
+                font-size: 14px;
+            }
+        }
     }
 
 }
+  
 
 // login css
 #loginForm{

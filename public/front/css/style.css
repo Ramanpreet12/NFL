@@ -4,12 +4,12 @@
   color: white;
   line-height: 1; }
 
-#cardBlock h2, #newsPart h2, #abouttexting h2, #historyPart h2, #contactPart h2, #matchFixture h2, #resultLeaderboard h2, #prizePart h2, #matchResult h2, #standingSection h2 {
+#cardBlock h2, #newsPart h2, #historyPart h2, #matchResult h2, #standingSection h2 {
   color: #06083b;
   position: relative;
   padding-left: 30px;
   margin-bottom: 30px; }
-  #cardBlock h2:before, #newsPart h2:before, #abouttexting h2:before, #historyPart h2:before, #contactPart h2:before, #matchFixture h2:before, #resultLeaderboard h2:before, #prizePart h2:before, #matchResult h2:before, #standingSection h2:before {
+  #cardBlock h2:before, #newsPart h2:before, #historyPart h2:before, #matchResult h2:before, #standingSection h2:before {
     position: absolute;
     content: "";
     width: 10px;
@@ -151,6 +151,12 @@
     padding: 40px; }
     #signupForm .formStart .form-control {
       border: 0.5px solid #bbb7b7; }
+    #signupForm .formStart #register_form .text-danger {
+      margin-bottom: 0px;
+      font-size: 14px;
+      color: red; }
+    #signupForm .formStart #register_form label.error {
+      font-size: 14px; }
 
 #loginForm {
   padding: 50px 0; }
@@ -221,54 +227,6 @@
 .numberBiling .textItem h6 {
   line-height: 2; }
 
-  /* optimizing css code -----------------opitmizing css code -----------------opitimizing css code */
-
-  .tabletwo tr .teamRegion {
-    width: 98px;
-}
-
-.tabletwo tr .teamNumber {
-    width: 85px;
-}
-
-.tabletwo tr .teamLogo {
-    width: 80px;
-}
-
-.tabletwo tr .teamName {
-    width: 170px;
-}
-
-.tabletwo tr .teamW {
-    width: 85px;
-}
-
-.tabletwo tr .teamL {
-    width: 85px;
-}
-
-.tabletwo tr .teamPts {
-    width: 92px;
-}
-
-.tabletwo tbody.directionTbody {
-    height: 180px;
-    overflow-y: auto;
-}
-
-
-
-.tabletwo table.table {
-    min-width: 500px;
-}
-
-/* 24-april-2023 */
-#alphabets_links a {
-    text-decoration: none;
-    color: white;
-}
-
-
 @media only screen and (min-width: 320px) and (max-width: 575px) {
   #signupForm .formStart {
     padding: 25px; }
@@ -292,9 +250,6 @@ body {
   line-height: 1.5;
   margin: 0;
   padding: 0; }
-
-a {
-  color: #da9a29; }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Oxanium', 'cursive';
@@ -778,7 +733,6 @@ h1, h2, h3, h4, h5, h6 {
   background-size: cover;
   background-repeat: no-repeat; }
   #testimonialPart h2 {
-    color: #fff;
     font-weight: 600;
     position: relative;
     padding-left: 30px; }
@@ -798,8 +752,6 @@ h1, h2, h3, h4, h5, h6 {
       color: #da9a29; }
     #testimonialPart .owl-testimonial .testimonialPart .ratingStar {
       margin: 15px 0; }
-    #testimonialPart .owl-testimonial .testimonialPart .namedesgination h6 {
-      color: #06083b; }
   #testimonialPart .owl-testimonial .owl-stage-outer {
     padding: 20px 0; }
     #testimonialPart .owl-testimonial .owl-stage-outer .owl-stage {
@@ -852,13 +804,11 @@ h1, h2, h3, h4, h5, h6 {
   #contactPart .contactDetail .socialIcon {
     padding-top: 30px; }
     #contactPart .contactDetail .socialIcon .fa-brands {
-      color: #db9a29;
       font-size: 22px;
       padding: 0 10px; }
       #contactPart .contactDetail .socialIcon .fa-brands:hover {
         color: #06083b; }
   #contactPart .contactDetail .contactUs .iconitem .fa-solid {
-    color: #db9a29;
     font-size: 20px;
     margin-right: 10px; }
   #contactPart .contactDetail .contactUs {
@@ -990,14 +940,12 @@ h1, h2, h3, h4, h5, h6 {
       width: 100%;
       height: 250px;
       object-fit: cover; }
-    #prizePart .card h3 {
-      color: #06083b; }
-      #prizePart .card h3:before {
-        content: "\f06b";
-        color: #da9a29;
-        font-family: "Font Awesome 6 Free";
-        font-size: 20px;
-        padding-right: 10px; }
+    #prizePart .card h3:before {
+      content: "\f06b";
+      color: #da9a29;
+      font-family: "Font Awesome 6 Free";
+      font-size: 20px;
+      padding-right: 10px; }
     #prizePart .card .prize {
       padding-top: 20px; }
       #prizePart .card .prize .fa-solid {
@@ -1277,7 +1225,6 @@ h1#addReviewModalLabel {
   padding: 10px; }
 
 #resultLeaderboard .modrenFixture {
-  background-color: #da9a29;
   padding: 30px 0px 30px;
   display: flex;
   flex-wrap: wrap;
@@ -1420,6 +1367,110 @@ nav.navbarMobile {
   justify-content: space-between;
   margin-bottom: 20px;
   flex-wrap: wrap; }
+
+/*optimizing css code ------------------- optimizing css code -------------------optimizing css code--------------*/
+/* home/index*/
+/* 21-4-23 */
+.tabletwo tr .teamRegion {
+  width: 98px; }
+
+.tabletwo tr .teamNumber {
+  width: 85px; }
+
+.tabletwo tr .teamLogo {
+  width: 80px; }
+
+.tabletwo tr .teamName {
+  width: 170px; }
+
+.tabletwo tr .teamW {
+  width: 85px; }
+
+.tabletwo tr .teamL {
+  width: 85px; }
+
+.tabletwo tr .teamPts {
+  width: 92px; }
+
+.tabletwo tbody.directionTbody {
+  height: 180px;
+  overflow-y: auto; }
+
+.tabletwo table.table {
+  min-width: 500px; }
+
+/* 24-april-2023 */
+#alphabets_links a {
+  text-decoration: none; }
+
+/* layout/header file */
+nav.navbarMobile .navbar-nav .nav-item.dropdown {
+  display: flex;
+  flex-wrap: wrap; }
+
+nav.navbarMobile .navbar-nav .nav-item {
+  padding: 15px 20px; }
+
+nav.navbarMobile .navbar-nav .nav-item .nav-link {
+  padding: 0; }
+
+nav.navbarMobile .navbar-nav .nav-item .dropdown-toggle {
+  color: #fff;
+  width: 20px;
+  text-align: center;
+  margin-left: 10px; }
+
+.nfl_loader {
+  width: 100%;
+  display: flex;
+  height: 100%;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  background-color: #0000008c;
+  left: 0; }
+
+@media only screen and (min-width: 320px) and (max-width: 991px) {
+  nav.navbarMobile .navbar-collapse .navbar-nav .nav-item {
+    padding: 0;
+    align-items: center; }
+    nav.navbarMobile .navbar-collapse .navbar-nav .nav-item .nav-link {
+      padding: 10px;
+      display: block;
+      flex: 1 0 0; }
+    nav.navbarMobile .navbar-collapse .navbar-nav .nav-item .dropdown-toggle {
+      color: #fff;
+      width: 40px;
+      text-align: center;
+      margin-left: 10px;
+      line-height: 40px; }
+
+  .navbarMobile.navbar .navbar-collapse .navbar-nav .dropdown:hover .dropdown-menu:not(.show) {
+    display: none; } }
+/*  fixture file*/
+.inner_form {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.headerMenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap; }
+
+/* contact page  */
+.input-error {
+  color: #ff5555; }
+
+.input-success {
+  color: green; }
+
+/* for jquery validation errror messages on reviews form  */
+.error {
+  color: #ff5555; }
 
 @media only screen and (min-width: 320px) and (max-width: 575px) {
   .navbar {

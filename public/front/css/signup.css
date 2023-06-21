@@ -24,6 +24,12 @@
     padding: 40px; }
     #signupForm .formStart .form-control {
       border: 0.5px solid #bbb7b7; }
+    #signupForm .formStart #register_form .text-danger {
+      margin-bottom: 0px;
+      font-size: 14px;
+      color: red; }
+    #signupForm .formStart #register_form label.error {
+      font-size: 14px; }
 
 #loginForm {
   padding: 50px 0; }

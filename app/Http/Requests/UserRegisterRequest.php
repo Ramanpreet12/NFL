@@ -38,6 +38,7 @@ class UserRegisterRequest extends FormRequest
             'zipcode' => 'required',
             'country' => 'required',
             'id_proof' => 'required',
+            'id_proof_number' => 'required',
         ];
     }
 
@@ -54,7 +55,8 @@ class UserRegisterRequest extends FormRequest
             'city' => 'City',
             'zipcode' => 'Zipcode',
             'country' => 'Country',
-            'id_proof' => 'ID Proof'
+            'id_proof' => 'ID Proof',
+            'id_proof_number' => 'ID Proof Number'
         ];
     }
 

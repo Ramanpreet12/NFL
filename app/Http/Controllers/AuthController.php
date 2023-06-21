@@ -90,6 +90,7 @@ class AuthController extends Controller
   public function new_reg(UserRegisterRequest $request)
   {
       if ($request->isMethod('post')){
+
           $count =  User::count();
           if ($count <1000) {
 
@@ -200,6 +201,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'phone_number' => $request->phone,
+            'country_code' => $request->country_code,
             'address' => $request->address,
             'zipcode' => $request->zipcode,
             'state' => $state_id,
@@ -207,6 +209,7 @@ class AuthController extends Controller
             'city' => $request->city,
             'country' => $request->country,
             'id_proof' => $request->id_proof,
+            'id_proof_number' => $request->id_proof_number,
 
 
           ]);

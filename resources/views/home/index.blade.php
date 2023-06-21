@@ -253,14 +253,14 @@
 
             <div class="col-sm-12">
                 <div class="leaderBoard">
-                    <h2 style="color:{{ $colorSection['leaderboard']['header_color'] }};">
-                        {{-- Player's Roster --}}
-
+                    <h2 style="color:{{ $colorSection['players']['header_color'] }};">
                         @if (!empty($playerRosterHeading->value))
                                 {{ strtoupper($playerRosterHeading->value) }}
                             @else
                             Player's Roster
                             @endif
+
+                        
                     </h2>
                     <br>
                     <h4 id="alphabets_links">
@@ -444,11 +444,11 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                {{-- <h2>Reviews</h2> --}}
+                <!-- <h2 id="reviews_head">Reviews</h2> -->
                 @if (!empty($reviewsHeading->value))
-                <h2>{{ strtoupper($reviewsHeading->value) }}</h2>
+                <h2 id="reviews_head">{{ strtoupper($reviewsHeading->value) }}</h2>
             @else
-            <h2>Reviews</h2>
+            <h2 id="reviews_head">Reviews</h2>
             @endif
             </div>
         </div>
@@ -461,8 +461,8 @@
                         <div class="testimonialPart">
                             <i class="fa-solid fa-quote-left leftQuote"></i>
                             <div class="nametestmoial text-center">
-                                {{-- <p>{{$review->comment}}</p> --}}
-                                <p>{!! \Str::words($review->comment, 28, ' ...') !!}</p>
+                                {{-- <p class="review_name">{{$review->comment}}</p> --}}
+                                <p class="review_name">{!! \Str::words($review->comment, 28, ' ...') !!}</p>
                             </div>
 
                             <div class="ratingStar text-center">
@@ -475,7 +475,7 @@
                                     @endif
                                 @endfor
                             </div>
-                            <div class="namedesgination text-center">
+                            <div class="namedesgination text-center review_name">
                                 <h6>- {{$review->username}} -</h6>
                             </div>
                         </div>
@@ -577,6 +577,25 @@
 </section>
 
 <style type="text/css">
+
+    /* players roatsers css  */
+    #alphabets_links{
+        color: <?php echo $colorSection['players']['text_color']; ?>;
+    }
+    #nextmatchBoard{
+        background-color: <?php echo $colorSection['players']['button_color']; ?>;
+    }
+
+    /* rewiews page css */
+    #reviews_head{
+        color: <?php echo $colorSection['reviews']['header_color']; ?>;
+    }
+    .review_name{
+        color: <?php echo $colorSection['reviews']['text_color']; ?>; 
+    }
+
+
+
     #heroBanner .btn-primary:before {
         background-color: <?php echo $colorSection['scoreboard']['button_color']; ?>;
     }
@@ -674,50 +693,6 @@
 
     }
 
-    /* 21-4-23 */
-    /* .tabletwo tr .teamRegion {
-        width: 98px;
-    }
-
-    .tabletwo tr .teamNumber {
-        width: 85px;
-    }
-
-    .tabletwo tr .teamLogo {
-        width: 80px;
-    }
-
-    .tabletwo tr .teamName {
-        width: 170px;
-    }
-
-    .tabletwo tr .teamW {
-        width: 85px;
-    }
-
-    .tabletwo tr .teamL {
-        width: 85px;
-    }
-
-    .tabletwo tr .teamPts {
-        width: 92px;
-    }
-
-    .tabletwo tbody.directionTbody {
-        height: 180px;
-        overflow-y: auto;
-    }
-
-
-
-    .tabletwo table.table {
-        min-width: 500px;
-    }
-
-    /* 24-april-2023 */
-    #alphabets_links a {
-        text-decoration: none;
-        color: white;
-    } */
+    
 </style>
 @endsection

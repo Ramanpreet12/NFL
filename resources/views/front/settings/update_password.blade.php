@@ -80,6 +80,7 @@
                                                 </div>
                                                 <div><label for="new_password" class="form-label">New Password</label></div>
                                                 <div>
+                                                    <div>
                                                     <input type="text" class="form-control" id="new_password"
                                                         name="new_password" placeholder="Enter New Password"
                                                         value="{{ old('new_password') }}">
@@ -87,6 +88,8 @@
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
 
+                                                </div>
+                                                <div>
                                                     <label for="confirm_password" class="form-label mt-3">Confirm Password
                                                     </label>
                                                     <input type="text" class="form-control" name="confirm_password"
@@ -94,6 +97,7 @@
                                                     @error('confirm_password')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
+                                                </div>
                                                 </div>
 
 
@@ -223,7 +227,14 @@
                         $('#updatePasswordForm')[0].reset();
                     }
 
-                }
+                },
+
+                error:function (data){
+                        $.each(data.responseJSON.errors,function(field_name,error){
+                            $(document).find('[name='+field_name+']').after('<br><span class="text-strong text-danger mb-2">' +error+ '</span>')
+                        })
+                    }
+
             });
             return false;
         });

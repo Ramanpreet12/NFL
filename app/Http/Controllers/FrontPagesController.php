@@ -16,6 +16,7 @@ use App\Models\Prize;
 use App\Models\Reviews;
 use App\Models\Payment;
 use App\Models\General;
+use App\Models\GeneralSetting;
 use App\Models\SectionHeading;
 use App\Http\Requests\ReviewsRequest;
 use Illuminate\Support\Facades\DB;
@@ -102,8 +103,11 @@ class FrontPagesController extends Controller
             return back()->withErrors(['error' => 'ReCaptcha Error']);
             }
         }else{
-            $get_contact_details = StaticPage::where('type' , 'contact')->first();
-           return view('front.contact' , compact('get_contact_details'));
+            // $get_contact_details = StaticPage::where('type' , 'contact')->first();
+            $get_contact_details = GeneralSetting::where('type', 'contactPage')->get()->toArray();
+            $contact_details = key_value('name', 'value', $get_contact_details);
+
+           return view('front.contact' , compact('contact_details'));
         }
     }
 

@@ -38,6 +38,7 @@ class StaticPageController extends Controller
             }
         else {
             $contact_page_details = StaticPage::where('type' , 'contact')->first();
+            dd($contact_page_details);
 
             return view('backend.site_setting.contactPage' , compact('contact_page_details'));
         }

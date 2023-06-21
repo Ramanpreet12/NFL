@@ -1,897 +1,574 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
+<!doctype html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=display-width, initial-scale=1.0, maximum-scale=1.0,">
-    <title>Forgot Password</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
-        rel="stylesheet" type="text/css">
-    <style type="text/css">
-        html {
-            width: 100%;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="date=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="format-detection" content="email=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta charset="utf-8">
+    <title>Reset Password</title>
+    <style type="text/css">/* Typography */
+.o_text-sans {
+  font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+  word-break: break-word; }
 
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            -webkit-text-size-adjust: none;
-            -ms-text-size-adjust: none;
-        }
+.o_text-headline {
+  font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+  word-break: break-word;
+  font-weight: bold; }
 
-        img {
-            display: block !important;
-            border: 0;
-            -ms-interpolation-mode: bicubic;
-        }
+.o_ereset p,
+.o_ereset li,
+.o_ereset h1,
+.o_ereset h2,
+.o_ereset h3,
+.o_ereset h4,
+.o_ereset h5,
+.o_ereset h6 {
+  Margin-top: 0px;
+  Margin-bottom: 0px; }
 
-        .ReadMsgBody {
-            width: 100%;
-        }
+.o_ereset a,
+.o_ereset a:visited {
+  text-decoration: none;
+  outline: none; }
 
-        .ExternalClass {
-            width: 100%;
-        }
+.o_esec .o_underline {
+  text-decoration: underline; }
 
-        .ExternalClass,
-        .ExternalClass p,
-        .ExternalClass span,
-        .ExternalClass font,
-        .ExternalClass td,
-        .ExternalClass div {
-            line-height: 100%;
-        }
+.o_esec .o_underline:hover {
+  text-decoration: none !important; }
 
-        .MsoNormal {
-            font-family: 'Open Sans', Arial, Helvetica Neue, Helvetica, sans-serif !important;
-        }
+.o_esec .o_linethrough {
+  text-decoration: line-through; }
 
-        p,
-        #preview-template div {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
+.o_esec .o_nowrap {
+  white-space: nowrap; }
 
-        .images {
-            display: block !important;
-            width: 100% !important;
-        }
+/* Default Sizes  */
+.o_esec .o_text {
+  font-size: 16px;
+  line-height: 24px; }
 
-        .display-button td,
-        .display-button a {
-            font-family: 'Open Sans', Arial, Helvetica Neue, Helvetica, sans-serif !important;
-        }
+.o_esec .o_text-xs {
+  font-size: 14px;
+  line-height: 21px; }
 
-        .display-button a:hover {
-            text-decoration: none !important;
-        }
+.o_text-xxs {
+  font-size: 12px;
+  line-height: 19px;
+  text-transform: uppercase;
+  letter-spacing: 1px; }
 
-        /* MEDIA QUIRES */
+.o_esec .o_text-md {
+  font-size: 18px;
+  line-height: 27px; }
 
-        @media only screen and (min-width:799px) {
-            .main-width {
-                width: 600px;
-            }
+.o_esec .o_text-lg {
+  font-size: 20px;
+  line-height: 30px; }
 
-            .width680 {
-                width: 680px !important;
-                max-width: 680px !important;
-            }
+.o_esec h1 {
+  font-size: 32px;
+  line-height: 41px; }
 
-            .saf-table {
-                display: table !important;
-            }
-        }
+.o_esec h2 {
+  font-size: 25px;
+  line-height: 32px; }
 
-        @media only screen and (max-width:799px) {
-            body {
-                width: auto !important;
-            }
+.o_esec h3 {
+  font-size: 20px;
+  line-height: 28px; }
 
-            .display-width {
-                width: 100% !important;
-            }
+.o_esec h4 {
+  font-size: 16px;
+  line-height: 24px; }
 
-            .display-width-inner {
-                width: 600px !important;
-            }
+.o_esec .o_text-caps {
+  text-transform: uppercase;
+  letter-spacing: 2px; }
 
-            .padding {
-                padding: 0 20px !important;
-            }
+.o_ebody {
+  margin: 0px;
+  padding: 0px; }
 
-            .width680 {
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-        }
+.o_ereset {
+  font-size: 0 !important;
+  line-height: 100%; }
 
-        @media only screen and (max-width:639px) {
-            body {
-                width: auto !important;
-            }
+.o_block {
+  max-width: 600px; }
 
-            .display-width {
-                width: 100% !important;
-            }
+.o_col {
+  display: inline-block !important;
+  width: 100%;
+  vertical-align: top; }
 
-            .display-width-inner,
-            .display-width-child {
-                width: 100% !important;
-            }
+.o_col-1 {
+  max-width: 92px; }
 
-            .display-width-child .button-width .display-button {
-                width: auto !important;
-            }
+.o_col-o {
+  max-width: 128px; }
 
-            .padding {
-                padding: 0 20px !important;
-            }
+.o_col-2 {
+  max-width: 184px; }
 
-            .div-width {
-                display: block !important;
-                width: 100% !important;
-                max-width: 100% !important;
-            }
+.o_col-3 {
+  max-width: 276px; }
 
-            .butn-center {
-                display: table !important;
-                margin: 0 auto !important;
-            }
+.o_col-4 {
+  max-width: 368px; }
 
-            .width-auto {
-                width: 100% !important;
-            }
+.o_col-oo {
+  max-width: 424px; }
 
-            .hide-height,
-            .hide-bar {
-                display: none !important;
-            }
-        }
+.o_col-5 {
+  max-width: 460px; }
 
-        @media only screen and (max-width:480px) {
+.o_col-6s {
+  max-width: 536px; }
 
-            .display-width table,
-            .display-width-child2 table {
-                width: 100% !important;
-            }
+.o_col-6 {
+  max-width: 552px; }
 
-            .display-width .button-width .display-button {
-                width: auto !important;
-            }
+/* Reset */
+.o_ereset img {
+  -ms-interpolation-mode: bicubic;
+  display: block;
+  border: 0;
+  line-height: 100%;
+  height: auto;
+  outline: none;
+  text-decoration: none; }
 
-            .div-width {
-                display: block !important;
-                width: 100% !important;
-                max-width: 100% !important;
-            }
+.o_img-full {
+  width: 100%; }
 
-            .width-auto {
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-        }
+.o_esec,
+.o_esec table {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%; }
 
-        @media only screen and (max-width:380px) {
-            .display-width table {
-                width: 100% !important;
-            }
+.o_esec table[align="center"] {
+  margin: 0 auto; }
 
-            .display-width .button-width .display-button {
-                width: auto !important;
-            }
-        }
-    </style>
-    <style type="text/css" id="mc-style">
-        /********* BG COLORS *********/
-        /**
- *@tab Main BG Color
- *@tip Main BG Color
- */
-        .mcbc-main {
-            /* @editable */
-            background-color: #333333 !important;
-        }
+.o_ereset a,
+.o_esec .o_inline {
+  display: inline-block; }
 
-        /**
- *@tab Section - Menu BG Color
- *@tip Section - Menu BG Color
- */
-        .mcbc-sec-menu {
-            /* @editable */
-            background-color: #03a9f4 !important;
-        }
+/* Buttons */
+.o_btn {
+  transition: all .15s ease-in; }
+  .o_btn a {
+    display: block; }
+  .o_btn:hover {
+    transform: scale(1.1); }
 
-        /**
- *@tab Section 1 BG Color
- *@tip Section 1 BG Color
- */
-        .mcbc-sec-section-1 {
-            /* @editable */
-            background-color: #ffffff !important;
-        }
+.o_pbtn {
+  padding: 14px 32px;
+  vertical-align: top; }
 
-        /**
- *@tab Section - Footer BG Color
- *@tip Section - Footer BG Color
- */
-        .mcbc-sec-footer {
-            /* @editable */
-            background-color: #03A9F4 !important;
-        }
+.o_link {
+  transition: all .15s ease-in; }
+  .o_link:hover {
+    opacity: .6; }
 
-        /********* BUTTON BG COLORS *********/
-        /**
- *@tab Common Button BG Color
- *@tip Common Button BG Color
- */
-        .mcbc-btn-common-button {
-            /* @editable */
-            background-color: #F44202 !important;
-            /* @editable */
-            border-radius: 5px !important;
-        }
-    </style>
-</head>
+/* Colors */
+.o_bg-white {
+  background-color: #ffffff; }
 
-<body>
-    <!--[if mso]>
-  <style>
-   .heading {font-family: Arial, Helvetica Neue, Helvetica, sans-serif !important;}
-   .MsoNormal {font-family: Arial, Helvetica Neue, Helvetica, sans-serif !important;}
-   .display-button td, .display-button a, a {font-family: Arial, Helvetica Neue, Helvetica, sans-serif !important;}
-   .width-auto {
-   width:auto !important;
-   }
-  </style>
-  <![endif]-->
-    <!-- MENU STARTS -->
-    <table align="center" bgcolor="#333333" border="0" cellpadding="0" cellspacing="0" width="100%"
-        mc:repeatable="menu" class="mcbc-main">
+.o_bg-default {
+  background-color: #056ff0; }
+
+.o_text-default,
+a.o_text-default span,
+a.o_text-default strong {
+  color: #056ff0; }
+
+.o_text-dark,
+a.o_text-dark span,
+a.o_text-dark strong {
+  color: #212932; }
+
+.o_text-white,
+a.o_text-white span,
+a.o_text-white strong {
+  color: #ffffff; }
+
+.o_text-accent,
+a.o_text-accent span,
+a.o_text-accent strong {
+  color: #3ab7ff; }
+
+.o_text-muted,
+a.o_text-muted span,
+a.o_text-muted strong {
+  color: #687887; }
+
+.o_bb-default {
+  border-bottom: 2px solid #056ff0; }
+
+.o_b-default {
+  border: 4px solid #056ff0; }
+
+.o_bb-muted {
+  border-bottom: 4px solid #e9e9f1; }
+
+.o_bb-white {
+  border-bottom: 4px solid #ffffff; }
+
+.o_br {
+  border-radius: 6px; }
+
+.o_br-max {
+  border-radius: 56px; }
+
+/* Display */
+.o_hide,
+.o_hide-lg {
+  display: none;
+  font-size: 0;
+  max-height: 0;
+  width: 0;
+  line-height: 0;
+  overflow: hidden;
+  mso-hide: all;
+  visibility: hidden; }
+
+/* Alignment */
+.o_text-center {
+  text-align: center; }
+
+.o_text-left {
+  text-align: left; }
+
+.o_text-right {
+  text-align: right; }
+
+.o_text-nowrap {
+  white-space: nowrap; }
+
+/* Padding */
+.o_px {
+  padding-left: 16px;
+  padding-right: 16px; }
+
+.o_px-xs {
+  padding-left: 8px;
+  padding-right: 8px; }
+
+.o_px-md {
+  padding-left: 24px;
+  padding-right: 24px; }
+
+.o_px-lg {
+  padding-left: 32px;
+  padding-right: 32px; }
+
+.o_px-mg {
+  padding-left: 40px;
+  padding-right: 40px; }
+
+.o_px-ng {
+  padding-left: 48px;
+  padding-right: 48px; }
+
+.o_py {
+  padding-top: 16px;
+  padding-bottom: 16px; }
+
+.o_py-md {
+  padding-top: 24px;
+  padding-bottom: 24px; }
+
+.o_py-lg {
+  padding-top: 32px;
+  padding-bottom: 32px; }
+
+.o_pt {
+  padding-top: 16px; }
+
+.o_pt-md {
+  padding-top: 24px; }
+
+.o_pt-lg {
+  padding-top: 32px; }
+
+.o_pb-xs {
+  padding-bottom: 8px; }
+
+.o_pb {
+  padding-bottom: 16px; }
+
+.o_pb-md {
+  padding-bottom: 24px; }
+
+.o_pb-lg {
+  padding-bottom: 32px; }
+
+.o_p-icon {
+  padding: 12px; }
+
+/* Margins */
+.o_esec .o_mb-xs {
+  margin-bottom: 8px; }
+
+.o_esec .o_mb {
+  margin-bottom: 16px; }
+
+.o_esec .o_mb-md {
+  margin-bottom: 24px; }
+
+.o_esec .o_mb-lg {
+  margin-bottom: 32px; }
+
+.o_esec .o_mt {
+  margin-top: 16px; }
+
+.o_esec .o_mt-md {
+  margin-top: 24px; }
+
+/* Backgrounds */
+.o_bg-center {
+  background-position: 50% 0%;
+  background-repeat: no-repeat; }
+
+@media (max-width: 633px) {
+  u ~ div {
+    min-width: 100vw !important; }
+  .o_hide-lg {
+    display: inline-block !important;
+    font-size: inherit !important;
+    max-height: none !important;
+    line-height: inherit !important;
+    overflow: visible !important;
+    width: auto !important;
+    visibility: visible !important; }
+  .o_hide-xs {
+    display: none !important;
+    font-size: 0 !important;
+    max-height: 0 !important;
+    width: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important; }
+  .o_col-xs-1 {
+    max-width: 25% !important; }
+  .o_col-xs-2 {
+    max-width: 50% !important;
+    float: left !important; }
+  .o_col-xs-3 {
+    max-width: 75% !important; }
+  .o_col-xs-4 {
+    max-width: 100% !important; }
+  .o_text-xs-center {
+    text-align: center !important; }
+  .o_text-xs-left {
+    text-align: left !important; }
+    .o_text-xs-left table {
+      margin-left: 0 !important;
+      margin-right: auto !important; }
+  .o_xs-pt {
+    padding-top: 16px !important; } }
+
+@media screen {
+  .o_pbtn {
+    padding: 0px !important; }
+  .o_btn .o_pbtn a {
+    padding: 14px 32px; }
+  .o_text-sans {
+    font-family: "Roboto", sans-serif !important; }
+  .o_text-headline {
+    font-family: "Montserrat", sans-serif !important;
+    font-weight: 700 !important; }
+  /* cyrillic-ext */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: local("Montserrat Bold"), local("Montserrat-Bold"), url(https://fonts.gstatic.com/s/montserrat/v12/IQHow_FEYlDC4Gzy_m8fcrllaL-ufMOTUcv7jfgmuJg.woff2) format("woff2");
+    unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
+  /* cyrillic */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: local("Montserrat Bold"), local("Montserrat-Bold"), url(https://fonts.gstatic.com/s/montserrat/v12/IQHow_FEYlDC4Gzy_m8fcpsnFT_2ovhuEig4Dh-CBQw.woff2) format("woff2");
+    unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  /* vietnamese */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: local("Montserrat Bold"), local("Montserrat-Bold"), url(https://fonts.gstatic.com/s/montserrat/v12/IQHow_FEYlDC4Gzy_m8fcnv4bDVR720piddN5sbmjzs.woff2) format("woff2");
+    unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB; }
+  /* latin-ext */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: local("Montserrat Bold"), local("Montserrat-Bold"), url(https://fonts.gstatic.com/s/montserrat/v12/IQHow_FEYlDC4Gzy_m8fcjrEaqfC9P2pvLXik1Kbr9s.woff2) format("woff2");
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
+  /* latin */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: local("Montserrat Bold"), local("Montserrat-Bold"), url(https://fonts.gstatic.com/s/montserrat/v12/IQHow_FEYlDC4Gzy_m8fcmaVI6zN22yiurzcBKxPjFE.woff2) format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215; }
+  /* cyrillic-ext */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu72xKOzY.woff2) format("woff2");
+    unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
+  /* cyrillic */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu5mxKOzY.woff2) format("woff2");
+    unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  /* greek-ext */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu7mxKOzY.woff2) format("woff2");
+    unicode-range: U+1F00-1FFF; }
+  /* greek */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4WxKOzY.woff2) format("woff2");
+    unicode-range: U+0370-03FF; }
+  /* vietnamese */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu7WxKOzY.woff2) format("woff2");
+    unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB; }
+  /* latin-ext */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu7GxKOzY.woff2) format("woff2");
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+  /* latin */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto"), local("Roboto-Regular"), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2) format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; } }
+</style>
+  </head>
+  <body class="o_ebody" style="margin: 0px;padding: 0px;">
+    <table class="o_esec" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;">
+      <tbody>
         <tr>
-            <td height="80" style="line-height:80px; mso-line-height-rule:exactly;">
-                &nbsp;
-            </td>
+          <td class="o_ereset o_bg-dark o_hide" style="line-height: 0;display: none;font-size: 0 !important;max-height: 0;width: 0;overflow: hidden;mso-hide: all;visibility: hidden;">
+            <div>Hidden preheader text here</div>
+            <div>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+          </td>
         </tr>
         <tr>
-            <td align="center">
-                <!--[if mso]>
-     <table aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="680" style="width: 680px;">
-      <tr>
-       <td align="center" valign="top" width="680">
-        <![endif]-->
-                <div style="display:inline-block; width:100%; max-width:680px; vertical-align:top;" class="width680">
-                    <!-- ID:BG MENU -->
-                    <table align="center" bgcolor="#03a9f4" border="0" cellpadding="0" cellspacing="0"
-                        class="display-width mcbc-sec-menu" width="100%" style="max-width:680px;">
-                        <tr>
-                            <td align="center" class="padding">
-                                <!--[if mso]>
-            <table aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="600" style="width: 600px;">
-             <tr>
-              <td align="center" valign="top" width="600">
-               <![endif]-->
-                                <div style="display:inline-block; width:100%; max-width:600px; vertical-align:top;"
-                                    class="main-width">
-                                    <table align="center" border="0" class="display-width-inner" cellpadding="0"
-                                        cellspacing="0" width="100%" style="max-width:600px;">
-                                        <tr>
-                                            <td height="15" style="line-height:15px; mso-line-height-rule:exactly;">
-                                                &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center">
-                                                <table align="center" border="0" cellpadding="0" cellspacing="0"
-                                                    width="100%" style="width:100%; max-width:100%;">
-                                                    <tr>
-                                                        <td align="center" style="width:100%; max-width:100%;">
-                                                            <!--[if mso]>
-                      <table  aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="100%" style="width:100%;">
-                       <tr>
-                        <td align="center" valign="top" width="150">
-                         <![endif]-->
-                                                            <div style="display:inline-block; max-width:150px; width:100%; vertical-align:top;"
-                                                                class="div-width">
-                                                                <!--TABLE LEFT-->
-                                                                <table align="left" border="0" cellpadding="0"
-                                                                    cellspacing="0" class="display-width-child"
-                                                                    width="100%"
-                                                                    style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:100%;">
-                                                                    <tr>
-                                                                        <td align="center">
-                                                                            <table align="center" border="0"
-                                                                                cellpadding="0" cellspacing="0"
-                                                                                style="width:auto !important;">
-                                                                                <tr>
-                                                                                    <!-- ID:TXT MENU -->
-                                                                                    <td align="center">
-                                                                                        <a href="#"
-                                                                                            style="color:#333333; text-decoration:none;"><img
-                                                                                                src="{{ asset('storage/images/general/' . $general->logo) }}"
-                                                                                                alt="150x50"
-                                                                                                width="150"
-                                                                                                height="50"
-                                                                                                style="margin:0; border:0; padding:0; display:block;"
-                                                                                                mc:edit="Image-0"></a>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </div>
-                                                            <!--[if mso]>
-                        </td>
-                        <td align="center" valign="top" width="440">
-                         <![endif]-->
-                                                            <div style="display:inline-block; width:100%; max-width:440px; vertical-align:top;"
-                                                                class="div-width">
-                                                                <table align="center" border="0" cellpadding="0"
-                                                                    cellspacing="0" class="display-width-child"
-                                                                    width="100%"
-                                                                    style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:100%;">
-                                                                    <tr>
-                                                                        <td align="right">
-                                                                            <div style="display:inline-block; width:100%; max-width:325px; vertical-align:top;"
-                                                                                class="div-width">
-                                                                                <!--TABLE RIGHT-->
-                                                                                <table align="center" border="0"
-                                                                                    cellpadding="0" cellspacing="0"
-                                                                                    class="display-width-child"
-                                                                                    width="100%"
-                                                                                    style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:100%;">
-                                                                                    <tr>
-                                                                                        <!--[if mso]>
-                               <td width="110">&nbsp;</td>
-                               <![endif]-->
-                                                                                        <td align="center">
-                                                                                            <table align="center"
-                                                                                                border="0"
-                                                                                                cellspacing="0"
-                                                                                                cellpadding="0"
-                                                                                                class="display-width-child"
-                                                                                                width="100%"
-                                                                                                style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:100%;">
-                                                                                                <tr>
-                                                                                                    <td align="center"
-                                                                                                        class="center"
-                                                                                                        style="font-size:0; padding:10px 0; width:100%; max-width:100%;">
-                                                                                                        <!--[if mso]>
-                                   <table  aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="100%" style="width:100%;">
-                                   <tr>
-                                   <td align="center" valign="top" width="140" style="padding:5px 0;">
-                                   <![endif]-->
-                                                                                                        <div style="display:inline-block; max-width:140px; vertical-align:top; width:100%; padding:5px 0;"
-                                                                                                            class="div-width">
-                                                                                                            <table
-                                                                                                                align="center"
-                                                                                                                border="0"
-                                                                                                                cellspacing="0"
-                                                                                                                cellpadding="0"
-                                                                                                                class="display-width-child"
-                                                                                                                style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:auto !important;">
-                                                                                                                <tr>
-                                                                                                                    <!-- ID:TXT MENU PHONE NUM -->
-                                                                                                                    <td align="left"
-                                                                                                                        valign="middle"
-                                                                                                                        width="30">
-                                                                                                                        <img src="{{ asset('storage/images/mail/phone-call.png') }}"
-                                                                                                                            alt="20x20x1"
-                                                                                                                            width="20"
-                                                                                                                            mc:edit="Image-1">
-                                                                                                                    </td>
-                                                                                                                    <td align="left"
-                                                                                                                        valign="middle"
-                                                                                                                        class="MsoNormal"
-                                                                                                                        style="color:#ffffff; font-family:'Segoe UI',sans-serif,Arial,Helvetica,Lato;font-size:12px; font-weight:600; letter-spacing:1px;"
-                                                                                                                        mc:edit="Content-0">
-                                                                                                                        +7888
-                                                                                                                        71140
-                                                                                                                        3020
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                            </table>
-                                                                                                        </div>
-                                                                                                        <!--[if gte mso 9]>
-                                    </td>
-                                    <td width="180" style="padding:5px 0;">
-                                    <![endif]-->
-                                                                                                        <div style="display:inline-block; max-width:180px; vertical-align:top; width:100%; padding:5px 0;"
-                                                                                                            class="div-width">
-                                                                                                            <table
-                                                                                                                align="center"
-                                                                                                                border="0"
-                                                                                                                cellspacing="0"
-                                                                                                                cellpadding="0"
-                                                                                                                class="display-width-child"
-                                                                                                                style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:auto !important;">
-                                                                                                                <tr>
-                                                                                                                    <!-- ID:TXT MENU EMAIL ID -->
-                                                                                                                    <td width="15"
-                                                                                                                        class="hide-bar">
-                                                                                                                    </td>
-                                                                                                                    <td align="left"
-                                                                                                                        valign="middle"
-                                                                                                                        class="MsoNormal hide-bar"
-                                                                                                                        style="color:#ffffff;font-family:'Segoe UI',sans-serif,Arial,Helvetica,Lato;font-size:13px;font-weight:500;letter-spacing:1px;text-transform:capitalize;"
-                                                                                                                        mc:edit="Content-1">
-                                                                                                                        |
-                                                                                                                    </td>
-                                                                                                                    <td width="15"
-                                                                                                                        class="hide-bar">
-                                                                                                                    </td>
-                                                                                                                    <td align="left"
-                                                                                                                        valign="middle"
-                                                                                                                        width="30">
-                                                                                                                        <img src="{{ asset('storage/images/mail/email.png') }}"
-                                                                                                                            alt="20x20x2"
-                                                                                                                            width="20"
-                                                                                                                            mc:edit="Image-2">
-                                                                                                                    </td>
-                                                                                                                    <td align="left"
-                                                                                                                        valign="middle"
-                                                                                                                        class="MsoNormal"
-                                                                                                                        style="color:#ffffff; font-family:'Segoe UI',sans-serif,Arial,Helvetica,Lato;font-size:12px;font-weight:600;letter-spacing:1px;"
-                                                                                                                        mc:edit="Content-2">
-                                                                                                                        <a href="#"
-                                                                                                                            style="color:#ffffff; text-decoration:none;">nfl@stylemixthemes.com</a>
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                            </table>
-                                                                                                        </div>
-                                                                                                        <!--[if mso]>
-                                     </td>
-                                    </tr>
-                                   </table>
-                                   <![endif]-->
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </table>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </div>
-                                                            <!--[if mso]>
-                        </td>
-                       </tr>
+          <td class="o_ereset o_bg-dark o_pt-lg o_px" align="center" style="line-height: 100%;padding-left: 16px;padding-right: 16px;padding-top: 32px;font-size: 0 !important;">
+
+            <table class="o_block" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width: 600px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;">
+              <tbody>
+                <tr>
+                  <td class="o_ereset o_bg-default o_bg-center o_br o_px-md o_py-lg o_text-xs-center" align="left" background="images/hero_lines-color.png" style="line-height: 100%;background-color: #056ff0;border-radius: 6px;padding-left: 24px;padding-right: 24px;padding-top: 32px;padding-bottom: 32px;background-position: 50% 0%;background-repeat: no-repeat;font-size: 0 !important;">
+
+                    <div class="o_col o_col-2 o_text-left o_text-xs-center" style="width: 100%;vertical-align: top;max-width: 184px;text-align: left;display: inline-block !important;">
+                      <div class="o_px-xs" style="padding-left: 8px;padding-right: 8px;">
+                        <div style="font-size: 4px; line-height: 4px; height: 4px;">&nbsp; </div>
+                      </div>
+                    </div>
+                    <div class="o_col o_col-4 o_text-right o_text-xs-center" style="width: 100%;vertical-align: top;max-width: 368px;text-align: right;display: inline-block !important;">
+                    </div>
+
+                    <div style="font-size: 16px; line-height: 16px; height: 16px;">&nbsp; </div>
+                    <div class="o_px-xs o_text-center" style="text-align: center;padding-left: 8px;padding-right: 8px;">
+                      <table role="presentation" align="center" cellspacing="0" cellpadding="0" border="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin: 0 auto;">
+                        <tbody>
+                          <tr>
+                            <td class="o_bg-white o_text o_text-sans o_text-dark o_p-icon o_br-max" align="center" style="font-family: Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-serif;word-break: break-word;background-color: #ffffff;color: #212932;border-radius: 56px;padding: 12px;font-size: 16px;line-height: 24px;">
+                              <a class="o_text-dark o_link" href="{{route('home')}}" style="transition: all .15s ease-in;color: #212932;text-decoration: none;outline: none;display: inline-block;">
+
+                                @if (!empty($general->logo))
+                                <img class="o_br-max" src="{{asset('storage/images/general/'.$general->logo)}}" width="88" height="88" alt="Warning" style="max-width: 88px;border-radius: 56px;-ms-interpolation-mode: bicubic;display: block;border: 0;line-height: 100%;height: auto;outline: none;text-decoration: none;">
+                                @else
+                                <img class="o_br-max" src="{{ asset('front/img/NFL-small.png') }}" width="88" height="88" alt="Warning" style="max-width: 88px;border-radius: 56px;-ms-interpolation-mode: bicubic;display: block;border: 0;line-height: 100%;height: auto;outline: none;text-decoration: none;">
+                                @endif
+                            </a>
+                            </td>
+                          </tr>
+                        </tbody>
                       </table>
-                      <![endif]-->
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td height="15"
-                                                style="line-height:15px; mso-line-height-rule:exactly;">
-                                                &nbsp;
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <!--[if mso]>
-              </td>
-             </tr>
+                      <h1 class="o_text-headline o_text-white o_mt-md o_mb-xs" style="font-family: Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-serif;word-break: break-word;font-weight: bold;color: #ffffff;margin-top: 24px;margin-bottom: 8px;font-size: 32px;line-height: 41px;">Password Reset</h1>
+                      <p class="o_text-lg o_text-sans o_text-white o_mb-lg" style="font-family: Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-serif;word-break: break-word;color: #ffffff;margin-top: 0px;margin-bottom: 32px;font-size: 20px;line-height: 30px;">Hello <strong>{{$name}} </strong>, We received a request to reset your account's password, For Email Address is <strong> {{$email}} </strong> and Token to Reset the Password is <strong> {{$token}} </strong></p>
+                      <table class="o_btn" role="presentation" align="center" cellspacing="0" cellpadding="0" border="0" style="transition: all .15s ease-in;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin: 0 auto;">
+                        <tbody>
+                          <tr>
+                            <td class="o_pbtn o_text-md o_br-max o_bg-white" align="center" style="padding: 14px 32px;vertical-align: top;background-color: #ffffff;border-radius: 56px;font-size: 18px;line-height: 27px;">
+                              <a class="o_text-headline o_text-dark" href="{{route('change_password')}}" style="font-family: Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-serif;word-break: break-word;font-weight: bold;color: #212932;text-decoration: none;outline: none;display: block;"><span style="color: #212932;">Reset My Password</span></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div style="font-size: 8px; line-height: 8px; height: 8px;">&nbsp; </div>
+                    </div>
+                    <!--[if mso]>
+                    </td>
+                    </tr>
+                    </table>
+                    <![endif]-->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!--[if mso]>
+            </td>
+            </tr>
             </table>
             <![endif]-->
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <!--[if mso]>
-       </td>
-      </tr>
-     </table>
-     <![endif]-->
+          </td>
+        </tr>
+        <tr>
+          <td class="o_ereset o_bg-dark" style="font-size: 24px; line-height: 24px; height: 24px;">&nbsp; </td>
+        </tr>
+        <tr>
+          <td class="o_ereset o_bg-dark o_px-ng o_pt o_pb-lg" align="center" style="line-height: 100%;padding-left: 48px;padding-right: 48px;padding-top: 16px;padding-bottom: 32px;font-size: 0 !important;">
+            <!--[if mso]>
+            <table role="presentation" width="536" border="0" cellspacing="0" cellpadding="0" align="center">
+            <tbody>
+            <tr>
+            <td align="left">
+            <![endif]-->
+            <div class="o_col-6s o_text-sans o_text-xs o_text-left" style="font-family: Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-serif;word-break: break-word;max-width: 536px;text-align: left;font-size: 14px;line-height: 21px;">
+              {{-- <p class="o_text-muted o_mb-lg" style="color: #687887;margin-top: 0px;margin-bottom: 32px;">If you didn't enter this email address when signing up for TLDR monthly subscription, disregard this message. This email was sent to <a class="o_text-muted" href="mailto:pierce.b@company.com" style="color: #687887;text-decoration: none;outline: none;display: inline-block;"><span style="color: #687887;">pierce.b@company.com</span></a>. <a class="o_text-muted o_underline" href="#" style="color: #687887;text-decoration: underline;outline: none;display: inline-block;"><span style="color: #687887;">Unsubscribe</span></a></p> --}}
+              <p class="o_text-muted" style="color: #687887;margin-top: 0px;margin-bottom: 0px;">{{$general->footer_bar ? $general->footer_bar : '' }}</p>
+            </div>
+            <!--[if mso]>
             </td>
-        </tr>
-    </table>
-    <!-- MENU ENDS -->
-    <!-- REGISTRATION STARTS -->
-    <table align="center" bgcolor="#333333" border="0" cellpadding="0" cellspacing="0" width="100%"
-        mc:repeatable="registration" class="mcbc-main">
-        <tbody>
-            <tr>
-                <td align="center">
-                    <!--[if mso]>
-       <table aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="680" style="width: 680px;">
-        <tr>
-         <td align="center" valign="top" width="100%" style="max-width:680px;">
-          <![endif]-->
-                    <div style="display:inline-block; width:100%; max-width:680px; vertical-align:top;"
-                        class="width680">
-                        <!-- ID:BG SECTION-1 -->
-                        <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0"
-                            class="display-width mcbc-sec-section-1" width="100%" style="max-width:680px;">
-                            <tbody>
-                                <tr>
-                                    <td align="center" class="padding">
-                                        <!--[if mso]>
-                <table aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="600" style="width:600px;">
-                 <tr>
-                  <td align="center">
-                    <![endif]-->
-                                        <div style="display:inline-block; width:100%; max-width:600px; vertical-align:top;"
-                                            class="main-width">
-                                            <table align="center" border="0" class="display-width-inner"
-                                                cellpadding="0" cellspacing="0" width="100%"
-                                                style="max-width:600px;">
-                                                <tr>
-                                                    <td height="30"
-                                                        style="mso-line-height-rule:exactly; line-height:30px; font-size:0;">
-                                                        &nbsp;
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <!-- ID:TXT TITLE -->
-                                                    <td align="center" class="MsoNormal"
-                                                        style="color:#333333; font-family:Segoe UI, Helvetica Neue, Arial, Verdana, Trebuchet MS, sans-serif; font-weight:600; font-size:26px; line-height:36px; letter-spacing:1px;"
-                                                        mc:edit="Content-3">
-                                                        Reset Password Token
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td height="5"
-                                                        style="mso-line-height-rule:exactly; line-height:5px; font-size:0;">
-                                                        &nbsp;
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="center">
-                                                        <img src="{{ asset('storage/images/mail/line.jpg') }}"
-                                                            alt="90x5" width="90" style="color:#444444;"
-                                                            mc:edit="Image-3">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td height="20"
-                                                        style="mso-line-height-rule:exactly; line-height:20px; font-size:0;">
-                                                        &nbsp;
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="center">
-                                                        <table align="center" border="0" cellpadding="0"
-                                                            cellspacing="0" width="90%"
-                                                            style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:90%; max-width:90%;">
-                                                            <tr>
-                                                                <!-- ID:TXT CONTENT -->
-                                                                <td align="center" class="MsoNormal"
-                                                                    style="color:#666666; font-family:Segoe UI, Helvetica Neue, Arial, Verdana, Trebuchet MS, sans-serif; font-size:14px; line-height:24px;"
-                                                                    mc:edit="Content-4">
-                                                                    Dear {{ $name }} your token is
-                                                                    {{ $token }} . You can use this token to
-                                                                    change your password.
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td height="20"
-                                                                    style="mso-line-height-rule: exactly; line-height:20px; font-size:0;">
-                                                                    &nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <!-- ID:TXT CONTENT -->
-                                                                <td align="center" class="MsoNormal"
-                                                                    style="color:#666666; font-family:Segoe UI, Helvetica Neue, Arial, Verdana, Trebuchet MS, sans-serif; font-size:14px; line-height:24px;"
-                                                                    mc:edit="Content-4">
-                                                                    TO RESET YOUR PASSWORD, CLICK THIS BUTTON
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="center" class="button-width">
-                                                                    <!-- ID:BTN COMMON BUTTON -->
-                                                                    <table align="center" bgcolor="#F44202"
-                                                                        border="0" cellpadding="0"
-                                                                        cellspacing="0"
-                                                                        class="display-button mcbc-btn-common-button"
-                                                                        style="border-radius:5px;">
-                                                                        <tr>
-                                                                            <td align="center" class="MsoNormal"
-                                                                                style="color:#ffffff; font-family:Segoe UI, Arial, Verdana, Trebuchet MS, sans-serif; font-weight:600; padding:10px 12px; font-size:12px; letter-spacing:1px;"
-                                                                                mc:edit="Content-5">
-                                                                                <a href="{{ route('change_password') }}"
-                                                                                    style="color:#ffffff; text-decoration:none;">Reset
-                                                                                    Password</a>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td height="20"
-                                                                    style="mso-line-height-rule: exactly; line-height:20px; font-size:0;">
-                                                                    &nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            {{--
-																<tr>
-																	<td align="center" class="MsoNormal" style="color:#666666;font-family:'Segoe UI',sans-serif,Arial,Helvetica,Lato;font-size:14px;line-height:24px;" mc:edit="Content-6">
-																		 <span class="txt-content" mc:edit="Content-0">To contact us, please visit</-> <span class="txt-link-content" style="color:#03a9f4; " mc:edit="Content-1"><a href="#" style="color:#03a9f4;">http://support.domain.com</a></span> 
-																	</td>
-																</tr> --}}
-                                                            <tr>
-                                                                <td height="15"
-                                                                    style="mso-line-height-rule: exactly; line-height:15px; font-size:0;">
-                                                                    &nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="center" class="MsoNormal"
-                                                                    style="color:#666666;font-family:'Segoe UI',sans-serif,Arial,Helvetica,Lato;font-size:14px;line-height:24px;"
-                                                                    mc:edit="Content-7">
-                                                                    <span class="txt-content"
-                                                                        mc:edit="Content-2">Please</span> <span
-                                                                        class="txt-link-content"
-                                                                        style="color:#03a9f4; " mc:edit="Content-3"><a
-                                                                            href="{{ route('login') }}"
-                                                                            style="color:#03a9f4; ">Sign in</a></span>
-                                                                    to Your account
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td height="30"
-                                                        style="mso-line-height-rule:exactly; line-height:30px; font-size:0;">
-                                                        &nbsp;
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <!--[if mso]>
-                   </td>
-                  </tr>
-                 </table>
-                <![endif]-->
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--[if mso]>
-         </td>
-        </tr>
-       </table>
-      <![endif]-->
-                </td>
             </tr>
-        </tbody>
-    </table>
-    <!-- REGISTRATION ENDS -->
-    <!-- FOOTER STARTS -->
-    <table align="center" bgcolor="#333333" border="0" cellpadding="0" cellspacing="0" width="100%"
-        mc:repeatable="footer" class="mcbc-main">
-        <tbody>
-            <tr>
-                <td align="center">
-                    <!--[if (gte mso 9)|(IE)]>
-       <table aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="680" style="width: 680px;">
-        <tr>
-         <td align="center" valign="top" width="100%" style="max-width:680px;">
-          <![endif]-->
-                    <div style="display:inline-block; width:100%; max-width:680px; vertical-align:top;"
-                        class="width680">
-                        <!-- ID:BG FOOTER -->
-                        <table align="center" bgcolor="#03A9F4" border="0" cellpadding="0" cellspacing="0"
-                            class="display-width mcbc-sec-footer" width="100%" style="max-width:680px;">
-                            <tbody>
-                                <tr>
-                                    <td align="center" class="padding">
-                                        <!--[if (gte mso 9)|(IE)]>
-                <table aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="600" style="width:600px;">
-                 <tr>
-                  <td align="center">
-                    <![endif]-->
-                                        <div style="display:inline-block; width:100%; max-width:600px; vertical-align:top;"
-                                            class="main-width">
-                                            <table align="center" border="0" class="display-width-inner"
-                                                cellpadding="0" cellspacing="0" width="100%"
-                                                style="max-width:600px;">
-                                                <tr>
-                                                    <td height="30"
-                                                        style="mso-line-height-rule:exactly; line-height:30px; font-size:0;">
-                                                        &nbsp;
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="center">
-                                                        <table align="center" border="0" cellpadding="0"
-                                                            cellspacing="0" width="100%"
-                                                            style="width:100%; max-width:100%;">
-                                                            <tr>
-                                                                <td align="center"
-                                                                    style="width:100%; max-width:100%; font-size:0;">
-                                                                    <!--[if (gte mso 9)|(IE)]>
-                            <table  aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="100%" style="width:100%;">
-                             <tr>
-                              <td align="center" valign="top" width="250">
-                               <![endif]-->
-                                                                    <div style="display:inline-block; max-width:250px; width:100%; vertical-align:top;"
-                                                                        class="div-width">
-                                                                        <!--TABLE LEFT-->
-                                                                        <table align="center" border="0"
-                                                                            cellpadding="0" cellspacing="0"
-                                                                            class="display-width-child" width="100%"
-                                                                            style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:100%;">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td align="center"
-                                                                                        style="padding:5px 0">
-                                                                                        <table align="center"
-                                                                                            border="0"
-                                                                                            cellpadding="0"
-                                                                                            cellspacing="0"
-                                                                                            width="100%">
-                                                                                            {{--  	<tr>
-																									<!-- ID:TXT COPYRIGHT -->
-                                                   
-																									<td align="center" class="MsoNormal" style="color:#ffffff; font-family:Segoe UI, Helvetica Neue, Arial, Verdana, Trebuchet MS, sans-serif; font-size:14px; line-height:24px; letter-spacing:1px;" mc:edit="Content-8">
-                                                    											NFL design © 2023. All Rights Reserved.
-																									</td> 
-																								</tr> --}}
-                                                                                        </table>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <!--[if (gte mso 9)|(IE)]>
-                              </td>
-                              <td align="center" valign="top" width="340">
-                              <![endif]-->
-                                                                    <div style="display:inline-block; width:100%; max-width:340px; vertical-align:top;"
-                                                                        class="div-width">
-                                                                        <table align="center" border="0"
-                                                                            cellpadding="0" cellspacing="0"
-                                                                            class="display-width-child" width="100%"
-                                                                            style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:100%;">
-                                                                            <tr>
-                                                                                <td align="center"
-                                                                                    style="font-size:0;">
-                                                                                    <!--[if (gte mso 9)|(IE)]>
-                                  <table  aria-hidden="true" border="0" cellspacing="0" cellpadding="0" align="center" width="100%" style="width:100%;">
-                                  <tr>
-                                  <td width="110">
-                                  <![endif]-->
-                                                                                    <div style="display:inline-block; width:100%;  vertical-align:top;"
-                                                                                        class="div-width">
-                                                                                        <table align="center"
-                                                                                            border="0"
-                                                                                            cellpadding="0"
-                                                                                            cellspacing="0"
-                                                                                            class="display-width-child"
-                                                                                            width="100%"
-                                                                                            style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:210px;">
-                                                                                            <tr>
-                                                                                                <td width="100%"
-                                                                                                    style="font-size:0;">
-                                                                                                    &nbsp;
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                    <!--[if (gte mso 9)|(IE)]>
-                                  </td>
-                                  <td width="230">
-                                  <![endif]-->
-                                                                                    <div style="display:inline-block; width:100%; max-width:230px; vertical-align:top;"
-                                                                                        class="div-width">
-                                                                                        <table align="center"
-                                                                                            border="0"
-                                                                                            cellpadding="0"
-                                                                                            cellspacing="0"
-                                                                                            class="display-width-child"
-                                                                                            width="100%"
-                                                                                            style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:100%;">
-                                                                                            <tbody>
-                                                                                                <tr>
-                                                                                                    <td align="center"
-                                                                                                        style="padding:5px 0;">
-                                                                                                        <table
-                                                                                                            align="center"
-                                                                                                            border="0"
-                                                                                                            cellpadding="0"
-                                                                                                            cellspacing="0"
-                                                                                                            width="100%"
-                                                                                                            style="width:auto !important;">
-                                                                                                            {{--  
-                                                        <tr>
-																													<!-- ID:TXT UNSUBSCRIBE -->
-																													<td align="left" class="MsoNormal" style="color:#ffffff;font-family:'Segoe UI',sans-serif,Arial,Helvetica,Lato;font-size:14px;letter-spacing:1px;line-height:24px;" mc:edit="Content-9">
-																														 Follow Us
-																													</td>
-																													<td width="10">
-																														&nbsp;
-																													</td>
-																													<td align="left">
-																														 <a href="#" style="color:#ffffff;text-decoration:none;"> <img src="https://www.pennyblacktemplates.com/demo/notifications/update/images/25x25x1.png" alt="25x25x1" width="25" mc:edit="Image-4"></a>
-																													</td>
-																													<td width="10">
-																														&nbsp;
-																													</td>
-																													<td align="left">
-																														 <a href="#" style="color:#ffffff;text-decoration:none;"> <img src="https://www.pennyblacktemplates.com/demo/notifications/update/images/25x25x2.png" alt="25x25x2" width="25" mc:edit="Image-5"></a>
-																													</td>
-																													<td width="10">
-																														&nbsp;
-																													</td>
-																													<td align="left">
-																														 <a href="#" style="color:#ffffff;text-decoration:none;"> <img src="https://www.pennyblacktemplates.com/demo/notifications/update/images/25x25x3.png" alt="25x25x3" width="25" mc:edit="Image-6"></a>
-																													</td>
-																													<td width="10">
-																														&nbsp;
-																													</td>
-																													<td align="left">
-																														 <a href="#" style="color:#ffffff;text-decoration:none;"> <img src="https://www.pennyblacktemplates.com/demo/notifications/update/images/25x25x4.png" alt="25x25x4" width="25" mc:edit="Image-7"></a>
-																													</td>
-																												</tr> --}}
-                                                                                                        </table>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                    <!--[if mso]>
-                                  </td>
-                                  </tr>
-                                  </table>
-                                  <![endif]-->
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </div>
-                                                                    <!--[if mso]>
-                              </td>
-                             </tr>
-                            </table>
-                            <![endif]-->
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td height="30"
-                                                        style="mso-line-height-rule:exactly; line-height:30px; font-size:0;">
-                                                        &nbsp;
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <!--[if mso]>
-                   </td>
-                  </tr>
-                 </table>
-                <![endif]-->
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--[if mso]>
-         </td>
+            </table>
+            <![endif]-->
+            <div class="o_hide-xs" style="font-size: 64px; line-height: 64px; height: 64px;">&nbsp; </div>
+          </td>
         </tr>
-       </table>
-      <![endif]-->
-                </td>
-            </tr>
-            <tr>
-                <td height="80" style="line-height:80px; mso-line-height-rule:exactly;">
-                    &nbsp;
-                </td>
-            </tr>
-        </tbody>
+      </tbody>
     </table>
-    <!-- FOOTER ENDS -->
-</body>
-
+  </body>
 </html>

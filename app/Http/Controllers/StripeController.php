@@ -16,10 +16,41 @@ use App\Models\UserTeam;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Payment as payment_class;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use Log;
 
 class StripeController extends Controller
 {
+
+    private $payment_mode;
+
+    private $currency = "USD";
+
+    public function __construct()
+    {
+        // Closure as callback
+        $this->payment_mode = env('PAYMENT_MODE');
+
+    }
+
+    /**
+     * returns the private key for clover payment
+     */
+    private function getThePrivateKey(){
+        return $this->payment_mode == "TEST"? env('CLOVER_PRIVATE_KEY'):env('CLOVER_PRIVATE_KEY_PRODUCTION');
+    }
+
+    /**
+     * returns the url for the clover payment charge
+     */
+
+
+     private function getTheChargeUrl(){
+        return $this->payment_mode == "TEST" ? 'https://scl-sandbox.dev.clover.com/v1/charges': 'https://scl-sandbox.clover.com/v1/charges';
+
+     }
+
+
     public function stripe()
     {
         // $date = Carbon::now();
@@ -95,26 +126,30 @@ class StripeController extends Controller
 
              return redirect()->back()->with('message_error' ,$season_for_msg);
          }
+
+
          // new payment creation
         $client = new Client();
-        $response = $client->request('POST', 'https://scl-sandbox.dev.clover.com/v1/charges', [
+
+        $response = $client->request('POST',$this->getTheChargeUrl(), [
                 'json' => [
                     'ecomind' => 'ecom',
                     'amount' => $request->input('amount')*100,
                     'user_id' =>   auth()->user()->id,
                     'name' =>  $request->input('fname'),
-                    'currency' => 'USD',
+                    'currency' => $this->currency,
                     'capture' => true,
                     'source' => $request->input('cloverToken'),
                 ],
                 'headers' => [
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer '.config("app.clover_private_key") ,
-                    // 'Authorization' => 'Bearer 621bd654-61f2-ef27-a38d-c180a0b953bd',
+                    'Authorization' => 'Bearer '.$this->getThePrivateKey(),
                 ],
             ]);
-        $res = json_decode($response->getBody(), true);
-           if(isset($res["error"])){
+           $res = json_decode($response->getBody(), true);
+
+
+            if(isset($res["error"])){
                 $msg=$res["error"]["message"];
                 return redirect()->back()->with('message_error' , $msg);
             }
@@ -151,62 +186,41 @@ class StripeController extends Controller
                     ];
                     $address = Address::create($addressData);
 
-                    $mdata = ['user_name'=>'yaman walia'];
-                    //    DB::commit();
+                    $orderDetails = DB::table('payments')->join('addresses', 'addresses.payment_id','=', 'payments.id')->join('seasons', 'seasons.id','=', 'payments.season_id')->where(['payments.id' => $Payment->id])->select('seasons.season_name','payments.*','addresses.name','addresses.address','addresses.city','addresses.country','addresses.zip')->first();
+
                             if ($address) {
-                                Mail::to('yamanwalia000@gmail.com')->send(new payment_class($mdata));
-                                // return redirect()->route('success-message' , $Payment)->with('success', '');
+                                Mail::to('yamanwalia000@gmail.com')->send(new payment_class($orderDetails));
                                 return view('front.payment.success' , compact('Payment'));
+
                             } else {
-                                return redirect()->route('payment')->with('error', "Some thing is went wrong");
+
+                                return redirect()->back()->with('error', "Something  went wrong");
                             }
 
             }
-          } catch (\Exception $e) {
+       } catch (GuzzleHttp\Exception\BadResponseException $exception) {
 
-            $message =  'This user having id '.auth()->user()->id.' is facing the following isssue '.$e->getMessage();
-            Log::channel('payment')->info($message);
+            $response = $exception->getResponse();
+            $responseAsString = $response->getBody()->getContents();
+            $formatted_response =   json_decode( $responseAsString, true);
 
-            return response()->json(['status'=>401,'message'=> 'We are facing issue while processing your payment.Please try after some time.If amount is debited from your side then please contact to our support team']);
+            dd($formatted_response);
 
-          }
-
-    }
-
-
-
-    public function SendEmail(Request $request) {
-        // require base_path("vendor/autoload.php");
-        $mail = new PHPMailer(true);
-        try {
-            $mail->SMTPDebug = 0;
-            $mail->isSMTP();
-            $mail->Host = 'smtp.example.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'user@example.com';
-            $mail->Password = '**********';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
-
-            $mail->setFrom('sender@example.com', 'SenderName');
-            $mail->addAddress($request->emailRecipient);
-
-            // if(isset($_FILES['emailAttachments'])) {
-            //     for ($i=0; $i < count($_FILES['emailAttachments']['tmp_name']); $i++) {
-            //         $mail->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
-            //     }
-            // }
-            $mail->isHTML(true);
-            $mail->Subject = $request->emailSubject;
-            $mail->Body    = $request->emailBody;
-            if( !$mail->send() ) {
-                return back()->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
-            }else {
-                return back()->with("success", "Email has been sent.");
+            if($formatted_response['error']['code'] == 'issuer_declined'){
+                return redirect()->back()->with('message_error' , 'Your Card is Declined.Please try again or use another card.');
+            }else{
+               return redirect()->back()->with('message_error' , 'We are facing issue from the payment gateway. Please try again or use another card.');
             }
-        } catch (Exception $e) {
-             return back()->with('error','Message could not be sent.');
-        }
-    }
 
+       }catch (\Exception $e) {
+
+        $message =  'This user having id '.auth()->user()->id.' is facing the following isssue '.$e->getMessage();
+
+        Log::channel('payment')->info($message);
+
+        return redirect()->back()->with('message_error', "We are facing issue while processing your payment.Please try after some time.If amount is debited from your side then please contact to our support team");
+
+      }
+
+    }
 }

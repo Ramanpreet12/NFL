@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\ColorSetting;
 use App\Models\Menu;
 use App\Models\StaticPage;
+use App\Models\GeneralSetting;
 use Illuminate\Pagination\Paginator;
 
 
@@ -48,8 +49,11 @@ class AppServiceProvider extends ServiceProvider
        //site setting
         $general = General::first();
         $privacy_policy = StaticPage::where(['status' =>'active' , 'type' => 'privacy'])->first();
+        $get_social_links = GeneralSetting::where('type', 'social_links')->get()->toArray();
+        $social_links = key_value('name', 'value', $get_social_links);
 
-        View::share(['general'=> $general , 'colorSection' => $colorSection , 'mainMenus' => $mainMenus , 'subMenus' => $subMenus ,'privacy_policy' =>$privacy_policy]);
+
+        View::share(['general'=> $general , 'colorSection' => $colorSection , 'mainMenus' => $mainMenus , 'subMenus' => $subMenus ,'privacy_policy' =>$privacy_policy , 'social_links' => $social_links]);
 
 
     }

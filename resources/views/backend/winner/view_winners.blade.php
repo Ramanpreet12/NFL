@@ -44,23 +44,43 @@
             <table class="table table-report -mt-2" id="prize_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        {{-- <th class="text-center whitespace-nowrap">Season </th> --}}
+                        <th class="text-center whitespace-nowrap">Season </th>
                         <th class="text-center whitespace-nowrap">User Name </th>
+                        <th class="text-center whitespace-nowrap">User Email </th>
+                        <th class="text-center whitespace-nowrap">User Photo </th>
                         <th class="text-center whitespace-nowrap">Points </th>
                         <th class="text-center whitespace-nowrap">Prize</th>
-                        {{-- <th class="text-center whitespace-nowrap">Action</th> --}}
+                        <th class="text-center whitespace-nowrap">Prize Photo</th>
+                        <th class="text-center whitespace-nowrap">Created At</th>
+
                     </tr>
                 </thead>
 
                 <tbody>
+
+                    @if ($get_winners->isNotEmpty())
                     @forelse ($get_winners as $winner)
 
                         <tr class="intro-x">
-                            {{-- <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->season_name}} </div>
-                            </td> --}}
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->season->season_name}} </div>
+                            </td>
                             <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ $winner->user->name ?? ''}} </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ $winner->user->email ?? ''}} </div>
+                            </td>
+                            <td class="">
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($winner->photo))
+                                        <img src="{{asset('storage/images/user_images/'.$winner->photo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        @else
+                                                <img src="{{asset('dist/images/dummy_image.webp')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $winner->total_points }} </div>
@@ -68,6 +88,21 @@
                             <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->prize->name}} </div>
                             </td>
+                            <td class="">
+                                <div class="flex">
+                                    <div class="w-12 h-12 image-fit zoom-in">
+                                        @if (!empty($winner->prize->image))
+                                        <img src="{{asset('storage/images/prize/'.$winner->prize->image)}}" alt="" height="50px" width="100px" class="img-fluid">
+                                        @else
+                                                <img src="{{asset('dist/images/dummy_image.webp')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->created_at}} </div>
+                            </td>
+
                             {{-- <td class="text-center">{{ $user->user->name ?? ''}}</td>
                             <td class="text-center">{{ $user->points }}</td> --}}
                             {{-- <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('j F, Y') }}</td> --}}
@@ -87,7 +122,7 @@
 
                         </tr>
                     @endforelse
-
+                    @endif
                 </tbody>
             </table>
         </div>

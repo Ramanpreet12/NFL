@@ -261,9 +261,7 @@
                         @error('santa_game_store_link')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
-
-
-                    <div class="form-inline mt-5">
+                    <div class="form-inline mt-5 mb-5">
                         <label for="footer_bar" class="font-medium form-label sm:w-60">Copyright <span class="text-danger">*</span></label>
                         <input id="footer_bar" type="text" class="form-control" placeholder="GAMEDAY PICKS, LLC © 2023. All Rights Reserved" name="footer_bar" value="{{$general->footer_bar}}">
                     </div>
@@ -271,6 +269,80 @@
                         <label for="" class="font-medium form-label sm:w-60"></label>
                         @error('footer_bar')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
+
+                    <hr class="mt-2">
+
+                    <div class="flex flex-col sm:flex-row items-center p-5">
+                        <h2 class="font-medium text-base mr-auto">Social Links</h2>
+                    </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="facebook" class="font-medium form-label sm:w-60">Facebook <span class="text-danger"></span></label>
+                        <input id="facebook" type="text" class="form-control" placeholder="https://www.facebook.com/" name="facebook" value="{{$social_links['Facebook']}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('facebook')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+                    <div class="form-inline mt-5">
+                        <label for="twitter" class="font-medium form-label sm:w-60">Twitter <span class="text-danger"></span></label>
+                        <input id="twitter" type="text" class="form-control" placeholder="https://www.twitter.com/" name="twitter" value="{{$social_links['Twitter']}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('twitter')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="instagram" class="font-medium form-label sm:w-60">Instagram <span class="text-danger"></span></label>
+                        <input id="instagram" type="text" class="form-control" placeholder="https://www.instagram.com/" name="instagram" value="{{$social_links['Instagram']}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('instagram')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="google_plus" class="font-medium form-label sm:w-60">Google Plus <span class="text-danger"></span></label>
+                        <input id="google_plus" type="text" class="form-control" placeholder="https://www.google.com/" name="google_plus" value="{{$social_links['Google']}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('google_plus')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="youtube" class="font-medium form-label sm:w-60">Youtube <span class="text-danger"></span></label>
+                        <input id="youtube" type="text" class="form-control" placeholder="https://www.youtube.com/" name="youtube" value="{{$social_links['Youtube']}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('youtube')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+
+                    <div class="form-inline mt-5">
+                        <label for="pinterest" class="font-medium form-label sm:w-60">Pinterest <span class="text-danger"></span></label>
+                        <input id="pinterest" type="text" class="form-control" placeholder="https://www.pinterest.com/" name="pinterest" value="{{$social_links['Pinterest']}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('pinterest')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+
+                    <div class="form-inline mt-5">
+                        <label for="linkedin" class="font-medium form-label sm:w-60">Linkedin<span class="text-danger"></span></label>
+                        <input id="linkedin" type="text" class="form-control" placeholder="https://www.linkedin.com/" name="linkedin" value="{{$social_links['Linkedin']}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('linkedin')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+
+
+
 
 
 

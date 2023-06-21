@@ -9,7 +9,7 @@
         padding:0;
     }
     a {
-        color: #da9a29;
+        // color: #da9a29;
     }
     h1, h2, h3, h4, h5, h6{
         font-family: 'Oxanium', 'cursive';
@@ -658,7 +658,7 @@
         background-size: cover;
         background-repeat: no-repeat;
         h2{
-            color: #fff;
+            // color: #fff;
             font-weight: 600;
             position: relative;
             padding-left: 30px;
@@ -689,7 +689,7 @@
                 }
                 .namedesgination{
                     h6{
-                        color: #06083b;
+                        // color: #06083b;
                     }
                 }
             
@@ -791,7 +791,7 @@
     #abouttexting{
         padding: 70px 0;
         h2{
-            @extend %extend-heading;  
+            // @extend %extend-heading;  
         }
     
     }
@@ -814,7 +814,7 @@
     #contactPart{
         padding: 70px 0;
         h2{
-            @extend %extend-heading;
+            // @extend %extend-heading;
         }
         .contactForm{
             background-color: rgb(230, 228, 228);
@@ -827,7 +827,7 @@
             .socialIcon{
                 padding-top: 30px;
                 .fa-brands{
-                color:#db9a29;
+                // color:#db9a29;
                 font-size: 22px;
                 padding: 0 10px;
                 &:hover{
@@ -838,7 +838,7 @@
             .contactUs{
                 .iconitem{
                     .fa-solid{
-                        color: #db9a29;
+                        // color: #db9a29;
                         font-size: 20px;
                         margin-right: 10px;
                     }
@@ -855,7 +855,7 @@
         padding: 50px 0;
         color: white;
         h2{
-            @extend %extend-heading;
+            // @extend %extend-heading;
         }
     }
         .headerMenu{
@@ -930,7 +930,7 @@
     #resultLeaderboard{
         padding: 70px 0px 40px 0;
         h2{
-            @extend %extend-heading;
+            // @extend %extend-heading;
         }
         .seasonWeek{
             justify-content: space-between;
@@ -1027,7 +1027,7 @@
     #prizePart{
         padding: 70px 0;
         h2{
-            @extend %extend-heading;
+            // @extend %extend-heading;
         }
         .card{
         border: none;
@@ -1037,7 +1037,7 @@
             object-fit: cover;
         }
         h3{
-            color: #06083b;
+            // color: #06083b;
 
             &:before{
                 content:"\f06b";
@@ -1405,7 +1405,7 @@
     #resultLeaderboard{
     
         .modrenFixture{
-            background-color: #da9a29;
+            // background-color: #da9a29;
             padding: 30px 0px 30px;
             display: flex;
             flex-wrap: wrap;
@@ -1593,6 +1593,143 @@
     justify-content: space-between;
     margin-bottom: 20px;
     flex-wrap: wrap;
+}
+
+/*optimizing css code ------------------- optimizing css code -------------------optimizing css code--------------*/
+/* home/index*/
+/* 21-4-23 */
+.tabletwo tr .teamRegion {
+    width: 98px;
+}
+
+.tabletwo tr .teamNumber {
+    width: 85px;
+}
+
+.tabletwo tr .teamLogo {
+    width: 80px;
+}
+
+.tabletwo tr .teamName {
+    width: 170px;
+}
+
+.tabletwo tr .teamW {
+    width: 85px;
+}
+
+.tabletwo tr .teamL {
+    width: 85px;
+}
+
+.tabletwo tr .teamPts {
+    width: 92px;
+}
+
+.tabletwo tbody.directionTbody {
+    height: 180px;
+    overflow-y: auto;
+}
+
+
+
+.tabletwo table.table {
+    min-width: 500px;
+}
+
+
+
+
+/* 24-april-2023 */
+#alphabets_links a {
+    text-decoration: none;
+    // color: white;
+}
+
+/* layout/header file */
+
+nav.navbarMobile .navbar-nav .nav-item.dropdown {
+    display: flex;
+    flex-wrap: wrap;
+}
+nav.navbarMobile .navbar-nav .nav-item {
+    padding: 15px 20px;
+}
+nav.navbarMobile .navbar-nav .nav-item .nav-link {
+    padding: 0; 
+}
+ 
+nav.navbarMobile .navbar-nav .nav-item .dropdown-toggle {
+    color: #fff;
+    width: 20px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.nfl_loader  {
+    width: 100%;
+    display: flex;
+    height: 100%;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    background-color: #0000008c;
+    left: 0;
+}
+
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 991px) {
+nav.navbarMobile .navbar-collapse .navbar-nav .nav-item {
+    padding: 0;
+    align-items: center;
+ .nav-link {
+    padding: 10px;
+    display: block;
+    flex: 1 0 0;
+}
+.dropdown-toggle {
+    color: #fff;
+    width: 40px;
+    text-align: center;
+    margin-left: 10px;
+    line-height: 40px;
+}
+}
+.navbarMobile.navbar .navbar-collapse .navbar-nav .dropdown:hover .dropdown-menu:not(.show){
+display: none;
+
+}
+}
+
+/*  fixture file*/
+
+.inner_form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerMenu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+/* contact page  */
+.input-error {
+    color: #ff5555;
+}
+.input-success {
+    color: green;
+}
+ /* for jquery validation errror messages on reviews form  */
+.error{
+    color:#ff5555;
 }
 
             // media query

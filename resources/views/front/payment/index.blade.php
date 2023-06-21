@@ -1,6 +1,19 @@
 @extends('front.layout.app')
 @section('content')
     <style>
+
+::-webkit-input-placeholder {
+  color: #bdbdbd;
+}
+::-moz-placeholder {
+  color: #bdbdbd;
+}
+:-ms-input-placeholder {
+  color: #bdbdbd;
+}
+:-moz-placeholder {
+  color: #bdbdbd;
+}
         .errorValidation {
             border: 2px solid red;
         }
@@ -34,57 +47,6 @@
             right: 0;
             margin: auto;
         }
-
-    /* .loader,
-            .loader:after {
-                border-radius: 50%;
-                width: 10em;
-                height: 10em;
-
-            }
-            .loader {
-                margin: 60px auto;
-                font-size: 10px;
-                position: relative;
-                text-indent: -9999em;
-                border-top: 1.1em solid rgba(255, 255, 255, 0.2);
-                border-right: 1.1em solid rgba(255, 255, 255, 0.2);
-                border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
-                border-left: 1.1em solid #ffffff;
-                -webkit-transform: translateZ(0);
-                -ms-transform: translateZ(0);
-                transform: translateZ(0);
-                -webkit-animation: load8 1.1s infinite linear;
-                animation: load8 1.1s infinite linear;
-            }
-            @-webkit-keyframes load8 {
-                0% {
-                    -webkit-transform: rotate(0deg);
-                    transform: rotate(0deg);
-                }
-                100% {
-                    -webkit-transform: rotate(360deg);
-                    transform: rotate(360deg);
-                }
-            }
-            @keyframes load8 {
-                0% {
-                    -webkit-transform: rotate(0deg);
-                    transform: rotate(0deg);
-                }
-                100% {
-                    -webkit-transform: rotate(360deg);
-                    transform: rotate(360deg);
-                }
-            }
-            #loadingDiv {
-                position:absolute;;
-                top:0;
-                left:0;
-                width:100%;
-                height:100%;
-                background-color:#0000009d;
-            } */
 	button-container button {
 	    font-size: 1rem;
 
@@ -109,13 +71,22 @@
     <section id="paymentForm">
         <div class="container">
             <div class="row justify-content-center">
+                <div class="col-sm-12 col-lg-12 col-md-12">
+                @foreach($errors as $error)
+
+                      {{$error}}
+
+                @endforeach
+
+
+                </div>
                 <div class="col-sm-12 col-lg-8 col-md-12">
                     <div class="loginFormSubmit">
                         <div class="row">
                             <div class="textHeader mb-5 text-center">
                                 <h2>Payment Information</h2>
                             </div>
-                            <div class="text-center mb-1">
+                            <div class="text-center">
                                 @if (session('message_error'))
                                 <div class="alert alert-danger show flex items-center mb-2" role="alert">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
@@ -154,7 +125,7 @@
                                     </div> --}}
 
                                     <div class="mb-3">
-                                        <label for="address" class="form-label">Address  <span class="text-danger">*</span></label>
+                                        <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="address" name="address"
                                             placeholder="Street Address">
 
@@ -162,7 +133,7 @@
                                     <div class="input-errors" id="address-error" role="alert"></div>
                                     <div class="row">
                                         <div class="mb-3">
-                                            <label for="validationCustom03" class="form-label">City  <span class="text-danger">*</span></label>
+                                            <label for="validationCustom03" class="form-label">City <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" placeholder="City" id="city" name="city">
 
                                         </div>
@@ -177,7 +148,7 @@
                                         </div> --}}
                                     </div>
                                     <div class=" mb-3">
-                                        <label for="country" class="form-label">Country  <span class="text-danger">*</span></label>
+                                        <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="country" name="country"
                                             placeholder="USA">
 
@@ -206,25 +177,25 @@
                                     </div>
 
                                     <div class="form-row top-row">
-                                    	<label for="country" class="form-label">Card Number  <span class="text-danger">*</span></label>
+                                    	<label for="country" class="form-label">Card Number <span class="text-danger">*</span></label>
                                         <div id="card-number" class="field card-number ramesh"></div>
                                         <div class="input-errors " id="card-number-errors" role="alert"></div>
                                     </div>
 
                                     <div class="form-row">
-                                    	<label for="country" class="form-label">Card Expiry Date  <span class="text-danger">*</span></label>
+                                    	<label for="country" class="form-label">Card Expiry Date <span class="text-danger">*</span></label>
                                         <div id="card-date" class="field third-width"></div>
                                         <div class="input-errors" id="card-date-errors" role="alert"></div>
                                     </div>
 
                                     <div class="form-row">
-                                    <label for="country" class="form-label">CVV number  <span class="text-danger">*</span></label>
+                                    <label for="country" class="form-label">CVV number <span class="text-danger">*</span></label>
                                         <div id="card-cvv" class="field third-width"></div>
                                         <div class="input-errors" id="card-cvv-errors" role="alert"></div>
                                     </div>
 
                                     <div class="form-row">
-                                    	<label for="country" class="form-label">Postal Code  <span class="text-danger">*</span></label>
+                                    	<label for="country" class="form-label">Postal Code <span class="text-danger">*</span></label>
                                         <div id="card-postal-code" class="field third-width"></div>
                                         <div class="input-errors" id="card-postal-code-errors" role="alert"></div>
                                     </div>
@@ -238,14 +209,10 @@
                                 </form>
 
                             </div>
-
                             <div class="col-sm-1">
-                                <div class="numberBiling d-flex mb-3">
-                                    {{-- <div class="numberRound text-center me-3">
-                                        <span>2</span>
-                                    </div> --}}
+
                                     <div class="textItem">
-                                        <h6>Clover Device Image</h6>
+
                                         <div class="form-row top-row ">
                                             <div id="" class="field">
                                                 <img src="{{asset('front/img/clover_device_img.png')}}" alt="" height="200px " width="200px">
@@ -253,7 +220,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -267,52 +234,28 @@
 
 @section('script')
     <script src="https://cdn.polyfill.io/v3/polyfill.min.js"></script>
+
+    @if(env('PAYMENT_MODE') == 'TEST' )
     <script src="https://checkout.sandbox.dev.clover.com/sdk.js"></script>
+    @else
+    <script src="https://checkout.clover.com/sdk.js"></script>
+    @endif
+
+
 
     <script>
 
-// $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
-// $(window).on('load', function(){
-//   setTimeout(removeLoader, 2000); //wait for page load PLUS two seconds.
-// });
-// function removeLoader(){
-//     $( "#loadingDiv" ).fadeOut(500, function() {
-//       // fadeOut complete. Remove the loading div
-//       $( "#loadingDiv" ).remove(); //makes page more lightweight
-//   });
-// }
+        @if(env('PAYMENT_MODE') == 'TEST' )
+        const clover = new Clover('{{env("CLOVER_PUBLIC_KEY")}}');
+        @else
+        const clover = new Clover('{{env("CLOVER_PUBLIC_KEY_PRODUCTION")}}');
+        @endif
 
-        // const clover = new Clover('c3d0fd73-c2fe-da01-30c3-6f8e230c9fc8');
-        // client_id=98QE1AKWCCKHY
-        // code=3e4c9386-2cc2-3c6d-b009-19728e42f84b
-
-        // https://sandbox.dev.clover.com/oauth/token?client_id=98QE1AKWCCKHY&client_secret=b55208bf-9fb0-9b31-3c83-1428bb3cee5d&code=3e4c9386-2cc2-3c6d-b009-19728e42f84b
-
-        // {"access_token":"54fd4cab-61d0-11d1-6e9f-1f4f1b818311"}
-        // {
-        //   "apiAccessKey": "c0fbfd6545a92e75b85759bc8bdb25a6",
-        //   "merchantUuid": "DD1N699G9JDZ1",
-        //   "developerAppUuid": "98QE1AKWCCKHY",
-        //   "active": true,
-        //   "createdTime": 1686726874000,
-        //   "modifiedTime": 1686726874000
-        // }
-
-        // let clove_public_key = '{{ config("app.clover_public_key") }}';
-        let clove_public_key = '{{ config("app.clover_public_key") }}';
-       console.log('test' ,clove_public_key);
-
-        const clover = new Clover(clove_public_key, {
-            // merchantId: 'DD1N699G9JDZ1'
-        });
-        console.log('clover', clover);
 
         const elements = clover.elements();
-        console.log('elements', elements);
-
         const form = document.getElementById('payment-form');
 
-        console.log('form', form);
+
 
 
 
@@ -414,90 +357,26 @@ const cardPostalCode = elements.create('CARD_POSTAL_CODE', styles);
         const displayCardPostalCodeError = document.getElementById('card-postal-code-errors');
 
 
-        const fname = document.getElementById('fname');
-        const displayFnameError = document.getElementById('fname-error');
-
-        const address = document.getElementById('address');
-        const displayAddressError = document.getElementById('address-error');
-
         const city = document.getElementById('city');
         const displayCityError = document.getElementById('city-error');
 
-        const country = document.getElementById('country');
-        const displayCountryError = document.getElementById('country-error');
-
-
-
-        fname.addEventListener('change', function(event) {
-            //console.log(fname.value);
-            if(fname.value == ''){
-                 displayFnameError.innerHTML = 'Billing user name required';
-            } else{
-		displayFnameError.innerHTML = '';
-		}
-        });
-
-        fname.addEventListener('blur', function(event) {
-            //console.log(`cardNumber blur ${JSON.stringify(event)}`);
-             if(fname.value == ''){
-                 displayFnameError.innerHTML = 'Billing user name required';
-            } else{
-		displayFnameError.innerHTML = '';
-		}
-        });
-
-
-        address.addEventListener('change', function(event) {
-            //console.log(city.value);
-            if(address.value == ''){
-                 displayAddressError.innerHTML = 'Billing address required';
-            } else{
-		displayAddressError.innerHTML = '';
-		}
-        });
-
-        address.addEventListener('blur', function(event) {
-           // console.log(`cardNumber blur ${JSON.stringify(event)}`);
-             if(address.value == ''){
-                 displayAddressError.innerHTML = 'Billing address required';
-            } else{
-		displayAddressError.innerHTML = '';
-		}
-        });
-
         city.addEventListener('change', function(event) {
-            //console.log(city.value);
+            console.log(city.value);
             if(city.value == ''){
                  displayCityError.innerHTML = 'Billing City name required';
+
             } else{
-		displayCityError.innerHTML = '';
+			displayCityError.innerHTML = '';
 		}
         });
 
         city.addEventListener('blur', function(event) {
-            //console.log(`cardNumber blur ${JSON.stringify(event)}`);
+            console.log(`cardNumber blur ${JSON.stringify(event)}`);
              if(city.value == ''){
                  displayCityError.innerHTML = 'Billing City name required';
-            } else{
-		displayCityError.innerHTML = '';
-		}
-        });
 
-        country.addEventListener('change', function(event) {
-            //console.log(city.value);
-            if(country.value == ''){
-                 displayCountryError.innerHTML = 'Billing country required';
             } else{
-		displayCountryError.innerHTML = '';
-		}
-        });
-
-        country.addEventListener('blur', function(event) {
-            //console.log(`cardNumber blur ${JSON.stringify(event)}`);
-             if(country.value == ''){
-                 displayCountryError.innerHTML = 'Billing country required';
-            } else{
-		displayCountryError.innerHTML = '';
+			displayCityError.innerHTML = '';
 		}
         });
 
