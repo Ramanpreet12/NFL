@@ -147,6 +147,6 @@ class VacationController extends Controller
     public function destroy($id)
     {
         Vacation::find($id)->delete();
-        return redirect('admin/vacation')->with('message_success' , 'Vacation Pac deleted successfully');;
+        return redirect('admin/vacation')->with('message_success' , 'Vacation Pac deleted successfully');
     }
 }

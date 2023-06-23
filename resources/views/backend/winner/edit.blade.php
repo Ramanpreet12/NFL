@@ -32,35 +32,68 @@
         @endif
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-            <h2 class="font-medium text-base mr-auto">Assign Prize </h2>
+            <h2 class="font-medium text-base mr-auto">Edit Assigned Prize </h2>
             <a href="{{route('winner.index')}}"><button class="btn btn-primary">Back</button></a>
         </div>
-        <form action="{{url('admin/winner/assigned_prize/'.$get_winning_user->user_id)}}" method="post" enctype="multipart/form-data">
+
+        <form action="{{ route('winner.update', $get_prize_assigned_to_user->id) }}" method="post" enctype="multipart/form-data">
             @csrf
-{{-- @method('PUT') --}}
+            @method('PUT')
             <div id="horizontal-form" class="p-5">
                 <div class="preview  mr-5">
 
-                    <input type="hidden" value="{{$get_winning_user->season_id}}" name="season_id">
+                    <input type="hidden" value="{{$get_prize_assigned_to_user->season_id}}" name="season_id">
                     <div class="form-inline mt-5">
                         <label for="name" class="font-medium form-label sm:w-60">User Name <span class="text-danger">*</span></label>
-                        <input type="hidden" value="{{$get_winning_user->user_id}}" name="user_id" >
-                        <input id="name" name="" type="text" class="form-control" placeholder="Enter Team name"  value="{{$get_winning_user->name}}" readonly>
+                        <input type="hidden" value="{{$get_prize_assigned_to_user->user_id}}" name="user_id" >
+                        <input id="name" name="" type="text" class="form-control" placeholder="Winner User Name"  value="{{$get_prize_assigned_to_user->user->name}}" readonly>
+                    </div>
+                    <div class="form-inline mt-5">
+                        <label for="name" class="font-medium form-label sm:w-60">User Email <span class="text-danger">*</span></label>
+                        {{-- <input type="hidden" value="{{$get_prize_assigned_to_user->user_id}}" name="user_id" > --}}
+                        <input id="name" name="" type="text" class="form-control" placeholder="Enter Team name"  value="{{$get_prize_assigned_to_user->user->email}}" readonly>
+                    </div>
+
+
+
+                    <div class="form-inline mt-5">
+                        <input type="hidden"  name="total_points" value="{{$get_prize_assigned_to_user->total_points}}" >
+                        <label for="points" class="font-medium form-label sm:w-60">Points <span class="text-danger">*</span></label>
+                        <input id="points" type="text" class="form-control" placeholder="Enter the points for the prize" name="" value="{{$get_prize_assigned_to_user->total_points}}" readonly>
+                    </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="name" class="font-medium form-label sm:w-60">Assigned Prize</label>
+                        <input id="name" name="" type="text" class="form-control" placeholder="Assigned Prize"  value="{{$get_prize_assigned_to_user->prize->name}}" readonly>
                     </div>
 
 
                     <div class="form-inline mt-5">
-                        <input type="hidden"  name="total_points" value="{{$get_winning_user->total_points}}" >
-                        <label for="points" class="font-medium form-label sm:w-60">Points <span class="text-danger">*</span></label>
-                        <input id="points" type="text" class="form-control" placeholder="Enter the points for the prize" name="" value="{{$get_winning_user->total_points}}" readonly>
+                        <label for="image" class="font-medium form-label sm:w-60">Image</label>
+
                     </div>
+
+                    @if (!empty($get_prize_assigned_to_user->prize->image))
+                    <div class="form-inline">
+                        <label for="image" class="font-medium form-label sm:w-60"></label>
+                        <img src="{{asset('storage/images/prize/'.$get_prize_assigned_to_user->prize->image)}}" class="img-fluid" alt="" height="50px"  width="100px">
+                    </div>
+                    @else
+                            <div class="form-inline mt-5">
+                                <label for="image" class="font-medium form-label sm:w-60"></label>
+                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid" height="50px"  width="100px">
+                            </div>
+
+                    @endif
+
+
                     <div class="form-inline mt-5 mt-2">
-                        <label for="prize" class="font-medium form-label sm:w-60">Prizes <span class="text-danger">*</span></label>
+                        <label for="prize" class="font-medium form-label sm:w-60">Edit Assigend Prizes</label>
                         <select class="form-control" id="prize" name="prize_id">
 
                             <option value="">select</option>
                             @forelse ($get_prizes as $prize)
-                            <option value="{{$prize->id}}">{{$prize->name}}</option>
+                            <option value="{{$prize->id}}" {{$get_prize_assigned_to_user->prize->id == $prize->id ? 'selected' : '' }}>{{$prize->name}}</option>
                             @empty
                             <option value="">No prize</option>
                             @endforelse

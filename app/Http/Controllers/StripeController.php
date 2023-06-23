@@ -162,7 +162,7 @@ class StripeController extends Controller
                     $data = [
                         'user_id' => auth()->user()->id,
                         'season_id' => $request->input('season'),
-                        'amount'=> ($c_season->season_amount)/100,
+                        'amount'=> $res["amount"]/100,
                         'transaction_id'=> $res["id"],
                         'payment_method' => $res["payment_method_details"],
                         'status' => $res["status"],
@@ -175,7 +175,6 @@ class StripeController extends Controller
                         'last4_digit_of_card' =>$res['source']["last4"],
                         'clover_payment_intiation_id'=>$res['source']["id"]
                     ];
-
                     $Payment = Payment::create($data);
                     $addressData = [
                         'user_id'=>auth()->user()->id,
@@ -191,7 +190,8 @@ class StripeController extends Controller
                     $orderDetails = DB::table('payments')->join('addresses', 'addresses.payment_id','=', 'payments.id')->join('seasons', 'seasons.id','=', 'payments.season_id')->where(['payments.id' => $Payment->id])->select('seasons.season_name','payments.*','addresses.name','addresses.address','addresses.city','addresses.country','addresses.zip')->first();
 
                             if ($address) {
-                                Mail::to('yamanwalia000@gmail.com')->send(new payment_class($orderDetails));
+                                Mail::to(Auth::user()->email)->send(new payment_class($orderDetails));
+                                // Mail::to('yamanwalia000@gmail.com')->send(new payment_class($orderDetails));
                                 return view('front.payment.success' , compact('Payment'));
 
                             } else {

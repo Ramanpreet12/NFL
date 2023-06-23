@@ -94,7 +94,7 @@
                                         <tr>
                                             <th class="whitespace-nowrap">IMAGES</th>
                                             <th class="whitespace-nowrap"> NAME</th>
-                                            <th class="text-center whitespace-nowrap">STATUS</th>
+                                            <th class="text-center whitespace-nowrap">EMAIL</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -117,7 +117,12 @@
                                                     <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"></div>
                                                 </td>
 
-                                                <td class="w-40">
+                                                <td>
+                                                    <a href="" class="font-medium whitespace-nowrap">{{ $user->email }}</a>
+                                                    <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5"></div>
+                                                </td>
+
+                                                {{-- <td class="w-40">
                                                     @if ($user->subscribed == 1 )
                                                     <div class="flex items-center justify-center text-success">
                                                         <i data-feather="check-square" class="w-4 h-4 mr-2"></i>{{'Paid'}}
@@ -128,7 +133,7 @@
                                                     </div>
                                                     @endif
 
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>

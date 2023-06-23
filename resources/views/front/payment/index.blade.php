@@ -169,12 +169,12 @@
                                         <h6>Credit Card Info</h6>
                                     </div>
                                 </div>
-{{--
+
                                     <div class="form-row top-row ">
                                         <div id="amount" class="field card-number">
                                             <input type="hidden" name="amount" placeholder="Amount" class="form-control" value="{{$season->season_amount}}">
                                         </div>
-                                    </div> --}}
+                                    </div>
 
                                     <div class="form-row top-row">
                                     	<label for="country" class="form-label">Card Number <span class="text-danger">*</span></label>

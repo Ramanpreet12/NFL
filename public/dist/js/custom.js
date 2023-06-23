@@ -1,4 +1,11 @@
-$(".alert_messages").fadeOut('slow');
+// $(".alert_messages").delay(2000).fadeOut(3000);
+
+setTimeout(function(){
+    $('.alert_messages').fadeOut();
+}, 3000);
+
+// $('#alert_messages').fadeIn().delay(10000).fadeOut();
+
 
 $('#admin_profile_form').validate({
 

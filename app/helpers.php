@@ -99,6 +99,21 @@ if (!function_exists('get_team_logo')) {
     }
 }
 
+
+if (!function_exists('get_team_logo')) {
+    function get_team_logo($team=null)
+    {
+       if($team != null){
+         $selected = Illuminate\Support\Facades\DB::table('teams')->where('id',$team)->first();
+         if($selected){
+           return $selected->logo;
+         }else{
+            return '';
+         }
+       }
+    }
+}
+
 if (!function_exists('key_value')) {
 function key_value($key, $value, $ar)
 {

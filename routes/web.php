@@ -186,7 +186,8 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
 
 
     //Winner rotues
-    Route::get('winner', [WinnerController::class, 'index'])->name('admin/winner');
+    // Route::get('winner', [WinnerController::class, 'index'])->name('admin/winner');
+    Route::resources(['winner' => WinnerController::class]);
     Route::get('winner/assign_prize/{id}', [WinnerController::class, 'assign_prize'])->name('admin/winner/assign_prize');
     Route::post('winner/assigned_prize/{id}', [WinnerController::class, 'assigned_prize_store'])->name('admin/winner/assigned_prize');
     Route::get('view_winners', [WinnerController::class, 'view_winners'])->name('admin/view_winners');

@@ -100,7 +100,7 @@
                   <select name="state" id="state" class="form-control">
                     <option value="" selected>Select State</option>
                     @foreach ($get_usa_states as $usa_state)
-                    <option value="{{ $usa_state->id }}">{{ $usa_state->state_name }}</option>
+                    <option value="{{ $usa_state->id }}" {{old('state') == $usa_state->id ? 'selected' : ''}}>{{ $usa_state->state_name }}</option>
                     @endforeach
                   </select>
 

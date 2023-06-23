@@ -21,12 +21,26 @@ class UserDashboardController extends Controller
         // $c_season = DB::table('seasons')
         //     ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
         //     ->first();
-        // $season = Season::where('status' , 'active')->first();
+        //  $season = Season::where('status' , 'active')->first();
 
-        $c_date = Season::where('status' , 'active')->value('starting');
-        $c_season = DB::table('seasons')
+        //  $c_date = Season::where('status' , 'active')->value('starting');
+        //  dd($c_date);
+        // $c_season = DB::table('seasons')
+        //     ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+        //     ->where('status' , 'active')->first();
+
+            $get_current_year = Carbon::now()->format('Y');
+            $season_data  = Season::where('status','active')->first();
+            $get_year_from_season_date = Carbon::createFromFormat('Y-m-d H:i:s', $season_data->starting)->format('Y');
+            $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
+
+            $c_date = $get_current_season->starting;
+
+            $c_season = DB::table('seasons')
             ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
             ->where('status' , 'active')->first();
+
+
 
         $payment = Payment::where('user_id', auth()->user()->id)->latest()->take(5)->get();
         $user = DB::table('user_teams')
@@ -36,10 +50,19 @@ class UserDashboardController extends Controller
         ->select('teams.name', 'teams.logo', 'user_teams.*')->orderby('user_teams.week', 'desc')
         ->latest()->take(3)->get();
 
-        $c_date = Season::where('status' , 'active')->value('starting');
+        // $c_date = Season::where('status' , 'active')->value('starting');
+        // $c_season = DB::table('seasons')
+        //     ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+        //     ->where('status' , 'active')->first();
+
+        $get_current_year = Carbon::now()->format('Y');
+        $season_data  = Season::where('status','active')->first();
+        $get_year_from_season_date = Carbon::createFromFormat('Y-m-d H:i:s', $season_data->starting)->format('Y');
+        $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
+        $c_date = $get_current_season->starting;
         $c_season = DB::table('seasons')
-            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-            ->where('status' , 'active')->first();
+        ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+        ->where('status' , 'active')->first();
 
         $upcoming = Fixture::with('first_team_id','second_team_id')
         ->where('season_id',$c_season->id)
@@ -71,7 +94,12 @@ class UserDashboardController extends Controller
         ->join('teams as t2', 't2.id', '=', 'f.second_team')
          ->where('user_id', auth()->user()->id)
         ->orderby('user_teams.week', 'desc')->get()->groupby('fweek');
-        $c_date = Season::where('status' , 'active')->value('starting');
+        $get_current_year = Carbon::now()->format('Y');
+        $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
+
+        // $c_date = Season::where('status' , 'active')->value('starting');
+         $c_date = $get_current_season->starting;
+
         $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
                 ->where('status' , 'active')->first();
            $season_name = $c_season->season_name;
@@ -97,7 +125,13 @@ class UserDashboardController extends Controller
         // echo "<pre>";
         // print_r($past_selections);
         // die();
-        $c_date = Season::where('status' , 'active')->value('starting');
+        // $c_date = Season::where('status' , 'active')->value('starting');
+        $get_current_year = Carbon::now()->format('Y');
+        $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
+
+        // $c_date = Season::where('status' , 'active')->value('starting');
+         $c_date = $get_current_season->starting;
+
             $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
                     ->where('status' , 'active')->first();
                $season_name = $c_season->season_name;
@@ -114,10 +148,20 @@ class UserDashboardController extends Controller
         //     ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
         //     ->first();
 
-        $c_date = Season::where('status' , 'active')->value('starting');
+        // $c_date = Season::where('status' , 'active')->value('starting');
+        // $c_season = DB::table('seasons')
+        //     ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+        //     ->where('status' , 'active')->first();
+
+        $get_current_year = Carbon::now()->format('Y');
+        $season_data  = Season::where('status','active')->first();
+        $get_year_from_season_date = Carbon::createFromFormat('Y-m-d H:i:s', $season_data->starting)->format('Y');
+        $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
+        $c_date = $get_current_season->starting;
         $c_season = DB::table('seasons')
-            ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-            ->where('status' , 'active')->first();
+        ->whereRaw('"' . $c_date . '" between `starting` and `ending`')
+        ->where('status' , 'active')->first();
+
 
         $upcoming = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
         // echo "<pre>";

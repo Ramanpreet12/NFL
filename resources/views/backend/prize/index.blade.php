@@ -33,30 +33,28 @@
 
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">Prize Management</h2>
-        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            <form action="{{route('admin/prize/section_heading')}}" method="post">
+            <form action="{{route('admin/prize/section_heading')}}" class="prizeManagementForm" method="post">
                 @csrf
-                    <div id="horizontal-form" class="px-3 flex">
+                    <div id="horizontal-form" class="">
+                        @if (!empty($prizeHeading->value))
 
-                        <div class="preview mx-3">
+                        <div class="preview">
                             <div class="form-inline">
-                                <label for="section_heading" class="font-medium form-label sm:w-60">Section Title <span class="text-danger">*</span></label>
-                                <input id="section_heading" type="text" class="form-control" placeholder="Section Name" name="section_heading"
+                            <label for="section_heading" class="font-medium form-label sm:">Section Title <span class="text-danger">*</span></label>
+                                <input id="section_heading" type="text" class="form-control col" placeholder="Section Name" name="section_heading"
                                 @if (!empty($prizeHeading->value))  value="{{$prizeHeading->value}}"  @else value="Prize" @endif >
+                                <button type="submit" class="btn btn-primary ml-2">Update Title</button>
                             </div>
                             <div class="form-inline">
-                                <label for="section_heading" class="font-medium form-label sm:w-60"></label>
+                                <label for="section_heading" class="font-medium form-label"></label>
                                 @error('section_heading') <p class="text-danger">{{ $message }}</p>@enderror
                             </div>
 
                         </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-primary w-30">Update Title</button>
-                        </div>
 
+                        @endif
                     </div>
             </form>
-        </div>
 
 
 
@@ -66,19 +64,44 @@
         </div>
     </div>
 
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-       <div class="w-full sm:w-auto flex mt-4 sm:mt-0"></div>
+    <div class="uploadFormBlock mt-8">
        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <div id="horizontal-form" class="px-3 flex">
+
+       </div>
+       <div class="">
+        <div id="horizontal-form" class="">
 
             <form action="{{route('admin/prize_banner')}}" method="post" enctype="multipart/form-data">
                 @csrf
-                <div class="preview mx-3">
+                <div class="preview mx-2">
 
-                <div class="form-inline mt-5">
-                    <label for="prize_banner" class="font-medium form-label sm:w-60">Add Prize Banner</label>
+
+
+                <div class="form-inline  uploadFormGroup  mt-5">
+                <label for="banner_prize">Select </label>
+                  <select name="prize_banner_option" id="prize_banner_option">
+
+                        <option value="uplaod_image"
+                        @php if($get_prize_banner->selected_option == 'uplaod_image'){ echo 'selected'; }  @endphp> upload Image</option>
+
+                        <option value="youtube_link" @php if($get_prize_banner->selected_option == 'youtube_link'){ echo 'selected'; }  @endphp>Youtube link</option>
+
+                  </select>
+                </div>
+                <div class="form-inline  uploadFormGroup  mt-5" id="uploader_inputFeild">
+                     <label for="prize_banner" class="font-medium form-label sm:w-60">Add Prize Banner</label>
                     <input id="prize_banner" type="file" class="form-control" placeholder="Enter prize banner" name="prize_banner" value="">
                 </div>
+
+                <div class="form-inline  uploadFormGroup  mt-5" id="link_inputFeild">
+                <label for="prize_banner" class="font-medium form-label sm:w-60">Add Youtube Link</label>
+                    <input id="youtube_link" type="text" class="form-control" placeholder="Enter you tube link" name="youtube_link" value="{{$get_prize_banner->youtubelink}}">
+                </div>
+
+                <div class="form-inline  uploadFormGroup  mt-5">
+                    <button type="submit" class="btn btn-primary w-30">Upload</button>
+                </div>
+
                 <div class="form-inline">
                     <label for="prize_banner" class="font-medium form-label sm:w-60"></label>
                     @error('prize_banner') <p class="text-danger">{{$message}}</p> @enderror
@@ -86,7 +109,7 @@
                 </div>
                 {{-- <button class="btn btn-primary" type="submit">Upload</button> --}}
 
-                <div class="form-inline mt-5">
+                <div class="form-inline mt-5 uploadedPrize" id="uploadedPrize">
                     <label for="prize_banner" class="font-medium form-label sm:w-60"></label>
 
                     @if (($get_prize_banner != '') && ($get_prize_banner->prize_banner))
@@ -97,9 +120,7 @@
 
                     @endif
                 </div>
-                <div class="text-right">
-                    <button type="submit" class="btn btn-primary w-30">Upload</button>
-                </div>
+
             </form>
         </div>
        </div>
@@ -211,5 +232,68 @@
     $(function() {
       $('#prize_table').DataTable();
     });
+    $(document).ready(function(){
+        let select_value = $("#prize_banner_option").val();
+            console.log(select_value);
+            if(select_value == 'youtube_link'){
+                $('#uploadedPrize').hide();
+                $('#link_inputFeild').show();
+                $('#uploader_inputFeild').hide();
+            }else{
+                $('#uploadedPrize').show();
+                $('#uploader_inputFeild').show();
+                $('#link_inputFeild').hide();
+            }
+
+        $(document).on("change","#prize_banner_option",function(){
+        $('#link_inputFeild').hide();
+        $('#uploader_inputFeild').hide();
+            let select_value = $(this).val();
+            console.log(select_value);
+            if(select_value == 'youtube_link'){
+                $('#link_inputFeild').show();
+                $('#uploader_inputFeild').hide();
+                $('#uploadedPrize').hide();
+            }else{
+                $('#uploader_inputFeild').show();
+                $('#link_inputFeild').hide();
+                $('#uploadedPrize').show();
+            }
+        });
+    });
    </script>
    @endsection
+<style>
+.uploadFormGroup {
+    justify-content: right;
+}
+.uploadFormBlock .form-inline .form-control {
+    flex: 0 0 240px;
+    box-shadow: none;
+    border-radius: 0px;
+}
+#horizontal-form .uploadedPrize {
+    justify-content: right;
+}
+form.prizeManagementForm {
+    margin-bottom: 0px;
+}
+.prizeManagementForm #horizontal-form button.btn {
+    white-space: pre;
+}
+@media (min-width: 581px) {
+.prizeManagementForm #horizontal-form {
+    margin-right: 15px;
+}
+
+}
+
+@media (max-width: 580px) {
+#horizontal-form .preview label.form-label {
+    flex: 0 0 100%;
+}
+#horizontal-form .preview input.form-control {
+    flex: 1 0 0;
+}
+}
+</style>

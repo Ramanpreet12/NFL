@@ -81,8 +81,12 @@
                         @error('image') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
                     <div class="form-inline mt-5">
-                        <label for="content" class="font-medium form-label sm:w-60">Content</label>
-                     <textarea name="content" id="editor" cols="30" rows="5" class="form-control"></textarea>
+                        <label for="content" class="font-medium form-label sm:w-60">Content <span class="text-danger">*</span></label>
+                     <textarea name="content" id="editor" cols="10" rows="2" class="form-control"></textarea>
+                    </div>
+                    <div class="form-inline">
+                        <label for="image" class="font-medium form-label sm:w-60"></label>
+                        @error('content') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>

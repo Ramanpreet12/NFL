@@ -63,7 +63,7 @@
                         <input id="amount" type="text" class="form-control" placeholder="Enter the amount for the prize" name="amount" value="{{$prize->amount}}">
                     </div>
                     <div class="form-inline mt-5">
-                        <label for="image" class="font-medium form-label sm:w-60">Image</label>
+                        <label for="image" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
                         <input id="image" type="file" class="form-control" placeholder="Enter image" name="image" value="">
                     </div>
 
@@ -72,10 +72,13 @@
                         <img src="{{asset('storage/images/prize/'.$prize->image)}}" alt="" height="100px" width="250px">
                     </div>
                     <div class="form-inline mt-5">
-                        <label for="content" class="font-medium form-label sm:w-60">Content</label>
-                     <textarea name="content" id="" cols="30" rows="5" class="form-control">{{$prize->content}}</textarea>
+                        <label for="content" class="font-medium form-label sm:w-60">Content <span class="text-danger">*</span></label>
+                     <textarea name="content" id="editor" cols="30" rows="5" class="form-control">{{$prize->content}}</textarea>
                     </div>
-
+                    <div class="form-inline">
+                        <label for="content" class="font-medium form-label sm:w-60"></label>
+                        @error('content') <p class="text-danger">{{$message}}</p> @enderror
+                    </div>
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
                         <select class="form-control" id="status" name="status">
@@ -101,7 +104,17 @@
         </form>
     </div>
 @endsection
-
 @section('script')
-    <script src="{{ mix('dist/js/ckeditor-classic.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
+
 @endsection

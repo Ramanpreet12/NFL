@@ -34,14 +34,14 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">All Winners</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-            <a class="btn btn-primary shadow-md mr-2" href="{{route('admin/winner')}}" id="">Back</a>
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('winner.index')}}" id="">Back</a>
         </div>
     </div>
 
     <div class="grid grid-cols-12 gap-6 mt-5 p-5 bg-white mb-5">
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-            <table class="table table-report -mt-2" id="prize_table">
+            <table class="table table-report -mt-2 table-responsive" id="view_winners">
                 <thead class="bg-primary text-white">
                     <tr>
                         <th class="text-center whitespace-nowrap">Season </th>
@@ -52,6 +52,8 @@
                         <th class="text-center whitespace-nowrap">Prize</th>
                         <th class="text-center whitespace-nowrap">Prize Photo</th>
                         <th class="text-center whitespace-nowrap">Created At</th>
+                        <th class="text-center whitespace-nowrap">Updated At</th>
+                        <th class="text-center whitespace-nowrap">Action</th>
 
                     </tr>
                 </thead>
@@ -63,13 +65,13 @@
 
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->season->season_name}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$winner->season->season_name}} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ $winner->user->name ?? ''}} </div>
+                                <div class="text-slate-500 font-medium mx-4"> {{ $winner->user->name ?? ''}} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{ $winner->user->email ?? ''}} </div>
+                                <div class="text-slate-500 font-medium mx-4"> {{ $winner->user->email ?? ''}} </div>
                             </td>
                             <td class="">
                                 <div class="flex">
@@ -83,14 +85,14 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $winner->total_points }} </div>
+                                <div class="text-slate-500 font-medium mx-4">{{ $winner->total_points }} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->prize->name}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$winner->prize->name}} </div>
                             </td>
                             <td class="">
                                 <div class="flex">
-                                    <div class="w-12 h-12 image-fit zoom-in">
+                                    <div class="zoom-in">
                                         @if (!empty($winner->prize->image))
                                         <img src="{{asset('storage/images/prize/'.$winner->prize->image)}}" alt="" height="50px" width="100px" class="img-fluid">
                                         @else
@@ -100,8 +102,31 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$winner->created_at}} </div>
+                                <div class="text-slate-500 font-medium  mx-4">{{\Carbon\Carbon::parse($winner->created_at)->format('j F , Y , H:i')}}</div>
                             </td>
+                            <td>
+                                <div class="text-slate-500 font-medium  mx-4">{{\Carbon\Carbon::parse($winner->updated_at)->format('j F , Y , H:i')}}</div>
+                            </td>
+
+                            <td class="table-report__action w-56">
+                                <div class="flex justify-center items-center">
+                                    <a class="flex items-center mr-3" href="{{ route('winner.edit',$winner->id) }}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                    </a>
+                                    <form action="{{ route('winner.destroy', $winner->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        {{-- <a class="flex items-center text-danger" href="" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal">
+                                            <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                                        </a> --}}
+                                            <button class="btn btn-danger show_sweetalert" type="submit" data-toggle="tooltip">  <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
+
+                                      </form>
+
+
+                                </div>
+                            </td>
+
 
                             {{-- <td class="text-center">{{ $user->user->name ?? ''}}</td>
                             <td class="text-center">{{ $user->points }}</td> --}}
@@ -160,7 +185,9 @@
    @section('script')
    <script>
     $(function() {
-      $('#prize_table').DataTable();
+      $('#view_winners').DataTable({
+        scrollX: true,
+      });
     });
    </script>
    @endsection

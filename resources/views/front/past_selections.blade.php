@@ -87,10 +87,29 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td>{{ get_team_name($team->team_win) }}
+
+                                                        {{-- <td>{{ get_team_logo($team->team_win) }}{{ get_team_name($team->team_win) }}
+                                                        </td> --}}
+
+                                                        <td>
+                                                            <div class="teamOne">
+                                                            <img src="{{ asset('storage/images/team_logo/' .get_team_logo($team->team_win) ) }}"
+                                                                alt="" class="img-fluid">
+
+                                                            <div style="min-width:200px">{{ get_team_name($team->team_win) }}</div>
+                                                        </div>
                                                         </td>
-                                                        <td>{{ get_team_name($team->team_loss) }}
+                                                        <td>
+                                                            <div class="teamOne">
+                                                            <img src="{{ asset('storage/images/team_logo/' .get_team_logo($team->team_loss) ) }}"
+                                                                alt="" class="img-fluid">
+
+                                                            <div style="min-width:200px">{{ get_team_name($team->team_loss) }}</div>
+                                                        </div>
                                                         </td>
+
+                                                        {{-- <td>{{ get_team_name($team->team_loss) }}
+                                                        </td> --}}
 
                                                         <td>
                                                             <div class="teamOne">

@@ -30,12 +30,15 @@ class PrizeRequest extends FormRequest
             'name' => 'required',
              'season_id' => 'required',
             'image' => 'required',
+            'content' => 'required',
+
            ];
         }
         elseif(request()->isMethod('put')){
             $rules = [
                 'name' => 'required',
                 'season_id' => 'required',
+                'content' => 'required',
 
                ];
         }

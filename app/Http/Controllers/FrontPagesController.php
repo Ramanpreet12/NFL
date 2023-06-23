@@ -277,10 +277,12 @@ class FrontPagesController extends Controller
             if ($user_status) {
                 $current_date = Carbon::now();  // current time and date
                 $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week])->orderBy('date','ASC')->first();
+
                 if($is_user_allowed_to_choose_fixture == null){
                     return response()->json(['message' => 'Sorry.Please try again','status'=>false], 200);
                 }
                 $DeferenceInDays = Carbon::parse(Carbon::now())->diffInDays($is_user_allowed_to_choose_fixture->date);
+                // dd($DeferenceInDays);
                 if($DeferenceInDays <= 0){
                     return response()->json(['message' => 'Time_id_over','status'=>false], 200);
                 }

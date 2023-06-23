@@ -30,6 +30,7 @@ protected $user;
     {
         return $this->from('admin@gmail.com')->view('mail.signup')->with([
             'name' => $this->user->name,
+            'email' => $this->user->email,
         ]);
     }
 }

@@ -14,7 +14,7 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        $total_user_count = User::get()->count();
+        $total_user_count = User::where('role_as' , '0')->get()->count();
         $total_season_count = Season::get()->count();
         $total_payment_count = Payment::sum('amount');
 

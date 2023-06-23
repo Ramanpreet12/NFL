@@ -37,7 +37,7 @@ class SideMenu
 
             'winner' => [
                 'icon' => 'star',
-                'route_name' => 'admin/winner',
+                'route_name' => 'winner.index',
                 'params' => '',
                 'title' => 'Winner'
             ],
