@@ -26,7 +26,7 @@ class BannerRequest extends FormRequest
         if (request()->ismethod('post')) {
            $rules = [
             'heading' => 'required',
-             'image' => 'required',
+             'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg,webp',
             'status' => 'required',
             'serial' => 'required'
            ];
@@ -35,7 +35,8 @@ class BannerRequest extends FormRequest
             $rules = [
                 'heading' => 'required',
                 'status' => 'required',
-                'serial' => 'required'
+                'serial' => 'required',
+                'image' => 'image|mimes:jpg,png,jpeg,gif,svg,webp',
                ];
         }
         return $rules;

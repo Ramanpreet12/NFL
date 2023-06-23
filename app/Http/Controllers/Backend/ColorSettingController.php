@@ -35,7 +35,7 @@ class ColorSettingController extends Controller
                 'bg_color' => $request->bg_color,
                 'status' => $request->status,
             ]);
-            return redirect('admin/color_setting')->with('success' , 'Color updated successfully');
+            return redirect('admin/color_setting')->with('message_success' , 'Color updated successfully');
         }
     }
 

@@ -1,18 +1,19 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Home Setting</title>
+    <title>NFL | News</title>
 @endsection
 
 @section('subcontent')
-    <div class="intro-y flex items-center mt-8">
-        <h2 class="text-lg font-medium mr-auto">Edit News</h2>
+    <div class="intro-y box mt-5">
         @if (session()->has('success'))
             <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-check2-circle" viewBox="0 0 16 16">
-                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                    <path
+                        d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                    <path
+                        d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
                 </svg>
                 &nbsp; {{ session()->get('success') }}
             </div>
@@ -29,77 +30,117 @@
                 {{ session('message_error') }}
             </div>
         @endif
-    </div>
-    <div class="grid grid-cols-6 gap-6 mt-5">
-        <div class="intro-y col-span-12 lg:col-span-6">
-            <!-- BEGIN: Form Layout -->
-            <form action="{{ route('news.update',$news->id) }}" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="intro-y box p-5">
 
+        <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+            <h2 class="font-medium text-base mr-auto">Edit News </h2>
+            <a href="{{route('news.index')}}"><button class="btn btn-primary">Back</button></a>
 
-                    <div class="mt-3">
-                        <label for="title" class="form-label">Title</label>
-                        <div class="input-group">
-                            <input id="title" type="text" class="form-control" placeholder="title"
-                                aria-describedby="input-group-1" name="title" value="{{old('title',$news->title)}}">
-                        </div>
-                        @error('title') <p class="text-danger">{{$message}}</p> @enderror
+        </div>
+        <form action="{{ route('news.update', $news->id) }}" method="post" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div id="horizontal-form" class="p-5">
+                <div class="preview  mr-5">
+                    <div class="form-inline">
+                        <label for="title" class="font-medium form-label sm:w-60">Title <span class="text-danger">*</span></label>
+                        <input id="title" type="text" class="form-control" placeholder="News Title" name="title" value="{{$news->title}}">
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('title')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
-                    <div class="mt-3">
-                        <label for="header" class="form-label">Header</label>
-                        <div class="input-group">
-                            <input id="header" type="text" class="form-control" placeholder="Header"
-                                aria-describedby="input-group-1" name="header" value="{{old('header',$news->header)}}">
-                        </div>
-                        @error('header') <p class="text-danger">{{$message}}</p> @enderror
+
+                    <div class="form-inline">
+                        <label for="header" class="font-medium form-label sm:w-60">Header <span class="text-danger">*</span></label>
+                        <input id="header" type="text" class="form-control" placeholder="News header" name="header" value="{{$news->header}}">
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('header')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
-                    <div class="mt-3">
-                        <label>Image</label>
-                        <div class="mt-2">
-                          <input type="file" name="image" id="image">
-                        </div>
-                        @if ($errors->has('image'))
-                            {{ $errors->first('image')}}
-                        @endif
-                        {{-- <img src="/homeSetting/{{ $news->image }}" height="100px" width="100px"> --}}
-                        <br>
-                        <img src="{{asset('storage/images/news/'.$news->image)}}" height="100px" width="100px">
-                        @error('image') <p class="text-danger"></p> @enderror
+
+                    <div class="form-inline">
+                        <label for="description" class="font-medium form-label sm:w-60">Description <span class="text-danger"></span></label>
+                        <textarea class="form-control" name="description" id="editor" cols="10" rows="3" placeholder="News Description">{{$news->description}}</textarea>
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('description')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
-                    <div class="mt-3" id="classic-editor">
-                        <label>Description</label>
-                        <div class="preview">
-                            <textarea id="description" class="editor"  rows="6" name="description" placeholder="">{{old('description',$news->description)}}</textarea>
-                        </div>
+
+                    <div class="form-inline mt-5">
+                        <label for="image" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
+                        <input id="image" type="file" class="form-control" placeholder="News Image " name="image">
 
                     </div>
-                    <div class="mt-3">
-                        <label for="crud-form-2" class="form-label">Staus</label>
-                        <select data-placeholder="Select any option" name="status" class="tom-select w-full" id="crud-form-2">
-                            <option value="active" {{ old('status',$news->status) == 'active' ? 'selected' :"" }}>Active</option>
-                            <option value="inactive" {{ old('status',$news->status)  == 'inactive' ? 'selected' :"" }}>Inactive</option>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('image')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+                    @if (!empty($news->image))
+                    <div class="form-inline mt-5">
+                        <label for="image" class="font-medium form-label sm:w-60"></label>
+                        <img src="{{asset('storage/images/news/'.$news->image)}}" alt="" height="50px"  width="100px" class="img-fluid">
+                    </div>
+                    @else
+                            <div class="form-inline mt-5">
+                                <label for="image" class="font-medium form-label sm:w-60"></label>
+                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid" height="50px"  width="100px">
+                            </div>
+
+                    @endif
+
+                    {{-- <div class="form-inline mt-5">
+                        <label for="serial" class="font-medium form-label sm:w-60">Serial <span class="text-danger">*</span></label>
+                        <input id="serial" type="number" class="form-control" placeholder="News Serial Order" name="serial" value="{{old('serial')}}">
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('serial')<p class="text-danger">{{$message}}</p> @enderror
+                    </div> --}}
+
+                    <div class="form-inline mt-5">
+                        <label for="status" class="font-medium form-label sm:w-60">Status</label>
+                        <select class="form-control" id="status" name="status">
+
+                            <option value="active" {{$news->status=='active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{$news->status=='inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
-                        @if ($errors->has('status'))
-                            {{ $errors->first('status')}}
-                        @endif
                     </div>
-
-                    <div class="text-left mt-5">
-                        <button type="submit" class="btn btn-primary w-24">Save</button>
-                        <a type="reset" href="{{route('news.index')}}" class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('status')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
                 </div>
-            </form>
-            <!-- END: Form Layout -->
-        </div>
+                <br><br>
+                <div
+                    class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                </div>
+                <div class="text-right mt-5">
+                    <button type="submit" class="btn btn-primary w-24">Save</button>
+                    <button type="reset" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+                </div>
+            </div>
+        </form>
     </div>
 @endsection
 
+
 @section('script')
-    <script src="{{ mix('dist/js/ckeditor-classic.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
 @endsection
+

@@ -39,7 +39,7 @@
                 @csrf
                 <div class="intro-y box p-5">
                     <div class="mt-3">
-                        <label for="season" class="form-label">Season</label>
+                        <label for="season" class="form-label">Season <span class="text-danger">*</span></label>
                         <select data-placeholder="Select Season" class="tom-select w-full" id="season" name="season">
                             <option value="">--select--</option>
                             @foreach ($seasons as $season)
@@ -49,7 +49,7 @@
                         @error('season') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
                     <div class="mt-3">
-                        <label for="first_team" class="form-label">First Team</label>
+                        <label for="first_team" class="form-label">First Team <span class="text-danger">*</span></label>
                         <select data-placeholder="Select Team" class="tom-select w-full" id="first_team" name="first_team">
                             <option value="">--select--</option>
                             @foreach ($teams as $team)
@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <label for="second_team" class="form-label">Second Team</label>
+                        <label for="second_team" class="form-label">Second Team <span class="text-danger">*</span></label>
                         <select data-placeholder="Select your favorite actors" class="tom-select w-full" id="second_team"
                             name="second_team">
                             <option value="">--select--</option>
@@ -81,7 +81,7 @@
                         @error('week') <p class="text-danger">{{$message}}</p> @enderror
                     </div> --}}
                     <div class="mt-3">
-                        <label class="form-label">Date & Time</label>
+                        <label class="form-label">Date & Time <span class="text-danger">*</span></label>
                         <div class="sm:grid grid-cols-2 gap-2">
                             <div class="input-group">
                                 <div id="date" class="input-group-text">Date</div>
@@ -114,10 +114,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-left mt-5">
+                    {{-- <div class="text-left mt-5">
                         <button type="submit" class="btn btn-primary w-24">Save</button>
                         <button type="reset" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-                    </div>
+                    </div> --}}
+
+                    <br><br>
+                <div
+                    class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                </div>
+                <div class="text-right mt-5">
+                    <button type="submit" class="btn btn-primary w-24">Save</button>
+                    <button type="reset" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+                </div>
                 </div>
             </form>
             <!-- END: Form Layout -->

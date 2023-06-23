@@ -29,6 +29,7 @@
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Match Results Setting</h2>
+            <a href="{{route('admin/match_result')}}"><button class="btn btn-primary">Back</button></a>
         </div>
         <form action="{{route('admin/match_result_edit')}}" method="POST" enctype="multipart/form-data">
             @csrf

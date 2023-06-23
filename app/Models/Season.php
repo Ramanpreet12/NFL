@@ -9,7 +9,7 @@ class Season extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['season_name','league','starting','ending' , 'status'];
+    protected $fillable = ['season_name','league','starting','ending' , 'status' , 'season_amount'];
 
     public function fixture(){
         return $this->hasMany(Fixture::class);

@@ -32,8 +32,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
-        $mainMenus = Menu::where('parent_id' , 0)->get();
-        $subMenus = Menu::where('parent_id' , '!=' , 0)->get();
+        $mainMenus = Menu::where(['parent_id' => 0 , 'status' => 'active'])->get();
+        $subMenus = Menu::where('parent_id' , '!=' , 0)->where('status' , 'active')->get();
 
 
         $colorSection=array();

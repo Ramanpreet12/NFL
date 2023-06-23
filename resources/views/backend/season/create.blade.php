@@ -68,6 +68,15 @@
                         @error('ending')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
+                    <div class="form-inline mt-5">
+                        <label for="season_amount" class="font-medium form-label sm:w-60">Amount <span class="text-danger">*</span></label>
+                        <input id="season_amount" type="text" class="form-control" placeholder="Season Amount" name="season_amount" value="{{old('season_amount')}}">
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('season_amount')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
 
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>

@@ -68,6 +68,7 @@ class StripeController extends Controller
             ->where('status' , 'active')
             ->where('league','1')
             ->first();
+
         return view('front.payment.index',compact('season'));
     }
 
@@ -134,7 +135,7 @@ class StripeController extends Controller
         $response = $client->request('POST',$this->getTheChargeUrl(), [
                 'json' => [
                     'ecomind' => 'ecom',
-                    'amount' => $request->input('amount')*100,
+                    'amount' => ($c_season->season_amount)*100,
                     'user_id' =>   auth()->user()->id,
                     'name' =>  $request->input('fname'),
                     'currency' => $this->currency,
@@ -161,7 +162,7 @@ class StripeController extends Controller
                     $data = [
                         'user_id' => auth()->user()->id,
                         'season_id' => $request->input('season'),
-                        'amount'=> $res["amount"]/100,
+                        'amount'=> ($c_season->season_amount)/100,
                         'transaction_id'=> $res["id"],
                         'payment_method' => $res["payment_method_details"],
                         'status' => $res["status"],
@@ -174,6 +175,7 @@ class StripeController extends Controller
                         'last4_digit_of_card' =>$res['source']["last4"],
                         'clover_payment_intiation_id'=>$res['source']["id"]
                     ];
+
                     $Payment = Payment::create($data);
                     $addressData = [
                         'user_id'=>auth()->user()->id,

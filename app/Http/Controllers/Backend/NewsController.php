@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\News;
+use App\Http\Requests\NewsRequest;
 use App\Models\SectionHeading;
 use Storage;
 
@@ -24,7 +25,7 @@ class NewsController extends Controller
              SectionHeading::where('name' , 'News')->update([
                          'value' => $request->section_heading,
                      ]);
-         return redirect('admin/news')->with('success' , 'News Title updated successfully');
+         return redirect('admin/news')->with('message_success' , 'News Title updated successfully');
          }
      }
 
@@ -34,7 +35,8 @@ class NewsController extends Controller
         $query_array = $request->query();
         //$section=$query_array["section"];
         $NewsHeading = SectionHeading::where('name' , 'News')->first();
-        return view('backend.site_setting.news.index' , compact('NewsHeading'));
+        $get_news = News::get();
+        return view('backend.site_setting.news.index' , compact('NewsHeading' , 'get_news'));
     }
 
     public function news_data(){
@@ -61,25 +63,17 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewsRequest $request)
     {
         try{
            //print_r($request->all());exit;
-            if ($request->isMethod('post')) {
-                $validator = Validator::make($request->all(), [
-                    'title' => 'required',
-                    'header' => 'required',
-                    'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-                ]);
-                if ($validator->fails()) {
-                    return redirect()->back()->withErrors($validator)->withInput();
-                }else{
+
                 $data = array();
                  if($request->hasfile('image')){
                         $file = $request->image;
                         // $destinationPath = public_path(). '/homeSetting/';
 
-                        $filename = date('YmdHis') . "." .$file->getClientOriginalName();
+                        $filename = $file->getClientOriginalName();
                         // $file->move($destinationPath, $filename);
                         $file->storeAs('public/images/news/' , $filename);
 
@@ -94,16 +88,13 @@ class NewsController extends Controller
                     $result=News::create($data);
 
                     if($result){
-                        return redirect()->route('news.index')->with('success','New Record Added Successfully');
+                        return redirect()->route('news.index')->with('message_success','News Added Successfully');
                     }else{
                         return redirect()->route('news.index')->with('message_error','Something went wrong');
                     }
                }
 
-                }else {
-                    return view('backend.site_setting.news.index');
-            }
-     }catch(\Exception $e){
+               catch(\Exception $e){
          $e->getMessage();
     }
     }
@@ -140,24 +131,16 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(NewsRequest $request, $id)
     {
         try{
             //print_r($request->all());exit;
-             if ($request->isMethod('put')) {
-                 $validator = Validator::make($request->all(), [
-                     'title' => 'required',
-                     'header' => 'required',
-                     //'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-                 ]);
-                 if ($validator->fails()) {
-                     return redirect()->back()->withErrors($validator)->withInput();
-                 }else{
+
                  $data = array();
                   if($request->hasfile('image')){
                          $file = $request->image;
                         //  $destinationPath = public_path(). '/homeSetting/';
-                         $filename = date('YmdHis') . "." .$file->getClientOriginalName();
+                         $filename = $file->getClientOriginalName();
                         //  $file->move($destinationPath, $filename);
                         $file->storeAs('public/images/news/' , $filename);
 
@@ -173,15 +156,13 @@ class NewsController extends Controller
                      $result=News::where('id',$id)->update($data);
 
                      if($result){
-                         return redirect()->route('news.index')->with('success','New Record Added Successfully');
+                         return redirect()->route('news.index')->with('message_success','News Updated Successfully');
                      }else{
                          return redirect()->route('news.index')->with('message_error','Something went wrong');
                      }
-                }
 
-                 }else {
-                     return view('backend.site_setting.news.index');
-             }
+
+
       }catch(\Exception $e){
           $e->getMessage();
      }
@@ -198,7 +179,7 @@ class NewsController extends Controller
     {
         $del = News::find($id)->delete();
         if($del){
-            return redirect()->route('news.index')->with('success','Reocrd Deleted Successfully');
+            return redirect()->route('news.index')->with('message_success','News Deleted Successfully');
         }else{
             return redirect()->route('news.index')->with('message_error','Something went wrong');
         }

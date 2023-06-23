@@ -211,6 +211,14 @@ class SideMenu
                         'title' => 'Match Result By Region'
                     ],
 
+                    'match-fixture' => [
+                        'icon' => '',
+                        'route_name' => 'admin/match_fixture',
+                        'params' =>'',
+                        'title' => 'Match Fixture'
+                    ],
+
+
                     'prize' => [
                         'icon' => 'award',
                         'route_name' => 'prize.index',

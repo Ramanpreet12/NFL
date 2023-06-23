@@ -59,28 +59,24 @@
             <table class="table table-report -mt-2" id="banner_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th class="text-center whitespace-nowrap">Season</th>
-                        <th class="text-center whitespace-nowrap"></th>
-                        <th class="text-center whitespace-nowrap">Team One</th>
-                        <th class="text-center whitespace-nowrap"></th>
-                        <th class="text-center whitespace-nowrap" >Team Two</th>
+                        <th class="text-center">Season</th>
+                        {{-- <th class="text-center whitespace-nowrap"></th> --}}
+                        <th class="text-center">Team One</th>
+                        {{-- <th class="text-center whitespace-nowrap"></th> --}}
+                        <th class="text-center" >Team Two</th>
 
-                        <th class="text-center whitespace-nowrap">Week </th>
-                        <th class="text-center whitespace-nowrap">Date </th>
-                        <th class="text-center whitespace-nowrap">Time </th>
-                        <th class="text-center whitespace-nowrap">Created At  </th>
-                        <th class="text-center whitespace-nowrap">Updated At </th>
-                        <th class="text-center whitespace-nowrap">Action</th>
+                        <th class="text-center">Week </th>
+                        <th class="text-center">Date </th>
+                        <th class="text-center">Time </th>
+                        <th class="text-center ">Created At  </th>
+                        <th class="text-center">Updated At </th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
-
                     @if ($fixtures->isNotEmpty())
-
-
                     @forelse ($fixtures as $fixture)
-
                         <tr class="intro-x">
                             <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{$fixture->season->season_name ?? ''}} </div>
@@ -95,10 +91,12 @@
                                                 <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
                                         @endif
                                     </div>
-
+                                    <div class="text-slate-500 font-medium mx-4">
+                                        {{ $fixture->first_team_id->name }}
+                                        </div>
                                 </div>
                             </td>
-                            <td class="text-center">{{ $fixture->first_team_id->name }}</td>
+                            {{-- <td class="text-center">{{ $fixture->first_team_id->name }}</td> --}}
                             <td class="">
                                 <div class="flex">
                                     <div class="w-10 h-10 image-fit zoom-in">
@@ -108,9 +106,13 @@
                                                 <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
                                         @endif
                                     </div>
+                                    <div class="text-slate-500 font-medium mx-4">
+                                        {{ $fixture->second_team_id->name }}
+                                        </div>
+
                                 </div>
                             </td>
-                            <td class="text-center">{{ $fixture->second_team_id->name }}</td>
+                            {{-- <td class="text-center">{{ $fixture->second_team_id->name }}</td> --}}
                             <td class="text-center">{{ $fixture->week }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($fixture->date)->format('j F, Y') }}</td>
                             <td class="text-center"> {{ \Carbon\Carbon::createFromFormat('H:i:s', $fixture->time)->format('g:i') }} {{ ucfirst($fixture->time_zone) }}</td>

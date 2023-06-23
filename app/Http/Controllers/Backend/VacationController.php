@@ -11,6 +11,7 @@ use App\Models\News;
 use App\Models\SectionHeading;
 use Illuminate\Support\Facades\Validator;
 use Storage;
+use App\Http\Requests\VacationPacRequest;
 
 
 class VacationController extends Controller
@@ -35,7 +36,7 @@ class VacationController extends Controller
                 ]);
             }
 
-                    return redirect()->route('vacation.index')->with('success' , 'Video title updated successfully');
+                    return redirect()->route('vacation.index')->with('message_success' , 'Video title updated successfully');
         }
     }
 
@@ -62,7 +63,7 @@ class VacationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VacationPacRequest $request)
     {
         if($request->isMethod('post')) {
             if ($request->hasFile('image_video')) {
@@ -80,7 +81,7 @@ class VacationController extends Controller
             $vacation->serial   = $request->serial;
             $vacation->status   = $request->status;
             $vacation->save();
-            return redirect('admin/vacation')->with('success' , 'Vacation Pac added successfully');
+            return redirect('admin/vacation')->with('message_success' , 'Vacation Pac added successfully');
     }
     }
 
@@ -114,7 +115,7 @@ class VacationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VacationPacRequest $request, $id)
     {
         if ($request->isMethod('put')) {
             $data = array();
@@ -133,7 +134,7 @@ class VacationController extends Controller
                 $data["serial"]=$request->serial;
                 $data["status"]=$request->status;
                 $result=Vacation::where('id',$id)->update($data);
-                return redirect('admin/vacation')->with('success' , 'Vacation Pack updated successfully');;
+                return redirect('admin/vacation')->with('message_success' , 'Vacation Pack updated successfully');;
             }
     }
 
@@ -146,6 +147,6 @@ class VacationController extends Controller
     public function destroy($id)
     {
         Vacation::find($id)->delete();
-        return redirect('admin/vacation')->with('success' , 'Vacation Pac deleted successfully');;
+        return redirect('admin/vacation')->with('message_success' , 'Vacation Pac deleted successfully');;
     }
 }

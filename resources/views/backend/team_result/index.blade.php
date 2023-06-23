@@ -60,30 +60,50 @@
             <table class="table table-report -mt-2" id="team_result_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th class="text-center whitespace-nowrap">Season</th>
-                        <th class="text-center whitespace-nowrap">Week</th>
-                        <th class="text-center whitespace-nowrap">Team One</th>
-                        <th></th>
-                        <th class="text-center whitespace-nowrap">Team Two</th>
-                        <th class="text-center whitespace-nowrap">Win</th>
-                        <th class="text-center whitespace-nowrap">Loss</th>
-                        <th class="text-center whitespace-nowrap">Action</th>
+
+                        <th class="text-center">S.no.</th>
+                        <th class="text-center">Season</th>
+                        <th class="text-center">Week</th>
+                        <th class="text-center">Team One</th>
+                        <th class="text-center"></th>
+                        <th class="text-center">Team Two</th>
+                        <th class="text-center">Win</th>
+                        <th class="text-center">Loss</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
 
+                    @php
+                    $count ='';
+                    @endphp
+                    @if ($fixtures->isNotEmpty())
                     @forelse ($fixtures as $fixture)
 
                         <tr class="intro-x">
+                            <td class="text-center">{{ ++$count}}</td>
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$fixture->season->season_name ?? ''}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$fixture->season->season_name ?? ''}} </div>
                             </td>
 
                             <td class="text-center">{{ $fixture->week ?? ''}}</td>
                             {{-- <td class="text-center">{{$fixture->first_team_id->name ?? ''}}</td> --}}
                             <td class="text-center">
-                                <a href="" class="font-medium whitespace-nowrap">{{ $fixture->first_team_id->name ?? '' }}</a>
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($fixture->first_team_id->logo))
+                                        <img src="{{asset('storage/images/team_logo/'.$fixture->first_team_id->logo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        @else
+                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+                                    <div class="text-slate-500 font-medium mx-4">
+                                        {{ $fixture->first_team_id->name ?? '' }}
+                                        </div>
+                                </div>
+
+                                {{-- <a href="" class="font-medium whitespace-nowrap">{{ $fixture->first_team_id->name ?? '' }}</a> --}}
                                 {{-- <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">win</div> --}}
                                 {{-- <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">
                                     <div class="text-center py-1 px-2 rounded-full text-xs bg-success text-white cursor-pointer font-medium">win</div>
@@ -92,21 +112,63 @@
 
                             </td>
 
-                            <td>vs</td>
+                            <td class="text-center text-slate-500 font-medium mx-4">vs</td>
                            {{-- <td><div class="text-center py-1 px-4 rounded-full text-xs bg-success text-white cursor-pointer font-medium">Vs</div></td> --}}
                             {{-- <td class="text-center">{{$fixture->second_team_id->name ?? ''}}</td> --}}
                             <td class="text-center">
-                                <a href="" class="font-medium whitespace-nowrap">{{ $fixture->second_team_id->name ?? '' }}</a>
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($fixture->second_team_id->logo))
+                                        <img src="{{asset('storage/images/team_logo/'.$fixture->second_team_id->logo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        @else
+                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+                                    <div class="text-slate-500 font-medium mx-4">
+                                        {{ $fixture->second_team_id->name ?? '' }}
+                                        </div>
+                                </div>
+
+                                {{-- <a href="" class="font-medium whitespace-nowrap">{{ $fixture->second_team_id->name ?? '' }}</a> --}}
                                 {{-- <div class="mt-3 mx-auto w-10 text-center py-1 px-2 rounded-full text-xs bg-danger text-white cursor-pointer font-medium">loss</div> --}}
 
                             </td>
 
                             {{-- {{dd($fixture->first_fixture->win)}} --}}
-                            <td class="text-center">{{$fixture->win_name ?? ''}}</td>
-                            <td class="text-center">{{$fixture->loss_name ?? ''}}</td>
+                            <td class="text-center">
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($fixture->win_logo))
+                                        <img src="{{asset('storage/images/team_logo/'.$fixture->win_logo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        {{-- @else
+                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full"> --}}
+                                        @endif
+                                    </div>
+                                    <div class="text-slate-500 font-medium mx-4">
+                                        {{ $fixture->win_name ?? '' }}
+                                        </div>
+                                </div>
+
+                                {{-- {{$fixture->win_name ?? ''}}</td> --}}
+                            <td class="text-center">
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($fixture->loss_logo))
+                                        <img src="{{asset('storage/images/team_logo/'.$fixture->loss_logo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        {{-- @else
+                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full"> --}}
+                                        @endif
+                                    </div>
+                                    <div class="text-slate-500 font-medium mx-4">
+                                        {{ $fixture->loss_name ?? '' }}
+                                        </div>
+                                </div>
+
+                                {{-- {{$fixture->loss_name ?? ''}} --}}
+                            </td>
                             {{-- <td class="text-center">{{$fixture->first_team_points ?? ''}}</td>
                             <td class="text-center">{{$fixture->second_team_points ?? ''}}</td> --}}
-                            <td class="table-report__action w-56">
+                            <td class="table-report__action w-60">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3" href="{{ url('admin/team_result/edit/'.$fixture->id) }}">
                                         <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
@@ -117,45 +179,16 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center">No Records found</td>
-                          <p>No Records found</p>
+                            <td colspan="10" class="text-center">No Records found</td>
+
                         </tr>
                     @endforelse
-
+                    @endif
                 </tbody>
             </table>
         </div>
-        <!-- END: Data List -->
-        <!-- BEGIN: Pagination -->
-
-        <!-- END: Pagination -->
-    </div>
-    <!-- BEGIN: Delete Confirmation Modal -->
-    <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body p-0">
-                    <div class="p-5 text-center">
-                        <i data-feather="x-circle" class="w-16 h-16 text-danger mx-auto mt-3"></i>
-                        <div class="text-3xl mt-5">Are you sure?</div>
-                        <div class="text-slate-500 mt-2">Do you really want to delete these records? <br>This process
-                            cannot be undone.</div>
-                    </div>
-                    <div class="px-5 pb-8 text-center">
-                        <button type="button" data-tw-dismiss="modal"
-                            class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-                        <button type="button" class="btn btn-danger w-24">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END: Delete Confirmation Modal -->
 
 @endsection
-
-
-
    @section('script')
    <script>
     $(function() {

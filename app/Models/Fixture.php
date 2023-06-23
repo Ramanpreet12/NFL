@@ -13,7 +13,7 @@ class Fixture extends Model
     protected $table = 'fixtures';
     protected $fillable = ['season_id', 'first_team', 'second_team', 'week', 'date', 'time', 'time_zone'];
 
-protected $appends = ['win_name','loss_name' ,'name_team'];
+protected $appends = ['win_name','loss_name' ,'name_team' , 'win_logo' , 'loss_logo'];
 
 
     public function season()
@@ -48,6 +48,28 @@ public function getLossNameAttribute()
     return '';
   }
 }
+
+
+public function getWinLogoAttribute()
+{
+  $logo =  \DB::table('teams')->where('id',$this->win)->value('logo');
+  if($logo){
+    return $logo;
+  }else{
+    return '';
+  }
+}
+public function getLossLogoAttribute()
+{
+  $logo =  \DB::table('teams')->where('id',$this->loss)->value('logo');
+  if($logo){
+    return $logo;
+  }else{
+    return '';
+  }
+}
+
+
 
     public function getNameTeamAttribute()
     {

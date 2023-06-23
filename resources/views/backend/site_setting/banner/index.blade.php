@@ -32,14 +32,14 @@
             <table class="table table-report -mt-2" id="banner_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th class="text-center whitespace-nowrap">Heading</th>
-                        <th class="text-center whitespace-nowrap">Serial</th>
-                        <th class="text-center whitespace-nowrap">Image</th>
+                        <th class="text-center">Heading</th>
+                        <th class="text-center">Serial</th>
+                        <th class="text-center">Image</th>
 
-                        <th class="text-center whitespace-nowrap">Created At</th>
-                        <th class="text-center whitespace-nowrap">Update At</th>
-                        <th class="text-center whitespace-nowrap">Status</th>
-                        <th class="text-center whitespace-nowrap">Action</th>
+                        <th class="text-center">Created At</th>
+                        <th class="text-center">Updated At</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
 
@@ -63,7 +63,7 @@
                             <td>
                                 {{-- <a href="" class="font-medium whitespace-nowrap">{{ $faker['products'][0]['name'] }}</a> --}}
 
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$banner->heading}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$banner->heading}} </div>
 
                             </td>
                             <td class="text-center">{{ $banner->serial }}</td>
@@ -76,8 +76,8 @@
                             @endif
 
                             </td>
-                            <td class="text-center">{{ $banner->created_at }}</td>
-                            <td class="text-center">{{ $banner->updated_at }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($banner->created_at)->format('j F , Y , H:i' ) }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($banner->updated_at)->format('j F , Y , H:i' ) }}</td>
                             <td class="w-40">
 
                                 <div class="flex items-center justify-center {{ $banner->status =='Active' ? 'text-success' : 'text-danger' }}">

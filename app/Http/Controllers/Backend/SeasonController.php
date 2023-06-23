@@ -49,6 +49,7 @@ class SeasonController extends Controller
                 'league' => $request->league,
                 'starting' => $starting_date,
                 'ending' => $ending_date,
+                'season_amount' => $request->season_amount,
                 'status' => $request->status
               ]);
               return redirect()->route('season.index')->with('success' , 'Season Created successfully');
@@ -99,6 +100,7 @@ class SeasonController extends Controller
             'league' => $request->league,
             'starting' => $starting_date,
             'ending' => $ending_date,
+            'season_amount' => $request->season_amount,
             'status' => $request->status,
         ]);
         return redirect()->route('season.index')->with('success' , 'Season Updated successfully');

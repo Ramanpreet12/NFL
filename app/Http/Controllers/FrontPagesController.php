@@ -230,11 +230,17 @@ class FrontPagesController extends Controller
          $get_current_year = Carbon::now()->format('Y');
          $season_data  = Season::where('status','active')->first();
          $get_year_from_season_date = Carbon::createFromFormat('Y-m-d H:i:s', $season_data->starting)->format('Y');
-        $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
+         $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
+
+         //get headings of page
+         $get_fixture_headings = GeneralSetting::where(['type' => 'matchFixture'])->get()->toArray();
+         $fixture_headings = key_value('name', 'value', $get_fixture_headings);
+
+
         // $current_season_data  = Season::where('status','active')->first();
         // If there is no active season . Then redirect with no found record.
         if(!$season_data){
-            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season'));
+            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season' ,'fixture_headings'));
         }
         // Now checking if  there is season coming in parameter from url. If not then assign the season id from above $current_season_data.
         $current_season_id = $request->seasons ? $request->seasons : $get_current_season->id;
@@ -251,7 +257,7 @@ class FrontPagesController extends Controller
           // Fetch all the season which are active
          $get_all_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
          $season_name =  $select_season_data->season_name;
-        return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season'));
+        return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season','fixture_headings'));
 
     }
 

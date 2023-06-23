@@ -16,7 +16,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return view('backend.site_setting.menus.index');
+        $get_menus = Menu::get();
+        // dd($get_menus);
+        return view('backend.site_setting.menus.index' ,compact('get_menus'));
     }
 
     /**
@@ -56,7 +58,7 @@ class MenuController extends Controller
                      $result=Menu::create($data);
 
                      if($result){
-                         return redirect()->route('menu.index')->with('message_success','New Record Added Successfully');
+                         return redirect()->route('menu.index')->with('message_success','Menu Added Successfully');
                      }else{
                          return redirect()->route('menu.index')->with('message_error','Something went wrong');
                      }
@@ -122,7 +124,7 @@ class MenuController extends Controller
                      $result=Menu::where('id',$id)->update($data);
 
                      if($result){
-                         return redirect()->route('menu.index')->with('message_success','Record Updated Successfully');
+                         return redirect()->route('menu.index')->with('message_success','Menu Updated Successfully');
                      }else{
                          return redirect()->route('menu.index')->with('message_error','Something went wrong');
                      }
@@ -146,15 +148,12 @@ class MenuController extends Controller
     {
         $del = Menu::find($id)->delete();
         if($del){
-            return redirect()->route('menu.index')->with('message_success','Reocrd Deleted Successfully');
+            return redirect()->route('menu.index')->with('message_success','Menu Deleted Successfully');
         }else{
             return redirect()->route('menu.index')->with('message_error','Something went wrong');
         }
     }
 
-    public function menuList(){
-        $result = Menu::where('type',"menu")->paginate(6);
-        return response()->json($result, 200);
-    }
+
 
 }

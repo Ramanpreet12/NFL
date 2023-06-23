@@ -33,6 +33,7 @@
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Edit Banner</h2>
+            <a href="{{route('banner.index')}}"><button class="btn btn-primary">Back</button></a>
         </div>
         <form action="{{route('banner.update' , $banners->id)}}" method="post" enctype="multipart/form-data">
             @csrf
@@ -40,20 +41,28 @@
             <div id="horizontal-form" class="p-5">
                 <div class="preview">
                     <div class="form-inline">
-                        <label for="heading" class="font-medium form-label sm:w-60">Heading</label>
+                        <label for="heading" class="font-medium form-label sm:w-60">Heading <span class="text-danger">*</span></label>
                         <input id="heading" type="text" class="form-control" placeholder="Banner Heading" name="heading" value="{{$banners->heading}}">
                     </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('heading')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
 
                     <div class="form-inline mt-5">
-                        <label for="image" class="font-medium form-label sm:w-60">Image</label>
+                        <label for="image" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
                         <input id="image" type="file" class="form-control" placeholder="Banner Image" name="image">
 
                     </div>
-
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('image')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
                     @if (!empty($banners->image))
                     <div class="form-inline mt-5">
                         <label for="image" class="font-medium form-label sm:w-60"></label>
-                        <img src="{{asset('storage/images/banners/'.$banners->image)}}" alt="" height="50px"  width="100px">
+                        <img src="{{asset('storage/images/banners/'.$banners->image)}}" class="img-fluid" alt="" height="50px"  width="100px">
                     </div>
                     @else
                             <div class="form-inline mt-5">
@@ -64,21 +73,28 @@
                     @endif
 
                     <div class="form-inline mt-5">
-                        <label for="serial" class="font-medium form-label sm:w-60">Serial</label>
-                        <input id="serial" type="text" class="form-control" placeholder="Banner Serial" name="serial" value="{{$banners->serial}}">
+                        <label for="serial" class="font-medium form-label sm:w-60">Serial  <span class="text-danger">*</span></label>
+                        <input id="serial" type="number" class="form-control" placeholder="Banner Serial" name="serial" value="{{$banners->serial}}">
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('serial')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
 
 
                     <div class="form-inline mt-5">
-                        <label for="status" class="font-medium form-label sm:w-60">Status</label>
-                        <select class="form-select" id="status" name="status">
+                        <label for="status" class="font-medium form-label sm:w-60">Status  <span class="text-danger">*</span></label>
+                        <select class="form-control" id="status" name="status">
 
                             <option value="Active" {{$banners->status=='Active' ? 'selected' : '' }}>Active</option>
                             <option value="Inactive" {{$banners->status=='Inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
                     </div>
 
-
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('status')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
                     {{-- @if (!empty($general->logo))
                         <div class="form-inline mt-5">
                             <label for="logo" class="font-medium form-label sm:w-60"></label>

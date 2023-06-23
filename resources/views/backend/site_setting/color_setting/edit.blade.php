@@ -1,19 +1,22 @@
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | Fixtures</title>
+    <title>NFL | Color Setting</title>
 @endsection
 
 @section('subcontent')
     <div class="intro-y flex items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">Edit {{ ucfirst($color_setting->section) }} Section</h2>
-        @if (session()->has('success'))
-        <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
+        <a href="{{route('admin/color_setting')}}"><button class="btn btn-primary">Back</button></a>
+
+        @if (session()->has('message_success'))
+        <div class="alert alert-success show flex items-center mb-2" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
                 <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
                 <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
             </svg>
-            &nbsp; {{ session()->get('success') }}
+
+            &nbsp; {{ session()->get('message_success') }}
         </div>
     @endif
     @if (session('message_error'))
@@ -38,7 +41,7 @@
                         @endforeach
                     </select>
                     @error('section') <p class="text-danger">{{$message}}</p> @enderror
-                </div> 
+                </div>
                 <div class="mt-3">
                     <label for="header_color" class="form-label">Header Color</label>
                     <div class="input-group">
@@ -74,13 +77,13 @@
                         <option value="inactive" {{$color_setting->status =='inactive' ? 'selected' : '' }}>Inactive</option>
                     </select>
                     @error('section') <p class="text-danger">{{$message}}</p> @enderror
-                </div> 
+                </div>
                 <div class="text-left mt-5">
 
                     <button type="submit" class="btn btn-primary w-24">Update</button>
                     <a class="btn btn-outline-secondary w-24 mr-1" href="{{ url('admin/color_setting/') }}">Cancel
                     </a>
-                    
+
                 </div>
             </div>
         </form>

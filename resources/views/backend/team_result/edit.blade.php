@@ -52,7 +52,23 @@
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $team_results->first_team_id->name }} </div>
                             </td> --}}
 
-                            <td >{{ $team_results->first_team_id->name }}</td>
+
+                            <td>
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($team_results->first_team_id->logo))
+                                        <img src="{{asset('storage/images/team_logo/'.$team_results->first_team_id->logo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        @else
+                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+                                    <div class="text-slate-500 font-medium mx-4">
+                                        {{ $team_results->first_team_id->name ?? '' }}
+                                        </div>
+                                </div>
+
+                                {{-- {{ $team_results->first_team_id->name }} --}}
+                            </td>
                             {{-- <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $team_results->first_team_points }}</div>
                             </td> --}}
@@ -74,7 +90,22 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ $team_results->second_team_id->name }}</td>
+                            <td>
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        @if (!empty($team_results->second_team_id->logo))
+                                        <img src="{{asset('storage/images/team_logo/'.$team_results->second_team_id->logo)}}" alt="" height="50px" width="100px" class="rounded-full">
+                                        @else
+                                                <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid rounded-full">
+                                        @endif
+                                    </div>
+                                    <div class="text-slate-500 font-medium mx-4">
+                                        {{ $team_results->second_team_id->name ?? '' }}
+                                        </div>
+                                </div>
+
+                                {{-- {{ $team_results->second_team_id->name }} --}}
+                            </td>
                             {{-- <td>
                                 <div class="text-slate-500 font-medium whitespace-nowrap mx-4">{{ $team_results->second_team_points }}</div>
                             </td> --}}

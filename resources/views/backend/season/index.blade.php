@@ -47,6 +47,7 @@
                 <thead class="bg-primary text-white">
                     <tr>
                         <th class="text-center whitespace-nowrap">Name</th>
+                        <th class="text-center whitespace-nowrap">Season Amount</th>
                         <th class="text-center whitespace-nowrap">starting</th>
                         <th class="text-center whitespace-nowrap">Ending</th>
                         <th class="text-center whitespace-nowrap">Active</th>
@@ -60,7 +61,10 @@
                     @forelse ($seasons as $season)
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$season->season_name}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$season->season_name}} </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium mx-4"> {{$season->season_amount}} </div>
                             </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($season->starting)->format('j F, Y') }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($season->ending)->format('j F, Y') }}</td>

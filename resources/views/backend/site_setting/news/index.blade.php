@@ -1,25 +1,35 @@
+
+
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>NFL | News Setting</title>
+    <title>NFL | News Pac</title>
 @endsection
 
 @section('subcontent')
-@if (session()->has('success'))
-<div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-        class="bi bi-check2-circle" viewBox="0 0 16 16">
-        <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-        <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
-    </svg>
-    &nbsp; {{ session()->get('success') }}
-</div>
+    {{-- <h2 class="intro-y text-lg font-medium mt-10">Vacation Pacs Management</h2> --}}
+    @if (session()->has('message_success'))
+    <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+            class="bi bi-check2-circle" viewBox="0 0 16 16">
+            <path
+                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+            <path
+                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+        </svg>
+        &nbsp; {{ session()->get('message_success') }}
+    </div>
+
 @endif
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
 
-        <h2 class="text-lg font-medium mr-auto">News Setting</h2>
-        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
 
+        <h2 class="text-lg font-medium mr-auto">News Management</h2>
+        {{-- <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('banner.create')}}" id="add_banner">Add New Banner</a>
+        </div> --}}
+
+        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
             <form action="{{route('admin/news/section_heading')}}" method="post">
                 @csrf
                     <div id="horizontal-form" class="px-3 flex">
@@ -42,52 +52,99 @@
                         </div>
                     </div>
             </form>
-
             <a class="btn btn-primary shadow-md mr-2" href="{{route('news.create')}}">Add News</a>
              <div class="dropdown ml-auto sm:ml-0">
             </div>
         </div>
+
     </div>
-    <!-- BEGIN: HTML Table Data -->
-    <div class="intro-y box p-5 mt-5">
-        <div class="flex flex-col sm:flex-row sm:items-end xl:items-start">
-            <form id="tabulator-html-filter-form" class="xl:flex sm:mr-auto" >
-                <div class="sm:flex items-center sm:mr-4">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Field</label>
-                    <select id="tabulator-html-filter-field" class="form-select w-full sm:w-32 2xl:w-full mt-2 sm:mt-0 sm:w-auto">
-                        <option value="logo">Name</option>
-                        <option value="title">title</option>
-                    </select>
-                </div>
-                <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Type</label>
-                    <select id="tabulator-html-filter-type" class="form-select w-full mt-2 sm:mt-0 sm:w-auto" >
-                        <option value="like" selected>like</option>
-                        <option value="=">=</option>
-                        <option value="<">&lt;</option>
-                        <option value="<=">&lt;=</option>
-                        <option value=">">></option>
-                        <option value=">=">>=</option>
-                        <option value="!=">!=</option>
-                    </select>
-                </div>
-                <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Value</label>
-                    <input id="tabulator-html-filter-value" type="text" class="form-control sm:w-40 2xl:w-full mt-2 sm:mt-0"  placeholder="Search...">
-                </div>
-                <div class="mt-2 xl:mt-0">
-                    <button id="tabulator-html-filter-go" type="button" class="btn btn-primary w-full sm:w-16" >Go</button>
-                    <button id="tabulator-html-filter-reset" type="button" class="btn btn-secondary w-full sm:w-16 mt-2 sm:mt-0 sm:ml-1" >Reset</button>
-                </div>
-            </form>
 
+    <div class="grid grid-cols-12 gap-6 mt-5 p-5 bg-white mb-5">
+        <!-- BEGIN: Data List -->
+        <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+            <table class="table table-report -mt-2" id="vacation_table">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th class="text-center">Title</th>
+                        <th class="text-center">Header</th>
+                        <th class="text-center">Image</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Created At</th>
+                        <th class="text-center">Updated At</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if ($get_news->isNotEmpty())
+                    @forelse ($get_news as $news)
+                        <tr class="intro-x">
+                            {{-- <td class="w-40">
+                                <div class="flex">
+                                    <div class="w-10 h-10 image-fit zoom-in">
+                                        <img alt="Rubick Tailwind HTML Admin Template" class="tooltip rounded-full" src="{{ asset('dist/images/' . $faker['images'][0]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
+                                    </div>
+                                    <div class="w-10 h-10 image-fit zoom-in -ml-5">
+                                        <img alt="Rubick Tailwind HTML Admin Template" class="tooltip rounded-full" src="{{ asset('dist/images/' . $faker['images'][1]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
+                                    </div>
+                                    <div class="w-10 h-10 image-fit zoom-in -ml-5">
+                                        <img alt="Rubick Tailwind HTML Admin Template" class="tooltip rounded-full" src="{{ asset('dist/images/' . $faker['images'][2]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
+                                    </div>
+                                </div>
+                            </td> --}}
+
+                            <td>
+                                <div class="text-slate-500 font-medium mx-4">  {{$news->title}} </div>
+                            </td>
+                            <td>
+                                <div class="text-slate-500 font-medium mx-4">  {{$news->header}} </div>
+                            </td>
+
+                            <td  class="w-40">
+                                @if (!empty($news->image))
+                                    <img src="{{asset('storage/images/news/'.$news->image)}}"  class="img-fluid" alt="" height="100%" width="100%">
+                                @else
+                                    <img src="{{asset('dist/images/no-image.png')}}" alt="" class="img-fluid">
+                                @endif
+                            </td>
+
+                            <td>
+                                <div class="flex items-center justify-center {{ $news->status =='active' ? 'text-success' : 'text-danger' }}">
+                                    <i data-feather="check-square" class="w-4 h-4 mr-2"></i> {{ $news->status =='active' ? 'Active' : 'Inactive' }}
+                                </div>
+                            </td>
+
+                            <td class="text-center">{{ \Carbon\Carbon::parse($news->created_at)->format('j F , Y , H:i')  }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($news->updated_at)->format('j F , Y , H:i')  }}</td>
+                            <td class="table-report__action w-56">
+                                <div class="flex justify-center items-center">
+                                    <a class="flex items-center mr-3" href="{{ route('news.edit',$news->id) }}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                    </a>
+                                    <form action="{{ route('news.destroy', $news->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                            <button class="btn btn-danger show_sweetalert" type="submit" data-toggle="tooltip">  <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
+                                      </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="text-center">No Records found</td>
+                          <p>No Records found</p>
+                        </tr>
+                    @endforelse
+                    @endif
+                </tbody>
+            </table>
         </div>
-
-
-        <div class="overflow-x-auto scrollbar-hidden">
-            <div id="tabulator_homesetting" class="mt-5 table-report table-report--tabulator"></div>
-            <input id="section" type="hidden" value="">
-        </div>
-    </div>
-    <!-- END: HTML Table Data -->
 @endsection
+   @section('script')
+   <script>
+    $(function() {
+      $('#vacation_table').DataTable();
+    });
+   </script>
+   @endsection
+

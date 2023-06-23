@@ -33,6 +33,7 @@
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Add Banner </h2>
+            <a href="{{route('banner.index')}}"><button class="btn btn-primary">Back</button></a>
         </div>
         <form action="{{route('banner.store')}}" method="post" enctype="multipart/form-data">
             @csrf
@@ -61,7 +62,7 @@
 
                     <div class="form-inline mt-5">
                         <label for="serial" class="font-medium form-label sm:w-60">Serial <span class="text-danger">*</span></label>
-                        <input id="serial" type="text" class="form-control" placeholder="Banner Serial" name="serial" value="">
+                        <input id="serial" type="number" class="form-control" placeholder="Banner Serial" name="serial" value="">
                     </div>
                     <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>

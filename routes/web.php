@@ -28,7 +28,6 @@ use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\TeamResultController;
 use App\Http\Controllers\Backend\LeaderboardController;
 use App\Http\Controllers\Backend\HomeSettingController;
-use App\Http\Controllers\Backend\VideoController;
 use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\PlayersController;
 use App\Http\Controllers\Backend\MenuController;
@@ -208,8 +207,6 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
 
       //menu setting
       Route::resources(['menu' => MenuController::class]);
-      Route::get('menuList',[MenuController::class,'menuList'])->name('menuList');
-      Route::get('menuDelete/{id}',[MenuController::class,'destroy'])->name('menuDelete');
 
       //general settings
       Route::get('general', [GeneralController::class , 'general'])->name('admin/general');
@@ -217,6 +214,18 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
       //Match results settings
       Route::get('match_result', [MatchResultController::class , 'match_result'])->name('admin/match_result');
       Route::post('match_result_edit', [MatchResultController::class , 'match_result_edit'])->name('admin/match_result_edit');
+
+
+       //Match fixture settings
+       Route::get('match_fixture', [GeneralSettingController::class , 'match_fixture'])->name('admin/match_fixture');
+       Route::post('match_fixture_edit', [GeneralSettingController::class , 'match_fixture_edit'])->name('admin/match_fixture_edit');
+
+
+
+        //Match Fixture settings
+        // Route::get('match_fixture', [GeneralSetting::class , 'match_fixture'])->name('admin/match_fixture');
+        // Route::post('match_fixture_edit', [MatchResultController::class , 'match_fixture_edit'])->name('admin/match_fixture_edit');
+
 
       //banner setting
       Route::resources([
@@ -262,18 +271,9 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
    Route::get('leaderboard/delete/{id}' ,[LeaderboardController::class , 'delete']);
 
 
-    //home setting
-    Route::resources(['videoSetting' => VideoController::class]);
-    Route::get('videoSettingList/{section?}',[VideoController::class,'videoSettingList'])->name('videoSettingList');
-    Route::get('videoSettingDelete/{id}',[VideoController::class,'destroy'])->name('videoSettingDelete');
-    Route::post('video/section_heading',[VideoController::class,'section_heading'])->name('admin/video/section_heading');
-
     //players
 
     Route::get('players',[PlayersController::class,'index'])->name('admin/players');
-
-
-
      Route::get('logout', [AuthController::class, 'Adminlogout'])->name('admin/logout');
 });
 

@@ -43,26 +43,29 @@
     <div class="grid grid-cols-12 gap-6 mt-5 p-5 bg-white mb-5">
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-            <table class="table table-report -mt-2" id="team_table">
+            <table class="table table-report -mt-2" id="contact_list_table">
                 <thead class="bg-primary text-white">
                     <tr>
                         <th class="text-center">S.No.</th>
                         <th class="text-center">Name</th>
                         <th class="text-center">Email </th>
-                        <th class="text-center">Phone No. </th>
+                        {{-- <th class="text-center">Phone No. </th> --}}
                         <th class="text-center">Subject </th>
                         <th class="text-center">Message </th>
                         <th class="text-center">Created At</th>
-                        <th class="text-center">Updated At</th>
+
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
 
-                {{dd($contacts)}}
+
                 <tbody>
                     @php
                         $count = '';
                     @endphp
+                    @if ($contacts->isNotEmpty())
+
+
                     @forelse ($contacts as $contact)
                         <tr class="intro-x">
                             <td>
@@ -74,9 +77,9 @@
                             <td>
                                 <div class="text-slate-500 font-medium mx-4">  {{$contact->email}} </div>
                             </td>
-                            <td>
+                            {{-- <td>
                                 <div class="text-slate-500 font-medium mx-4">{{$contact->country_code}}  {{$contact->phone_number}} </div>
-                            </td>
+                            </td> --}}
 
                             <td>
                                 <div class="text-slate-500 font-medium mx-4">  {{$contact->subject}} </div>
@@ -85,11 +88,11 @@
                                 <div class="text-slate-500 font-medium mx-4">  {{$contact->message}} </div>
                             </td>
                             <td>
-                                <div class="text-slate-500 font-medium mx-4"> {{ \Carbon\Carbon::parse($contact->created_at)->format('j F, Y') }}</div>
+                                <div class="text-slate-500 font-medium mx-4"> {{ \Carbon\Carbon::parse($contact->created_at)->format('j F, Y , H:i') }}</div>
                             </td>
-                            <td>
-                                <div class="text-slate-500 font-medium mx-4"> {{ \Carbon\Carbon::parse($contact->updated_at)->format('j F, Y') }}</div>
-                            </td>
+                            {{-- <td>
+                                <div class="text-slate-500 font-medium mx-4"> {{ \Carbon\Carbon::parse($contact->updated_at)->format('j F, Y , H:i') }}</div>
+                            </td> --}}
 
                             {{-- <td class="text-center">{{ \Carbon\Carbon::parse($team->created_at)->format('j F, Y') }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($team->updated_at)->format('j F, Y') }}</td> --}}
@@ -98,7 +101,7 @@
                             <td class="table-report__action">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3" href="{{route('contact.show' , $contact->id)}}">
-                                        <i data-feather="eye" class="w-4 h-4 mr-1"></i> View
+                                        <button class="btn btn-primary"><i data-feather="eye" class="w-4 h-4 mr-1"></i> View</button>
                                     </a>
 
                                     {{-- <form action="" method="post">
@@ -117,36 +120,11 @@
                           <p>No Records found</p>
                         </tr>
                     @endforelse
-
+                    @endif
                 </tbody>
             </table>
         </div>
-        <!-- END: Data List -->
-        <!-- BEGIN: Pagination -->
 
-        <!-- END: Pagination -->
-    </div>
-    <!-- BEGIN: Delete Confirmation Modal -->
-    <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body p-0">
-                    <div class="p-5 text-center">
-                        <i data-feather="x-circle" class="w-16 h-16 text-danger mx-auto mt-3"></i>
-                        <div class="text-3xl mt-5">Are you sure?</div>
-                        <div class="text-slate-500 mt-2">Do you really want to delete these records? <br>This process
-                            cannot be undone.</div>
-                    </div>
-                    <div class="px-5 pb-8 text-center">
-                        <button type="button" data-tw-dismiss="modal"
-                            class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-                        <button type="button" class="btn btn-danger w-24">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END: Delete Confirmation Modal -->
 
 @endsection
 
@@ -155,7 +133,7 @@
    @section('script')
    <script>
     $(function() {
-      $('#team_table').DataTable();
+      $('#contact_list_table').DataTable();
     });
    </script>
    @endsection

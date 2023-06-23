@@ -2,6 +2,7 @@
 @section('content')
     <section id="heroBanner">
         <div class="owl-carousel owl-heroSlider">
+            {{-- {{dd($banners)}} --}}
             @forelse ($banners as $banner)
                 <div class="owlItem" style="background-image:url({{ asset('storage/images/banners/' . $banner->image) }})">
                     <div class="bannerCaption">
@@ -260,7 +261,7 @@
                             Player's Roster
                             @endif
 
-                        
+
                     </h2>
                     <br>
                     <h4 id="alphabets_links">
@@ -591,7 +592,7 @@
         color: <?php echo $colorSection['reviews']['header_color']; ?>;
     }
     .review_name{
-        color: <?php echo $colorSection['reviews']['text_color']; ?>; 
+        color: <?php echo $colorSection['reviews']['text_color']; ?>;
     }
 
 
@@ -693,6 +694,6 @@
 
     }
 
-    
+
 </style>
 @endsection

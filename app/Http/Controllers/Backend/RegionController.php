@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Region;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegionRequest;
 use App\Http\Controllers\Controller;
 
 class RegionController extends Controller
@@ -36,7 +37,7 @@ class RegionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RegionRequest $request)
     {
         if ($request->isMethod('post')) {
             Region::create([
@@ -79,7 +80,7 @@ class RegionController extends Controller
      * @param  \App\Models\Region  $region
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RegionRequest $request, $id)
     {
         if ($request->isMethod('put')) {
             Region::where('id' , $id)->update([

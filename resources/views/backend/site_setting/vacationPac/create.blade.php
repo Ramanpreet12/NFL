@@ -33,6 +33,8 @@
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Add Vacation Pac </h2>
+            <a href="{{route('vacation.index')}}"><button class="btn btn-primary">Back</button></a>
+
         </div>
         <form action="{{route('vacation.store')}}" method="post" enctype="multipart/form-data">
             @csrf
@@ -41,7 +43,7 @@
                 <div class="preview  mr-5">
                     <div class="form-inline">
                         <label for="title" class="font-medium form-label sm:w-60">Title <span class="text-danger">*</span></label>
-                        <input id="title" type="text" class="form-control" placeholder="Vacation Pac title" name="title" value="">
+                        <input id="title" type="text" class="form-control" placeholder="Vacation Pac title" name="title" value="{{old('title')}}">
                     </div>
                     <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>
@@ -61,7 +63,7 @@
 
                     <div class="form-inline mt-5">
                         <label for="serial" class="font-medium form-label sm:w-60">Serial <span class="text-danger">*</span></label>
-                        <input id="serial" type="text" class="form-control" placeholder="Vacation Serial" name="serial" value="">
+                        <input id="serial" type="number" class="form-control" placeholder="Vacation Serial" name="serial" value="{{old('serial')}}">
                     </div>
                     <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>

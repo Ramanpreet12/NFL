@@ -53,8 +53,8 @@
                             </td>
 
                             <td class="text-center">{{$region->position}}</td>
-                            <td class="text-center">{{$region->created_at}}</td>
-                            <td class="text-center">{{$region->updated_at}}</td>
+                            <td class="text-center">{{\Carbon\Carbon::parse($region->created_at)->format('j F , Y , H:i')}}</td>
+                            <td class="text-center">{{\Carbon\Carbon::parse($region->updated_at)->format('j F , Y , H:i')}}</td>
                             {{-- <td class="text-center">{{ $region->status }}</td> --}}
 
                             <td class="w-40">
@@ -72,7 +72,7 @@
                                     <form action="{{route('region.destroy', $region->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                            <button class="btn btn-danger show_confirm" type="submit" data-toggle="tooltip">  <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
+                                            <button class="btn btn-danger show_sweetalert" type="submit" data-toggle="tooltip">  <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete</button>
                                       </form>
                                 </div>
                             </td>
