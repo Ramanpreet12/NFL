@@ -190,7 +190,7 @@
                                         <div> {{ \Carbon\Carbon::parse($upcoming_match->date)->format('j F, Y') }}</div>
                                         <div>
                                             {{ \Carbon\Carbon::createFromFormat('H:i:s', $upcoming_match->time)->format('H:i') }}
-                                            {{ ucfirst($upcoming_match->time_zone) }}</div>
+                                            {{ ucfirst($upcoming_match->time_zone) }} ET</div>
 
                                     </div>
                                 </div>

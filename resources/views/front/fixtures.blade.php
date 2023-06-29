@@ -145,10 +145,18 @@
                                                                             alt="" class="img-fluid">
 
                                                                         <div class="fixture_text" style="min-width:200px">
+                                                                            @if (!empty($team->first_team_id))
                                                                             {{ $team->first_team_id->name }}
+                                                                            @else
+                                                                                {{'TBD'}}
+                                                                            @endif
+
                                                                         </div>
                                                                     </button>
                                                                 @else
+                                                                @if (!empty($team->first_team_id))
+
+
                                                                     <button data-bs-toggle="modal"
                                                                         data-bs-target="#selectTeam"
                                                                         style="background:none;  border:none; color:#212529"
@@ -166,6 +174,11 @@
                                                                             {{ $team->first_team_id->name }}
                                                                         </div>
                                                                     </button>
+
+                                                                    @else
+                                                                    {{'TBD'}}
+                                                                    @endif
+
                                                                 @endif
                                                             </div>
                                                             <div class="versis">
@@ -187,6 +200,8 @@
                                                                         </div>
                                                                     </button>
                                                                 @else
+                                                                @if (!empty($team->second_team_id))
+
                                                                     <button data-bs-toggle="modal"
                                                                         data-bs-target="#selectTeam" class="team_name"
                                                                         style="background:none;  border:none; color:#212529"
@@ -204,15 +219,25 @@
                                                                             {{ $team->second_team_id->name }}
                                                                         </div>
                                                                     </button>
+
+                                                                    @else
+
+                                                                    {{'TBD'}}
+                                                                    @endif
                                                                 @endif
                                                             </div>
                                                         </div>
                                                     </td>
 
+
                                                     {{-- <td class="fixture_text text-center" >{{$team->date}}</td> --}}
-                                                    <td class="fixture_text text-center" >{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
+                                                    <td class="fixture_text text-center" >{{ \Carbon\Carbon::parse($team->date)->format('j F, Y') }}
                                                     </td>
-                                                     <td class="fixture_text text-center" >{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }} {{ ucfirst($team->time_zone) }}
+                                                     @if($team->time == '12:00:00' && $team->time_zone = 'am')
+                                                     <td class="fixture_text text-center" >TBD</td>
+                                                     @else
+                                                     <td class="fixture_text text-center" >{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }} {{ ucfirst($team->time_zone) }} ET
+                                                     @endif
                                                     </td>
                                             @endif
                                         @endforeach

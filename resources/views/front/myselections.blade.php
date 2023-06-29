@@ -114,8 +114,15 @@
 
                                                     <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $his->fdate)->format('M d , Y') }}
                                                     </td>
-                                                    <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $his->ftime)->format('H:i') }}{{ $his->ftime_zone }}
-                                                    </td>
+                                                    @if($his->ftime == '12:00:00' && $his->ftime_zone = 'am')
+                                                        <td>TBD</td>
+                                                        @else
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $his->ftime)->format('H:i') }}{{ ucfirst($his->ftime_zone) }}  ET</span> </td>
+                                                        @endif
+                                                       </td>
+
+                                                    {{-- <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $his->ftime)->format('H:i') }}{{ $his->ftime_zone }}
+                                                    </td> --}}
 
                                                     <td>{{ $his->user_point }}
                                                     </td>

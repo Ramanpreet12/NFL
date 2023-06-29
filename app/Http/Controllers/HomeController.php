@@ -397,9 +397,6 @@ class HomeController extends Controller
         $roster_data['Overseas'] =  $this->getTheTopPlayersDataBasedOnRegion('Overseas',100,'',$gp);
 
 
-
-
-
         return view('front.playerRoster' , compact('roster_data'));
     }
 

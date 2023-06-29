@@ -122,8 +122,14 @@
 
                                                         <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->fdate)->format('M d , Y') }}
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->ftime)->format('H:i') }}{{ $team->tformat }}
+                                                        @if($team->ftime == '12:00:00' && $team->ftime_zone = 'am')
+                                                        <td>TBD</td>
+                                                        @else
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->ftime)->format('H:i') }} {{ ucfirst($team->tformat )}} ET
                                                         </td>
+                                                        @endif
+                                                        {{-- <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->ftime)->format('H:i') }}{{ $team->tformat }}
+                                                        </td> --}}
                                                         <td>{{ ($team->user_point) }}
                                                         </td>
 

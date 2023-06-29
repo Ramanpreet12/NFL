@@ -54,45 +54,50 @@ class FixtureController extends Controller
         return view('backend.fixture.add_fixture' , compact('fixtures' , 'seasons' ,'teams'));
     }
 
+
+    function to_24_hour($hours,$minutes,$seconds,$meridiem){
+        $hours = sprintf('%02d',(int) $hours);
+        $minutes = sprintf('%02d',(int) $minutes);
+        $seconds = sprintf('%02d',(int) $seconds);
+        $meridiem = (strtolower($meridiem)=='am') ? 'am' : 'pm';
+        return date('H:i:s', strtotime("{$hours}:{$minutes}:{$seconds} {$meridiem}"));
+       }
+
     public function store(FixtureRequest $request){
 
             if($request->isMethod('post')){
 
               $duration = Season::where('id',$request->season)->first();
-
               $start = Carbon::parse($duration->starting);
               $end = Carbon::parse($duration->ending);
-              $store = Carbon::parse($request->date);
-              if($end < $store){
-                return redirect()->back()->with('error_date','Please Enter the  valid date.(Fixture date should be in between season starting and ending date.)');
-              }
-                $diff = $start->diff($store);
+              $store = Carbon::parse($request->date)->addSecond(1);;
 
-                $week = ceil($diff->d/7);
-                $finalWeek = ((int)$week);
-                if($finalWeek == 0){
-                    $finalWeek = 1;
-                }
-
-                $strtDate = $duration->starting;
-                $currnet_year = Carbon::createFromFormat('Y-m-d H:i:s', $duration->starting)->year;
-                $endDate = $request->date;
+            //   if($store <= $end){
+            //     return redirect()->back()->with('error_date','Please Enter the  valid date.(Fixture date should be in between season starting and ending date.)');
+            //   }
+                $diff = $start->diffInWeeks($store);
+                $finalWeek = $diff+1;
 
 
-            $dateS= $strtDate;
-            $dateE= $endDate;
-            $dateSD_STR = strtotime($dateS);
-            $dateED_STR = strtotime($dateE);
-            $SDweek_number = date('W', date($dateSD_STR));
-            $EDweek_number = date('W', date($dateED_STR));
-            $prevweek_array = $this->getStartAndEndDate(($EDweek_number - 1) , $currnet_year);
-            $week_array = $this->getStartAndEndDate($EDweek_number , $currnet_year);//year should be pass dynamically
+            //     $strtDate = $duration->starting;
+            //     $currnet_year = Carbon::createFromFormat('Y-m-d H:i:s', $duration->starting)->year;
+            //     $endDate = $request->date;
 
-            if(strtotime($prevweek_array['week_start']) <= strtotime($dateE) && strtotime($dateE) <= strtotime($prevweek_array['week_end'])){
-                $finalWeek = ($EDweek_number - $SDweek_number)  ;
-            }else{
-                $finalWeek = ($EDweek_number - $SDweek_number) + 1 ;
-            }
+
+            // $dateS= $strtDate;
+            // $dateE= $endDate;
+            // $dateSD_STR = strtotime($dateS);
+            // $dateED_STR = strtotime($dateE);
+            // $SDweek_number = date('W', date($dateSD_STR));
+            // $EDweek_number = date('W', date($dateED_STR));
+            // $prevweek_array = $this->getStartAndEndDate(($EDweek_number - 1) , $currnet_year);
+            // $week_array = $this->getStartAndEndDate($EDweek_number , $currnet_year);//year should be pass dynamically
+
+            // if(strtotime($prevweek_array['week_start']) <= strtotime($dateE) && strtotime($dateE) <= strtotime($prevweek_array['week_end'])){
+            //     $finalWeek = ($EDweek_number - $SDweek_number)  ;
+            // }else{
+            //     $finalWeek = ($EDweek_number - $SDweek_number) + 1 ;
+            // }
             // echo " FINAL WEEK NUMBER : {$finalWeek}";
             // // // dd($finalWeek);
             //  die();
@@ -104,12 +109,17 @@ class FixtureController extends Controller
                 }
                 else{
                         $splitDate = explode(' ', $request->date, 3);
-                        $date = $splitDate[0];
-                        $formatted_date = Carbon::parse($date)->format('j F, Y');
-                        $dayname = Carbon::parse($date)->dayName;
-                        $time = $splitDate[1];
-                        $time_zone = $splitDate[2];
 
+                       // $formatted_date = Carbon::parse($date)->format('j F, Y');
+                       //$dayname = Carbon::parse($date)->dayName;
+
+                       $date = $splitDate[0]; // date
+                       $time = $splitDate[1]; // time
+                       $time_zone = $splitDate[2]; // am or pm
+
+                       $match_time =  explode(':',$time);
+
+                       $match_time_in_24_hour_format =    $date.' '.$this->to_24_hour($match_time[0], $match_time[1],1, $time_zone);
 
               Fixture::create([
                 'season_id' => $request->season,
@@ -119,6 +129,7 @@ class FixtureController extends Controller
                 'date' => $date,
                 'time' => $time,
                 'time_zone' => $time_zone,
+                'match_date_time'=> $match_time_in_24_hour_format,
               ]);
               return redirect('admin/fixtures')->with('success' , 'Fixture Created successfully');
             }
@@ -148,35 +159,38 @@ class FixtureController extends Controller
             $start = Carbon::parse($duration->starting);
             $end = Carbon::parse($duration->ending);
             $store = Carbon::parse($request->date);
-            if($end < $store){
-                return redirect()->back()->with('error_date','Please Enter the  valid date.(Fixture date should be in between season starting and ending date.)');
-            }
-              $diff = $start->diff($store);
-              $week = ceil($diff->d/7);
-              $finalWeek = ((int)$week);
-              if($finalWeek == 0){
-                $finalWeek = 1;
-            }
+            $diff = $start->diffInWeeks($store);
+            $finalWeek = $diff+1;
 
-            $strtDate = $duration->starting;
-                $currnet_year = Carbon::createFromFormat('Y-m-d H:i:s', $duration->starting)->year;
-                $endDate = $request->date;
+            // if($end < $store){
+            //     return redirect()->back()->with('error_date','Please Enter the  valid date.(Fixture date should be in between season starting and ending date.)');
+            // }
+            //   $diff = $start->diff($store);
+            //   $week = ceil($diff->d/7);
+            //   $finalWeek = ((int)$week);
+            //   if($finalWeek == 0){
+            //     $finalWeek = 1;
+            // }
+
+            // $strtDate = $duration->starting;
+            //     $currnet_year = Carbon::createFromFormat('Y-m-d H:i:s', $duration->starting)->year;
+            //     $endDate = $request->date;
 
 
-            $dateS= $strtDate;
-            $dateE= $endDate;
-            $dateSD_STR = strtotime($dateS);
-            $dateED_STR = strtotime($dateE);
-            $SDweek_number = date('W', date($dateSD_STR));
-            $EDweek_number = date('W', date($dateED_STR));
-            $prevweek_array = $this->getStartAndEndDate(($EDweek_number - 1) , $currnet_year);
-            $week_array = $this->getStartAndEndDate($EDweek_number , $currnet_year);//year should be pass dynamically
+            // $dateS= $strtDate;
+            // $dateE= $endDate;
+            // $dateSD_STR = strtotime($dateS);
+            // $dateED_STR = strtotime($dateE);
+            // $SDweek_number = date('W', date($dateSD_STR));
+            // $EDweek_number = date('W', date($dateED_STR));
+            // $prevweek_array = $this->getStartAndEndDate(($EDweek_number - 1) , $currnet_year);
+            // $week_array = $this->getStartAndEndDate($EDweek_number , $currnet_year);//year should be pass dynamically
 
-            if(strtotime($prevweek_array['week_start']) <= strtotime($dateE) && strtotime($dateE) <= strtotime($prevweek_array['week_end'])){
-                $finalWeek = ($EDweek_number - $SDweek_number)  ;
-            }else{
-                $finalWeek = ($EDweek_number - $SDweek_number) + 1 ;
-            }
+            // if(strtotime($prevweek_array['week_start']) <= strtotime($dateE) && strtotime($dateE) <= strtotime($prevweek_array['week_end'])){
+            //     $finalWeek = ($EDweek_number - $SDweek_number)  ;
+            // }else{
+            //     $finalWeek = ($EDweek_number - $SDweek_number) + 1 ;
+            // }
 
             //   $fixture_data = Fixture::where([[('id' , '!=' , $id)] ,  'season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$f_week , 'date' =>$request->date ])->first();
               $fixture_data = Fixture::where([['id' , '!=' , $id] , ['season_id' , '=' ,  $request->season] , ['first_team' ,'=' ,  $request->first_team ]  , ['second_team' , '=', $request->second_team ], ['week' , '=', $finalWeek ], ['date' , '=' , $request->date] ])->first();
@@ -194,6 +208,13 @@ class FixtureController extends Controller
                     $time = $splitDate[1];
                     $time_zone = $splitDate[2];
 
+
+                    $match_time =  explode(':',$time);
+
+                    $match_time_in_24_hour_format =    $date.' '.$this->to_24_hour($match_time[0], $match_time[1],0, $time_zone);
+
+
+
             Fixture::where('id' , $id)->update([
                 'season_id' => $request->season,
                 'first_team' => $request->first_team,
@@ -202,6 +223,7 @@ class FixtureController extends Controller
                 'date' => $date,
                 'time' => $time,
                 'time_zone' => $time_zone,
+                'match_date_time'=> $match_time_in_24_hour_format,
             ]);
             return redirect('admin/fixtures')->with('success' , 'Fixture updated successfully');
         }

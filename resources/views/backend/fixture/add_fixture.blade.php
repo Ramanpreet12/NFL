@@ -52,6 +52,7 @@
                         <label for="first_team" class="form-label">First Team <span class="text-danger">*</span></label>
                         <select data-placeholder="Select Team" class="tom-select w-full" id="first_team" name="first_team">
                             <option value="">--select--</option>
+                            <option value="TBD_team_one">TBD</option>
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}" {{old('first_team') == $team->id ? 'selected' : ''}}>{{ $team->name }}
                                 </option>
@@ -65,6 +66,7 @@
                         <select data-placeholder="Select Team" class="tom-select w-full" id="second_team"
                             name="second_team">
                             <option value="">--select--</option>
+                            <option value="TBD_team_two">TBD</option>
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}"  {{old('second_team') == $team->id ? 'selected' : ''}}>{{ $team->name }}
                                 </option>

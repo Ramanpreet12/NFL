@@ -43,6 +43,7 @@
                 @method('PUT')
                 <div class="intro-y box p-5">
                     <div class="mt-3">
+
                         <label for="season" class="form-label">Season <span class="text-danger">*</span></label>
                         <select data-placeholder="Select Season" class="tom-select w-full" id="season" name="season">
                             <option value="">--select--</option>
@@ -61,6 +62,7 @@
                         <label for="first_team" class="form-label">First Team <span class="text-danger">*</span></label>
                         <select data-placeholder="Select Team" class="tom-select w-full" id="first_team" name="first_team">
                             <option value="">--select--</option>
+                            <option value="TBD_team_one" {{$fixture->first_team == 'TBD_team_one' ? 'selected' : ''}}>TBD</option>
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}"
                                     {{ $team->id == $fixture->first_team ? 'selected' : '' }}>{{ $team->name }}
@@ -72,11 +74,13 @@
                         @enderror
                     </div>
 
+
                     <div class="mt-3">
                         <label for="second_team" class="form-label">Second Team <span class="text-danger">*</span></label>
                         <select data-placeholder="Select Team" class="tom-select w-full" id="second_team"
                             name="second_team">
                             <option value="">--select--</option>
+                            <option value="TBD_team_two" {{$fixture->second_team == 'TBD_team_two' ? 'selected' : ''}}>TBD</option>
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}"
                                     {{ $team->id == $fixture->second_team ? 'selected' : '' }}>{{ $team->name }}

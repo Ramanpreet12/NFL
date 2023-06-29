@@ -68,8 +68,14 @@
 
                                                         <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                        @if($team->time == '12:00:00' && $team->time_zone = 'am')
+                                                        <td>TBD</td>
+                                                        @else
+                                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }} {{ ucfirst($team->time_zone )}} ET
                                                         </td>
+                                                        @endif
+                                                        {{-- <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                        </td> --}}
 
 
                                                     </tr>

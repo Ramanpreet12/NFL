@@ -3,7 +3,7 @@
 
 <style>
   label.error {
-    color: red;
+    color: rgb(240, 0, 0);
   }
 </style>
 <section id="signupForm">
@@ -69,8 +69,8 @@
                     <input type="hidden" class="form-control" id="country_code" name="country_code"
                     value="{{old('country_code')}}">
                   @error('phone')<p class="text-danger">{{$message}}</p> @enderror
-                  <p class="text-danger hide" id="valid-msg"></p>
-                  <p class="text-danger hide" id="error-msg"></p>
+                  <label class="error hide" id="valid-msg"></label>
+                  <label class="error hide" id="error-msg"></label>
                 </div>
 
               </div>
@@ -178,7 +178,8 @@
   var input = document.querySelector("#phone");
         errorMsg = document.querySelector("#error-msg"),
             validMsg = document.querySelector("#valid-msg");
-        var errorMap = ["Invalid number", "Invalid country code", "Phone number is Too short", "Phone number is Too long", "Invalid number"];
+        // var errorMap = ["Invalid number", "Invalid country code", "Phone number is Too short", "Phone number is Too long", "Invalid number"];
+        var errorMap = ["Please enter the valid number", "Invalid country code", "The phone number is Too short", "The phone number is Too long", "Please enter the valid number"];
         var intl = window.intlTelInput(input, {
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/utils.js",
             separateDialCode: true,

@@ -113,6 +113,7 @@ $('#register_form').validate({
     zipcode: { required: true },
     id_proof: { required: true },
     country: { required: true },
+    id_proof_number: { required: true },
   },
   messages: {
     fname: { required: "Name is required", },
@@ -126,6 +127,7 @@ $('#register_form').validate({
     zipcode: { required: "Zipcode is required", },
     country: { required: "Country is required", },
     id_proof: { required: "ID Proof is required", },
+    id_proof_number: { required: "ID Proof Number is required", },
   }
 });
 
@@ -330,7 +332,7 @@ $("#updatePasswordForm").submit(function(e) {
 
         },
         messages: {
-            name:   {  required: "jqereName is required",  },
+            name:   {  required: "Name is required",  },
             email:      {  required: "Email is required",  },
             subject:    {  required: "Subject is required",  },
             message:    {  required: "Message is required",  },

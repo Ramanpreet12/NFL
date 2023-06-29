@@ -11,7 +11,7 @@ class Fixture extends Model
 {
     use HasFactory;
     protected $table = 'fixtures';
-    protected $fillable = ['season_id', 'first_team', 'second_team', 'week', 'date', 'time', 'time_zone'];
+    protected $fillable = ['season_id', 'first_team', 'second_team', 'week', 'date', 'time', 'time_zone','match_date_time'];
 
 protected $appends = ['win_name','loss_name' ,'name_team' , 'win_logo' , 'loss_logo'];
 
