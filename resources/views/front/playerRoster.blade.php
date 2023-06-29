@@ -71,8 +71,13 @@
                                             <tr>
                                                 <td class="text-left number">{{ ++$count }} </td>
                                                 <td class="text-left">
+                                                    @if ($value['team_logo'])
                                                     <img src="{{ asset('storage/images/team_logo/' . $value['team_logo']) }}"
-                                                        alt="Colombia"><span>{{ $value['user_name'] ?? '' }}</span>
+                                                    alt="Colombia"><span>{{ $value['user_name'] ?? '' }}</span>
+                                                    @else
+                                                    {{''}}
+                                                    @endif
+
                                                 </td>
                                                 <td>{{ $value['user_points']['win'] ?? '' }}</td>
                                                 <td>{{ $value['user_points']['loss'] ?? '' }}</td>
@@ -146,9 +151,9 @@
                     path: path,
                 },
                 success: function(data) {
-                            
-                 
-                   
+
+
+
                     if (data.roster_data != 'error') {
                         $(".loader").addClass('d-none');
                         $(".roaster-table").removeClass('d-none');

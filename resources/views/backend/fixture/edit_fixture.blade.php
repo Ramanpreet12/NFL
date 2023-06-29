@@ -74,7 +74,7 @@
 
                     <div class="mt-3">
                         <label for="second_team" class="form-label">Second Team <span class="text-danger">*</span></label>
-                        <select data-placeholder="Select your favorite actors" class="tom-select w-full" id="second_team"
+                        <select data-placeholder="Select Team" class="tom-select w-full" id="second_team"
                             name="second_team">
                             <option value="">--select--</option>
                             @foreach ($teams as $team)
@@ -99,11 +99,26 @@
                         <div class="sm:grid grid-cols-2 gap-2">
                             <div class="input-group">
                                 <div id="date" class="input-group-text">Date</div>
-                                <input type="date" class="form-control" placeholder="Date" aria-describedby="date"
-                                    name="date" value="{{ $fixture->date }}">
+                                {{-- <input type="date" class="form-control" placeholder="Date" aria-describedby="date"
+                                    name="date" value="{{ $fixture->date }}"> --}}
+
+                                    @php
+                                        $dateTime = array();
+                                        array_push($dateTime , $fixture->date);
+                                        array_push($dateTime , $fixture->time);
+                                        array_push($dateTime , $fixture->time_zone);
+                                        $get_dateTime = implode(' '  , $dateTime  );
+                                    @endphp
+
+                                    <div>
+
+                                        <span class="lastDate_Data" data="{{$get_dateTime}}"></span>
+                                        <div id="picker"></div>
+                                        <input type="hidden" id="result" value="{{ $get_dateTime }}"  name="date"/>
+                                    </div>
                             </div>
 
-                            <div class="input-group mt-2 sm:mt-0">
+                            {{-- <div class="input-group mt-2 sm:mt-0">
                                 <div id="time" class="input-group-text">Time</div>
                                 <input type="time" class="form-control" placeholder="Time" aria-describedby="time"
                                     name="time" value="{{ $fixture->time }}">
@@ -113,7 +128,7 @@
                                     <option value="pm" {{ 'pm' == $fixture->time_zone ? 'selected' : '' }}>PM
                                     </option>
                                 </select>
-                            </div>
+                            </div> --}}
 
                         </div>
                         <div class="sm:grid grid-cols-2 gap-2">
@@ -122,14 +137,14 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="sm:grid grid-cols-2 gap-2">
+                            {{-- <div class="sm:grid grid-cols-2 gap-2">
                                 @error('time')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                                 @error('time_zone')
                                     <p class="ml-5 text-danger">{{ $message }}</p>
                                 @enderror
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -149,5 +164,12 @@
 @endsection
 
 @section('script')
-    <script src="{{ mix('dist/js/ckeditor-classic.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#picker').dateTimePicker();
+            $('#picker-no-time').dateTimePicker({ showTime: false, dateFormat: 'DD/MM/YYYY hh:mm A', title: 'Select Date'});
+        })
+
+        </script>
 @endsection

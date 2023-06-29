@@ -37,6 +37,7 @@
         <h2 class="text-lg font-medium mr-auto">Teams Management</h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
             <a class="btn btn-primary shadow-md mr-2" href="{{route('team.create')}}" id="add_banner">Add New Team</a>
+
         </div>
     </div>
 
@@ -46,22 +47,23 @@
             <table class="table table-report -mt-2" id="team_table">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th class="text-center whitespace-nowrap">League</th>
-                        <th class="text-center whitespace-nowrap">Region</th>
-                        <th class="text-center whitespace-nowrap">Logo </th>
-                        <th class="text-center whitespace-nowrap">Name </th>
-                        <th class="text-center whitespace-nowrap">Status</th>
-                        <th class="text-center whitespace-nowrap">Created At</th>
-                        <th class="text-center whitespace-nowrap">Updated At</th>
-                        <th class="text-center whitespace-nowrap">Action</th>
+                        <th class="text-center">League</th>
+                        <th class="text-center">Region</th>
+                        <th class="text-center">Logo </th>
+                        <th class="text-center">Name </th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Created At</th>
+                        <th class="text-center">Updated At</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    @if ($teams->isNotEmpty())
                     @forelse ($teams as $team)
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4">  {{$team->league}} </div>
+                                <div class="text-slate-500 font-medium mx-4">  {{$team->league}} </div>
                             </td>
                             <td class="text-center">{{ $team->region->region ?? ''}}</td>
 
@@ -108,44 +110,16 @@
                         @empty
                         <tr>
                             <td colspan="7" class="text-center">No Records found</td>
-                          <p>No Records found</p>
+
                         </tr>
                     @endforelse
-
+                    @endif
                 </tbody>
             </table>
         </div>
         <!-- END: Data List -->
-        <!-- BEGIN: Pagination -->
-
-        <!-- END: Pagination -->
-    </div>
-    <!-- BEGIN: Delete Confirmation Modal -->
-    <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body p-0">
-                    <div class="p-5 text-center">
-                        <i data-feather="x-circle" class="w-16 h-16 text-danger mx-auto mt-3"></i>
-                        <div class="text-3xl mt-5">Are you sure?</div>
-                        <div class="text-slate-500 mt-2">Do you really want to delete these records? <br>This process
-                            cannot be undone.</div>
-                    </div>
-                    <div class="px-5 pb-8 text-center">
-                        <button type="button" data-tw-dismiss="modal"
-                            class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-                        <button type="button" class="btn btn-danger w-24">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END: Delete Confirmation Modal -->
 
 @endsection
-
-
-
    @section('script')
    <script>
     $(function() {

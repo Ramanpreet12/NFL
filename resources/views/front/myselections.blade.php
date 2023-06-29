@@ -46,7 +46,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-{{-- {{dd($my_selections)}} --}}
+
                                         @if (!empty($my_selections))
                                         @foreach ($my_selections as $week => $weakData)
 

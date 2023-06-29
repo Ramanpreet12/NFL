@@ -33,6 +33,8 @@
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Edit Team </h2>
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('team.index')}}" id="">Back</a>
+
         </div>
         <form action="{{route('team.update' , $team->id)}}" method="post" enctype="multipart/form-data">
             @csrf
@@ -56,14 +58,21 @@
                                 <option value="{{$region->id}}" @if ($region->id == $team->region_id)  {{'selected'}} @endif>{{$region->region}}</option>
                             @endforeach
                         </select>
-
                     </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('region_id')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
 
                     <div class="form-inline mt-5">
                         <label for="name" class="font-medium form-label sm:w-60">Name <span class="text-danger">*</span></label>
                         <input id="name" type="text" class="form-control" placeholder="Enter Team name" name="name"  value="{{($team->name) }}">
                     </div>
-
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('name')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
 
                     {{-- <div class="form-inline mt-5">
                         <label for="match_played" class="font-medium form-label sm:w-60">Match Played <span class="text-danger">*</span></label>
@@ -88,9 +97,13 @@
                     </div> --}}
 
                     <div class="form-inline mt-5">
-                        <label for="logo" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
+                        <label for="logo" class="font-medium form-label sm:w-60">Logo <span class="text-danger">*</span></label>
                         <input id="logo" type="file" class="form-control" placeholder="Image" name="logo">
 
+                    </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('logo')<p class="text-danger">{{$message}}</p> @enderror
                     </div>
                     <div class="form-inline mt-5">
                         <label for="logo" class="font-medium form-label sm:w-60"></label>
@@ -143,7 +156,7 @@
                     class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
                 </div>
                 <div class="text-right mt-5">
-                    <button type="submit" class="btn btn-primary w-24">Save</button>
+                    <button type="submit" class="btn btn-primary w-24">Update</button>
                     <button type="reset" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
                 </div>
             </div>

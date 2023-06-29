@@ -249,7 +249,10 @@ class FrontPagesController extends Controller
         $select_season_data = Season::where('status' , 'active')->where('id' ,$current_season_id)->first();
         $fixtures = Fixture::with('first_team_id','second_team_id')
         ->where(['season_id'=> $current_season_id,'week'=>$selected_week])
-        ->whereDate('date','>',$select_season_data->starting)->get()->groupby('week');
+        // ->whereDate('date','>=',$select_season_data->starting)
+        ->get()->groupby('week');
+
+
         if( $select_season_data){
             $c_season = DB::table('seasons')->whereRaw('"' . $select_season_data->starting . '" between `starting` and `ending`')
                                ->where(['status' => 'active' , 'id' => $current_season_id])->first();
@@ -341,7 +344,7 @@ class FrontPagesController extends Controller
         $get_game_results = Fixture::with('first_team_id','second_team_id')
         ->whereNotNull(['win' , 'loss'])
 
-        ->where('season_id',$c_season->id)->whereDate('date','>',$c_date)
+        ->where('season_id',$c_season->id)->whereDate('date','>=',$c_date)
         ->orderBy('week' , 'desc')
         ->get()->groupby('week');
 

@@ -60,7 +60,7 @@
                 <thead class="bg-primary text-white">
                     <tr>
                         <th class="text-center">Season</th>
-                        {{-- <th class="text-center whitespace-nowrap"></th> --}}
+                        {{-- <th class="text-center"></th> --}}
                         <th class="text-center">Team One</th>
                         {{-- <th class="text-center whitespace-nowrap"></th> --}}
                         <th class="text-center" >Team Two</th>
@@ -79,7 +79,7 @@
                     @forelse ($fixtures as $fixture)
                         <tr class="intro-x">
                             <td>
-                                <div class="text-slate-500 font-medium whitespace-nowrap mx-4"> {{$fixture->season->season_name ?? ''}} </div>
+                                <div class="text-slate-500 font-medium mx-4"> {{$fixture->season->season_name ?? ''}} </div>
 
                             </td>
                             <td class="">
@@ -114,7 +114,9 @@
                             </td>
                             {{-- <td class="text-center">{{ $fixture->second_team_id->name }}</td> --}}
                             <td class="text-center">{{ $fixture->week }}</td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($fixture->date)->format('j F, Y') }}</td>
+                            <td class="text-center">{{ $fixture->date }}</td>
+
+                            {{-- <td class="text-center">{{ \Carbon\Carbon::parse($fixture->date)->format('j F, Y , H:i a') }}</td> --}}
                             <td class="text-center"> {{ \Carbon\Carbon::createFromFormat('H:i:s', $fixture->time)->format('g:i') }} {{ ucfirst($fixture->time_zone) }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($fixture->created_at)->format('j F, Y') }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($fixture->updated_at)->format('j F, Y') }}</td>

@@ -1690,6 +1690,9 @@ nav.navbarMobile .navbar-nav .nav-item .dropdown-toggle {
 
   #heroBanner .owl-heroSlider .bannerCaption .booking {
     text-align: center; } }
+.table-striped > tbody > tr:nth-of-type(odd) > th {
+  --bs-table-accent-bg: #44455b; }
+
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   #footerPart .formInput {
     flex-wrap: wrap; }

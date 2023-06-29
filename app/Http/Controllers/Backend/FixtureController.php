@@ -16,13 +16,20 @@ use App\Models\UserTeam;
  use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use DateTime;
-// use Carbon\CarbonImmutable;
 
 class FixtureController extends Controller
 {
+
+    private function getStartAndEndDate($week, $year) {
+        $dto = new DateTime();
+        $dto->setISODate($year, $week);
+        $dto->modify('+4 days');
+        $ret['week_start'] = $dto->format('Y-m-d');
+        $dto->modify('+6 days');
+        $ret['week_end'] = $dto->format('Y-m-d');
+        return $ret;
+      }
     private $league_id = 1 ;// league id basically determines the leagues for eg NFL ,FIFA etc
-
-
 
 
     public function index()
@@ -42,7 +49,7 @@ class FixtureController extends Controller
 
     public function create(){
         $fixtures = Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
-        $seasons = Season::get();
+        $seasons = Season::where('status' , 'active')->get();
         $teams = Team::get();
         return view('backend.fixture.add_fixture' , compact('fixtures' , 'seasons' ,'teams'));
     }
@@ -59,62 +66,59 @@ class FixtureController extends Controller
               if($end < $store){
                 return redirect()->back()->with('error_date','Please Enter the  valid date.(Fixture date should be in between season starting and ending date.)');
               }
-                $diff = $start->diffInDays($store);
-                $week = ceil(($diff/7));
-                $f_week = ((int)$week);
-                if($f_week == 0){
-                    $f_week = 1;
+                $diff = $start->diff($store);
+
+                $week = ceil($diff->d/7);
+                $finalWeek = ((int)$week);
+                if($finalWeek == 0){
+                    $finalWeek = 1;
                 }
 
-
-
-                // while (strtotime($duration->starting) <= strtotime($request->date)) {
-                //     $oldStartDate = $duration->starting;
-                //     // dd($oldStartDate);
-                //     $startDate = date('Y-m-d', strtotime('+7 day', strtotime($duration->starting)));
-
-                //     if (strtotime($startDate) > strtotime($request->date)) {
-                //         $week = [$oldStartDate, $endDate];
-
-                //     }
-                //     else {
-                //         $week = [$oldStartDate, date('Y-m-d', strtotime('-1 day', strtotime($startDate))) ];
-                //     }
-
-                //     $weeks[] = $week;
-                // }
-
-                // dd($weeks);
-
-
-
                 $strtDate = $duration->starting;
+                $currnet_year = Carbon::createFromFormat('Y-m-d H:i:s', $duration->starting)->year;
                 $endDate = $request->date;
-                $startDateWeekCnt = round(floor( date('d',strtotime($strtDate)) / 7)) ;
-                // echo $startDateWeekCnt ."\n";
-                $endDateWeekCnt = round(ceil( date('d',strtotime($endDate)) / 7)) ;
-                //echo $endDateWeekCnt. "\n";
-                $datediff = strtotime(date('Y-m-d',strtotime($endDate))."-01") - strtotime(date('Y-m-d',strtotime($strtDate))."-01");
-                // dd($datediff);
-                $totalnoOfWeek = round(floor($datediff/(60*60*24)) / 7) + $endDateWeekCnt - $startDateWeekCnt ;
-                // echo $totalnoOfWeek ."\n";
-                // dd($totalnoOfWeek);
 
 
-                $fixture_data = Fixture::where(['season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$totalnoOfWeek , 'date' =>$request->date ])->first();
+            $dateS= $strtDate;
+            $dateE= $endDate;
+            $dateSD_STR = strtotime($dateS);
+            $dateED_STR = strtotime($dateE);
+            $SDweek_number = date('W', date($dateSD_STR));
+            $EDweek_number = date('W', date($dateED_STR));
+            $prevweek_array = $this->getStartAndEndDate(($EDweek_number - 1) , $currnet_year);
+            $week_array = $this->getStartAndEndDate($EDweek_number , $currnet_year);//year should be pass dynamically
+
+            if(strtotime($prevweek_array['week_start']) <= strtotime($dateE) && strtotime($dateE) <= strtotime($prevweek_array['week_end'])){
+                $finalWeek = ($EDweek_number - $SDweek_number)  ;
+            }else{
+                $finalWeek = ($EDweek_number - $SDweek_number) + 1 ;
+            }
+            // echo " FINAL WEEK NUMBER : {$finalWeek}";
+            // // // dd($finalWeek);
+            //  die();
+
+                $fixture_data = Fixture::where(['season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$finalWeek , 'date' =>$request->date ])->first();
                 if ($fixture_data) {
                     return redirect()->back()->with('message_error' , 'Fixture already exists !');
                 //  dd($fixture_data);
                 }
                 else{
+                        $splitDate = explode(' ', $request->date, 3);
+                        $date = $splitDate[0];
+                        $formatted_date = Carbon::parse($date)->format('j F, Y');
+                        $dayname = Carbon::parse($date)->dayName;
+                        $time = $splitDate[1];
+                        $time_zone = $splitDate[2];
+
+
               Fixture::create([
                 'season_id' => $request->season,
                 'first_team' => $request->first_team,
                 'second_team' => $request->second_team,
-                'week' => $totalnoOfWeek,
-                'date' => $request->date,
-                'time' => $request->time,
-                'time_zone' => $request->time_zone,
+                'week' => $finalWeek,
+                'date' => $date,
+                'time' => $time,
+                'time_zone' => $time_zone,
               ]);
               return redirect('admin/fixtures')->with('success' , 'Fixture Created successfully');
             }
@@ -131,7 +135,7 @@ class FixtureController extends Controller
         // $season = Season::get();
 
         $fixture = Fixture::where('id' , $id)->first();
-         $seasons = Season::get();
+         $seasons = Season::where('status' , 'active')->get();
          $teams = Team::get();
 
         return view('backend.fixture.edit_fixture' , compact('fixture' ,'seasons' , 'teams'));
@@ -149,25 +153,33 @@ class FixtureController extends Controller
             }
               $diff = $start->diff($store);
               $week = ceil($diff->d/7);
-              $f_week = ((int)$week);
-              if($f_week == 0){
-                $f_week = 1;
+              $finalWeek = ((int)$week);
+              if($finalWeek == 0){
+                $finalWeek = 1;
             }
 
-                $strtDate = $duration->starting;
+            $strtDate = $duration->starting;
+                $currnet_year = Carbon::createFromFormat('Y-m-d H:i:s', $duration->starting)->year;
                 $endDate = $request->date;
-                $startDateWeekCnt = round(floor( date('d',strtotime($strtDate)) / 7)) ;
-                // echo $startDateWeekCnt ."\n";
-                $endDateWeekCnt = round(ceil( date('d',strtotime($endDate)) / 7)) ;
-                //echo $endDateWeekCnt. "\n";
-                $datediff = strtotime(date('Y-m-d',strtotime($endDate))."-01") - strtotime(date('Y-m-d',strtotime($strtDate))."-01");
-                $totalnoOfWeek = round(floor($datediff/(60*60*24)) / 7) + $endDateWeekCnt - $startDateWeekCnt ;
-                // echo $totalnoOfWeek ."\n";
 
 
+            $dateS= $strtDate;
+            $dateE= $endDate;
+            $dateSD_STR = strtotime($dateS);
+            $dateED_STR = strtotime($dateE);
+            $SDweek_number = date('W', date($dateSD_STR));
+            $EDweek_number = date('W', date($dateED_STR));
+            $prevweek_array = $this->getStartAndEndDate(($EDweek_number - 1) , $currnet_year);
+            $week_array = $this->getStartAndEndDate($EDweek_number , $currnet_year);//year should be pass dynamically
+
+            if(strtotime($prevweek_array['week_start']) <= strtotime($dateE) && strtotime($dateE) <= strtotime($prevweek_array['week_end'])){
+                $finalWeek = ($EDweek_number - $SDweek_number)  ;
+            }else{
+                $finalWeek = ($EDweek_number - $SDweek_number) + 1 ;
+            }
 
             //   $fixture_data = Fixture::where([[('id' , '!=' , $id)] ,  'season_id' => $request->season ,'first_team' => $request->first_team , 'second_team' =>$request->second_team , 'week'=>$f_week , 'date' =>$request->date ])->first();
-              $fixture_data = Fixture::where([['id' , '!=' , $id] , ['season_id' , '=' ,  $request->season] , ['first_team' ,'=' ,  $request->first_team ]  , ['second_team' , '=', $request->second_team ], ['week' , '=', $totalnoOfWeek ], ['date' , '=' , $request->date] ])->first();
+              $fixture_data = Fixture::where([['id' , '!=' , $id] , ['season_id' , '=' ,  $request->season] , ['first_team' ,'=' ,  $request->first_team ]  , ['second_team' , '=', $request->second_team ], ['week' , '=', $finalWeek ], ['date' , '=' , $request->date] ])->first();
 
               if ($fixture_data) {
                     return redirect()->back()->with('message_error' , 'Fixture already exists !');
@@ -175,14 +187,21 @@ class FixtureController extends Controller
                 }
                 else{
 
+                    $splitDate = explode(' ', $request->date, 3);
+                    $date = $splitDate[0];
+                    $formatted_date = Carbon::parse($date)->format('j F, Y');
+                    $dayname = Carbon::parse($date)->dayName;
+                    $time = $splitDate[1];
+                    $time_zone = $splitDate[2];
+
             Fixture::where('id' , $id)->update([
                 'season_id' => $request->season,
                 'first_team' => $request->first_team,
                 'second_team' => $request->second_team,
-                'week' => $totalnoOfWeek,
-                'date' => $request->date,
-                'time' => $request->time,
-                'time_zone' => $request->time_zone,
+                'week' => $finalWeek,
+                'date' => $date,
+                'time' => $time,
+                'time_zone' => $time_zone,
             ]);
             return redirect('admin/fixtures')->with('success' , 'Fixture updated successfully');
         }
@@ -208,175 +227,14 @@ class FixtureController extends Controller
                     'value' => 'Upcoming Fixture'
                 ]);
             }
+
         return redirect('admin/fixtures')->with('success' , 'Fixture Title updated successfully');
         }
     }
 
 
 
-    //team results
 
-    // public function teamResult_index()
-    // {
-    //     $fixtures =  Fixture::with('first_team_id' , 'second_team_id' , 'season')->get();
-    //     return view('backend.team_result.index', compact('fixtures'));
-    // }
-
-
-
-    // public function showFixtures()
-    // {
-
-    //     $c_date = Season::where('status' , 'active')->value('starting');
-    //     $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-    //         ->where('status' , 'active')->first();
-    //     $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
-    //    $season_name = $c_season->season_name;
-    //    $get_seasons = Season::where('status' , 'active')->get();
-
-    //    return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons'));
-    // }
-
-
-    // public function get_seasons(Request $request)
-    // {
-    //     if($request->isMethod('post')){
-    // //    $season_data = Season::where('id' , $request->seasons)->first();
-    // $c_date = Season::where('status' , 'active')->where('id' , $request->seasons)->value('starting');
-    // $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-    // ->where(['status' => 'active' , 'id' =>$request->seasons])->first();
-
-    // $season_name = $c_season->season_name;
-
-    // $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$request->seasons)
-    // ->whereDate('date','>',$c_date)
-    // ->get()->groupby('week');
-    // $get_seasons = Season::where('status' , 'active')->get();
-
-    // return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
-    //     }
-    // }
-
-    public function fixture(Request $request)
-    {
-
-        if ($request->isMethod('post')) {
-            $season_data = Season::where('id' , $request->seasons)->first();
-            $c_date = Season::where('status' , 'active')->where('id' , $request->seasons)->value('starting');
-            $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-             ->where(['status' => 'active' , 'id' =>$request->seasons])->first();
-             $season_name = $c_season->season_name;
-             $fixtures = Fixture::with('first_team_id','second_team_id')->where('season_id',$request->seasons)
-             ->whereDate('date','>',$c_date)->get()->groupby('week');
-
-             $get_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
-            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
-        } else {
-            $c_date = Season::where('status' , 'active')->value('starting');
-            $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-                    ->where('status' , 'active')->first();
-                $fixtures = Fixture::with('first_team_id','second_team_id')
-                ->where('season_id',$c_season->id)->whereDate('date','>',$c_date)->get()->groupby('week');
-               $season_name = $c_season->season_name;
-               $get_seasons = Season::where('status' , 'active')->get();
-
-            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
-        }
-
-    }
-
-    // public function fixtureWeeks(Request $request)
-    // {
-    //     dd('gfjdkgkfg');
-    //     if ($request->isMethod('post')) {
-    //         dd('gfjdkgkfg');
-    //     $season_data = Season::where('id' , $request->season_id)->first();
-
-    //     $c_date = Season::where('status' , 'active')->where('id' , $request->season_id)->value('starting');
-    //     $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-    //      ->where(['status' => 'active' , 'id' =>$request->season_id])->first();
-    //       $season_name = $c_season->season_name;
-    //      $fixtures = Fixture::with('first_team_id','second_team_id')
-    //      ->where(['season_id' =>$request->season_id , 'week' => $request->weeks])
-    //      ->whereDate('date','>',$c_date)->get()->groupby('week');
-    //      $get_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
-
-    //      return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
-    //     } else {
-
-    //         $c_date = Season::where('status' , 'active')->value('starting');
-    //         $c_season = DB::table('seasons')->whereRaw('"' . $c_date . '" between `starting` and `ending`')
-    //                 ->where('status' , 'active')->first();
-    //             $fixtures = Fixture::with('first_team_id','second_team_id')
-    //             ->where(['season_id' =>$request->season_id , 'week' => $request->weeks])
-    //             ->whereDate('date','>',$c_date)->get()->groupby('week');
-    //            $season_name = $c_season->season_name;
-    //            $get_seasons = Season::where('status' , 'active')->get();
-
-    //         return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_seasons' , 'c_season'));
-    //     }
-
-    // }
-
-    // public function checkUser(Request $request)
-    // {
-    //     if (!Auth::check()) {
-    //        return response()->json(['message' => 'login','status'=>false], 200);
-    //     }
-    //         $team_id = $request->team_id;
-    //         $season_id = $request->season_id;
-    //         $week = $request->week;
-    //         $fixture_id = $request->fixture_id;
-    //         $user_id = auth()->user()->id;
-    //         $user_region_id = auth()->user()->region_id;
-    //         $user_status = Payment::where(['user_id' => $user_id,'season_id'=> $season_id,'status'=>'succeeded'])->first();
-    //         if ($user_status) {
-    //             $current_date = Carbon::now();  // current time and date
-    //             $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week])->orderBy('date','ASC')->first();
-    //             if($is_user_allowed_to_choose_fixture == null){
-    //                 return response()->json(['message' => 'Sorry.Please try again','status'=>false], 200);
-    //             }
-    //             $DeferenceInDays = Carbon::parse(Carbon::now())->diffInDays($is_user_allowed_to_choose_fixture->date);
-    //             if($DeferenceInDays <= 0){
-    //                 return response()->json(['message' => 'Time_id_over','status'=>false], 200);
-    //             }
-    //            // $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>', $current_date ]])->first();
-
-    //             // if no, redirect with error
-    //              if(!$is_user_allowed_to_choose_fixture){
-    //                 return response()->json(['message' => 'Selection time is over for this fixture.You can choose the fixture till day before the match.','status'=>false], 200);
-    //              }
-    //              // if user selected the fixture or not
-    //             $user_selected_fixture_team = UserTeam::where(['user_id' => $user_id, 'season_id' => $season_id, 'week' => $week,'fixture_id'=> $fixture_id ])->first();
-    //              //dd('user_selected_fixture_team' ,$user_selected_fixture_team);
-    //              if($user_selected_fixture_team){
-    //                 $user_selected_fixture_team->update(['team_id'=>$team_id ]);
-    //                 return response()->json(['message' => 'update','status'=>true], 200);
-    //              }else{
-    //                 $created =  UserTeam::create([
-    //                     'user_id' => $user_id,
-    //                     'user_region_id' => $user_region_id,
-    //                     'leauge_id' => $this->league_id,
-    //                     'season_id' => $season_id,
-    //                     'week' => $week,
-    //                     'team_id' => $team_id,
-    //                     'fixture_id'=>$fixture_id,
-
-
-    //                 ]);
-
-
-    //                 return response()->json(['message' => 'added','status'=>true], 200);
-    //              }
-    //         }
-    //         else{
-    //             return response()->json(['message' => 'subscribe','status'=>false], 200);
-
-    //         }
-
-
-
-    // }
 
 
     public function loss_user()
@@ -418,26 +276,6 @@ class FixtureController extends Controller
 
     public function my_results()
     {
-    //     $last_date_fixture_week =    Carbon::now()->addDays(8)->format('Y-m-d');
-    //     $first_date_fixture_week =    Carbon::now()->addDays(1)->format('Y-m-d');
-
-    //      $data= Fixture::whereBetween('date', [$first_date_fixture_week,  $last_date_fixture_week ])->pluck('id')->toArray();
-    //      //data = [1,2,5]
-    //      $users = User::where('role_as' , 0)->get();
-    //    $user_teams = UserTeam::where(['user_id' => 47 , 'week' => 2])
-    //    // ->whereNotIn('fixture_id', [1 , 2 , 3])
-    //    // ->where('fixture_id' , '!=' , $array)
-    //    ->pluck('fixture_id')->toArray();
-
-    //    //user_teams = [2]
-
-    //  $array_diff =   array_diff($data ,$user_teams );
-
-    //  //array_diff = [1 , 5]
-
-    //       dd($array_diff);
-    //     $today_date = Carbon::now()->format('Y-m-d');
-
 
     $get_weeks = Fixture::pluck('week')->toArray();
 

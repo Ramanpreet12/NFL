@@ -67,7 +67,7 @@
 
                     <div class="form-inline mt-5">
                         <label for="url" class="font-medium form-label sm:w-60">Url <span class="text-danger">*</span></label>
-                        <input id="url" type="text" class="form-control" placeholder="Enter URL" name="url"  value="{{old('url',$result->url)}}">
+                        <input id="url" type="text" class="form-control" placeholder="Enter URL" name="url"  value="{{old('url',$result->url)}}" readonly>
                     </div>
                     <div class="form-inline mt-2">
                         <label for="" class="font-medium form-label sm:w-60"></label>

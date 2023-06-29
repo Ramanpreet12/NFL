@@ -98,7 +98,7 @@
         <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in" role="button" aria-expanded="false" data-tw-toggle="dropdown">
 
 
-            @if (!empty(Auth::user()->photo) && Storage::exists('storage/admin_profile_photo/'. Auth::user()->photo))
+            @if (!empty(Auth::user()->photo))
             <img alt="Admin Image" class="rounded-full"
             src="{{asset('storage/admin_profile_photo/'. Auth::user()->photo) }}">
             @else

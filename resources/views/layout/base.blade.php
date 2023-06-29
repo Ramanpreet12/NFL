@@ -22,6 +22,8 @@ License: You must have a valid license purchased only from themeforest(the above
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"> --}}
     <link rel="stylesheet" href="{{asset('dist/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{asset('dist/css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('dist/css/datetimepicker.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
     @yield('head')

@@ -34,7 +34,7 @@
             <div class="intro-y box mt-5">
                 <div class="relative flex items-center p-5">
                     <div class="w-12 h-12 image-fit">
-                        @if (!empty(Auth::user()->photo) && Storage::exists('storage/admin_profile_photo/'. Auth::user()->photo))
+                        @if (!empty(Auth::user()->photo))
                         <img alt="Admin Image" class="rounded-full"
                         src="{{asset('storage/admin_profile_photo/'. Auth::user()->photo) }}">
                         @else
@@ -103,7 +103,7 @@
                                 <div
                                     class="border-2 border-dashed shadow-sm border-slate-200/60 dark:border-darkmode-400 rounded-md p-5">
                                     <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
-                                         @if (!empty(Auth::user()->photo) && Storage::exists('storage/admin_profile_photo/'. Auth::user()->photo))
+                                         @if (!empty(Auth::user()->photo))
                                          <img class="rounded-md" alt="Admin Image" src="{{asset('storage/admin_profile_photo/'. Auth::user()->photo) }}">
                                          @else
                                          <img class="rounded-md" alt="Admin Image" src="{{asset('dist/images/dummy_image.webp')}}">

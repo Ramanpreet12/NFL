@@ -33,6 +33,8 @@
 
         <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
             <h2 class="font-medium text-base mr-auto">Add Team </h2>
+            <a class="btn btn-primary shadow-md mr-2" href="{{route('team.index')}}" id="">Back</a>
+
         </div>
         <form action="{{ route('team.store') }}" method="post" enctype="multipart/form-data">
             @csrf
@@ -56,14 +58,21 @@
                                 <option value="{{$region->id}}">{{$region->region}}</option>
                             @endforeach
                         </select>
-
                     </div>
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('region_id')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
 
                     <div class="form-inline mt-5">
                         <label for="name" class="font-medium form-label sm:w-60">Name <span class="text-danger">*</span></label>
                         <input id="name" type="text" class="form-control" placeholder="Enter Team name" name="name" value="">
                     </div>
-
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('name')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
 
                     {{-- <div class="form-inline mt-5">
                         <label for="match_played" class="font-medium form-label sm:w-60">Match Played <span class="text-danger">*</span></label>
@@ -88,11 +97,13 @@
                     </div> --}}
 
                     <div class="form-inline mt-5">
-                        <label for="logo" class="font-medium form-label sm:w-60">Image <span class="text-danger">*</span></label>
+                        <label for="logo" class="font-medium form-label sm:w-60">Logo <span class="text-danger">*</span></label>
                         <input id="logo" type="file" class="form-control" placeholder="Image" name="logo">
-
                     </div>
-
+                    <div class="form-inline mt-2">
+                        <label for="" class="font-medium form-label sm:w-60"></label>
+                        @error('logo')<p class="text-danger">{{$message}}</p> @enderror
+                    </div>
 
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>

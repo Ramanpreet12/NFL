@@ -66,9 +66,10 @@ class UserDashboardController extends Controller
 
         $upcoming = Fixture::with('first_team_id','second_team_id')
         ->where('season_id',$c_season->id)
-        ->whereDate('date','>',$c_date)
+        ->whereDate('date','>=',$c_date)
         ->orderby('date','asc')
         ->latest()->take(5)->get()->groupby('week');
+
 
         $get_prizes = Winner::with('prize' , 'season')->where('user_id', auth()->user()->id)->orderBy('id' , 'desc')->get();
         //  dd($prize);

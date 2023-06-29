@@ -209,9 +209,10 @@
                                                         </div>
                                                     </td>
 
+                                                    {{-- <td class="fixture_text text-center" >{{$team->date}}</td> --}}
                                                     <td class="fixture_text text-center" >{{ \Carbon\Carbon::createFromFormat('Y-m-d', $team->date)->format('M d , Y') }}
                                                     </td>
-                                                    <td class="fixture_text text-center" >{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                     <td class="fixture_text text-center" >{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }} {{ ucfirst($team->time_zone) }}
                                                     </td>
                                             @endif
                                         @endforeach

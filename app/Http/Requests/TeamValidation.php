@@ -23,14 +23,44 @@ class TeamValidation extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'=>'required',
-            'match_played'=>'required',
-            'win'=>'required',
-            'loss'=>'required',
-            'status'=>'required',
-            // 'logo'=>'required'
-        ];
+        // return [
+        //     'name'=>'required',
+
+        //     'win'=>'required',
+        //     'loss'=>'required',
+        //     'status'=>'required',
+        //     // 'logo'=>'required'
+        // ];
+
+        if (request()->ismethod('post')) {
+            $rules = [
+             'region_id' => 'required',
+              'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg,webp',
+             'status' => 'required',
+             'name' => 'required'
+            ];
+         }
+         elseif(request()->isMethod('put')){
+             $rules = [
+                 'region_id' => 'required',
+                 'status' => 'required',
+                 'name' => 'required',
+
+                ];
+         }
+         return $rules;
     }
+
+    public function attributes()
+    {
+       return [
+        'region_id' => 'Region ',
+        'logo' => 'Team Logo',
+        'status' => 'Status',
+        'name' => 'Team Name'
+       ];
+
+    }
+
 
 }

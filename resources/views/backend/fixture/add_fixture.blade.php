@@ -43,7 +43,7 @@
                         <select data-placeholder="Select Season" class="tom-select w-full" id="season" name="season">
                             <option value="">--select--</option>
                             @foreach ($seasons as $season)
-                                <option value="{{ $season->id }}">{{ $season->season_name }}</option>
+                                <option value="{{ $season->id }}" {{old('season') == $season->id ? 'selected' : ''}}>{{ $season->season_name }}</option>
                             @endforeach
                         </select>
                         @error('season') <p class="text-danger">{{$message}}</p> @enderror
@@ -53,7 +53,7 @@
                         <select data-placeholder="Select Team" class="tom-select w-full" id="first_team" name="first_team">
                             <option value="">--select--</option>
                             @foreach ($teams as $team)
-                                <option value="{{ $team->id }}">{{ $team->name }}
+                                <option value="{{ $team->id }}" {{old('first_team') == $team->id ? 'selected' : ''}}>{{ $team->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -62,11 +62,11 @@
 
                     <div class="mt-3">
                         <label for="second_team" class="form-label">Second Team <span class="text-danger">*</span></label>
-                        <select data-placeholder="Select your favorite actors" class="tom-select w-full" id="second_team"
+                        <select data-placeholder="Select Team" class="tom-select w-full" id="second_team"
                             name="second_team">
                             <option value="">--select--</option>
                             @foreach ($teams as $team)
-                                <option value="{{ $team->id }}">{{ $team->name }}
+                                <option value="{{ $team->id }}"  {{old('second_team') == $team->id ? 'selected' : ''}}>{{ $team->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -85,11 +85,15 @@
                         <div class="sm:grid grid-cols-2 gap-2">
                             <div class="input-group">
                                 <div id="date" class="input-group-text">Date</div>
-                                <input type="date" class="form-control" placeholder="Date" aria-describedby="date"
-                                    name="date">
+                                {{-- <input type="date" class="form-control" placeholder="Date" aria-describedby="date"
+                                    name="date" id="picker"> --}}
+                                    <div>
+                                        <div id="picker"></div>
+                                        <input type="hidden" id="result" value=""  name="date"/>
+                                    </div>
                             </div>
 
-                            <div class="input-group mt-2 sm:mt-0 relative">
+                            {{-- <div class="input-group mt-2 sm:mt-0 relative">
                                 <div id="time" class="input-group-text">Time</div>
                                 <input type="time" class="form-control" placeholder="Time" aria-describedby="time"
                                     name="time">
@@ -99,7 +103,7 @@
                                     <option value="am">AM</option>
                                     <option value="pm">PM</option>
                                 </select>
-                            </div>
+                            </div> --}}
                         </div>
 
 
@@ -108,10 +112,10 @@
                                 @if(Session::has('error_date')) <p class="text-danger">{{Session::get('error_date')}}</p> @endif
                             </div>
 
-                            <div class="sm:grid grid-cols-2 gap-2">
+                            {{-- <div class="sm:grid grid-cols-2 gap-2">
                                 @error('time') <p class="text-danger">{{$message}}</p> @enderror
                                 @error('time_zone') <p class="ml-5 text-danger">{{$message}}</p> @enderror
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     {{-- <div class="text-left mt-5">
@@ -135,5 +139,13 @@
 @endsection
 
 @section('script')
-    <script src="{{ mix('dist/js/ckeditor-classic.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#picker').dateTimePicker();
+            $('#picker-no-time').dateTimePicker({ showTime: false, dateFormat: 'DD/MM/YYYY hh:mm A', title: 'Select Date'});
+        })
+
+        </script>
+
 @endsection

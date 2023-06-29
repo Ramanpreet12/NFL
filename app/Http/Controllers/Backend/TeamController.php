@@ -20,15 +20,17 @@ class TeamController extends Controller
         $get_regions = Region::where('status' , 'active')->get();
         return view('backend.team.create' , compact('get_regions'));
     }
-    public function store(Request $request){
+    public function store(TeamValidation $request){
          try{
             if ($request->isMethod('post')) {
                 $input = $request->all();
                     if ($request->hasFile('logo')) {
                             $logo_file = $request->file('logo');
-                            $logo_filename = "teamlogo".time().'.'.$logo_file->getClientOriginalExtension();
-                            $logo_file->storeAs('public/images/team_logo/' , $logo_filename);
-                            $input['logo'] = $logo_filename;
+                            // $logo_filename = "teamlogo".time().'.'.$logo_file->getClientOriginalExtension();
+                            $logo_filename = $logo_file->getClientOriginalName();
+                            $image_file_name = str_replace( " ", "-", $logo_filename );
+                            $logo_file->storeAs('public/images/team_logo/' , $image_file_name);
+                            $input['logo'] = $image_file_name;
                     }
                 $team = Team::create($input);
                 if($team){
@@ -50,19 +52,21 @@ class TeamController extends Controller
         return view('backend.team.edit', compact('team' , 'get_regions'));
     }
 
-    public function update(Request $request, $id){
+    public function update(TeamValidation $request, $id){
         try{
             if ($request->isMethod('put')) {
                 $data = array();
                     $image     =   $request->file('logo');
                     if ($image) {
-                        $extension =   $image->getClientOriginalExtension();
-                        $filename  =   'teamlogo_'.time() . '.' . $extension;
-                        $success = $image->storeAs('public/images/team_logo/' , $filename);
+                        // $extension =   $image->getClientOriginalExtension();
+                        // $filename  =   'teamlogo_'.time() . '.' . $extension;
+                        $filename = $image->getClientOriginalName();
+                        $image_file_name = str_replace( " ", "-", $filename );
+                        $success = $image->storeAs('public/images/team_logo/' , $image_file_name);
                         if (!isset($success)) {
                             return back()->withError('Could not upload logo');
                         }
-                        $data["logo"]=$filename;
+                        $data["logo"]=$image_file_name;
                     }
 
                     $data["region_id"]=$request->region_id;

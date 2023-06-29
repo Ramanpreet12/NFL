@@ -11,6 +11,7 @@ use App\Models\Fixture;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\SectionHeading;
+use Cache;
 
 
 class TeamResultController extends Controller
@@ -133,16 +134,35 @@ class TeamResultController extends Controller
                 $match_played = $team_win->match_played;
                 $matchwin = $team_win->win;
                 Team::where('id', $request->winner_team)->update(['match_played' => (int)$match_played + 1, 'win' => (int)$matchwin + 1]);
-                update_userPoints($request->winner_team, $fixture_data->season_id , $fixture_data->week);
+                // update_userPoints($request->winner_team, $fixture_data->season_id , $fixture_data->week);
+                DB::table('user_teams')->where(['week'=>$fixture_data->week, 'season_id'=> $fixture_data->season_id , 'team_id' =>$request->winner_team])->update(['points'=>1]);
+
             }
+            // else{
+            //     DB::table('user_teams')->where(['week'=>$fixture_data->week, 'season_id'=> $fixture_data->season_id , 'team_id' =>$request->winner_team])->update(['points'=>0]);
+
+            // }
             if ($request->loss_team) {
                 $team_loss = Team::where('id', $request->loss_team)->first();
                 $match_played = $team_loss->match_played;
                 $matchloss = $team_loss->loss;
                 Team::where('id', $request->loss_team)->update(['match_played' => (int)$match_played + 1, 'loss' => (int)$matchloss + 1]);
+                DB::table('user_teams')->where(['week'=>$fixture_data->week, 'season_id'=> $fixture_data->season_id , 'team_id' =>$request->loss_team])->update(['points'=>2]);
+
+
             }
 
 
+            // else{
+            //     DB::table('user_teams')->where(['week'=>$fixture_data->week, 'season_id'=> $fixture_data->season_id , 'team_id' =>$request->loss_team])->update(['points'=>0]);
+
+            // }
+            if(Cache::has('leader_board_regions_wise_users_results')){
+
+                Cache::forget('leader_board_regions_wise_users_results');
+            }
+
+                //dd(Cache::get('leader_board_regions_wise_users_results'));
             return redirect('admin/teams/result')->with('success', 'Team Result updated successfully');
         }
     }

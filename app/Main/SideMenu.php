@@ -26,12 +26,12 @@ class SideMenu
                 'params' => '',
                 'title' => 'Users'
             ],
-            'player' => [
-                'icon' => 'users',
-                'route_name' => 'admin/players',
-                'params' => '',
-                'title' => 'Players'
-            ],
+            // 'player' => [
+            //     'icon' => 'users',
+            //     'route_name' => 'admin/players',
+            //     'params' => '',
+            //     'title' => 'Players'
+            // ],
 
 
 

@@ -81,7 +81,8 @@
         <section id="matchBoard" style="color:{{ $colorSection['scoreboard']['text_color'] }};">
             <div class="container text-center">
                 <div class="row g-0 team-vs">
-                    <span class="score">{{ $matchBoard_team->first_team_id->win }}-{{ $matchBoard_team->second_team_id->win }}</span>
+                    <span
+                        class="score">{{ $matchBoard_team->first_team_id->win }}-{{ $matchBoard_team->second_team_id->win }}</span>
                     <div class="col-sm-6">
                         <div class="firstBoard boardItem"
                             style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
@@ -94,7 +95,8 @@
                                         class="img-fluid">
                                 @endif
 
-                                <h3 class="mt-3">{{ $matchBoard_team->first_team_id ? $matchBoard_team->first_team_id->name : '' }}</h3>
+                                <h3 class="mt-3">
+                                    {{ $matchBoard_team->first_team_id ? $matchBoard_team->first_team_id->name : '' }}</h3>
 
                                 {{-- <h4>{{ $matchBoard_team->first_team_id->win > $matchBoard_team->second_team_id->loss ? 'Win' : 'Loss' }}</h4> --}}
 
@@ -111,7 +113,9 @@
                                 @else
                                     <img src="{{ asset('front/img/Philly-Eagles.png') }}" alt="" class="img-fluid">
                                 @endif
-                                 <h3  class="mt-3">{{ $matchBoard_team->second_team_id ? $matchBoard_team->second_team_id->name : '' }}</h3>
+                                <h3 class="mt-3">
+                                    {{ $matchBoard_team->second_team_id ? $matchBoard_team->second_team_id->name : '' }}
+                                </h3>
 
                                 {{-- <h4>{{ $matchBoard_team->second_team_id->win > $matchBoard_team->first_team_id->loss ? 'Win' : 'Loss' }}</h4> --}}
                             </div>
@@ -131,7 +135,6 @@
                         <h2 style="color:{{ $colorSection['leaderboard']['header_color'] }};">
 
                             @if (!empty($fixtureHeading->value))
-
                                 {{ strtoupper($fixtureHeading->value) }}
                             @else
                                 UPCOMING MATCHES
@@ -139,47 +142,59 @@
 
                         </h2>
                         @if (!empty($upcoming_matches))
+                            @foreach ($upcoming_matches as $upcoming_match)
+                                <div class="tabletwo">
+                                    <div class="matchTable align-items-center justify-content-center">
+                                        <div class="firstTeam teamCard">
+                                            @if ($upcoming_match)
+                                                <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->first_team_id->logo) }}"
+                                                    alt="" class="img-fluid">
+                                            @else
+                                                <img src="{{ asset('front/img/Bears 1.png') }}" alt=""
+                                                    class="img-fluid">
+                                            @endif
+                                            <h5 style="word-wrap: break-word;">
+                                                {{ $upcoming_match->first_team_id->name ? $upcoming_match->first_team_id->name : '' }}
+                                            </h5>
+                                        </div>
+                                        <div class="teamVs">
+                                            <h5>VS</h5>
+                                        </div>
+                                        <div class="secondTeam teamCard">
+                                            @if ($upcoming_match)
+                                                <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->second_team_id->logo) }}"
+                                                    alt="" class="img-fluid">
+                                            @else
+                                                <img src="{{ asset('front/img/Vikings.png') }}" alt=""
+                                                    class="img-fluid">
+                                            @endif
+                                            <h5 style="word-wrap: break-word;">
+                                                {{ $upcoming_match->second_team_id->name ? $upcoming_match->second_team_id->name : '' }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="matchTime d-flex justify-content-between">
+
+                                        {{-- @php
+                                        $splitDate = explode(' ', $upcoming_match->date, 2);
+                                        $date = $splitDate[0];
+                                        $formatted_date = \Carbon\Carbon::parse($date)->format('j F, Y');
+                                        $dayname = Carbon\Carbon::parse($date)->dayName;
+                                        $time = $splitDate[1];
+                                    @endphp
+                                    <div>{{$dayname}} , {{$formatted_date }}</div>
+                                    <div>{{$time }}</div> --}}
 
 
-                        @foreach ($upcoming_matches as $upcoming_match)
-                            <div class="tabletwo">
-                                <div class="matchTable align-items-center justify-content-center">
-                                    <div class="firstTeam teamCard">
-                                        @if ($upcoming_match)
-                                            <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->first_team_id->logo) }}"
-                                                alt="" class="img-fluid">
-                                        @else
-                                            <img src="{{ asset('front/img/Bears 1.png') }}" alt=""
-                                                class="img-fluid">
-                                        @endif
-                                        <h5 style="word-wrap: break-word;">
-                                            {{ $upcoming_match->first_team_id->name ? $upcoming_match->first_team_id->name : '' }}
-                                        </h5>
-                                    </div>
-                                    <div class="teamVs">
-                                        <h5>VS</h5>
-                                    </div>
-                                    <div class="secondTeam teamCard">
-                                        @if ($upcoming_match)
-                                            <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->second_team_id->logo) }}"
-                                                alt="" class="img-fluid">
-                                        @else
-                                            <img src="{{ asset('front/img/Vikings.png') }}" alt=""
-                                                class="img-fluid">
-                                        @endif
-                                        <h5 style="word-wrap: break-word;">
-                                            {{ $upcoming_match->second_team_id->name ? $upcoming_match->second_team_id->name : '' }}
-                                        </h5>
+
+                                        <div> {{ \Carbon\Carbon::parse($upcoming_match->date)->format('j F, Y') }}</div>
+                                        <div>
+                                            {{ \Carbon\Carbon::createFromFormat('H:i:s', $upcoming_match->time)->format('H:i') }}
+                                            {{ ucfirst($upcoming_match->time_zone) }}</div>
+
                                     </div>
                                 </div>
-                                <div class="matchTime">
-                                    <span> {{ \Carbon\Carbon::parse($upcoming_match->date)->format('j F, Y') }}
-                                        {{ \Carbon\Carbon::createFromFormat('H:i:s', $upcoming_match->time)->format('g:i') }}
-                                        {{ ucfirst($upcoming_match->time_zone) }}</span>
-
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
                         @endif
                     </div>
                 </div>
@@ -196,6 +211,14 @@
                         </h2>
 
                         <div class="tabletwo">
+
+                            @php
+                                $faker = Faker\Factory::create();
+                                //random team logos
+                                $logos = DB::table('teams')->pluck('logo');
+
+                                $randomTeamLogo = ['AZ-Cardinals.png', 'Bears.png', 'Bengals.png', 'Bills.png', 'Broncos.png', 'Browns.png', 'Buccaneers.png', 'Chargers.png', 'Chiefs.png', 'Colts.png', 'Dolphins.png'];
+                            @endphp
                             <div class="table-responsive">
                                 <table class="table table-dark table-striped  tableBoard"
                                     style="background-color:{{ $colorSection['leaderboard']['bg_color'] }};color:{{ $colorSection['leaderboard']['text_color'] }};">
@@ -203,69 +226,102 @@
                                         <tr class="table-primary">
                                             <th scope="col" class="teamRegion">Region</th>
                                             <!-- <th scope="col" class="teamNumber"></th>                                              -->
-                                            <th scope="col" class="text-start teamLogo" > Players</th>
+                                            <th scope="col" class="text-start teamLogo"> Players</th>
                                             <th scope="col" class="teamName"> </th>
                                             <th scope="col" class="teamW">W</th>
                                             <th scope="col" class="teamL">L</th>
                                             <th scope="col" class="teamPts">PTS</th>
                                         </tr>
                                     </thead>
+                                    {{-- {{dd($leader_board_regions_wise_users_results)}} --}}
                                     <tbody class="table-group-divider">
-                                    @foreach ($leader_board_regions_wise_users_results as $regions => $players)
+                                        @foreach ($leader_board_regions_wise_users_results as $regions => $players)
+                                            @php $random_key = random_int(100000000, 9999999999); @endphp
+                                            @if (count($players) == 0)
+                                                @for ($i = $random_key; $i <= $random_key + 2; $i++)
+                                                    @php
+                                                        $players[$i]['user_name'] = $faker->name;
+                                                        $players[$i]['team_logo'] = $logos[rand(0, 10)];
+                                                        $players[$i]['user_points'] = ['win' => 0, 'loss' => 0];
+                                                    @endphp
+                                                @endfor
+                                            @elseif(count($players) == 1)
+                                                @for ($i = $random_key; $i <= $random_key + 1; $i++)
+                                                    @php
+                                                        $players[$i]['user_name'] = $faker->name;
+                                                        $players[$i]['team_logo'] = $logos[rand(0, 10)];
+                                                        $players[$i]['user_points'] = ['win' => 0, 'loss' => 0];
+                                                    @endphp
+                                                @endfor
+                                            @elseif(count($players) == 2)
+                                                @for ($i = $random_key; $i < $random_key + 1; $i++)
+                                                    @php
+                                                        $players[$i]['user_name'] = $faker->name;
+                                                        $players[$i]['team_logo'] = $logos[rand(0, 10)];
+                                                        $players[$i]['user_points'] = ['win' => 0, 'loss' => 0];
+                                                    @endphp
+                                                @endfor
+                                            @endif
+                                            @if ($players)
+                                                @php $incrementor = 0; @endphp
+                                                @foreach ($players as $player)
+                                                    <tr>
 
-                                    @if( $players)
-                                    @php $incrementor = 0; @endphp
-                                     @foreach ($players as $player)
-                                            <tr>
-                                                   @if($loop->first)
-                                                <th  class="teamRegion region_{{$regions}}" scope="row" rowspan="{{sizeof($players)}}">{{ $regions }}</th>
-                                                  @endif
-                                                <td class="teamLogo">
-                                                <img src="{{ asset('storage/images/team_logo/' . $player['team_logo']) }}"
-                                                    alt="{{ $player['team_logo'] }}" class="img-fluid">
-                                                </td>
-                                                <td class="teamName">
-                                                    <span>{{$player['user_name']}}</span>
-                                                </td>
-                                                <td class="teamW">{{$player['user_points']['win']}}</td>
-                                                <td class="teamL">{{$player['user_points']['loss']}}</td>
-                                                <td class="teamPts">{{$player['user_points']['win']}}</td>
-                                            </tr>
+                                                        @if ($loop->first)
+                                                            <th class="teamRegion region_{{ $regions }}"
+                                                                scope="row" rowspan="{{ sizeof($players) }}">
+                                                                {{ $regions }}</th>
+                                                        @endif
+                                                        <td class="teamLogo">
+                                                            @if ($player['team_logo'])
+                                                                <img src="{{ asset('storage/images/team_logo/' . $player['team_logo']) }}"
+                                                                    alt="{{ $player['team_logo'] }}" class="img-fluid">
+                                                            @endif
+
+                                                        </td>
+                                                        <td class="teamName">
+                                                            <span>{{ $player['user_name'] }}</span>
+
+                                                        </td>
+                                                        <td class="teamW">{{ $player['user_points']['win'] }}</td>
+                                                        <td class="teamL">{{ $player['user_points']['loss'] }}</td>
+                                                        <td class="teamPts">{{ $player['user_points']['win'] }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         @endforeach
-                                        @endif
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-{{-- player roster section --}}
+    {{-- player roster section --}}
 
 
-<section id="nextmatchBoard"
-    style="background-image:url({{ asset('front/img/football-2-bg.jpg') }});color:{{ $colorSection['leaderboard']['text_color'] }};">
-    <div class="container text-center">
-        <div class="row">
+    <section id="nextmatchBoard"
+        style="background-image:url({{ asset('front/img/football-2-bg.jpg') }});color:{{ $colorSection['leaderboard']['text_color'] }};">
+        <div class="container text-center">
+            <div class="row">
 
-            <div class="col-sm-12">
-                <div class="leaderBoard">
-                    <h2 style="color:{{ $colorSection['players']['header_color'] }};">
-                        @if (!empty($playerRosterHeading->value))
+                <div class="col-sm-12">
+                    <div class="leaderBoard">
+                        <h2 style="color:{{ $colorSection['players']['header_color'] }};">
+                            @if (!empty($playerRosterHeading->value))
                                 {{ strtoupper($playerRosterHeading->value) }}
                             @else
-                            Player's Roster
+                                Player's Roster
                             @endif
 
 
-                    </h2>
-                    <br>
-                    <h4 id="alphabets_links">
-                        {{-- <span class="alphabets">A</span> / <span class="alphabets">B</span> /
+                        </h2>
+                        <br>
+                        <h4 id="alphabets_links">
+                            {{-- <span class="alphabets">A</span> / <span class="alphabets">B</span> /
                          <span class="alphabets">C</span> / <span class="alphabets">D</span> /
                          <span class="alphabets">E</span> / <span class="alphabets">F</span> /
                          <span class="alphabets">G</span> / <span class="alphabets">H</span> /
@@ -279,232 +335,232 @@
                          <span class="alphabets">W</span> / <span class="alphabets">X</span> /
                          <span class="alphabets">Y</span> / <span class="alphabets">Z</span> --}}
 
-                        <a href="{{ url('player_roster/A') }}">A / </a>
-                        <a href="{{ url('player_roster/B') }}">B / </a>
-                        <a href="{{ url('player_roster/C') }}">C / </a>
-                        <a href="{{ url('player_roster/D') }}">D / </a>
-                        <a href="{{ url('player_roster/E') }}">E / </a>
-                        <a href="{{ url('player_roster/F') }}">F / </a>
-                        <a href="{{ url('player_roster/G') }}">G / </a>
-                        <a href="{{ url('player_roster/H') }}">H / </a>
-                        <a href="{{ url('player_roster/I') }}">I / </a>
-                        <a href="{{ url('player_roster/J') }}">J / </a>
-                        <a href="{{ url('player_roster/K') }}">K / </a>
-                        <a href="{{ url('player_roster/L') }}">L / </a>
-                        <a href="{{ url('player_roster/M') }}">M / </a>
-                        <a href="{{ url('player_roster/N') }}">N / </a>
-                        <a href="{{ url('player_roster/O') }}">O / </a>
-                        <a href="{{ url('player_roster/P') }}">P / </a>
-                        <a href="{{ url('player_roster/Q') }}">Q / </a>
-                        <a href="{{ url('player_roster/R') }}">R / </a>
-                        <a href="{{ url('player_roster/S') }}">S / </a>
-                        <a href="{{ url('player_roster/T') }}">T / </a>
-                        <a href="{{ url('player_roster/U') }}">U / </a>
-                        <a href="{{ url('player_roster/V') }}">V / </a>
-                        <a href="{{ url('player_roster/W') }}">W / </a>
-                        <a href="{{ url('player_roster/X') }}">X / </a>
-                        <a href="{{ url('player_roster/Y') }}">Y / </a>
-                        <a href="{{ url('player_roster/Z') }}">Z </a>
+                            <a href="{{ url('player_roster/A') }}">A / </a>
+                            <a href="{{ url('player_roster/B') }}">B / </a>
+                            <a href="{{ url('player_roster/C') }}">C / </a>
+                            <a href="{{ url('player_roster/D') }}">D / </a>
+                            <a href="{{ url('player_roster/E') }}">E / </a>
+                            <a href="{{ url('player_roster/F') }}">F / </a>
+                            <a href="{{ url('player_roster/G') }}">G / </a>
+                            <a href="{{ url('player_roster/H') }}">H / </a>
+                            <a href="{{ url('player_roster/I') }}">I / </a>
+                            <a href="{{ url('player_roster/J') }}">J / </a>
+                            <a href="{{ url('player_roster/K') }}">K / </a>
+                            <a href="{{ url('player_roster/L') }}">L / </a>
+                            <a href="{{ url('player_roster/M') }}">M / </a>
+                            <a href="{{ url('player_roster/N') }}">N / </a>
+                            <a href="{{ url('player_roster/O') }}">O / </a>
+                            <a href="{{ url('player_roster/P') }}">P / </a>
+                            <a href="{{ url('player_roster/Q') }}">Q / </a>
+                            <a href="{{ url('player_roster/R') }}">R / </a>
+                            <a href="{{ url('player_roster/S') }}">S / </a>
+                            <a href="{{ url('player_roster/T') }}">T / </a>
+                            <a href="{{ url('player_roster/U') }}">U / </a>
+                            <a href="{{ url('player_roster/V') }}">V / </a>
+                            <a href="{{ url('player_roster/W') }}">W / </a>
+                            <a href="{{ url('player_roster/X') }}">X / </a>
+                            <a href="{{ url('player_roster/Y') }}">Y / </a>
+                            <a href="{{ url('player_roster/Z') }}">Z </a>
 
 
-                    </h4>
-                    <div class="loader d-none">
-                        <img height="100px" width="100px" src="{{ asset('front/img/orange_circles.gif') }}"
-                            alt="loader">
-                    </div>
-                    <div class="tabletwo">
-
-                        <div class="table-responsive">
-                            <table class="table table-dark table-striped  tableBoard d-none" id="roaster-table">
-                                <thead>
-                                    <tr class="table-primary">
-                                        <th scope="col" class="teamNumber">Region</th>
-                                        <th scope="col" class="teamNumber">N.</th>
-                                        <th scope="col" colspan="2" class="text-start"> Players</th>
-                                        <th scope="col">W</th>
-                                        <th scope="col">L</th>
-                                        <th scope="col">PTS</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-group-divider" id="table-data">
-                                </tbody>
-                            </table>
+                        </h4>
+                        <div class="loader d-none">
+                            <img height="100px" width="100px" src="{{ asset('front/img/orange_circles.gif') }}"
+                                alt="loader">
                         </div>
-                    </div>
+                        <div class="tabletwo">
 
+                            <div class="table-responsive">
+                                <table class="table table-dark table-striped  tableBoard d-none" id="roaster-table">
+                                    <thead>
+                                        <tr class="table-primary">
+                                            <th scope="col" class="teamNumber">Region</th>
+                                            <th scope="col" class="teamNumber">N.</th>
+                                            <th scope="col" colspan="2" class="text-start"> Players</th>
+                                            <th scope="col">W</th>
+                                            <th scope="col">L</th>
+                                            <th scope="col">PTS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider" id="table-data">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
 
-<section id="videoBoard" style="background-color:{{ $colorSection['video']['bg_color'] }};">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2 style="color:{{ $colorSection['video']['header_color'] }};">
-                    @if (!empty($videosHeading->value))
-                        {{ strtoupper($videosHeading->value) }}
-                    @else
-                        VIDEOS
-                    @endif
+    <section id="videoBoard" style="background-color:{{ $colorSection['video']['bg_color'] }};">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 style="color:{{ $colorSection['video']['header_color'] }};">
+                        @if (!empty($videosHeading->value))
+                            {{ strtoupper($videosHeading->value) }}
+                        @else
+                            VIDEOS
+                        @endif
 
-                </h2>
-                <div class="owl-carousel owl-videoslider">
-                    @if (!empty($vacations))
-                        @foreach ($vacations as $vacation)
-                            <div class="item">
-                                <div class="video-container" id="video-container">
-                                    @php
-                                        $get_imageName = $vacation->image_video;
-                                        $get_extension = explode('.', $get_imageName);
-                                        $ext = end($get_extension);
-                                    @endphp
-                                    @if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png' || $ext == 'svg' || $ext == 'webp')
-                                        <img src="{{ asset('storage/images/vacation/' . $vacation->image_video) }}"
-                                            alt="" height="100%" width="100%">
-                                    @else
-                                    <video  width="250" height="250" controls id="video" preload="metadata"
-                                    poster="{{ asset('front/img/poster 1.png') }}">
-                                    <source src="{{ asset('storage/images/vacation/' . $vacation->image_video) }}" type="video/mp4">
-                                </video>
-                                    @endif
+                    </h2>
+                    <div class="owl-carousel owl-videoslider">
+                        @if (!empty($vacations))
+                            @foreach ($vacations as $vacation)
+                                <div class="item">
+                                    <div class="video-container" id="video-container">
+                                        @php
+                                            $get_imageName = $vacation->image_video;
+                                            $get_extension = explode('.', $get_imageName);
+                                            $ext = end($get_extension);
+                                        @endphp
+                                        @if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png' || $ext == 'svg' || $ext == 'webp')
+                                            <img src="{{ asset('storage/images/vacation/' . $vacation->image_video) }}"
+                                                alt="" height="100%" width="100%">
+                                        @else
+                                            <video width="250" height="250" controls id="video"
+                                                preload="metadata" poster="{{ asset('front/img/poster 1.png') }}">
+                                                <source
+                                                    src="{{ asset('storage/images/vacation/' . $vacation->image_video) }}"
+                                                    type="video/mp4">
+                                            </video>
+                                        @endif
 
-                                    <div class="play-button-wrapper">
-                                        <div title="Play video" class="play-gif" id="circle-play-b">
-                                            <!-- SVG Play Button -->
-                                            {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+                                        <div class="play-button-wrapper">
+                                            <div title="Play video" class="play-gif" id="circle-play-b">
+                                                <!-- SVG Play Button -->
+                                                {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
                                                 <path
                                                     d="M40 0a40 40 0 1040 40A40 40 0 0040 0zM26 61.56V18.44L64 40z" />
                                             </svg> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    @endif
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- newssection -->
-<section id="newsPart" style="background-color:{{ $colorSection['news']['bg_color'] }};">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2 style="color:{{ $colorSection['news']['header_color'] }};">
-                    @if (!empty($newsHeading->value))
-                        {{ strtoupper($newsHeading->value) }}
+    <!-- newssection -->
+    <section id="newsPart" style="background-color:{{ $colorSection['news']['bg_color'] }};">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 style="color:{{ $colorSection['news']['header_color'] }};">
+                        @if (!empty($newsHeading->value))
+                            {{ strtoupper($newsHeading->value) }}
+                        @else
+                            NEWS
+                        @endif
+
+                    </h2>
+                    <div class="owl-carousel owl-videoslider owl-theme mt-10">
+                        @if (!empty($news))
+                            @foreach ($news as $news_item)
+                                <div class="newsBanner">
+                                    <div class="mainImage">
+                                        <img src="{{ asset('storage/images/news/' . $news_item->image) }}" alt=""
+                                            class="img-fluid">
+                                    </div>
+                                    <div class="newsItemText">
+                                        <div class="itemTextinner">
+                                            <h6>{{ $news_item->title }}</h6>
+                                            <div class="newsimgText d-flex align-items-center">
+                                                <div class="imgRound me-3">
+                                                    <img src="{{ asset('storage/images/news/' . $news_item->image) }}"
+                                                        alt="" class="img-fluid">
+                                                </div>
+                                                <div class="textItem">
+                                                    <h6>{{ $news_item->header }}</h6>
+                                                    <span>{!! $news_item->description !!}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews section  ------------------Reviews section -------------------->
+    <section id="testimonialPart" style="background-image:url({{ asset('front/img/testimonials_banner.jpg') }})">
+        {{-- style="background-image:url(https://nfl.kloudexpert.com/front/img/testimonials_banner.jpg)"> --}}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- <h2 id="reviews_head">Reviews</h2> -->
+                    @if (!empty($reviewsHeading->value))
+                        <h2 id="reviews_head">{{ strtoupper($reviewsHeading->value) }}</h2>
                     @else
-                        NEWS
+                        <h2 id="reviews_head">Reviews</h2>
                     @endif
+                </div>
+            </div>
 
-                </h2>
-                <div class="owl-carousel owl-videoslider owl-theme mt-10">
-                    @if (!empty($news))
-                        @foreach ($news as $news_item)
-                            <div class="newsBanner">
-                                <div class="mainImage">
-                                    <img src="{{ asset('storage/images/news/' . $news_item->image) }}" alt=""
-                                        class="img-fluid">
-                                </div>
-                                <div class="newsItemText">
-                                    <div class="itemTextinner">
-                                        <h6>{{ $news_item->title }}</h6>
-                                        <div class="newsimgText d-flex align-items-center">
-                                            <div class="imgRound me-3">
-                                                <img src="{{ asset('storage/images/news/' . $news_item->image) }}"
-                                                    alt="" class="img-fluid">
-                                            </div>
-                                            <div class="textItem">
-                                                <h6>{{ $news_item->header }}</h6>
-                                                <span>{!! $news_item->description !!}</span>
-                                            </div>
-                                        </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel owl-testimonial owl-theme mt-10">
+                        @forelse ($get_reviews as $review)
+                            <div class="item">
+                                <div class="testimonialPart">
+                                    <i class="fa-solid fa-quote-left leftQuote"></i>
+                                    <div class="nametestmoial text-center">
+                                        {{-- <p class="review_name">{{$review->comment}}</p> --}}
+                                        <p class="review_name">{!! \Str::words($review->comment, 28, ' ...') !!}</p>
+                                    </div>
+
+                                    <div class="ratingStar text-center">
+
+                                        @for ($i = 0; $i < 5; $i++)
+                                            @if ($i < $review->rating)
+                                                <i class="fa-solid fa-star text-warning"></i>
+                                            @else
+                                                <i class="fa-solid fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                    <div class="namedesgination text-center review_name">
+                                        <h6>- {{ $review->username }} -</h6>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    @endif
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Reviews section  ------------------Reviews section -------------------->
-<section id="testimonialPart"
-    style="background-image:url({{asset('front/img/testimonials_banner.jpg')}})">
-    {{-- style="background-image:url(https://nfl.kloudexpert.com/front/img/testimonials_banner.jpg)"> --}}
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <!-- <h2 id="reviews_head">Reviews</h2> -->
-                @if (!empty($reviewsHeading->value))
-                <h2 id="reviews_head">{{ strtoupper($reviewsHeading->value) }}</h2>
-            @else
-            <h2 id="reviews_head">Reviews</h2>
-            @endif
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <div class="owl-carousel owl-testimonial owl-theme mt-10">
-                    @forelse ($get_reviews as $review)
-                    <div class="item">
-                        <div class="testimonialPart">
-                            <i class="fa-solid fa-quote-left leftQuote"></i>
-                            <div class="nametestmoial text-center">
-                                {{-- <p class="review_name">{{$review->comment}}</p> --}}
-                                <p class="review_name">{!! \Str::words($review->comment, 28, ' ...') !!}</p>
-                            </div>
-
-                            <div class="ratingStar text-center">
-
-                                @for ($i = 0; $i < 5; $i++)
-                                    @if ($i < $review->rating)
-                                        <i class="fa-solid fa-star text-warning"></i>
-                                    @else
-                                        <i class="fa-solid fa-star"></i>
-                                    @endif
-                                @endfor
-                            </div>
-                            <div class="namedesgination text-center review_name">
-                                <h6>- {{$review->username}} -</h6>
-                            </div>
-                        </div>
-                    </div>
-                    @empty
-                    <div class="item">
-                        <div class="testimonialPart">
-                            <i class="fa-solid fa-quote-left leftQuote"></i>
-                            <div class="nametestmoial text-center">
-                                <p>No Review Found</p>
-                            </div>
-                            {{-- <div class="ratingStar text-center">
+                        @empty
+                            <div class="item">
+                                <div class="testimonialPart">
+                                    <i class="fa-solid fa-quote-left leftQuote"></i>
+                                    <div class="nametestmoial text-center">
+                                        <p>No Review Found</p>
+                                    </div>
+                                    {{-- <div class="ratingStar text-center">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div> --}}
-                            {{-- <div class="namedesgination text-center">
+                                    {{-- <div class="namedesgination text-center">
                                 <h6>- ELENA GILBERT -</h6>
                             </div> --}}
-                        </div>
-                    </div>
+                                </div>
+                            </div>
+                        @endforelse
 
-                    @endforelse
 
-
-                    {{-- <div class="item">
+                        {{-- <div class="item">
                         <div class="testimonialPart">
                             <i class="fa-solid fa-quote-left leftQuote"></i>
                             <div class="nametestmoial text-center">
@@ -546,7 +602,7 @@
                         </div>
                     </div> --}}
 
-                    {{-- <div class="item">
+                        {{-- <div class="item">
                         <div class="testimonialPart">
                             <i class="fa-solid fa-quote-left leftQuote"></i>
                             <div class="nametestmoial text-center">
@@ -568,132 +624,131 @@
                     </div> --}}
 
 
+                    </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+
+    </section>
+
+    <style type="text/css">
+        /* players roatsers css  */
+        #alphabets_links {
+            color: <?php echo $colorSection['players']['text_color']; ?>;
+        }
+
+        #nextmatchBoard {
+            background-color: <?php echo $colorSection['players']['button_color']; ?>;
+        }
+
+        /* rewiews page css */
+        #reviews_head {
+            color: <?php echo $colorSection['reviews']['header_color']; ?>;
+        }
+
+        .review_name {
+            color: <?php echo $colorSection['reviews']['text_color']; ?>;
+        }
 
 
-</section>
 
-<style type="text/css">
+        #heroBanner .btn-primary:before {
+            background-color: <?php echo $colorSection['scoreboard']['button_color']; ?>;
+        }
 
-    /* players roatsers css  */
-    #alphabets_links{
-        color: <?php echo $colorSection['players']['text_color']; ?>;
-    }
-    #nextmatchBoard{
-        background-color: <?php echo $colorSection['players']['button_color']; ?>;
-    }
+        #heroBanner .btn-primary:after {
+            background-color: <?php echo $colorSection['scoreboard']['button_color']; ?>;
+        }
 
-    /* rewiews page css */
-    #reviews_head{
-        color: <?php echo $colorSection['reviews']['header_color']; ?>;
-    }
-    .review_name{
-        color: <?php echo $colorSection['reviews']['text_color']; ?>;
-    }
+        #heroBanner .owl-nav button span {
+            background-color: <?php echo $colorSection['scoreboard']['button_color']; ?>;
+        }
 
+        #heroBanner .owl-nav button.owl-prev span:after {
+            background: <?php echo $colorSection['scoreboard']['button_color']; ?>;
+        }
 
+        #heroBanner .owl-nav button.owl-next span:after {
+            background: <?php echo $colorSection['scoreboard']['button_color']; ?>;
+        }
 
-    #heroBanner .btn-primary:before {
-        background-color: <?php echo $colorSection['scoreboard']['button_color']; ?>;
-    }
+        #matchBoard .team-vs .secondBoard:before {
+            background: <?php echo $colorSection['scoreboard']['button_color']; ?>;
+        }
 
-    #heroBanner .btn-primary:after {
-        background-color: <?php echo $colorSection['scoreboard']['button_color']; ?>;
-    }
+        #nextmatchBoard .matchTable .teamVs {
+            background-color: <?php echo $colorSection['leaderboard']['button_color']; ?>;
+            ;
+        }
 
-    #heroBanner .owl-nav button span {
-        background-color: <?php echo $colorSection['scoreboard']['button_color']; ?>;
-    }
+        #nextmatchBoard .matchTable {
+            background-color: <?php echo $colorSection['leaderboard']['bg_color']; ?>;
+            border-top: <?php echo $colorSection['leaderboard']['button_color']; ?>;
+        }
 
-    #heroBanner .owl-nav button.owl-prev span:after {
-        background: <?php echo $colorSection['scoreboard']['button_color']; ?>;
-    }
+        #nextmatchBoard .matchTime a {
+            color: <?php echo $colorSection['leaderboard']['text_color']; ?>;
+        }
 
-    #heroBanner .owl-nav button.owl-next span:after {
-        background: <?php echo $colorSection['scoreboard']['button_color']; ?>;
-    }
+        #nextmatchBoard .table-primary {
+            --bs-table-bg: <?php echo $colorSection['leaderboard']['button_color']; ?>;
+        }
 
-    #matchBoard .team-vs .secondBoard:before {
-        background: <?php echo $colorSection['scoreboard']['button_color']; ?>;
-    }
+        #nextmatchBoard .table-striped>tbody>tr:nth-of-type(odd)>* {
+            color: <?php echo $colorSection['leaderboard']['text_color']; ?>;
+        }
 
-    #nextmatchBoard .matchTable .teamVs {
-        background-color: <?php echo $colorSection['leaderboard']['button_color']; ?>;
-        ;
-    }
+        #nextmatchBoard .table-dark {
+            color: <?php echo $colorSection['leaderboard']['text_color']; ?>;
+        }
 
-    #nextmatchBoard .matchTable {
+        #nextmatchBoard .table-primary {
+            color: <?php echo $colorSection['leaderboard']['text_color']; ?>;
+        }
+
+        /* #nextmatchBoard .table>:not(caption)>*>* {
         background-color: <?php echo $colorSection['leaderboard']['bg_color']; ?>;
-        border-top: <?php echo $colorSection['leaderboard']['button_color']; ?>;
-    }
-
-    #nextmatchBoard .matchTime a {
-        color: <?php echo $colorSection['leaderboard']['text_color']; ?>;
-    }
-
-    #nextmatchBoard .table-primary {
-        --bs-table-bg: <?php echo $colorSection['leaderboard']['button_color']; ?>;
-    }
-
-    #nextmatchBoard .table-striped>tbody>tr:nth-of-type(odd)>* {
-        color: <?php echo $colorSection['leaderboard']['text_color']; ?>;
-    }
-
-    #nextmatchBoard .table-dark {
-        color: <?php echo $colorSection['leaderboard']['text_color']; ?>;
-    }
-
-    #nextmatchBoard .table-primary {
-        color: <?php echo $colorSection['leaderboard']['text_color']; ?>;
-    }
-
-    /* #nextmatchBoard .table>:not(caption)>*>* {
-    background-color: <?php echo $colorSection['leaderboard']['bg_color']; ?>;
-  }*/
+      }*/
 
 
 
-    #videoBoard h2:before {
-        background: <?php echo $colorSection['video']['button_color']; ?>;
-    }
+        #videoBoard h2:before {
+            background: <?php echo $colorSection['video']['button_color']; ?>;
+        }
 
-    #videoBoard .owl-nav button span {
-        background-color: <?php echo $colorSection['video']['button_color']; ?>;
-    }
+        #videoBoard .owl-nav button span {
+            background-color: <?php echo $colorSection['video']['button_color']; ?>;
+        }
 
-    #videoBoard .owl-nav button.owl-prev span:after {
-        background: <?php echo $colorSection['video']['button_color']; ?>;
-    }
+        #videoBoard .owl-nav button.owl-prev span:after {
+            background: <?php echo $colorSection['video']['button_color']; ?>;
+        }
 
-    #videoBoard .owl-nav button.owl-next span:after {
-        background: <?php echo $colorSection['video']['button_color']; ?>;
-    }
+        #videoBoard .owl-nav button.owl-next span:after {
+            background: <?php echo $colorSection['video']['button_color']; ?>;
+        }
 
-    #newsPart h2:before {
-        background: <?php echo $colorSection['news']['button_color']; ?>;
-    }
+        #newsPart h2:before {
+            background: <?php echo $colorSection['news']['button_color']; ?>;
+        }
 
-    #newsPart .owl-nav button span {
-        background-color: <?php echo $colorSection['news']['button_color']; ?>;
-    }
+        #newsPart .owl-nav button span {
+            background-color: <?php echo $colorSection['news']['button_color']; ?>;
+        }
 
-    #newsPart .owl-nav button.owl-prev span:after {
-        background: <?php echo $colorSection['news']['button_color']; ?>;
-    }
+        #newsPart .owl-nav button.owl-prev span:after {
+            background: <?php echo $colorSection['news']['button_color']; ?>;
+        }
 
-    #newsPart .owl-nav button.owl-next span:after {
-        background: <?php echo $colorSection['news']['button_color']; ?>;
-    }
+        #newsPart .owl-nav button.owl-next span:after {
+            background: <?php echo $colorSection['news']['button_color']; ?>;
+        }
 
-    #newsPart .newsBanner .newsItemText {
-        color: <?php echo $colorSection['news']['text_color']; ?>;
+        #newsPart .newsBanner .newsItemText {
+            color: <?php echo $colorSection['news']['text_color']; ?>;
 
-    }
-
-
-</style>
+        }
+    </style>
 @endsection

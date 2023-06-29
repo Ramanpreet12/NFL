@@ -44,7 +44,7 @@ if (!function_exists('general_images')) {
 }
 if (!function_exists('update_userPoints')) {
     function update_userPoints($team_id,$season_id , $week){
-        Illuminate\Support\Facades\DB::table('user_teams')->where(['week'=>$week, 'season_id'=>$season_id, 'team_id' => $team_id])->update(['points'=>1]);
+        // Illuminate\Support\Facades\DB::table('user_teams')->where(['week'=>$week, 'season_id'=>$season_id, 'team_id' => $team_id])->update(['points'=>1]);
 
         // $points = Illuminate\Support\Facades\DB::table('user_teams')->where(['week'=>$week,'season_id'=>$season_id , 'team_id' => $team_id])->value('points');
         // if($points != '' && $points != NULL){
@@ -54,6 +54,9 @@ if (!function_exists('update_userPoints')) {
         // }else{
         //     $final =1;
         // }
+
+
+
         // Illuminate\Support\Facades\DB::table('user_teams')->where(['week'=>$week, 'season_id'=>$season_id, 'team_id' => $team_id])->update(['points'=>$final]);
     }
 
