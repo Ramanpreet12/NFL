@@ -211,7 +211,7 @@ class FrontPagesController extends Controller
                  }
                 $season_name = $c_season->season_name;
                 $get_all_seasons = Season::where('status' , 'active')->get();
-                $total_players = UserTeam::where('season_id',$c_season->id)->count();
+                $total_players = UserTeam::where('season_id',$c_season->id)->distinct('user_id')->count();
 
                 $get_match_results_details = MatchResult::first();
 

@@ -76,55 +76,78 @@
     </section>
 
     <!-- matchBoard with header -->
+    {{-- {{dd($matchBoards_win_loss[0]->total_win_pts_of_team)}} --}}
+    {{-- {{dd($matchBoards_win_loss[1]->total_loss_pts_of_team) }} --}}
 
-    @foreach ($matchBoards as $matchBoard_team)
-        <section id="matchBoard" style="color:{{ $colorSection['scoreboard']['text_color'] }};">
-            <div class="container text-center">
-                <div class="row g-0 team-vs">
+    {{-- @foreach ($matchBoards_win_loss as $matchBoard_team) --}}
+    <section id="matchBoard" style="color:{{ $colorSection['scoreboard']['text_color'] }};">
+        <div class="container text-center">
+            <div class="row g-0 team-vs">
+
+                @if (!empty($matchBoards_win_loss[0]->win_team_id) && !empty($matchBoards_win_loss[1]->loss_team_id))
                     <span
-                        class="score">{{ $matchBoard_team->first_team_id->win }}-{{ $matchBoard_team->second_team_id->win }}</span>
-                    <div class="col-sm-6">
-                        <div class="firstBoard boardItem"
-                            style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
-                            <div class="boardItem-inner">
-                                @if ($matchBoard_team)
-                                    <img src="{{ asset('storage/images/team_logo/' . $matchBoard_team->first_team_id->logo) }}"
+                        class="score">{{ $matchBoards_win_loss[0]->total_win_pts_of_team }}-{{ $matchBoards_win_loss[1]->total_loss_pts_of_team }}</span>
+                @else
+                    <span class="score">{{ '0' }}-{{ '0' }}</span>
+                @endif
+
+                <div class="col-sm-6">
+                    <div class="firstBoard boardItem"
+                        style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
+                        <div class="boardItem-inner">
+                            @if ($matchBoards_win_loss)
+                                @if (!empty($matchBoards_win_loss[0]->win_team_id))
+                                    <img src="{{ asset('storage/images/team_logo/' . $matchBoards_win_loss[0]->win_team_logo) }}"
                                         alt="" class="img-fluid">
                                 @else
-                                    <img src="{{ asset('front/img/AZ-Cardinals 1.png') }}" alt=""
-                                        class="img-fluid">
+                                    {{ ' ' }}
                                 @endif
+                            @else
+                                <img src="{{ asset('dist/images/no-image.png') }}" alt="" class="img-fluid">
+                            @endif
 
+                            @if (!empty($matchBoards_win_loss[0]->win_team_id))
                                 <h3 class="mt-3">
-                                    {{ $matchBoard_team->first_team_id ? $matchBoard_team->first_team_id->name : '' }}</h3>
+                                    {{ $matchBoards_win_loss[0]->win_team_name }}</h3>
+                            @else
+                                <h3 class="mt-3"> {{ 'TBD' }}</h3>
+                            @endif
 
-                                {{-- <h4>{{ $matchBoard_team->first_team_id->win > $matchBoard_team->second_team_id->loss ? 'Win' : 'Loss' }}</h4> --}}
+                            {{-- <h4>{{ $matchBoard_team->first_team_id->win > $matchBoard_team->second_team_id->loss ? 'Win' : 'Loss' }}</h4> --}}
 
-                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="secondBoard boardItem"
-                            style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
-                            <div class="boardItem-inner">
-                                @if ($matchBoard_team)
-                                    <img src="{{ asset('storage/images/team_logo/' . $matchBoard_team->second_team_id->logo) }}"
+                </div>
+                <div class="col-sm-6">
+                    <div class="secondBoard boardItem"
+                        style="background-color:{{ $colorSection['scoreboard']['bg_color'] }};">
+                        <div class="boardItem-inner">
+                            @if ($matchBoards_win_loss)
+                                @if (!empty($matchBoards_win_loss[1]->loss_team_id))
+                                    <img src="{{ asset('storage/images/team_logo/' . $matchBoards_win_loss[1]->loss_team_logo) }}"
                                         alt="" class="img-fluid">
                                 @else
-                                    <img src="{{ asset('front/img/Philly-Eagles.png') }}" alt="" class="img-fluid">
+                                    {{ ' ' }}
                                 @endif
-                                <h3 class="mt-3">
-                                    {{ $matchBoard_team->second_team_id ? $matchBoard_team->second_team_id->name : '' }}
-                                </h3>
+                            @else
+                                <img src="{{ asset('front/img/Philly-Eagles.png') }}" alt="" class="img-fluid">
+                            @endif
 
-                                {{-- <h4>{{ $matchBoard_team->second_team_id->win > $matchBoard_team->first_team_id->loss ? 'Win' : 'Loss' }}</h4> --}}
-                            </div>
+                            @if (!empty($matchBoards_win_loss[1]->loss_team_id))
+                                <h3 class="mt-3">{{ $matchBoards_win_loss[1]->loss_team_name }}</h3>
+                            @else
+                                <h3 class="mt-3">{{ 'TBD' }}</h3>
+                            @endif
+
+
+                            {{-- <h4>{{ $matchBoard_team->second_team_id->win > $matchBoard_team->first_team_id->loss ? 'Win' : 'Loss' }}</h4> --}}
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    @endforeach
+        </div>
+    </section>
+    {{-- @endforeach --}}
     <section id="nextmatchBoard"
         style="background-image:url({{ asset('front/img/football-2-bg.jpg') }});color:{{ $colorSection['leaderboard']['text_color'] }};">
         <div class="container text-center">
@@ -147,29 +170,46 @@
                                     <div class="matchTable align-items-center justify-content-center">
                                         <div class="firstTeam teamCard">
                                             @if ($upcoming_match)
-                                                <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->first_team_id->logo) }}"
-                                                    alt="" class="img-fluid">
+                                                @if (!empty($upcoming_match->first_team_id))
+                                                    <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->first_team_id->logo) }}"
+                                                        alt="" class="img-fluid">
+                                                @else
+                                                    {{ ' ' }}
+                                                @endif
                                             @else
-                                                <img src="{{ asset('front/img/Bears 1.png') }}" alt=""
-                                                    class="img-fluid">
+                                                <img src="" alt="" class="img-fluid">
                                             @endif
                                             <h5 style="word-wrap: break-word;">
-                                                {{ $upcoming_match->first_team_id->name ? $upcoming_match->first_team_id->name : '' }}
+                                                @if (!empty($upcoming_match->first_team_id))
+                                                    {{ $upcoming_match->first_team_id->name ? $upcoming_match->first_team_id->name : '' }}
+                                                @else
+                                                    {{ 'TBD' }}
+                                                @endif
+
                                             </h5>
                                         </div>
                                         <div class="teamVs">
                                             <h5>VS</h5>
                                         </div>
                                         <div class="secondTeam teamCard">
+
                                             @if ($upcoming_match)
-                                                <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->second_team_id->logo) }}"
-                                                    alt="" class="img-fluid">
+                                                @if (!empty($upcoming_match->second_team_id))
+                                                    <img src="{{ asset('storage/images/team_logo/' . $upcoming_match->second_team_id->logo) }}"
+                                                        alt="" class="img-fluid">
+                                                @else
+                                                    {{ ' ' }}
+                                                @endif
                                             @else
-                                                <img src="{{ asset('front/img/Vikings.png') }}" alt=""
-                                                    class="img-fluid">
+                                                <img src="" alt="" class="img-fluid">
                                             @endif
                                             <h5 style="word-wrap: break-word;">
-                                                {{ $upcoming_match->second_team_id->name ? $upcoming_match->second_team_id->name : '' }}
+                                                @if (!empty($upcoming_match->second_team_id))
+                                                    {{ $upcoming_match->second_team_id->name ? $upcoming_match->second_team_id->name : '' }}
+                                                @else
+                                                    {{ 'TBD' }}
+                                                @endif
+
                                             </h5>
                                         </div>
                                     </div>
@@ -468,8 +508,8 @@
                             @foreach ($news as $news_item)
                                 <div class="newsBanner">
                                     <div class="mainImage">
-                                        <img src="{{ asset('storage/images/news/' . $news_item->image) }}" alt=""
-                                            class="img-fluid">
+                                        <img src="{{ asset('storage/images/news/' . $news_item->image) }}"
+                                            alt="" class="img-fluid">
                                     </div>
                                     <div class="newsItemText">
                                         <div class="itemTextinner">
@@ -709,8 +749,8 @@
         }
 
         /* #nextmatchBoard .table>:not(caption)>*>* {
-        background-color: <?php echo $colorSection['leaderboard']['bg_color']; ?>;
-      }*/
+            background-color: <?php echo $colorSection['leaderboard']['bg_color']; ?>;
+          }*/
 
 
 

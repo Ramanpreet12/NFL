@@ -46,7 +46,9 @@
                     </div>
                 </div> --}}
                 <div class="col-lg-12">
+{{-- {{dd($roster_data)}} --}}
 
+{{-- {{dd(config('fakeRecords_playerRoster.fakePlayerRosterRecords'))}} --}}
                     @if ($roster_data)
                         @foreach ($roster_data as $regions => $players)
                             <table
@@ -143,7 +145,7 @@
                     $('.tbody-North').html('');
                     $('.tbody-South').html('');
                     $('.tbody-Overseas').html('');
-                    $('.tbody-Mid-west').html('');
+                    $('.tbody-Mid-West').html('');
 
                 },
                 data: {
@@ -250,11 +252,11 @@
                         }
 
                         if (midwest != '') {
-                            $('.tbody-Midwest').html(midwest);
-                            $('.table-Midwest').removeClass('hide-table');
+                            $('.tbody-Mid-West').html(midwest);
+                            $('.table-Mid-West').removeClass('hide-table');
 
                         } else {
-                            $('.table-Midwest').addClass('hide-table');
+                            $('.table-Mid-West').addClass('hide-table');
                         }
 
                         if (overseas != '') {
@@ -271,7 +273,7 @@
                         $('.table-West').addClass('hide-table');
                         $('.table-North').addClass('hide-table');
                         $('.table-South').addClass('hide-table');
-                        $('.table-Midwest').addClass('hide-table');
+                        $('.table-Mid-West').addClass('hide-table');
                         $('.table-Overseas').addClass('hide-table');
 
                         $('.no_data_found').css('display','block');

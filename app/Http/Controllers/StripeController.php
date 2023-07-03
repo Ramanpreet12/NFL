@@ -206,7 +206,7 @@ class StripeController extends Controller
             $responseAsString = $response->getBody()->getContents();
             $formatted_response =   json_decode( $responseAsString, true);
 
-            dd($formatted_response);
+            // dd($formatted_response);
 
             if($formatted_response['error']['code'] == 'issuer_declined'){
                 return redirect()->back()->with('message_error' , 'Your Card is Declined.Please try again or use another card.');

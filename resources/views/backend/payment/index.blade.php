@@ -74,11 +74,12 @@
                                 <div class="text-slate-500 font-medium mx-4"> {{$count++;}} </div>
                             </td>
                             <td class="text-center">{{ $payment->season->season_name}}</td>
-                            <td class="text-center">{{ $payment->user->name}}</td>
-                            <td class="text-center">{{ $payment->user->email}}</td>
-                            <td class="text-center">{{ $payment->amount}} {{ $payment->currency}}</td>
-                            <td class="text-center">{{$payment->transaction_id}}</td>
-                            <td class="text-center">{{$payment->ref_num}}</td>
+                            {{dd($payment->user)}}
+                            <td class="text-center">{{ $payment->user->name ?? ''}}</td>
+                            <td class="text-center">{{ $payment->user->email ?? ''}}</td>
+                            <td class="text-center">{{ $payment->amount ?? ''}} {{ $payment->currency ?? ''}}</td>
+                            <td class="text-center">{{$payment->transaction_id ?? ''}}</td>
+                            <td class="text-center">{{$payment->ref_num ?? ''}}</td>
                             {{-- <td class="text-center">{{$payment->status}}</td> --}}
                             <td class="">
                                 {{-- <div class="flex items-center justify-center {{ $team->status =='active' ? 'text-success' : 'text-danger' }}">

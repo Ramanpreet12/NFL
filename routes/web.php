@@ -124,6 +124,8 @@ Route::get('upcomingMatches', [UserDashboardController::class, 'upcomingMatches'
 Route::match(['get' , 'put'] , 'settings', [UserDashboardController::class, 'settings'])->name('settings');
 Route::match(['get' , 'put'] , 'update-password', [UserDashboardController::class, 'updatePassword'])->name('update-password');
 // Route::get('personal_details', [UserDashboardController::class, 'personal_details'])->name('personal_details');
+Route::get('download-invoice/{id}', [UserDashboardController::class, 'invoice'])->name('download-invoice');
+
 });
 
 //data according to alphabets

@@ -138,11 +138,7 @@
                         </tr>
 
                     @endforeach
-                    @else
-                    <tr>
-                        <td colspan="7" class="text-center">No Records found</td>
 
-                    </tr>
                     @endif
 
                 </tbody>

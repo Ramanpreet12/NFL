@@ -11,7 +11,8 @@ use App\Models\Fixture;
 use App\Models\UserTeam;
 use App\Models\Season;
 use App\Models\Winner;
-use Auth , Hash;
+use Auth , Hash,PDF;
+use Cache;
 
 class UserDashboardController extends Controller
 {
@@ -227,6 +228,11 @@ class UserDashboardController extends Controller
                 $data["dob"]=$request->dob;
                 $data["phone_number"]=$request->phone;
                 $update_user =User::where('id', Auth::user()->id)->update($data);
+
+                if(Cache::has('leader_board_regions_wise_users_results')){
+                    Cache::forget('leader_board_regions_wise_users_results');
+                }
+
                 return redirect()->back()->with('success' , 'User updated successfully');;
             }
         else {
@@ -299,5 +305,16 @@ class UserDashboardController extends Controller
         }
 
 
+    }
+
+    public function invoice($id)
+    {
+        try {
+            $order = DB::table('payments')->join('addresses', 'addresses.payment_id','=', 'payments.id')->join('seasons', 'seasons.id','=', 'payments.season_id')->where(['payments.id' => $id])->select('seasons.season_name','payments.*','addresses.name','addresses.address','addresses.city','addresses.country','addresses.zip')->first();
+            $invoice_date = date('jS F Y', strtotime($order->created_at));
+            return view('backend.users.invoice', compact('order'));
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+        }
     }
 }

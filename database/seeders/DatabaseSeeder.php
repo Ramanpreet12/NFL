@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(AboutPageSeeder::class);
         // $this->call(StaticPageSeeder::class);
         // $this->call(MatchResultSeeder::class);
-        $this->call(GeneralSettingSeeder::class);
+        // $this->call(GeneralSettingSeeder::class);
+        $this->call(ReviewsSeeder::class);
     }
 }

@@ -117,7 +117,7 @@ return [
         'payment' => [
             'driver' => 'single',
             'path' => storage_path('logs/payment.log'),
-            'level' => 'critical',
+            'level' => 'info',
         ],
 
         // successfullpayment logging file

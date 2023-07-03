@@ -20,6 +20,7 @@ use PhpParser\Node\Stmt\TryCatch;
 use Exception;
 use App\Mail\Signup as Signup_class;
 use App\Mail\FOrgotPassword as password_forget;
+use Cache;
 
 
 class AuthController extends Controller
@@ -212,6 +213,11 @@ class AuthController extends Controller
                 ];
                 $userID = User::create($userData);
                 $usermailData  =  User::where('id', $userID->id)->first();
+
+                if(Cache::has('leader_board_regions_wise_users_results')){
+                    Cache::forget('leader_board_regions_wise_users_results');
+                }
+
              Mail::to($usermailData->email)->send(new Signup_class($usermailData));
              return redirect()->route('login')->with('success' , 'registration sucessfull');
         //  }

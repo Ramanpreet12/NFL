@@ -25,7 +25,7 @@
                        <p>{{$Payment->ref_num}}</p>
                        <p>{{Auth::user()->name}}</p>
                        <p>{{Auth::user()->email}}</p>
-                       <p>{{$Payment->amount}}</p>
+                       <p>{{env('AMOUNT_CURRENCY')}}{{$Payment->amount}}</p>
                        <p>{{$Payment->payment_method}}</p>
                        <p>{{ \Carbon\Carbon::parse($Payment->created_at)->format('j F, Y ,H:i') }}
 

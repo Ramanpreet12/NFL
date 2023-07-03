@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SubscriptionExpire;
 use Illuminate\Support\Facades\Log;
 use Cache;
+use Illuminate\Support\Collection;
 
 
 class HomeController extends Controller
@@ -51,7 +52,7 @@ class HomeController extends Controller
         ->limit($limit);
 
         $leaderBoard_users_win_data = $leaderBoard_users_win_data_1->get();
-        // dd($leaderBoard_users_win_data);
+
 
          if($leaderBoard_users_win_data->isNotEmpty()){
             foreach($leaderBoard_users_win_data as $leaderBoard_user_win_data){
@@ -139,8 +140,10 @@ class HomeController extends Controller
         $get_count   = count($leaderboard_data);
 
 
+          // We are writing below code because we need to display those record of customer who are not chose any team for the season but they paid for the season
 
 
+        // logic here  is if the customer count less than 3  then we will find out other customer who are not participted
 
         if($get_count<3){
 
@@ -158,6 +161,7 @@ class HomeController extends Controller
          if(isset($group) && !empty($group)){
             $leaderBoard_users_null_data_1->where('users.group',$group);
          }
+
          $leaderBoard_users_null_data_1->groupBy(['region_name','user_id'])
 
         ->limit(3-$get_count)
@@ -166,9 +170,10 @@ class HomeController extends Controller
 
         $leaderBoard_users_null_data = $leaderBoard_users_null_data_1->get();
 
-        // dd($leaderBoard_users_null_data);
+
         if($leaderBoard_users_null_data->isNotempty()){
-          foreach($leaderBoard_users_null_data as $leaderBoard_users_null_data_single_player){
+
+            foreach($leaderBoard_users_null_data as $leaderBoard_users_null_data_single_player){
 
             if(!array_key_exists($leaderBoard_users_null_data_single_player->user_id,$leaderboard_data)){
             $leaderboard_data[$leaderBoard_users_null_data_single_player->user_id]['user_name'] =$leaderBoard_users_null_data_single_player->user_name;
@@ -179,12 +184,76 @@ class HomeController extends Controller
 
 
            }
-              return  $leaderboard_data;
+                  // If we already have genuine customer which are greter than 3 than we don't show fake record. See below for genrating fake record of customer process
+              if(count($leaderboard_data) >= 3){
+                return  $leaderboard_data;
+              }
+
            }
 
         }
 
-        return  $leaderboard_data;
+        // We are writing this code because client want to show the fake data if there is no data in his database.
+        // We we only fetch 3 fake records from each reason or 3 - customer record fetched from above logic
+        //@ Fetching the fake data from the config file name fakeRecord_Playroaster in config folder
+
+        $fake_customers_records   = config('fakeRecords_playerRoster.fakePlayerRosterRecords');
+
+        // passing the region name as key in the array varibale  $fake_customers_records.
+         $fake_cutomers_records_per_region =  $fake_customers_records[$region];
+
+
+
+
+         // count the number genuine customer above logic.
+
+        $count_of_customers = count($leaderboard_data);
+
+        // check if data is avaialble in config file
+        if(count($fake_cutomers_records_per_region)>0){
+
+        $fetch_count_genuine_cutomer =    count($leaderboard_data);
+
+        // number of fake record to be genrated
+        $total_fake_record_need_to_fetch =  3 -  $fetch_count_genuine_cutomer;
+
+         // only fetch 3 records  in the loop
+        $incrementor =  0;
+
+
+        // if there is searching on behlaf of alphabet
+        // logic : we unseting those customer from array whose name  first letter which does not match searched alphabet.
+
+        if(!empty($alphabet)){
+
+            foreach($fake_cutomers_records_per_region as $user_id_key => $fake_cutomer_records_per_region){
+
+                if(substr($fake_cutomer_records_per_region['user_name'], 0, 1) !=  $alphabet){
+
+                    unset($fake_cutomers_records_per_region[$user_id_key]);
+                }
+
+            }
+
+        }
+
+        /** end */
+
+
+
+        foreach($fake_cutomers_records_per_region as $user_id_key => $fake_cutomer_records_per_region){
+            if($total_fake_record_need_to_fetch > $incrementor){
+
+            $leaderboard_data[ $user_id_key]['user_name'] = $fake_cutomer_records_per_region['user_name'];
+            $leaderboard_data[ $user_id_key]['team_logo'] = $fake_cutomer_records_per_region['team_logo'];
+            $leaderboard_data[ $user_id_key]['user_points']['loss'] =$fake_cutomer_records_per_region['user_points']['loss'];
+            $leaderboard_data[ $user_id_key]['user_points']['win']  =$fake_cutomer_records_per_region['user_points']['win'];
+            }
+            $incrementor++;
+        }
+      }
+
+       return  $leaderboard_data;
 
     }
 
@@ -203,7 +272,32 @@ class HomeController extends Controller
         }
         //get banners
         $banners = Banner::where('status', 'Active')->get();
-        $matchBoards = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(1)->get();
+        // $matchBoards = Fixture::with('first_team_id' , 'second_team_id' , 'season')->inRandomOrder()->limit(1)->get();
+
+        $Win_matchBoards = DB::table('fixtures')
+       ->select('fixtures.win as fixture_win' ,'teams.id as win_team_id' , 'teams.logo as win_team_logo' , 'teams.name as win_team_name')
+        ->selectRaw('COUNT(fixtures.win) AS total_win_pts_of_team')
+        ->join('teams' , 'teams.id' , '=' ,'fixtures.win')
+        ->groupBy('teams.id')
+        ->inRandomOrder()->limit(1)
+        ->get();
+
+
+        $Loss_matchBoards = DB::table('fixtures')
+        ->select('fixtures.loss as fixture_loss' ,'teams.id as loss_team_id' , 'teams.logo as loss_team_logo' , 'teams.name as loss_team_name')
+         ->selectRaw('COUNT(fixtures.loss) AS total_loss_pts_of_team')
+         ->join('teams' , 'teams.id' , '=' ,'fixtures.loss')
+         ->groupBy('teams.id')
+         ->inRandomOrder()->limit(1)
+         ->get();
+        //  dd($Win_matchBoards);
+
+        $coll = new Collection ([$Win_matchBoards ,$Loss_matchBoards ]);
+        $matchBoards_win_loss = $coll->collapse();
+
+        //  dd($collapsed);
+
+
         $upcoming_matches = Fixture::with('first_team_id', 'second_team_id', 'season')->inRandomOrder()->limit(6)->get();
 
         if (Cache::has('leader_board_regions_wise_users_results')) {
@@ -239,7 +333,7 @@ class HomeController extends Controller
 
         $get_teams = Team::where('status' , 'active')->select('logo')->get();
 
-        return view('home.index',compact('get_teams' , 'get_reviews' ,'colorSection' , 'banners', 'upcoming_matches' ,'leader_board_regions_wise_users_results', 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'playerRosterHeading','videosHeading' ,'newsHeading' ,'matchBoards' ,'reviewsHeading'));
+        return view('home.index',compact('get_teams' , 'get_reviews' ,'colorSection' , 'banners', 'upcoming_matches' ,'leader_board_regions_wise_users_results', 'news' ,'vacations' , 'menus' , 'mainMenus' , 'subMenus' , 'leaderboardHeading' , 'fixtureHeading' , 'leaderboardHeading' ,'playerRosterHeading','videosHeading' ,'newsHeading' ,'matchBoards_win_loss' ,'reviewsHeading'));
     }
 
 
@@ -362,6 +456,7 @@ class HomeController extends Controller
         $roster_data['South'] =  $this->getTheTopPlayersDataBasedOnRegion('South',100,$name,$gp);
         $roster_data['West'] =  $this->getTheTopPlayersDataBasedOnRegion('West',100,$name,$gp);
         $roster_data['Mid-West'] =  $this->getTheTopPlayersDataBasedOnRegion('Mid-West',100,$name,$gp);
+
         $roster_data['Overseas'] =  $this->getTheTopPlayersDataBasedOnRegion('Overseas',100,$name,$gp);
 
         foreach($roster_data as $rd){
