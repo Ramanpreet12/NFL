@@ -31,6 +31,7 @@ class PrizeRequest extends FormRequest
              'season_id' => 'required',
             'image' => 'required',
             'content' => 'required',
+            'prize_date' => 'required',
 
            ];
         }
@@ -39,6 +40,7 @@ class PrizeRequest extends FormRequest
                 'name' => 'required',
                 'season_id' => 'required',
                 'content' => 'required',
+                'prize_date' => 'required',
 
                ];
         }
@@ -52,6 +54,7 @@ class PrizeRequest extends FormRequest
             'name' => 'Name',
             'season_id' => 'Season',
             'image' => 'Image',
+            'prize_date' => 'Prize Date',
         ];
     }
 

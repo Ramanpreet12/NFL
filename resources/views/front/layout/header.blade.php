@@ -158,6 +158,20 @@
     .error {
         color: red;
     }
+    .btn-selected-team{
+        background-color: #ffb301af;
+    }
+
+    .btn-selected-team:before {
+        background-color: #ffb301af;
+    }
+
+    .btn-selected-team:after {
+       background-color: #ffb301af;
+    }
+
+
+
 </style>
 
 
@@ -257,7 +271,7 @@
                 <div id="reviews_success_modal_Form">
                     <div class="successPage">
                         <i class="fa-solid fa-check"></i>
-                        <h2>Reviews sent Successfully</h2>
+                        <h2 id="modal_success_heading"></h2>
                         <p>We've received your request ,</p>
                         <p> if you have any query please <a href="{{ route('contact') }}">contact us</a> </p>
 

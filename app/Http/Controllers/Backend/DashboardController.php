@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Season;
 use App\Models\Payment;
 use App\Models\Fixture;
+use App\Models\NewsAlerts;
 
 
 class DashboardController extends Controller
@@ -26,4 +27,18 @@ class DashboardController extends Controller
 //  dd($get_upcoming_matches);
         return view('backend.dashboard' ,compact('total_user_count' , 'total_season_count' , 'get_total_amount' , 'get_users' , 'get_upcoming_matches'));
     }
+
+
+  public  function news_alerts() {
+        $news_alerts = NewsAlerts::get();
+        return view('backend.news_alert' , compact('news_alerts'));
+    }
+
+
+    public  function news_alert_delete(Request $request) {
+
+        NewsAlerts::where('id' , $request->id)->delete();
+        return redirect()->back()->with('success_msg' , 'Email deleted successfully');
+    }
+
 }

@@ -44,9 +44,16 @@ class TeamPickController extends Controller
         // Now checking if  there is week coming in parameter from url. If not then assign the season id from above $current_season_data.
         $selected_week = $request->weeks ? $request->weeks : 1;
         $select_season_data = Season::where('status' , 'active')->where('id' ,$current_season_id)->first();
+
         $fixtures = Fixture::with('first_team_id','second_team_id' , 'season')
         ->where(['season_id'=> $current_season_id,'week'=>$selected_week])
         ->whereDate('date','>=',$select_season_data->starting)->get()->groupby('week');
+
+
+        // $fixtures = DB::table('fixtures')->select('fixtures.*','team_id as selected_team')->join('user_teams as ut', 'ut.fixture_id', '=', 'fixtures.id')->where('fixtures.season_id', $current_season_id)->whereDate('date','>=',$select_season_data->starting)->get()->groupby('week');
+        // echo "<pre>";print_r($fixtures);echo"</pre>";die();
+        // dd($fixtures);
+
         if( $select_season_data){
             $c_season = DB::table('seasons')->whereRaw('"' . $select_season_data->starting . '" between `starting` and `ending`')
                                ->where(['status' => 'active' , 'id' => $current_season_id])->first();
@@ -54,7 +61,12 @@ class TeamPickController extends Controller
           // Fetch all the season which are active
          $get_all_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
          $season_name =  $select_season_data->season_name;
-        return view('front.teampick' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season'));
+
+
+         //get the team selected by user
+        $get_selected_teams_by_user =  UserTeam::where('user_id' , Auth::user()->id)->pluck('team_id')->toArray();
+
+        return view('front.teampick' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season' ,'get_selected_teams_by_user'));
 
 
     }
@@ -144,6 +156,13 @@ public function dashboard_team_pick(Request $request)
              if(!$is_user_allowed_to_choose_fixture){
                 return response()->json(['message' => 'Selection time is over for this fixture.You can choose the fixture till day before the match.','status'=>false], 200);
              }
+
+           $already_selected_team = UserTeam::where(['user_id' => $user_id, 'season_id' => $season_id, 'week' => $week,'fixture_id'=> $fixture_id , 'team_id' =>$team_id])->first();
+
+           if ($already_selected_team) {
+            return response()->json(['resp_team_id' =>$team_id , 'message' => 'already_selected','status'=>true], 200);
+
+           }
              // if user selected the fixture or not
             $user_selected_fixture_team = UserTeam::where(['user_id' => $user_id, 'season_id' => $season_id, 'week' => $week,'fixture_id'=> $fixture_id ])->first();
              //dd('user_selected_fixture_team' ,$user_selected_fixture_team);

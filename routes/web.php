@@ -132,6 +132,7 @@ Route::get('download-invoice/{id}', [UserDashboardController::class, 'invoice'])
 Route::post('alphabets' , [HomeController::class , 'getAlphabets']);
 Route::get('player_roster/{alphabets}' ,[HomeController::class , 'player_roster']);
 Route::get('expire_plans',[HomeController::class,'checkPlan'])->name('expire_plans');
+Route::post('news_alerts',[HomeController::class,'news_alerts'])->name('news_alerts');
 //admin routes
 
 Route::prefix('admin')->middleware('guest')->group(function() {
@@ -256,6 +257,10 @@ Route::prefix('admin')->middleware(['isAdmin'])->group(function() {
    Route::match(['get' , 'put'] ,'contact_page' , [ GeneralSettingController::class , 'contactPage'])->name('admin/contact_page');
    Route::match(['get' , 'put'] ,'about_page/{id?}' , [ StaticPageController::class , 'aboutPage'])->name('admin/about_page');
    Route::match(['get' , 'put'] ,'privacy/{id?}' , [ StaticPageController::class , 'privacyPage'])->name('admin/privacy');
+
+   Route::get('news_alerts', [DashboardController::class, 'news_alerts'])->name('admin/news_alerts');
+   Route::post('news_alert/delete/{id}', [DashboardController::class, 'news_alert_delete'])->name('admin/news_alert/delete');
+
 
     Route::get('allPayments',[PaymentController::class,'getAll'])->name('admin/allPayments');
     Route::get('payments',[PaymentController::class,'index'])->name('admin/payments');

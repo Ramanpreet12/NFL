@@ -22,7 +22,7 @@
                             <span>{{ $general->footer_address
                                 ? $general->footer_address
                                 : '
-                                                3024 North Ashland Avenue, Unit # 578905 Chicago, IL 60657' }}</span>
+                                                                            3024 North Ashland Avenue, Unit # 578905 Chicago, IL 60657' }}</span>
                         </div>
                     </div>
                     <div class="contactUs d-flex">
@@ -49,7 +49,7 @@
                             <span>{{ $general->email
                                 ? $general->email
                                 : '
-                                                nfl@stylemixthemes.com' }}</span>
+                                                                            nfl@stylemixthemes.com' }}</span>
                         </div>
                     </div>
 
@@ -104,6 +104,19 @@
                 </ul>
             </div>
             <div class="col-sm-4 mb-3">
+                @if (Session::has('success'))
+                    <div class="alert alert-success show flex items-center mb-2 alert_messages" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-check2-circle" viewBox="0 0 16 16">
+                            <path
+                                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                            <path
+                                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                        </svg>
+                        &nbsp; {{ session()->get('success') }}
+                    </div>
+                @endif
+
                 <div class="headerPart">
                     <h4 style="color:{{ $colorSection['footer']['header_color'] }};">
                         {{ $general->footer_content_head ? $general->footer_content_head : 'SIGN UP FOR EMAIL ALERT' }}
@@ -111,10 +124,17 @@
                 </div>
                 <p style="color:{{ $general->footer_content_color }};">
                     {{ $general->footer_content ? $general->footer_content : '' }}</p>
-                <div class="formInput">
-                    <input type="email" name="EMAIL" placeholder="Your email address" required="">
-                    <button type="button" class="btn btn-primary  btn-lg" style="">Submit</button>
-                </div>
+                <form action="" method="post" id="news_alerts">
+                    @csrf
+                    <div class="formInput">
+                        <input type="email" name="email" id="email" placeholder="Your email address"
+                            required="">
+                        <button type="submit" name="submit" class="btn btn-primary  btn-lg"
+                            style="">Submit</button>
+                    </div>
+                </form>
+
+
 
             </div>
         </div>
@@ -145,8 +165,7 @@
 
 
                             @if ($social_links['Google'] != '')
-                                <a href="{{ $social_links['Google'] }}"> <i
-                                        class="fa-brands fa-google-plus-g"></i></a>
+                                <a href="{{ $social_links['Google'] }}"> <i class="fa-brands fa-google-plus-g"></i></a>
                             @endif
 
 
@@ -170,6 +189,9 @@
             </div>
         </div>
     </div>
+
+
+
 </footer>
 
 
@@ -186,6 +208,9 @@
 <script src="{{ asset('dist/js/custom.js') }}"></script>
 <!-- intl-tel-input -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/intlTelInput.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
 
@@ -224,6 +249,12 @@
 @yield('script')
 
 <script>
+     $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
     // front reviews form validation
     $('#reviewForm').validate({
         rules: {
@@ -290,11 +321,7 @@
             $("#rating_empty_msg").html('Rating is required');
         }
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+
         $.ajax({
             type: 'POST',
             data: $("#reviewForm").serialize(),
@@ -302,10 +329,42 @@
             success: function(data) {
                 // console.log(data);
                 $("#reviews_success_modal").modal("show");
+                $("#modal_success_heading").text("Reviews Sent successfully");
+
                 $("#addReviewModal").modal("hide");
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 2500);
+
                 $("#reviewForm")[0].reset();
                 $('.icon-click').removeClass('text-warning');
+            }
+        });
+        return false;
+    });
+
+    // submit the news_alerts form with ajax
+    $("#news_alerts").submit(function(e) {
+        var email = $("#email").val();
+        e.preventDefault();
+
+
+        $.ajax({
+            type: 'POST',
+            data: $("#email").serialize(),
+            url: 'news_alerts',
+            success: function(data) {
+                console.log(data);
+                $("#reviews_success_modal").modal("show");
+                $("#modal_success_heading").text("You are subscribe to our Email alert");
+
+                setTimeout(() => {
+                    location.reload();
+                }, 2500);
+
+
+                $("#news_alerts")[0].reset();
+
             }
         });
         return false;

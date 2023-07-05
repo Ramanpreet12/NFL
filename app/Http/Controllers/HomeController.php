@@ -18,6 +18,7 @@ use App\Models\Vacation;
 use Illuminate\Http\Request;
 use App\Models\Season;
 use App\Models\Reviews;
+use App\Models\NewsAlerts;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SubscriptionExpire;
@@ -513,4 +514,17 @@ class HomeController extends Controller
             Log::info($e->getMessage());
         }
     }
+
+    //news alerts
+
+    public function news_alerts(Request $request){
+
+        $news_alerts = new NewsAlerts;
+        $news_alerts->email = $request->email;
+        $news_alerts->save();
+       return response()->json(['message' =>'Email for news alerts submitted successfully.' , 200]);
+        // return redirect()->back()->with('success' , 'Email for news alerts submitted successfully.');
+
+    }
+
 }

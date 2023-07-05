@@ -243,6 +243,14 @@ class SideMenu
                         'title' => 'About Page'
                     ],
 
+                    'news_alert' => [
+                        'icon' => 'phone',
+                        'route_name' => 'admin/news_alerts',
+                        'params' => '',
+                        'title' => 'News Alerts'
+                    ],
+
+
                     'privacy' => [
                         'icon' => 'phone',
                         'route_name' => 'admin/privacy',

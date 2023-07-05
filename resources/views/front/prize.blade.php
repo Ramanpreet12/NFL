@@ -64,7 +64,8 @@
                             <div class="prize d-flex">
                                 <span class="prize_text"><i class="fa-solid fa-trophy "></i> Season :  {{$prize->season->season_name ?? ''}}</span>
                                 {{-- <span><i class="fa-solid fa-calendar-days"></i> DECEMBER 19, 2016</span> --}}
-                                <span class="prize_text"><i class="fa-solid fa-calendar-days "></i> {{ \Carbon\Carbon::parse($prize->season->starting ?? '')->format('j F, Y') }}</span>
+                                <span class="prize_text"><i class="fa-solid fa-calendar-days "></i> {{ \Carbon\Carbon::parse($prize->prize_date ?? '')->format('j F, Y') }}</span>
+                                {{-- <span class="prize_text"><i class="fa-solid fa-calendar-days "></i> {{ \Carbon\Carbon::parse($prize->season->starting ?? '')->format('j F, Y') }}</span> --}}
                             </div>
                         </div>
                     </div>
@@ -95,7 +96,8 @@
                             <div class="prize d-flex">
                                 <span class="prize_text"><i class="fa-solid fa-trophy"></i> Season : {{$prize->season->season_name ?? ''}}</span>
                                 {{-- <span><i class="fa-solid fa-calendar-days"></i> DECEMBER 19, 2016</span> --}}
-                                <span class="prize_text"><i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($prize->season->starting ?? '')->format('j F, Y') }}</span>
+                                <span class="prize_text"><i class="fa-solid fa-calendar-days "></i> {{ \Carbon\Carbon::parse($prize->prize_date ?? '')->format('j F, Y') }}</span>
+                                {{-- <span class="prize_text"><i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($prize->season->starting ?? '')->format('j F, Y') }}</span> --}}
                                 <!-- <p class="card-text"><small class="text-muted">DECEMBER 19, 2016</small></p>              -->
                             </div>
                         </div>

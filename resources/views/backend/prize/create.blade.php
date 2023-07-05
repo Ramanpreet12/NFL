@@ -46,7 +46,7 @@
                             <option value="">--select--</option>
                             @if ($seasons->isNotEmpty())
                             @foreach ($seasons as $season)
-                            <option value="{{ $season->id }}">{{ $season->season_name }}</option>
+                            <option value="{{ $season->id }}"  {{old('season_id') == $season->id ? 'selected' : ''}}>{{ $season->season_name }}</option>
                         @endforeach
                             @endif
 
@@ -59,7 +59,7 @@
 
                     <div class="form-inline mt-5">
                         <label for="name" class="font-medium form-label sm:w-60">Prize Name <span class="text-danger">*</span></label>
-                        <input id="name" type="text" class="form-control" placeholder="Enter prize name" name="name" value="">
+                        <input id="name" type="text" class="form-control" placeholder="Enter prize name" name="name" value="{{old('name')}}">
                     </div>
                     <div class="form-inline">
                         <label for="name" class="font-medium form-label sm:w-60"></label>
@@ -69,7 +69,7 @@
 
                     <div class="form-inline mt-5">
                         <label for="amount" class="font-medium form-label sm:w-60">Amount </label>
-                        <input id="amount" type="text" class="form-control" placeholder="Enter the amount for the prize" name="amount" value="">
+                        <input id="amount" type="text" class="form-control" placeholder="Enter the amount for the prize" name="amount" value="{{old('amount')}}">
                     </div>
 
                     <div class="form-inline mt-5">
@@ -82,12 +82,33 @@
                     </div>
                     <div class="form-inline mt-5">
                         <label for="content" class="font-medium form-label sm:w-60">Content <span class="text-danger">*</span></label>
-                     <textarea name="content" id="editor" cols="10" rows="2" class="form-control"></textarea>
+                     <textarea name="content" id="editor" cols="10" rows="2" class="form-control">{{old('content')}}</textarea>
                     </div>
                     <div class="form-inline">
                         <label for="image" class="font-medium form-label sm:w-60"></label>
                         @error('content') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
+
+                    {{-- season Name and season date  --}}
+                    {{-- <div class="form-inline mt-5">
+                        <label for="season_name" class="font-medium form-label sm:w-60">Season Name <span class="text-danger">*</span></label>
+                        <input id="season_name" type="text" class="form-control" placeholder="Enter season name" name="season_name" value="{{old('season_name')}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="season_name" class="font-medium form-label sm:w-60"></label>
+                        @error('season_name') <p class="text-danger">{{$message}}</p> @enderror
+                    </div> --}}
+
+                    <div class="form-inline mt-5">
+                        <label for="prize_date" class="font-medium form-label sm:w-60">Prize Date <span class="text-danger">*</span></label>
+                        <input id="prize_date" type="date" class="form-control" placeholder="Enter prize date" name="prize_date" value="{{old('prize_date')}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="prize_date" class="font-medium form-label sm:w-60"></label>
+                        @error('prize_date') <p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
                         <select class="form-control" id="status" name="status">

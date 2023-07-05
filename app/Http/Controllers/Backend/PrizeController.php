@@ -106,6 +106,8 @@ class PrizeController extends Controller
                     $data["name"]=$request->name;
                     $data["amount"]=$request->amount;
                     $data["content"]=$request->content;
+
+                    $data["prize_date"]=$request->prize_date;
                     $data["status"]=$request->status;
                     $prize=Prize::where('id',$id)->update($data);
                     if($prize){

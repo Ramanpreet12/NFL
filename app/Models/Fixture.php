@@ -76,4 +76,7 @@ public function getLossLogoAttribute()
        $rr = DB::table('teams')->where('id',$this->first_team)->value('name');
        return $rr;
     }
+
+
+
 }

@@ -79,6 +79,27 @@
                         <label for="content" class="font-medium form-label sm:w-60"></label>
                         @error('content') <p class="text-danger">{{$message}}</p> @enderror
                     </div>
+
+                    {{-- season Name and season date  --}}
+                    {{-- <div class="form-inline mt-5">
+                        <label for="season_name" class="font-medium form-label sm:w-60">Season Name <span class="text-danger">*</span></label>
+                        <input id="season_name" type="text" class="form-control" placeholder="Enter season name" name="season_name" value="{{$prize->season_name}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="season_name" class="font-medium form-label sm:w-60"></label>
+                        @error('season_name') <p class="text-danger">{{$message}}</p> @enderror
+                    </div> --}}
+
+                    <div class="form-inline mt-5">
+                        <label for="prize_date" class="font-medium form-label sm:w-60">Prize Date <span class="text-danger">*</span></label>
+                        <input id="prize_date" type="date" class="form-control" placeholder="Enter prize date" name="prize_date" value="{{$prize->prize_date}}">
+                    </div>
+                    <div class="form-inline">
+                        <label for="prize_date" class="font-medium form-label sm:w-60"></label>
+                        @error('prize_date') <p class="text-danger">{{$message}}</p> @enderror
+                    </div>
+
+
                     <div class="form-inline mt-5 mt-2">
                         <label for="status" class="font-medium form-label sm:w-60">Status <span class="text-danger">*</span></label>
                         <select class="form-control" id="status" name="status">

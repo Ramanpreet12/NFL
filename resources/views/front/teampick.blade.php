@@ -1,5 +1,11 @@
 @extends('front.layout.app')
+<style>
+    .test {
+        background: rgb(9, 106, 252);
+    }
+</style>
 @section('content')
+
     <section id="nextmatchBoard"
         style="background-image:url({{ asset('front/img/football-2-bg.jpg') }});color:{{ $colorSection['leaderboard']['text_color'] }};">
         <div class="container-fluid">
@@ -136,6 +142,20 @@
                                                 <td class="matchFColTime"></td>
                                             </tr>
                                             @foreach ($weakData as $weaks => $team)
+
+                                            {{-- {{dd($team->first_team_id->name)}} --}}
+                                            @php
+                                            //     $original_team_name = explode(" " ,$team->first_team_id->name );
+                                            //    $formatted_team_name =  implode('_', $original_team_name);
+
+                                            $formatted_first_team_name = str_replace(" " , "_", $team->first_team_id->name);
+
+                                            @endphp
+                                             @php
+                                             $formatted_second_team_name = str_replace(" " , "_", $team->second_team_id->name);
+
+                                             @endphp
+                                            {{-- {{dd($formatted_team_name)}} --}}
                                                 @if ($week == $team->week)
                                                     <tr>
                                                         <td>
@@ -160,20 +180,35 @@
                                                                 {{ '' }}
                                                             @else
                                                                 @if (!empty($team->first_team_id))
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#selectTeam"
-                                                                        style="background:none;  border:none; color:#212529"
-                                                                        class="btn btn-primary my-4 team_name"
-                                                                        fixture_id={{ $team->id }}
-                                                                        team_id={{ $team->first_team_id->id }}
-                                                                        season_id={{ $team->season_id }}
-                                                                        week={{ $team->week }}
-                                                                        teamName={{ $team->first_team_id->name }}
-                                                                        fixture_date={{ $team->date }}
-                                                                        fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
-
-                                                                        Pick Team
-                                                                    </button>
+                                                                    @if (get_selected_teams($team->first_team_id->id, $team->season_id, $team->id, $team->week))
+                                                                        <button disabled
+                                                                            style="background:none;  border:none; color:#2c9412"
+                                                                            class="btn btn-selected-team my-4"
+                                                                            fixture_id={{ $team->id }}
+                                                                            team_id={{ $team->first_team_id->id }}
+                                                                            season_id={{ $team->season_id }}
+                                                                            week={{ $team->week }}
+                                                                            teamName={{ $formatted_first_team_name }}
+                                                                            fixture_date={{ $team->date }}
+                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                            {{ 'Picked Team' }}
+                                                                        </button>
+                                                                    @else
+                                                                        <button data-bs-toggle="modal"
+                                                                            data-bs-target="#selectTeam"
+                                                                            style="background:none;  border:none; color:#212529"
+                                                                            class="btn btn-primary my-4 team_name"
+                                                                            fixture_id={{ $team->id }}
+                                                                            team_id={{ $team->first_team_id->id }}
+                                                                            season_id={{ $team->season_id }}
+                                                                            week={{ $team->week }}
+                                                                            teamName={{ $formatted_first_team_name }}
+                                                                            first_team_name = {{$formatted_first_team_name }}
+                                                                            fixture_date={{ $team->date }}
+                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                            {{ 'Pick Team' }}
+                                                                        </button>
+                                                                    @endif
                                                                 @else
                                                                     {{ ' ' }}
                                                                 @endif
@@ -211,20 +246,35 @@
                                                                 {{ '' }}
                                                             @else
                                                                 @if (!empty($team->second_team_id))
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#selectTeam"
-                                                                        class="btn btn-primary my-4 team_name"
-                                                                        style="background:none;  border:none; color:#212529"
-                                                                        fixture_id={{ $team->id }}
-                                                                        team_id={{ $team->second_team_id->id }}
-                                                                        season_id={{ $team->season_id }}
-                                                                        week={{ $team->week }}
-                                                                        teamName={{ $team->second_team_id->name }}
-                                                                        fixture_date={{ $team->date }}
-                                                                        fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                    @if (get_selected_teams($team->second_team_id->id, $team->season_id, $team->id, $team->week))
+                                                                        <button disabled
 
-                                                                        Pick Team
-                                                                    </button>
+                                                                            class="btn btn-selected-team my-4"
+                                                                            style="background:none;  border:none;  color:#2c9412"
+                                                                            fixture_id={{ $team->id }}
+                                                                            team_id={{ $team->second_team_id->id }}
+                                                                            season_id={{ $team->season_id }}
+                                                                            week={{ $team->week }}
+                                                                            teamName={{ $formatted_second_team_name }}
+                                                                            fixture_date={{ $team->date }}
+                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                            {{ 'Picked Team' }}
+                                                                        </button>
+                                                                    @else
+                                                                        <button data-bs-toggle="modal"
+                                                                            data-bs-target="#selectTeam"
+                                                                            class="btn btn-primary my-4 team_name"
+                                                                            style="background:none;  border:none; color:#212529"
+                                                                            fixture_id={{ $team->id }}
+                                                                            team_id={{ $team->second_team_id->id }}
+                                                                            season_id={{ $team->season_id }}
+                                                                            week={{ $team->week }}
+                                                                            teamName={{ $formatted_second_team_name }}
+                                                                            fixture_date={{ $team->date }}
+                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                            {{ 'Pick Team' }}
+                                                                        </button>
+                                                                    @endif
                                                                 @else
                                                                     {{ ' ' }}
                                                                 @endif
@@ -272,8 +322,8 @@
                 <div class="modal-body" id="teamSelectedMsg">
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary pr-4" data-bs-dismiss="modal">Close</button>
-                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                    <button type="button" class="btn btn-secondary pr-4" data-bs-dismiss="modal"
+                        id="close_btn">Close</button>
                 </div>
             </div>
         </div>
@@ -308,14 +358,39 @@
             });
 
             $('.team_name').click(function() {
+
+
+
+                // Swal.fire({
+                //     title: 'Are you sure?',
+                //     text: "You won't be able to revert this!",
+                //     icon: 'warning',
+                //     showCancelButton: true,
+                //     confirmButtonColor: '#3085d6',
+                //     cancelButtonColor: '#d33',
+                //     confirmButtonText: 'Yes, delete it!'
+                // }).then((result) => {
+                //     if (result.isConfirmed) {
+                //         Swal.fire(
+                //             'Deleted!',
+                //             'Your file has been deleted.',
+                //             'success'
+
+
+
                 let season_id = $(this).attr('season_id');
                 let fixture_id = $(this).attr('fixture_id');
                 let team_id = $(this).attr('team_id');
                 let teamName = $(this).attr('teamName');
+                formatted_team_name = teamName.replace(/_/g, ' ');
+
+
                 let fixture_date = $(this).attr('fixture_date');
                 let fixture_time = $(this).attr('fixture_time');
                 let week = $(this).attr('week');
-
+                $('#close_btn').click(function() {
+                    location.reload(true);
+                });
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -333,6 +408,7 @@
                         week: week
                     },
                     success: function(resp) {
+
                         if (resp.message == 'login') {
                             $('#selectTeam #teamSelectedMsg').html(
                                 '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Please <a href="{{ route('login') }}" style="color:red">login</a> first to continue . </span></p>'
@@ -343,25 +419,44 @@
                             $('#selectTeam #teamSelectedMsg').html(
                                 '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Please <a href="{{ route('payment') }}" style="color:red">subscribe</a> to pick the teams . It will cost you $100 . </span></p>'
                             );
+
                         }
                         if (resp.message == 'update') {
                             $('#selectTeam #teamSelectedMsg').html(
                                 'You have selected <span style="color:#06083B">' +
-                                teamName +
+                                 formatted_team_name +
                                 '</span> for the week  <span style="color:#06083B"> ' +
                                 week + ' </span> on <span style="color:#06083B">' +
                                 fixture_date + '</span> at <span style="color:#06083B">' +
                                 fixture_time + '</span>');
+
+
+
                         }
                         if (resp.message == 'added') {
                             $('#selectTeam #teamSelectedMsg').html(
                                 'You have selected <span style="color:#06083B;">' +
-                                teamName +
+                                    formatted_team_name +
                                 '</span> for the week <span style="color:#06083B"> ' +
                                 week + ' </span> on <span style="color:#06083B">' +
                                 fixture_date + '</span> at <span style="color:#06083B">' +
                                 fixture_time + '</span>');
+
+
                         }
+
+                        if (resp.message == 'already_selected') {
+                            $('#selectTeam #teamSelectedMsg').html(
+                                '<span style="color:green">You have already selected ' +
+                                    formatted_team_name +
+                                ' for the week ' +
+                                week + ' on ' +
+                                fixture_date + ' at ' +
+                                fixture_time + '</span>');
+
+                        }
+
+
                         if (resp.message == 'Time_id_over') {
                             $('#selectTeam #teamSelectedMsg').html(
                                 '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Your time is over to pick the team  as you can pick the team till Thursaday 12:00 am . You will receive loss for this week  </span></p>'
@@ -370,12 +465,16 @@
 
                     },
                 })
+
+                // )
+                //     }
+                // })
             });
 
             $('.expire_season_msg').click(function() {
                 $('#SeasonExpireModal #expire_season_msg').html(
                     '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span style="color:red" >Season has been expired </span></p>'
-                    );
+                );
             });
         });
     </script>

@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Str;
+use App\Models\UserTeam;
 
 if (!function_exists('get_main_menus')) {
     function get_main_menus($id){
@@ -126,4 +127,19 @@ function key_value($key, $value, $ar)
     }
     return $ret;
 }
+}
+
+
+//get selected teams by users from user teams
+if (!function_exists('get_selected_teams')) {
+    function get_selected_teams($team_id , $season_id , $fixture_id , $week){
+        $ut = UserTeam::where(['user_id'=>Auth::user()->id, 'team_id'=>$team_id, "season_id"=> $season_id, 'fixture_id'=>$fixture_id,'week'=>$week])->first();
+
+
+        if ($ut) {
+          return true;
+        }else{
+            return false;
+        }
+    }
 }
