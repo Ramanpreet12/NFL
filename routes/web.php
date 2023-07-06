@@ -69,6 +69,7 @@ Route::match(['get' , 'post'], 'login', [AuthController::class, 'UserLogin'])->n
 Route::get('fixtures', [FrontPagesController::class,'matchfixture'] )->name('fixtures');
 //pick the team from match fixture page
 Route::post('fixture_team_pick',[FrontPagesController::class, 'fixture_team_pick'])->name('fixture_team_pick');
+Route::post('check_user_subscribe_for_fixturePage',[FrontPagesController::class, 'check_user_subscribe_for_fixturePage'])->name('check_user_subscribe_for_fixturePage');
 
 Route::get('tesst', [FrontPagesController::class,'test'] )->name('tesst');
 
@@ -112,6 +113,7 @@ Route::post('selectTeam', [StripeController::class, 'selectTeam'])->name('select
 //pick a team for user
 Route::get('teams', [TeamPickController::class, 'index'])->name('teams');
 Route::post('dashboard_team_pick',[TeamPickController::class, 'dashboard_team_pick'])->name('dashboard_team_pick');
+Route::post('check_user_subscribe',[TeamPickController::class, 'check_user_subscribe'])->name('check_user_subscribe');
 // Route::post('pickTeam', [TeamPickController::class, 'pickTeam'])->name('pickTeam')->middleware('timeOver');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 

@@ -126,7 +126,6 @@ class FrontPagesController extends Controller
         return view('front.privacy' , compact('get_privacy_details'));
     }
 
-
     public function matchResult(Request $request)
     {
          $get_total_points = collect([]);
@@ -260,16 +259,39 @@ class FrontPagesController extends Controller
           // Fetch all the season which are active
          $get_all_seasons = Season::where('status' , 'active')->orderby('id' , 'desc')->get();
          $season_name =  $select_season_data->season_name;
-        return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season','fixture_headings'));
+         //get the team selected by user
+
+         if (Auth::check()) {
+            $get_selected_teams_by_user =  UserTeam::where('user_id' , Auth::user()->id)->pluck('team_id')->toArray();
+         } else {
+            $get_selected_teams_by_user = '';
+         }
+
+         return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season','fixture_headings' ,'get_selected_teams_by_user'));
+
+
+        //  $user_id =  Auth::user()->id;
+        //  if ($user_id) {
+        //     $get_selected_teams_by_user =  UserTeam::where('user_id' , $user_id)->pluck('team_id')->toArray();
+        //  }
+        // if ($get_selected_teams_by_user) {
+        //     return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season','fixture_headings' ,'get_selected_teams_by_user'));
+        // } else {
+        //     return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season','fixture_headings'));
+        // }
+
 
     }
 
 
     public function fixture_team_pick(Request $request)
     {
-        if (!Auth::check()) {
-           return response()->json(['message' => 'login','status'=>false], 200);
-        }
+        // if (!Auth::check()) {
+        //    return response()->json(['message' => 'login','status'=>false], 200);
+        // }
+        if (Auth::check()) {
+
+
             $team_id = $request->team_id;
             $season_id = $request->season_id;
             $week = $request->week;
@@ -314,11 +336,29 @@ class FrontPagesController extends Controller
                     return response()->json(['message' => 'added','status'=>true], 200);
                  }
             }
-            else{
-                return response()->json(['message' => 'subscribe','status'=>false], 200);
-            }
+            // else{
+            //     return response()->json(['message' => 'subscribe','status'=>false], 200);
+            // }
+        }
     }
 
+
+    public function check_user_subscribe_for_fixturePage(Request $request)
+    {
+        if (Auth::check()) {
+            $user_id = auth()->user()->id;
+        $season_id = $request->season_id;
+        $user_status = Payment::where(['user_id' => $user_id,'season_id'=> $season_id,'status'=>'succeeded'])->first();
+            if($user_status){
+                return response()->json(['message' => 'subscribed','status'=>true], 200);
+            }else{
+                return response()->json(['message' => 'not subscribed','status'=>false], 200);
+            }
+        }
+         else {
+            return response()->json(['message' => 'not_login','status'=>false], 200);
+        }
+    }
 
 
 

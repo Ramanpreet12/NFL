@@ -6,18 +6,20 @@
 
 
                 <div class="col-12">
-                    <h2 class="fixture_head">{{$fixture_headings['match_fixture_section_heading']}}</h2>
+                    <h2 class="fixture_head">{{ $fixture_headings['match_fixture_section_heading'] }}</h2>
 
                     <div class="headerMenu row">
                         <div class="col">
-                            <h5 class="seasonFixed fixture_head"  id="">{{$fixture_headings['match_fixture_selected_season_heading']}}:
+                            <h5 class="seasonFixed fixture_head" id="">
+                                {{ $fixture_headings['match_fixture_selected_season_heading'] }}:
                                 {{ $c_season->season_name ?? '' }}
                             </h5>
                         </div>
                         <div class="col">
                             {{-- @if (Request::url() == config('app.url') . '/fixtures/weeks') --}}
                             @foreach ($fixtures as $week => $data)
-                                <h5  id="set_week" class="seasonFixed selectWeekPart fixture_head">{{$fixture_headings['match_fixture_selected_week_heading']}} :
+                                <h5 id="set_week" class="seasonFixed selectWeekPart fixture_head">
+                                    {{ $fixture_headings['match_fixture_selected_week_heading'] }} :
                                     {{ $week }}</h5>
                             @endforeach
                             {{-- @endif --}}
@@ -27,7 +29,7 @@
                                 <div class="inner_form">
                                     @csrf
                                     <label class="fixture_head" for=""
-                                        style=" margin-right:10px; font-weight:800; font-size: 20px; font-family: 'Oxanium', 'cursive';">{{$fixture_headings['match_fixture_select_season_heading']}}:
+                                        style=" margin-right:10px; font-weight:800; font-size: 20px; font-family: 'Oxanium', 'cursive';">{{ $fixture_headings['match_fixture_select_season_heading'] }}:
                                     </label>
                                     @if ($get_all_seasons->isNotEmpty())
                                         <select class="form-control" name="seasons" id="seasons">
@@ -54,7 +56,7 @@
                                     @csrf
                                     <input type="hidden" value="{{ $c_season->id ?? '' }}" name="season_id">
                                     <label class="fixture_head" for=""
-                                        style=" margin-right:10px; font-weight:800; font-size: 20px; font-family: 'Oxanium', 'cursive';">{{$fixture_headings['match_fixture_select_week_heading']}}:
+                                        style=" margin-right:10px; font-weight:800; font-size: 20px; font-family: 'Oxanium', 'cursive';">{{ $fixture_headings['match_fixture_select_week_heading'] }}:
                                     </label>
                                     @if ($get_all_seasons->isNotEmpty())
                                         <select class="form-control" name="weeks" id="weeks">
@@ -123,13 +125,24 @@
                                 <tbody>
                                     @foreach ($fixtures as $week => $weakData)
                                         <tr>
-                                            <td style="color: #db9a29;font-weight:bold;" class="text-center ">Week : {{ $week }}</td>
+                                            <td style="color: #db9a29;font-weight:bold;" class="text-center ">Week :
+                                                {{ $week }}</td>
                                             <td></td>
                                             <td></td>
                                             {{-- <td></td> --}}
                                         </tr>
                                         @foreach ($weakData as $weeks => $team)
+                                            @if (!empty($team->first_team_id) && !empty($team->second_team_id))
+                                                @php
+                                                    $formatted_first_team_name = str_replace(' ', '_', $team->first_team_id->name);
+                                                @endphp
+                                                @php
+                                                    $formatted_second_team_name = str_replace(' ', '_', $team->second_team_id->name);
+                                                @endphp
+                                            @endif
+
                                             @if ($week == $team->week)
+                                                {{-- {{dd($get_selected_teams_by_user)}} --}}
                                                 <tr>
                                                     <td>
                                                         <div
@@ -146,39 +159,88 @@
 
                                                                         <div class="fixture_text" style="min-width:200px">
                                                                             @if (!empty($team->first_team_id))
-                                                                            {{ $team->first_team_id->name }}
+                                                                                {{ $team->first_team_id->name }}
                                                                             @else
-                                                                                {{'TBD'}}
+                                                                                {{ 'TBD' }}
                                                                             @endif
 
                                                                         </div>
                                                                     </button>
                                                                 @else
-                                                                @if (!empty($team->first_team_id))
+                                                                    @if (!empty($team->first_team_id))
+                                                                        @if (!empty($get_selected_teams))
+                                                                            @if (get_selected_teams($team->first_team_id->id, $team->season_id, $team->id, $team->week))
+                                                                                <button disabled
+                                                                                    style="background:rgb(243, 101, 101);  border:none; color:#212529"
+                                                                                    class="team_name"
+                                                                                    fixture_id={{ $team->id }}
+                                                                                    team_id={{ $team->first_team_id->id }}
+                                                                                    season_id={{ $team->season_id }}
+                                                                                    week={{ $team->week }}
+                                                                                    teamName={{ $formatted_first_team_name }}
+                                                                                    first_teamName={{ $formatted_first_team_name }}
+                                                                                    second_teamName={{ $formatted_second_team_name }}
+                                                                                    fixture_date={{ $team->date }}
+                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                                        alt="" class="img-fluid">
 
+                                                                                    <div class="fixture_text"
+                                                                                        style="min-width:200px">
+                                                                                        {{ $team->first_team_id->name }}
+                                                                                    </div>
+                                                                                </button>
+                                                                            @else
+                                                                                <button data-bs-toggle="modal"
+                                                                                    data-bs-target="#selectTeam"
+                                                                                    style="background:none;  border:none; color:#212529"
+                                                                                    class="team_name"
+                                                                                    fixture_id={{ $team->id }}
+                                                                                    team_id={{ $team->first_team_id->id }}
+                                                                                    season_id={{ $team->season_id }}
+                                                                                    week={{ $team->week }}
+                                                                                    teamName={{ $team->first_team_id->name }}
+                                                                                    teamName={{ $formatted_first_team_name }}
+                                                                                    first_teamName={{ $formatted_first_team_name }}
+                                                                                    second_teamName={{ $formatted_second_team_name }}
+                                                                                    fixture_date={{ $team->date }}
+                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                                        alt="" class="img-fluid">
 
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#selectTeam"
-                                                                        style="background:none;  border:none; color:#212529"
-                                                                        class="team_name" fixture_id={{ $team->id }}
-                                                                        team_id={{ $team->first_team_id->id }}
-                                                                        season_id={{ $team->season_id }}
-                                                                        week={{ $team->week }}
-                                                                        teamName={{ $team->first_team_id->name }}
-                                                                        fixture_date={{ $team->date }}
-                                                                        fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
-                                                                        <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
-                                                                            alt="" class="img-fluid">
+                                                                                    <div class="fixture_text"
+                                                                                        style="min-width:200px">
+                                                                                        {{ $team->first_team_id->name }}
+                                                                                    </div>
+                                                                                </button>
+                                                                            @endif
+                                                                        @else
+                                                                            <button data-bs-toggle="modal"
+                                                                                data-bs-target="#selectTeam"
+                                                                                style="background:none;  border:none; color:#212529"
+                                                                                class="team_name"
+                                                                                fixture_id={{ $team->id }}
+                                                                                team_id={{ $team->first_team_id->id }}
+                                                                                season_id={{ $team->season_id }}
+                                                                                week={{ $team->week }}
+                                                                                teamName={{ $team->first_team_id->name }}
+                                                                                teamName={{ $formatted_first_team_name }}
+                                                                                first_teamName={{ $formatted_first_team_name }}
+                                                                                second_teamName={{ $formatted_second_team_name }}
+                                                                                fixture_date={{ $team->date }}
+                                                                                fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
+                                                                                    alt="" class="img-fluid">
 
-                                                                        <div class="fixture_text"  style="min-width:200px">
-                                                                            {{ $team->first_team_id->name }}
-                                                                        </div>
-                                                                    </button>
-
+                                                                                <div class="fixture_text"
+                                                                                    style="min-width:200px">
+                                                                                    {{ $team->first_team_id->name }}
+                                                                                </div>
+                                                                            </button>
+                                                                        @endif
                                                                     @else
-                                                                    {{'TBD'}}
+                                                                        {{ 'TBD' }}
                                                                     @endif
-
                                                                 @endif
                                                             </div>
                                                             <div class="versis">
@@ -195,34 +257,81 @@
                                                                         <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
                                                                             alt="" class="img-fluid">
 
-                                                                        <div class="fixture_text"  style="min-width:200px">
+                                                                        <div class="fixture_text" style="min-width:200px">
                                                                             {{ $team->second_team_id->name }}
                                                                         </div>
                                                                     </button>
                                                                 @else
-                                                                @if (!empty($team->second_team_id))
+                                                                    @if (!empty($team->second_team_id))
+                                                                        @if (!empty($get_selected_teams))
+                                                                            @if (get_selected_teams($team->second_team_id->id, $team->season_id, $team->id, $team->week))
+                                                                                <button disabled class="team_name"
+                                                                                    style="background:rgb(184, 107, 107);  border:none; color:#212529"
+                                                                                    fixture_id={{ $team->id }}
+                                                                                    team_id={{ $team->second_team_id->id }}
+                                                                                    season_id={{ $team->season_id }}
+                                                                                    week={{ $team->week }}
+                                                                                    teamName={{ $formatted_second_team_name }}
+                                                                                    first_teamName={{ $formatted_first_team_name }}
+                                                                                    second_teamName={{ $formatted_second_team_name }}
+                                                                                    fixture_date={{ $team->date }}
+                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                                        alt="" class="img-fluid">
 
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#selectTeam" class="team_name"
-                                                                        style="background:none;  border:none; color:#212529"
-                                                                        fixture_id={{ $team->id }}
-                                                                        team_id={{ $team->second_team_id->id }}
-                                                                        season_id={{ $team->season_id }}
-                                                                        week={{ $team->week }}
-                                                                        teamName={{ $team->second_team_id->name }}
-                                                                        fixture_date={{ $team->date }}
-                                                                        fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
-                                                                        <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
-                                                                            alt="" class="img-fluid">
+                                                                                    <div class="fixture_text"
+                                                                                        style="min-width:200px">
+                                                                                        {{ $team->second_team_id->name }}
+                                                                                    </div>
+                                                                                </button>
+                                                                            @else
+                                                                                <button data-bs-toggle="modal"
+                                                                                    data-bs-target="#selectTeam"
+                                                                                    class="team_name"
+                                                                                    style="background:none;  border:none; color:#212529"
+                                                                                    fixture_id={{ $team->id }}
+                                                                                    team_id={{ $team->second_team_id->id }}
+                                                                                    season_id={{ $team->season_id }}
+                                                                                    week={{ $team->week }}
+                                                                                    teamName={{ $formatted_second_team_name }}
+                                                                                    first_teamName={{ $formatted_first_team_name }}
+                                                                                    second_teamName={{ $formatted_second_team_name }}
+                                                                                    fixture_date={{ $team->date }}
+                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                    <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                                        alt="" class="img-fluid">
 
-                                                                        <div class="fixture_text"  style="min-width:200px">
-                                                                            {{ $team->second_team_id->name }}
-                                                                        </div>
-                                                                    </button>
+                                                                                    <div class="fixture_text"
+                                                                                        style="min-width:200px">
+                                                                                        {{ $team->second_team_id->name }}
+                                                                                    </div>
+                                                                                </button>
+                                                                            @endif
+                                                                        @else
+                                                                            <button data-bs-toggle="modal"
+                                                                                data-bs-target="#selectTeam"
+                                                                                class="team_name"
+                                                                                style="background:none;  border:none; color:#212529"
+                                                                                fixture_id={{ $team->id }}
+                                                                                team_id={{ $team->second_team_id->id }}
+                                                                                season_id={{ $team->season_id }}
+                                                                                week={{ $team->week }}
+                                                                                teamName={{ $formatted_second_team_name }}
+                                                                                first_teamName={{ $formatted_first_team_name }}
+                                                                                second_teamName={{ $formatted_second_team_name }}
+                                                                                fixture_date={{ $team->date }}
+                                                                                fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
+                                                                                    alt="" class="img-fluid">
 
+                                                                                <div class="fixture_text"
+                                                                                    style="min-width:200px">
+                                                                                    {{ $team->second_team_id->name }}
+                                                                                </div>
+                                                                            </button>
+                                                                        @endif
                                                                     @else
-
-                                                                    {{'TBD'}}
+                                                                        {{ 'TBD' }}
                                                                     @endif
                                                                 @endif
                                                             </div>
@@ -231,13 +340,16 @@
 
 
                                                     {{-- <td class="fixture_text text-center" >{{$team->date}}</td> --}}
-                                                    <td class="fixture_text text-center" >{{ \Carbon\Carbon::parse($team->date)->format('j F, Y') }}
+                                                    <td class="fixture_text text-center">
+                                                        {{ \Carbon\Carbon::parse($team->date)->format('j F, Y') }}
                                                     </td>
-                                                     @if($team->time == '12:00:00' && $team->time_zone = 'am')
-                                                     <td class="fixture_text text-center" >TBD</td>
-                                                     @else
-                                                     <td class="fixture_text text-center" >{{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }} {{ ucfirst($team->time_zone) }} ET
-                                                     @endif
+                                                    @if ($team->time == '12:00:00' && ($team->time_zone = 'am'))
+                                                        <td class="fixture_text text-center">TBD</td>
+                                                    @else
+                                                        <td class="fixture_text text-center">
+                                                            {{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}
+                                                            {{ ucfirst($team->time_zone) }} ET
+                                                    @endif
                                                     </td>
                                             @endif
                                         @endforeach
@@ -270,7 +382,7 @@
     </section>
 
     <!-- Modal -->
-    <div class="modal fade" id="selectTeam" tabindex="-1" aria-labelledby="selectTeamLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="selectTeam" tabindex="-1" aria-labelledby="selectTeamLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -281,11 +393,10 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary pr-4" data-bs-dismiss="modal">Close</button>
-                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Modal -->
     <div class="modal fade" id="SeasonExpireModal" tabindex="-1" aria-labelledby="selectTeamLabel" aria-hidden="true">
@@ -304,18 +415,19 @@
             </div>
         </div>
     </div>
-<style>
-    #matchFixture{
-        background-color:  <?php echo $colorSection['match_fixture']['bg_color']; ?>;
-    }
-    .fixture_text{
-        color: <?php echo $colorSection['match_fixture']['text_color']; ?>;
-    }
-    .fixture_head{
-        color: <?php echo $colorSection['match_fixture']['header_color']; ?>;
-    }
-</style>
+    <style>
+        #matchFixture {
+            background-color: <?php echo $colorSection['match_fixture']['bg_color']; ?>;
+        }
 
+        .fixture_text {
+            color: <?php echo $colorSection['match_fixture']['text_color']; ?>;
+        }
+
+        .fixture_head {
+            color: <?php echo $colorSection['match_fixture']['header_color']; ?>;
+        }
+    </style>
 @endsection
 
 
@@ -333,16 +445,23 @@
 
 
             //Pick the team from fixture page
-            $('.team_name').click(function() {
 
+            $('.team_name').click(function() {
                 let season_id = $(this).attr('season_id');
                 let fixture_id = $(this).attr('fixture_id');
                 let team_id = $(this).attr('team_id');
                 let teamName = $(this).attr('teamName');
+                formatted_team_name = teamName.replace(/_/g, ' ');
+
+                let first_teamName = $(this).attr('first_teamName');
+                formatted_first_team_name = first_teamName.replace(/_/g, ' ');
+
+                let second_teamName = $(this).attr('second_teamName');
+                formatted_second_team_name = second_teamName.replace(/_/g, ' ');
+
                 let fixture_date = $(this).attr('fixture_date');
                 let fixture_time = $(this).attr('fixture_time');
                 let week = $(this).attr('week');
-
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -352,7 +471,7 @@
                 $.ajax({
                     type: 'POST',
                     // url: '/check_user',
-                    url: '/fixture_team_pick',
+                    url: '/check_user_subscribe_for_fixturePage',
                     data: {
                         season_id: season_id,
                         fixture_id: fixture_id,
@@ -360,48 +479,203 @@
                         week: week
                     },
                     success: function(resp) {
-                        if (resp.message == 'login') {
-                            // let login_url = "{{ route('login') }}";
-                            // location.href = login_url;
-                            $('#selectTeam #teamSelectedMsg').html(
-                                '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Please <a href="{{route('login')}}" style="color:red">login</a> first to continue . </span></p>'
-                                );
-                        }
-                        if (resp.message == 'subscribe') {
-                            $('#login_msg_div').hide();
-                            // let payment_url = "{{ route('payment') }}";
-                            // location.href = payment_url;
-                            $('#selectTeam #teamSelectedMsg').html(
-                                '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Please <a href="{{ route('payment') }}" style="color:red">subscribe</a> to pick the teams . It will cost you $100 . </span></p>'
-                            );
-                        }
-                        if (resp.message == 'update') {
-                            $('#selectTeam #teamSelectedMsg').html(
-                                'You have selected <span style="color:#06083B">' +
-                                teamName +
-                                '</span> for the week  <span style="color:#06083B"> ' +
-                                week + ' </span> on <span style="color:#06083B">' +
-                                fixture_date + '</span> at <span style="color:#06083B">' +
-                                fixture_time + '</span>');
-                        }
-                        if (resp.message == 'added') {
-                            $('#selectTeam #teamSelectedMsg').html(
-                                'You have selected <span style="color:#06083B;">' +
-                                teamName +
-                                '</span> for the week <span style="color:#06083B"> ' +
-                                week + ' </span> on <span style="color:#06083B">' +
-                                fixture_date + '</span> at <span style="color:#06083B">' +
-                                fixture_time + '</span>');
-                        }
-                        if (resp.message == 'Time_id_over') {
-                            $('#selectTeam #teamSelectedMsg').html(
-                                '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Your time is over to pick the team  as you can pick the team till Thursaday 12:00 am . You will receive loss for this week  </span></p>'
-                            );
-                        }
 
-                    },
-                })
+                         console.log(resp);
+                        let login_url = "payment";
+                        if (resp.message == 'not_login') {
+                            console.log('pleaser login');
+                            Swal.fire({
+                                title: 'Please login first ?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                html: `Please <a href="${login_url}">login!</a> To pick the team`
+
+                            });
+                        } else {
+
+
+
+
+
+                        let url = "payment";
+                        if (resp.message == 'not subscribed') {
+                            Swal.fire({
+                                // title: 'Please subscribe first ?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                html: `Please <a href="${url}">Subscribe </a> To pick the team`
+
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                html: "Do you really want to pick the <span style='color:#3085d6'>" +
+                                    formatted_team_name +
+                                    " </span> team for the nfl battle between <span style='color:#3085d6'>" +
+                                    formatted_first_team_name +
+                                    "</span> and <span style='color:#3085d6'>" +
+                                    formatted_second_team_name + " </span>?",
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, Pick it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        // url: '/check_user',
+                                        url: '/fixture_team_pick',
+                                        data: {
+                                            season_id: season_id,
+                                            fixture_id: fixture_id,
+                                            team_id: team_id,
+                                            week: week
+                                        },
+                                        success: function(resp) {
+                                            console.log(resp);
+
+                                            if (resp.message == 'update') {
+                                                Swal.fire({
+                                                    title: 'Your Pick team has been updated',
+                                                    html: "You have pick <span style='color:#3085d6'>" +
+                                                        formatted_team_name +
+                                                        " </span> team for  week <span style='color:#3085d6'>" +
+                                                        week +
+                                                        " </span> on <span style='color:#3085d6'>" +
+                                                        fixture_date +
+                                                        " </span> at <span style='color:#3085d6'>" +
+                                                        fixture_time +
+                                                        " </span>",
+                                                    icon: 'success',
+                                                    // showCancelButton: true,
+
+
+                                                });
+                                                setTimeout(() => {
+                                                    location
+                                                        .reload();
+                                                }, 5000);
+                                            }
+                                            if (resp.message == 'added') {
+                                                Swal.fire({
+                                                    title: 'You have pick the team',
+                                                    html: "You have pick <span style='color:#3085d6'>" +
+                                                        formatted_team_name +
+                                                        " </span> team for  week <span style='color:#3085d6'>" +
+                                                        week +
+                                                        " </span> on <span style='color:#3085d6'>" +
+                                                        fixture_date +
+                                                        " </span> at <span style='color:#3085d6'>" +
+                                                        fixture_time +
+                                                        " </span>",
+                                                    icon: 'success',
+                                                    // showCancelButton: true,
+
+                                                });
+                                                setTimeout(() => {
+                                                    location
+                                                        .reload();
+                                                }, 5000);
+                                            }
+
+                                            // else{
+                                            //     location.reload();
+                                            // }
+                                        }
+                                    });
+
+                                }
+                                // else {
+                                //     console.log('not');
+                                // }
+                            });
+                        }
+                    }
+                    }
+                });
+
             });
+
+
+            // $('.team_name').click(function() {
+
+            //     let season_id = $(this).attr('season_id');
+            //     let fixture_id = $(this).attr('fixture_id');
+            //     let team_id = $(this).attr('team_id');
+            //     let teamName = $(this).attr('teamName');
+            //     let fixture_date = $(this).attr('fixture_date');
+            //     let fixture_time = $(this).attr('fixture_time');
+            //     let week = $(this).attr('week');
+
+            //     formatted_team_name = teamName.replace(/_/g, ' ');
+
+            //     let first_teamName = $(this).attr('first_teamName');
+            //     formatted_first_team_name = first_teamName.replace(/_/g, ' ');
+
+            //     let second_teamName = $(this).attr('second_teamName');
+            //     formatted_second_team_name = second_teamName.replace(/_/g, ' ');
+
+            //     $.ajaxSetup({
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         }
+            //     });
+
+            //     $.ajax({
+            //         type: 'POST',
+            //         // url: '/check_user',
+            //         url: '/fixture_team_pick',
+            //         data: {
+            //             season_id: season_id,
+            //             fixture_id: fixture_id,
+            //             team_id: team_id,
+            //             week: week
+            //         },
+            //         success: function(resp) {
+            //             if (resp.message == 'login') {
+            //                 // let login_url = "{{ route('login') }}";
+            //                 // location.href = login_url;
+            //                 $('#selectTeam #teamSelectedMsg').html(
+            //                     '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Please <a href="{{ route('login') }}" style="color:red">login</a> first to continue . </span></p>'
+            //                 );
+            //             }
+            //             if (resp.message == 'subscribe') {
+            //                 $('#login_msg_div').hide();
+            //                 // let payment_url = "{{ route('payment') }}";
+            //                 // location.href = payment_url;
+            //                 $('#selectTeam #teamSelectedMsg').html(
+            //                     '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Please <a href="{{ route('payment') }}" style="color:red">subscribe</a> to pick the teams . It will cost you $100 . </span></p>'
+            //                 );
+            //             }
+            //             if (resp.message == 'update') {
+            //                 $('#selectTeam #teamSelectedMsg').html(
+            //                     'You have selected <span style="color:#06083B">' +
+            //                     teamName +
+            //                     '</span> for the week  <span style="color:#06083B"> ' +
+            //                     week + ' </span> on <span style="color:#06083B">' +
+            //                     fixture_date + '</span> at <span style="color:#06083B">' +
+            //                     fixture_time + '</span>');
+            //             }
+            //             if (resp.message == 'added') {
+            //                 $('#selectTeam #teamSelectedMsg').html(
+            //                     'You have selected <span style="color:#06083B;">' +
+            //                     teamName +
+            //                     '</span> for the week <span style="color:#06083B"> ' +
+            //                     week + ' </span> on <span style="color:#06083B">' +
+            //                     fixture_date + '</span> at <span style="color:#06083B">' +
+            //                     fixture_time + '</span>');
+            //             }
+            //             if (resp.message == 'Time_id_over') {
+            //                 $('#selectTeam #teamSelectedMsg').html(
+            //                     '<p style="color:red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"> <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"> </polygon> <line x1="12" y1="8" x2="12" y2="12"></line> <line x1="12" y1="16" x2="12.01" y2="16"></line>  </svg> <span> Your time is over to pick the team  as you can pick the team till Thursaday 12:00 am . You will receive loss for this week  </span></p>'
+            //                 );
+            //             }
+
+            //         },
+            //     })
+            // });
 
 
 

@@ -182,9 +182,23 @@ public function dashboard_team_pick(Request $request)
                 return response()->json(['message' => 'added','status'=>true], 200);
              }
         }
-        else{
-            return response()->json(['message' => 'subscribe','status'=>false], 200);
-        }
+        // else{
+        //     return response()->json(['message' => 'subscribe','status'=>false], 200);
+        // }
 }
+
+
+        public function check_user_subscribe(Request $request)
+        {
+            $user_id = auth()->user()->id;
+            $season_id = $request->season_id;
+            $user_status = Payment::where(['user_id' => $user_id,'season_id'=> $season_id,'status'=>'succeeded'])->first();
+                if($user_status){
+
+                    return response()->json(['message' => 'subscribed','status'=>true], 200);
+                }else{
+                    return response()->json(['message' => 'not subscribed','status'=>false], 200);
+                }
+        }
 
  }
