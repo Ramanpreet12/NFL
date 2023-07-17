@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
 use App\Models\Season;
 use App\Models\Reviews;
 use App\Models\NewsAlerts;
+use App\Models\Payment;
+use App\Models\UserTeam;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SubscriptionExpire;
@@ -526,5 +528,53 @@ class HomeController extends Controller
         // return redirect()->back()->with('success' , 'Email for news alerts submitted successfully.');
 
     }
+
+
+    //cron function
+    public function updateUserPreMatchs(){
+        $date = Carbon::now()->isoFormat('YYYY-MM-DD');;
+       $season =Season::select('id')->where('status','active')->first();
+
+       if(!empty($season)){
+          $week =Fixture::select('id','week')->where('date', '<=',$date)->where('season_id',$season->id)->orderby('date', 'desc')->first();
+
+          if(!empty($week)){
+              $currentWeek = $week["week"];
+              $fixtureData = Fixture::select('id','week')->where('season_id','=',$season->id)->where('week','=',(int)$currentWeek)->get();
+              $paidUser = Payment::select('id','user_id')->where('season_id',$season->id)->where('status','succeeded')->get();
+
+              foreach($paidUser as $user){
+                  if(!empty($fixtureData)){
+                  foreach( $fixtureData as $fixture){
+                      $userTeam =UserTeam::select('id')->where('fixture_id',$fixture->id)->where('season_id',$season->id)->where('user_id',$user->user_id)->where('week','=',(int)$currentWeek)->first();
+
+                      if(!empty($userTeam)){
+                          continue;
+                      }
+                          $teamData = [
+                              'user_id'=>$user->user_id,
+                              'user_region_id'=>$user->user->region_id,
+                              'season_id'=>$season->id,
+                              'fixture_id'=>$fixture->id,
+                              'week'=>$fixture->week,
+                              'team_id'=>'0',
+                              'points'=>'2'
+                          ];
+                          $address = UserTeam::create($teamData);
+
+              }
+
+              }
+
+          }
+
+      }
+
+   }
+   die("Record run successfully");
+  }
+
+
+
 
 }

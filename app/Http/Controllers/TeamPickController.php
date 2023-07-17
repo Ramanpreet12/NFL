@@ -33,9 +33,21 @@ class TeamPickController extends Controller
         // $get_year_from_season_date =$season_data->starting;
         $get_year_from_season_date = Carbon::createFromFormat('Y-m-d H:i:s', $season_data->starting)->format('Y');
         $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
+
+        $starting_season_date = Carbon::parse($get_current_season->starting);
+        $starting_season_date1 = Carbon::parse($get_current_season->starting);
+
+        $now = Carbon::now();
+        $length = $starting_season_date->diffInWeeks($now);
+        $right_week = $length+1;
+        $upcoming_season_date = $starting_season_date->addWeeks($right_week)->subDays(1);
+       $upcoming_week =  $starting_season_date1->addWeeks($right_week)->addDays(6);
+
+
+
         // If there is no active season . Then redirect with no found record.
         if(!$season_data){
-            return view('front.teampick' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season'));
+            return view('front.teampick' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season' ,'upcoming_season_date' ,'upcoming_week'));
         }
         // Now checking if  there is season coming in parameter from url. If not then assign the season id from above $current_season_data.
         // $current_season_id = $request->seasons ? $request->seasons : $current_season_data->id;
@@ -66,7 +78,7 @@ class TeamPickController extends Controller
          //get the team selected by user
         $get_selected_teams_by_user =  UserTeam::where('user_id' , Auth::user()->id)->pluck('team_id')->toArray();
 
-        return view('front.teampick' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season' ,'get_selected_teams_by_user'));
+        return view('front.teampick' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season' ,'get_selected_teams_by_user' ,'upcoming_season_date' ,'upcoming_week'));
 
 
     }
@@ -133,9 +145,11 @@ public function dashboard_team_pick(Request $request)
     if (!Auth::check()) {
        return response()->json(['message' => 'login','status'=>false], 200);
     }
+
         $team_id = $request->team_id;
         $season_id = $request->season_id;
         $week = $request->week;
+
         $fixture_id = $request->fixture_id;
         $user_id = auth()->user()->id;
         $user_region_id = auth()->user()->region_id;
@@ -143,19 +157,56 @@ public function dashboard_team_pick(Request $request)
         if ($user_status) {
             $current_date = Carbon::now();  // current time and date
             $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week])->orderBy('date','ASC')->first();
+            // dd($is_user_allowed_to_choose_fixture);
             if($is_user_allowed_to_choose_fixture == null){
                 return response()->json(['message' => 'Sorry.Please try again','status'=>false], 200);
             }
+            // dd($is_user_allowed_to_choose_fixture->date);
             $DeferenceInDays = Carbon::parse(Carbon::now())->diffInDays($is_user_allowed_to_choose_fixture->date);
-            if($DeferenceInDays <= 0){
-                return response()->json(['message' => 'Time_id_over','status'=>false], 200);
+
+            // if( $DeferenceInDays <= 0){
+            //     return response()->json(['message' => 'Time_id_over','status'=>false], 200);
+            // }
+
+
+            //if user done registration + payment after the season starts or after the first week and he is done payment+ regisration when he is second week then he can't select the matches for week 1 and week 2 .
+            // The Time is now over for week 1 and week 2 but he can select one  upcoming week like week 3 .
+
+            $upcoming_next_to_next_week = Carbon::parse($is_user_allowed_to_choose_fixture->date)->addDays(7);
+
+            $upcoming_next_to_next_week_date =Carbon::parse($upcoming_next_to_next_week)->format('Y-m-d');
+
+            if ( $DeferenceInDays <= 0 ) {
+                return response()->json(['message' => 'Time_is_over_for_thursday_12AM','status'=>false], 200);
             }
-           // $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>', $current_date ]])->first();
+
+            if ($is_user_allowed_to_choose_fixture->date <= Carbon::now() ) {
+                return response()->json(['message' => 'Time_is_over_to_select_previous_weeks','status'=>false], 200);
+            }
+
+            if ($DeferenceInDays >= 7) {
+                return response()->json(['message' => 'Cannot_select_next_to_next_week','status'=>false], 200);
+            }
+
+            // dd($is_user_allowed_to_choose_fixture->date);
+            // if ($upcoming_next_to_next_week_date >= $is_user_allowed_to_choose_fixture->date) {
+            //     return response()->json(['message' => 'Cannot_select_next_to_next_week','status'=>false], 200);
+            // }
+            //restricting user to select team in advance before start of that week
+
+
+
+
+            //$is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>=', $current_date ]])->first();
 
             // if no, redirect with error
-             if(!$is_user_allowed_to_choose_fixture){
-                return response()->json(['message' => 'Selection time is over for this fixture.You can choose the fixture till day before the match.','status'=>false], 200);
-             }
+            //  if(!$is_user_allowed_to_choose_fixture){
+            //     return response()->json(['message' => 'Selection time is over for this fixture.You can choose the fixture till day before the match.','status'=>false], 200);
+            //  }
+
+            // if(!$is_user_allowed_to_choose_fixture){
+            //     return response()->json(['message' => 'time_over','status'=>false], 200);
+            //  }
 
            $already_selected_team = UserTeam::where(['user_id' => $user_id, 'season_id' => $season_id, 'week' => $week,'fixture_id'=> $fixture_id , 'team_id' =>$team_id])->first();
 

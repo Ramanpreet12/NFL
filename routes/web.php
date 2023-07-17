@@ -51,7 +51,18 @@ use App\Models\Winner;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [HomeController::class, 'index'])->name('home');
+
+//cron function
+Route::get('updateMatchs', [HomeController::class, 'updateUserPreMatchs']);
+//gameday pick visitor count (client change url visitors to landing)
+Route::get('landing', [HomeController::class, 'landing'])->name('landing');
+Route::post('store/landing', [HomeController::class, 'store_landing'])->name('store/landing');
+    //gameday pick score card counter (clinet change from score_count to getinthegame)
+    Route::get('getinthegame', [HomeController::class, 'getinthegame'])->name('getinthegame');
+Route::middleware('visitors')->group(function() {
+
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 
@@ -135,6 +146,10 @@ Route::post('alphabets' , [HomeController::class , 'getAlphabets']);
 Route::get('player_roster/{alphabets}' ,[HomeController::class , 'player_roster']);
 Route::get('expire_plans',[HomeController::class,'checkPlan'])->name('expire_plans');
 Route::post('news_alerts',[HomeController::class,'news_alerts'])->name('news_alerts');
+
+}); //visitors middleware ends here
+
+
 //admin routes
 
 Route::prefix('admin')->middleware('guest')->group(function() {

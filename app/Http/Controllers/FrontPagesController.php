@@ -166,23 +166,23 @@ class FrontPagesController extends Controller
                 // Fetch all the region
                  $allregions = DB::table('regions')->pluck('region','id');
 
-                //get total_loss_pts_in_region where points == 0 (as loss points) out of total_matches_in_region
+                //get total_loss_pts_in_region where points == 2 (as loss points) out of total_matches_in_region
                 $get_total_loss_pts_in_region = DB::table('user_teams')
                 ->select((DB::raw("COUNT(user_teams.user_region_id) as total_loss_pts_in_region")), 'user_teams.user_region_id as user_region_id' , 'regions.region as region_name' , 'seasons.season_name' ,'seasons.id as season_id')
                 ->join('regions' , 'regions.id' , '=' , 'user_teams.user_region_id')
                 ->join('seasons' , 'seasons.id' , '=' ,'user_teams.season_id')
                 ->where('season_id',$c_season->id)
-                ->where('user_teams.points', '=' , 0)
+                ->where('user_teams.points', '=' , 2)
                 ->orderBy('regions.position' , 'asc')
                 ->groupby('user_teams.user_region_id')->get();
 
-                 //get total_win_pts_in_region where points == 0 (as win points) out of total_matches_in_region
+                 //get total_win_pts_in_region where points == 1 (as win points) out of total_matches_in_region
                  $get_total_win_pts_in_region = DB::table('user_teams')
                  ->select((DB::raw("COUNT(user_teams.user_region_id) as total_win_pts_in_region")), 'regions.region as region_name' , 'seasons.season_name' ,'seasons.id as season_id')
                  ->join('regions' , 'regions.id' , '=' , 'user_teams.user_region_id')
                  ->join('seasons' , 'seasons.id' , '=' ,'user_teams.season_id')
                  ->where('season_id',$c_season->id)
-                 ->where('user_teams.points', '!=' , 0)
+                 ->where('user_teams.points', '=' , 1)
                  ->orderBy('regions.position' , 'asc')
                  ->groupby(DB::raw('user_region_id'))->get();
 
@@ -212,6 +212,7 @@ class FrontPagesController extends Controller
                 $get_all_seasons = Season::where('status' , 'active')->get();
                 $total_players = UserTeam::where('season_id',$c_season->id)->distinct('user_id')->count();
 
+                dd($total_win_loss);
                 $get_match_results_details = MatchResult::first();
 
         return view('front.match_result' , compact('total_win_loss' ,'season_name' ,'get_all_seasons' ,'c_season' , 'total_players' ,'get_match_results_details'));
@@ -231,15 +232,23 @@ class FrontPagesController extends Controller
          $get_year_from_season_date = Carbon::createFromFormat('Y-m-d H:i:s', $season_data->starting)->format('Y');
          $get_current_season = Season::where(['status'=>'active' , 'season_name' => $get_current_year])->first();
 
+         $starting_season_date = Carbon::parse($get_current_season->starting);
+         $starting_season_date1 = Carbon::parse($get_current_season->starting);
+
+         $now = Carbon::now();
+         $length = $starting_season_date->diffInWeeks($now);
+         $right_week = $length+1;
+         $upcoming_season_date = $starting_season_date->addWeeks($right_week)->subDays(1);
+        $upcoming_week =  $starting_season_date1->addWeeks($right_week)->addDays(6);
+        // dd($upcoming_week);
          //get headings of page
          $get_fixture_headings = GeneralSetting::where(['type' => 'matchFixture'])->get()->toArray();
          $fixture_headings = key_value('name', 'value', $get_fixture_headings);
 
-
         // $current_season_data  = Season::where('status','active')->first();
         // If there is no active season . Then redirect with no found record.
         if(!$season_data){
-            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season' ,'fixture_headings'));
+            return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season' ,'fixture_headings' , 'upcoming_season_date' ,'upcoming_week'));
         }
         // Now checking if  there is season coming in parameter from url. If not then assign the season id from above $current_season_data.
         $current_season_id = $request->seasons ? $request->seasons : $get_current_season->id;
@@ -250,7 +259,6 @@ class FrontPagesController extends Controller
         ->where(['season_id'=> $current_season_id,'week'=>$selected_week])
         // ->whereDate('date','>=',$select_season_data->starting)
         ->get()->groupby('week');
-
 
         if( $select_season_data){
             $c_season = DB::table('seasons')->whereRaw('"' . $select_season_data->starting . '" between `starting` and `ending`')
@@ -267,7 +275,7 @@ class FrontPagesController extends Controller
             $get_selected_teams_by_user = '';
          }
 
-         return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season','fixture_headings' ,'get_selected_teams_by_user'));
+         return view('front.fixtures' , compact('fixtures' , 'season_name' , 'get_all_seasons' , 'c_season','fixture_headings' ,'get_selected_teams_by_user','upcoming_season_date' , 'upcoming_week'));
 
 
         //  $user_id =  Auth::user()->id;
@@ -292,6 +300,7 @@ class FrontPagesController extends Controller
         if (Auth::check()) {
 
 
+
             $team_id = $request->team_id;
             $season_id = $request->season_id;
             $week = $request->week;
@@ -308,9 +317,22 @@ class FrontPagesController extends Controller
                 }
                 $DeferenceInDays = Carbon::parse(Carbon::now())->diffInDays($is_user_allowed_to_choose_fixture->date);
                 // dd($DeferenceInDays);
-                if($DeferenceInDays <= 0){
-                    return response()->json(['message' => 'Time_id_over','status'=>false], 200);
+                //if user try to select the team after Thursaday 12:00AM
+                if ( $DeferenceInDays <= 0 ) {
+                return response()->json(['message' => 'Time_is_over_for_thursday_12AM','status'=>false], 200);
                 }
+
+                //if user try to select the previous week
+                if ($is_user_allowed_to_choose_fixture->date <= Carbon::now() ) {
+                    return response()->json(['message' => 'Time_is_over_to_select_previous_weeks','status'=>false], 200);
+                }
+
+                //if user try to select next to next week in advance
+                if ($DeferenceInDays >= 7) {
+                    return response()->json(['message' => 'Cannot_select_next_to_next_week','status'=>false], 200);
+                }
+
+
                // $is_user_allowed_to_choose_fixture =  Fixture::where(['season_id'=> $season_id, 'week' => $week, 'id'=>$fixture_id, [ 'date', '>', $current_date ]])->first();
 
                 // if no, redirect with error
@@ -333,7 +355,11 @@ class FrontPagesController extends Controller
                         'team_id' => $team_id,
                         'fixture_id'=>$fixture_id,
                     ]);
+
+                    $this->updateUserMatchs($season_id);
+
                     return response()->json(['message' => 'added','status'=>true], 200);
+
                  }
             }
             // else{
@@ -387,16 +413,10 @@ class FrontPagesController extends Controller
         ->where('season_id',$c_season->id)->whereDate('date','>=',$c_date)
         ->orderBy('week' , 'desc')
         ->get()->groupby('week');
-
-
-
-
         // echo "<pre>";
         // print_r( $get_game_results);
         // die();
        $season_name = $c_season->season_name;
-
-
         return view('front.game_result' , compact('get_game_results' ,'season_name'));
     }
 
@@ -441,8 +461,6 @@ class FrontPagesController extends Controller
 
     public function reviews(ReviewsRequest $request)
     {
-
-
        $reviews = Reviews::create([
         'username' => $request->username,
         'email' => $request->email,
@@ -452,6 +470,48 @@ class FrontPagesController extends Controller
     //    return redirect()->back()->with('reviews_success' , 'Reviews added successfullly');
     return response()->json(['message' , 'success'], 200);
 
+    }
+
+    private function updateUserMatchs($season_id){
+        $date = Carbon::now()->isoFormat('YYYY-MM-DD');;
+        $week =Fixture::where('date', '<=',  $date)
+        ->where('season_id',$season_id)
+        ->orderby('date', 'desc')
+        ->first();
+
+        if(!empty($week)){
+        	//DB::enableQueryLog();
+        	$currentWeek=$week["week"];
+            $fixtureData =Fixture::where('season_id','=',$season_id)
+           ->where('week','<=',(int)$currentWeek)
+            ->get();
+           // $log = DB::getQueryLog();
+
+
+            if(!empty($fixtureData)){
+                foreach( $fixtureData as $fixture){
+                	$userTeam =UserTeam::where('fixture_id',$fixture->id)
+			->where('season_id',$season_id)
+			->where('user_id',auth()->user()->id)
+			->first();
+			if(!empty($userTeam)){
+				continue;
+			}
+		            $teamData = [
+		                'user_id'=>auth()->user()->id,
+		                'user_region_id'=>auth()->user()->region_id,
+		                'season_id'=>$season_id,
+		                'fixture_id'=>$fixture->id,
+		                'week'=>$fixture->week,
+		                'team_id'=>'0',
+		                'points'=>'2' // because user has not select any match in week , so user will get loss
+		            ];
+		            $address = UserTeam::create($teamData);
+
+                }
+            }
+        }
+        return true;
     }
 
 }

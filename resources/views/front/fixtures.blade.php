@@ -132,21 +132,20 @@
                                             {{-- <td></td> --}}
                                         </tr>
                                         @foreach ($weakData as $weeks => $team)
-                                            @if (!empty($team->first_team_id) && !empty($team->second_team_id))
+                                            {{-- @if (!empty($team->first_team_id) && !empty($team->second_team_id))
                                                 @php
                                                     $formatted_first_team_name = str_replace(' ', '_', $team->first_team_id->name);
                                                 @endphp
                                                 @php
                                                     $formatted_second_team_name = str_replace(' ', '_', $team->second_team_id->name);
                                                 @endphp
-                                            @endif
+                                            @endif --}}
 
                                             @if ($week == $team->week)
-                                                {{-- {{dd($get_selected_teams_by_user)}} --}}
                                                 <tr>
                                                     <td>
                                                         <div
-                                                            class="fixureMatch d-flex align-items-center justify-content-center">
+                                                            class="fixureMatch d-flex align-items-center justify-content-center ">
                                                             <div class="teamOne">
                                                                 @if (\Carbon\Carbon::now() > $team->season->ending)
                                                                     <button data-bs-toggle="modal"
@@ -173,15 +172,22 @@
                                                                                 <button disabled
                                                                                     style="background:rgb(243, 101, 101);  border:none; color:#212529"
                                                                                     class="team_name"
-                                                                                    fixture_id={{ $team->id }}
+                                                                                    @if ($upcoming_week > $team->date)
+                                                                                    upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false"
+                                                                                    @endif
+                                                                                    @if ($upcoming_season_date < $team->date)
+                                                                                     fixture_id={{ $team->id }}
                                                                                     team_id={{ $team->first_team_id->id }}
                                                                                     season_id={{ $team->season_id }}
                                                                                     week={{ $team->week }}
-                                                                                    teamName={{ $formatted_first_team_name }}
-                                                                                    first_teamName={{ $formatted_first_team_name }}
-                                                                                    second_teamName={{ $formatted_second_team_name }}
+                                                                                    teamName="{{ $team->first_team_id->name }}"
+                                                                                    first_teamName="{{ $team->first_team_id->name }}"
+                                                                                    second_teamName="{{ $team->second_team_id->name }}"
                                                                                     fixture_date={{ $team->date }}
-                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                                                    @endif>
                                                                                     <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
                                                                                         alt="" class="img-fluid">
 
@@ -195,16 +201,18 @@
                                                                                     data-bs-target="#selectTeam"
                                                                                     style="background:none;  border:none; color:#212529"
                                                                                     class="team_name"
-                                                                                    fixture_id={{ $team->id }}
+                                                                                    @if ($upcoming_week > $team->date) upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false" @endif
+                                                                                    @if ($upcoming_season_date < $team->date) fixture_id={{ $team->id }}
                                                                                     team_id={{ $team->first_team_id->id }}
                                                                                     season_id={{ $team->season_id }}
                                                                                     week={{ $team->week }}
-                                                                                    teamName={{ $team->first_team_id->name }}
-                                                                                    teamName={{ $formatted_first_team_name }}
-                                                                                    first_teamName={{ $formatted_first_team_name }}
-                                                                                    second_teamName={{ $formatted_second_team_name }}
+                                                                                    teamName="{{ $team->first_team_id->name }}"
+                                                                                    first_teamName="{{ $team->first_team_id->name }}"
+                                                                                    second_teamName="{{ $team->second_team_id->name }}"
                                                                                     fixture_date={{ $team->date }}
-                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }} @endif>
                                                                                     <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
                                                                                         alt="" class="img-fluid">
 
@@ -219,16 +227,18 @@
                                                                                 data-bs-target="#selectTeam"
                                                                                 style="background:none;  border:none; color:#212529"
                                                                                 class="team_name"
-                                                                                fixture_id={{ $team->id }}
+                                                                                @if ($upcoming_week > $team->date) upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false" @endif
+                                                                                @if ($upcoming_season_date < $team->date) fixture_id={{ $team->id }}
                                                                                 team_id={{ $team->first_team_id->id }}
                                                                                 season_id={{ $team->season_id }}
                                                                                 week={{ $team->week }}
-                                                                                teamName={{ $team->first_team_id->name }}
-                                                                                teamName={{ $formatted_first_team_name }}
-                                                                                first_teamName={{ $formatted_first_team_name }}
-                                                                                second_teamName={{ $formatted_second_team_name }}
+                                                                                teamName="{{ $team->first_team_id->name }}"
+                                                                                first_teamName="{{ $team->first_team_id->name }}"
+                                                                                second_teamName="{{ $team->second_team_id->name }}"
                                                                                 fixture_date={{ $team->date }}
-                                                                                fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }} @endif>
                                                                                 <img src="{{ asset('storage/images/team_logo/' . $team->first_team_id->logo) }}"
                                                                                     alt="" class="img-fluid">
 
@@ -267,15 +277,18 @@
                                                                             @if (get_selected_teams($team->second_team_id->id, $team->season_id, $team->id, $team->week))
                                                                                 <button disabled class="team_name"
                                                                                     style="background:rgb(184, 107, 107);  border:none; color:#212529"
-                                                                                    fixture_id={{ $team->id }}
+                                                                                    @if ($upcoming_week > $team->date) upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false" @endif
+                                                                                    @if ($upcoming_season_date < $team->date) fixture_id={{ $team->id }}
                                                                                     team_id={{ $team->second_team_id->id }}
                                                                                     season_id={{ $team->season_id }}
                                                                                     week={{ $team->week }}
-                                                                                    teamName={{ $formatted_second_team_name }}
-                                                                                    first_teamName={{ $formatted_first_team_name }}
-                                                                                    second_teamName={{ $formatted_second_team_name }}
+                                                                                    teamName="{{ $team->first_team_id->name }}"
+                                                                                    first_teamName="{{ $team->first_team_id->name }}"
+                                                                                    second_teamName="{{ $team->second_team_id->name }}"
                                                                                     fixture_date={{ $team->date }}
-                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }} @endif>
                                                                                     <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
                                                                                         alt="" class="img-fluid">
 
@@ -289,15 +302,18 @@
                                                                                     data-bs-target="#selectTeam"
                                                                                     class="team_name"
                                                                                     style="background:none;  border:none; color:#212529"
-                                                                                    fixture_id={{ $team->id }}
+                                                                                    @if ($upcoming_week > $team->date) upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false" @endif
+                                                                                    @if ($upcoming_season_date < $team->date) fixture_id={{ $team->id }}
                                                                                     team_id={{ $team->second_team_id->id }}
                                                                                     season_id={{ $team->season_id }}
                                                                                     week={{ $team->week }}
-                                                                                    teamName={{ $formatted_second_team_name }}
-                                                                                    first_teamName={{ $formatted_first_team_name }}
-                                                                                    second_teamName={{ $formatted_second_team_name }}
+                                                                                    teamName="{{ $team->first_team_id->name }}"
+                                                                                    first_teamName="{{ $team->first_team_id->name }}"
+                                                                                    second_teamName="{{ $team->second_team_id->name }}"
                                                                                     fixture_date={{ $team->date }}
-                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                    fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }} @endif>
                                                                                     <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
                                                                                         alt="" class="img-fluid">
 
@@ -312,15 +328,18 @@
                                                                                 data-bs-target="#selectTeam"
                                                                                 class="team_name"
                                                                                 style="background:none;  border:none; color:#212529"
-                                                                                fixture_id={{ $team->id }}
+                                                                                @if ($upcoming_week > $team->date) upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false" @endif
+                                                                                @if ($upcoming_season_date < $team->date) fixture_id={{ $team->id }}
                                                                                 team_id={{ $team->second_team_id->id }}
                                                                                 season_id={{ $team->season_id }}
                                                                                 week={{ $team->week }}
-                                                                                teamName={{ $formatted_second_team_name }}
-                                                                                first_teamName={{ $formatted_first_team_name }}
-                                                                                second_teamName={{ $formatted_second_team_name }}
+                                                                                teamName="{{ $team->first_team_id->name }}"
+                                                                                first_teamName="{{ $team->first_team_id->name }}"
+                                                                                second_teamName="{{ $team->second_team_id->name }}"
                                                                                 fixture_date={{ $team->date }}
-                                                                                fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                                fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }} @endif>
                                                                                 <img src="{{ asset('storage/images/team_logo/' . $team->second_team_id->logo) }}"
                                                                                     alt="" class="img-fluid">
 
@@ -447,17 +466,43 @@
             //Pick the team from fixture page
 
             $('.team_name').click(function() {
+                let attr = $(this).attr('fixture_id');
+                if (typeof attr == 'undefined') {
+                    Swal.fire({
+                        title: 'Time over ',
+                        html: "Your Time to pick the team for week is over . You can pick the team <span style='color:#f27474'> before Thursday 12:00 AM </span> . You can still pick the team for next week.Good Luck",
+                        icon: 'error',
+                    });
+
+                    return false;
+
+                }
+
+                let upcoming_selectable_week = $(this).attr('upcoming_selectable_week');
+                // console.log(upcoming_selectable_week);
+                if (upcoming_selectable_week != 'true') {
+                    Swal.fire({
+                        title: "Can't pick the team in advance ! ",
+                        html: "You can't pick the team before it's starts. Please wait for the week to come.",
+                        icon: 'error',
+                    });
+
+                    return false;
+
+                }
+
+
                 let season_id = $(this).attr('season_id');
                 let fixture_id = $(this).attr('fixture_id');
                 let team_id = $(this).attr('team_id');
                 let teamName = $(this).attr('teamName');
-                formatted_team_name = teamName.replace(/_/g, ' ');
+                // formatted_team_name = teamName.replace(/_/g, ' ');
 
                 let first_teamName = $(this).attr('first_teamName');
-                formatted_first_team_name = first_teamName.replace(/_/g, ' ');
+                // formatted_first_team_name = first_teamName.replace(/_/g, ' ');
 
                 let second_teamName = $(this).attr('second_teamName');
-                formatted_second_team_name = second_teamName.replace(/_/g, ' ');
+                // formatted_second_team_name = second_teamName.replace(/_/g, ' ');
 
                 let fixture_date = $(this).attr('fixture_date');
                 let fixture_time = $(this).attr('fixture_time');
@@ -480,7 +525,8 @@
                     },
                     success: function(resp) {
 
-                         console.log(resp);
+                        console.log(resp);
+
                         let login_url = "payment";
                         if (resp.message == 'not_login') {
                             console.log('pleaser login');
@@ -492,107 +538,163 @@
 
                             });
                         } else {
+                            let url = "payment";
+                            if (resp.message == 'not subscribed') {
+                                Swal.fire({
+                                    // title: 'Please subscribe first ?',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    html: `Please <a href="${url}">Subscribe </a> To pick the team`
+
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    html: "Do you want to pick the <span style='color:#3085d6'>" +
+                                        teamName +
+                                        " </span> team for the nfl battle between <span style='color:#3085d6'>" +
+                                        first_teamName +
+                                        "</span> and <span style='color:#3085d6'>" +
+                                        second_teamName + " </span>?",
+                                    icon: 'question',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, Pick it!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            // url: '/check_user',
+                                            url: '/fixture_team_pick',
+                                            data: {
+                                                season_id: season_id,
+                                                fixture_id: fixture_id,
+                                                team_id: team_id,
+                                                week: week
+                                            },
+                                            success: function(resp) {
+                                                console.log(resp);
+
+                                                //check if user is selecting the team on the day of match
+                                                if (resp.message ==
+                                                    'Time_is_over_for_thursday_12AM'
+                                                    ) {
+                                                    Swal.fire({
+                                                        title: 'Your Time is over ',
+                                                        html: "Your Time is over to pick the team for week " +
+                                                            week +
+                                                            "  as you can pick the team <span style='color:#f27474'> till Thursday 12:00 AM </span> .  You will receive <span style='color:#f27474'> loss </span> for this week . You can pick the team from next week .  ",
+                                                        icon: 'error',
+                                                        // showCancelButton: true,
 
 
+                                                    });
+                                                    setTimeout(() => {
+                                                        location
+                                                            .reload();
+                                                    }, 6000);
+                                                }
+
+                                                //User can't select previous weeks
+                                                if (resp.message ==
+                                                    'Time_is_over_to_select_previous_weeks'
+                                                    ) {
+                                                    Swal.fire({
+                                                        title: 'Your Time is over !',
+                                                        html: "Can't select previous week. Your Time is over to pick the team for week " +
+                                                            week +
+                                                            " . You will receive <span style='color:#f27474'> loss </span> for this week . You can pick the team from next week .",
+                                                        icon: 'error',
+                                                        // showCancelButton: true,
 
 
+                                                    });
+                                                    setTimeout(() => {
+                                                        location
+                                                            .reload();
+                                                    }, 5000);
+                                                }
 
-                        let url = "payment";
-                        if (resp.message == 'not subscribed') {
-                            Swal.fire({
-                                // title: 'Please subscribe first ?',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                html: `Please <a href="${url}">Subscribe </a> To pick the team`
-
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Are you sure?',
-                                html: "Do you really want to pick the <span style='color:#3085d6'>" +
-                                    formatted_team_name +
-                                    " </span> team for the nfl battle between <span style='color:#3085d6'>" +
-                                    formatted_first_team_name +
-                                    "</span> and <span style='color:#3085d6'>" +
-                                    formatted_second_team_name + " </span>?",
-                                icon: 'question',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Yes, Pick it!'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-
-                                    $.ajax({
-                                        type: 'POST',
-                                        // url: '/check_user',
-                                        url: '/fixture_team_pick',
-                                        data: {
-                                            season_id: season_id,
-                                            fixture_id: fixture_id,
-                                            team_id: team_id,
-                                            week: week
-                                        },
-                                        success: function(resp) {
-                                            console.log(resp);
-
-                                            if (resp.message == 'update') {
-                                                Swal.fire({
-                                                    title: 'Your Pick team has been updated',
-                                                    html: "You have pick <span style='color:#3085d6'>" +
-                                                        formatted_team_name +
-                                                        " </span> team for  week <span style='color:#3085d6'>" +
-                                                        week +
-                                                        " </span> on <span style='color:#3085d6'>" +
-                                                        fixture_date +
-                                                        " </span> at <span style='color:#3085d6'>" +
-                                                        fixture_time +
-                                                        " </span>",
-                                                    icon: 'success',
-                                                    // showCancelButton: true,
+                                                if (resp.message ==
+                                                    'Cannot_select_next_to_next_week'
+                                                    ) {
+                                                    Swal.fire({
+                                                        title: "Can't pick the team in advance ! ",
+                                                        html: "You can't pick the team from week <span style='color:#f27474'> " +
+                                                            week +
+                                                            " </span> before it's starts. Please wait for the week to come.",
+                                                        icon: 'error',
+                                                        // showCancelButton: true,
 
 
-                                                });
-                                                setTimeout(() => {
-                                                    location
-                                                        .reload();
-                                                }, 5000);
+                                                    });
+                                                    setTimeout(() => {
+                                                        location
+                                                            .reload();
+                                                    }, 6000);
+                                                }
+
+                                                if (resp.message ==
+                                                    'update') {
+                                                    Swal.fire({
+                                                        title: 'Your Pick team has been updated',
+                                                        html: "You have pick <span style='color:#3085d6'>" +
+                                                            teamName +
+                                                            " </span> team for  week <span style='color:#3085d6'>" +
+                                                            week +
+                                                            " </span> on <span style='color:#3085d6'>" +
+                                                            fixture_date +
+                                                            " </span> at <span style='color:#3085d6'>" +
+                                                            fixture_time +
+                                                            " </span>",
+                                                        icon: 'success',
+                                                        // showCancelButton: true,
+
+
+                                                    });
+                                                    setTimeout(() => {
+                                                        location
+                                                            .reload();
+                                                    }, 5000);
+                                                }
+                                                if (resp.message ==
+                                                    'added') {
+                                                    Swal.fire({
+                                                        title: 'You have pick the team',
+                                                        html: "You have pick <span style='color:#3085d6'>" +
+                                                            teamName +
+                                                            " </span> team for  week <span style='color:#3085d6'>" +
+                                                            week +
+                                                            " </span> on <span style='color:#3085d6'>" +
+                                                            fixture_date +
+                                                            " </span> at <span style='color:#3085d6'>" +
+                                                            fixture_time +
+                                                            " </span>",
+                                                        icon: 'success',
+                                                        // showCancelButton: true,
+
+                                                    });
+                                                    setTimeout(() => {
+                                                        location
+                                                            .reload();
+                                                    }, 5000);
+                                                }
+
+                                                // else{
+                                                //     location.reload();
+                                                // }
                                             }
-                                            if (resp.message == 'added') {
-                                                Swal.fire({
-                                                    title: 'You have pick the team',
-                                                    html: "You have pick <span style='color:#3085d6'>" +
-                                                        formatted_team_name +
-                                                        " </span> team for  week <span style='color:#3085d6'>" +
-                                                        week +
-                                                        " </span> on <span style='color:#3085d6'>" +
-                                                        fixture_date +
-                                                        " </span> at <span style='color:#3085d6'>" +
-                                                        fixture_time +
-                                                        " </span>",
-                                                    icon: 'success',
-                                                    // showCancelButton: true,
+                                        });
 
-                                                });
-                                                setTimeout(() => {
-                                                    location
-                                                        .reload();
-                                                }, 5000);
-                                            }
-
-                                            // else{
-                                            //     location.reload();
-                                            // }
-                                        }
-                                    });
-
-                                }
-                                // else {
-                                //     console.log('not');
-                                // }
-                            });
+                                    }
+                                    // else {
+                                    //     console.log('not');
+                                    // }
+                                });
+                            }
                         }
-                    }
                     }
                 });
 

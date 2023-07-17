@@ -180,6 +180,12 @@
                                                                         <button disabled
                                                                             style="background:none;  border:none; color:#2c9412"
                                                                             class="btn btn-selected-team my-4"
+                                                                            @if ($upcoming_week > $team->date)
+                                                                                    upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false"
+                                                                                    @endif
+                                                                            @if ($upcoming_season_date < $team->date)
                                                                             fixture_id={{ $team->id }}
                                                                             team_id={{ $team->first_team_id->id }}
                                                                             season_id={{ $team->season_id }}
@@ -188,13 +194,20 @@
                                                                             first_teamName={{ $formatted_first_team_name }}
                                                                             second_teamName={{ $formatted_second_team_name }}
                                                                             fixture_date={{ $team->date }}
-                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                                            @endif>
                                                                             {{ 'Picked Team' }}
                                                                         </button>
                                                                     @else
                                                                         <button
                                                                             style="background:none;  border:none; color:#212529"
                                                                             class="btn btn-primary my-4 team_name"
+                                                                            @if ($upcoming_week > $team->date)
+                                                                                    upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false"
+                                                                                    @endif
+                                                                             @if ($upcoming_season_date < $team->date)
                                                                             fixture_id={{ $team->id }}
                                                                             team_id={{ $team->first_team_id->id }}
                                                                             season_id={{ $team->season_id }}
@@ -204,7 +217,8 @@
                                                                             second_teamName={{ $formatted_second_team_name }}
                                                                             first_team_name={{ $formatted_first_team_name }}
                                                                             fixture_date={{ $team->date }}
-                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                                            @endif>
                                                                             {{ 'Pick Team' }}
                                                                         </button>
                                                                     @endif
@@ -248,6 +262,12 @@
                                                                     @if (get_selected_teams($team->second_team_id->id, $team->season_id, $team->id, $team->week))
                                                                         <button disabled class="btn btn-selected-team my-4"
                                                                             style="background:none;  border:none;  color:#2c9412"
+                                                                            @if ($upcoming_week > $team->date)
+                                                                                    upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false"
+                                                                                    @endif
+                                                                             @if ($upcoming_season_date < $team->date)
                                                                             fixture_id={{ $team->id }}
                                                                             team_id={{ $team->second_team_id->id }}
                                                                             season_id={{ $team->season_id }}
@@ -256,12 +276,19 @@
                                                                             first_teamName={{ $formatted_first_team_name }}
                                                                             second_teamName={{ $formatted_second_team_name }}
                                                                             fixture_date={{ $team->date }}
-                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                                            @endif>
                                                                             {{ 'Picked Team' }}
                                                                         </button>
                                                                     @else
                                                                         <button class="btn btn-primary my-4 team_name"
                                                                             style="background:none;  border:none; color:#212529"
+                                                                            @if ($upcoming_week > $team->date)
+                                                                                    upcoming_selectable_week = "true"
+                                                                                    @else
+                                                                                    upcoming_selectable_week = "false"
+                                                                                    @endif
+                                                                            @if ($upcoming_season_date < $team->date)
                                                                             fixture_id={{ $team->id }}
                                                                             team_id={{ $team->second_team_id->id }}
                                                                             season_id={{ $team->season_id }}
@@ -270,7 +297,8 @@
                                                                             first_teamName={{ $formatted_first_team_name }}
                                                                             second_teamName={{ $formatted_second_team_name }}
                                                                             fixture_date={{ $team->date }}
-                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}>
+                                                                            fixture_time={{ \Carbon\Carbon::createFromFormat('H:i:s', $team->time)->format('H:i') }}{{ $team->time_zone }}
+                                                                            @endif>
                                                                             {{ 'Pick Team' }}
                                                                         </button>
                                                                     @endif
@@ -361,6 +389,32 @@
             //for testing
 
             $('.team_name').click(function() {
+                let attr = $(this).attr('fixture_id');
+                if (typeof attr == 'undefined') {
+                    Swal.fire({
+                        title: 'Time over ',
+                        html: "Your Time to pick the team for week is over . You can pick the team <span style='color:#f27474'> before Thursday 12:00 AM </span> . You can still pick the team for next week.Good Luck",
+                        icon: 'error',
+                    });
+
+                    return false;
+
+                }
+
+                let upcoming_selectable_week = $(this).attr('upcoming_selectable_week');
+                // console.log(upcoming_selectable_week);
+                if (upcoming_selectable_week != 'true') {
+                    Swal.fire({
+                        title: "Can't pick the team in advance ! ",
+                        html: "You can pick the team before the week start. Please wait for the week to come.",
+                        icon: 'error',
+                    });
+
+                    return false;
+
+                }
+
+
                 let season_id = $(this).attr('season_id');
                 let fixture_id = $(this).attr('fixture_id');
                 let team_id = $(this).attr('team_id');
@@ -426,6 +480,53 @@
                                         },
                                         success: function(resp) {
                                             console.log(resp);
+
+                                            //check if user is selecting the team on the day of match
+                                            if (resp.message == 'Time_is_over_for_thursday_12AM') {
+                                                Swal.fire({
+                                                    title: 'Your Time is over ',
+                                                     html: "Your Time is over to pick the team for week " + week + "  as you can pick the team <span style='color:#f27474'> till Thursday 12:00 AM </span> .  You will receive <span style='color:#f27474'> loss </span> for this week . You can pick the team from next week .  ",
+                                                    icon: 'error',
+                                                    // showCancelButton: true,
+
+
+                                                });
+                                                setTimeout(() => {
+                                                    location
+                                                    .reload();
+                                                }, 6000);
+                                            }
+
+                                            //User can't select previous weeks
+                                            if (resp.message == 'Time_is_over_to_select_previous_weeks') {
+                                                Swal.fire({
+                                                    title: 'Your Time is over !',
+                                                     html: "Can't select previous week. Your Time is over to pick the team for week " +week+" . You will receive <span style='color:#f27474'> loss </span> for this week . You can pick the team from next week .",
+                                                    icon: 'error',
+                                                    // showCancelButton: true,
+
+
+                                                });
+                                                setTimeout(() => {
+                                                    location
+                                                    .reload();
+                                                }, 5000);
+                                            }
+
+                                            if (resp.message == 'Cannot_select_next_to_next_week') {
+                                                Swal.fire({
+                                                    title: "Can't pick the team in advance ! ",
+                                                     html: "You can't pick the team from week <span style='color:#f27474'> "+week+" </span> before it's starts. Please wait for the week to come.",
+                                                    icon: 'error',
+                                                    // showCancelButton: true,
+
+
+                                                });
+                                                setTimeout(() => {
+                                                    location
+                                                    .reload();
+                                                }, 6000);
+                                            }
 
                                             if (resp.message == 'update') {
                                                 Swal.fire({

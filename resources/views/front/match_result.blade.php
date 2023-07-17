@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="fixtureLogo fixtureRight">
                                     <div class="fixtureLogoIntro">
-                                        <h3  style="font-size:0.95rem;"> {{$get_match_results_details->players_total_win ? $get_match_results_details->players_total_win : 'Players Total LOSS'}}</h3>
+                                        <h3  style="font-size:0.95rem;"> {{$get_match_results_details->players_total_loss ? $get_match_results_details->players_total_loss : 'Players Total LOSS'}}</h3>
                                         <span class="scoreMatch">{{ $total_points['loss']}}</span>
                                     </div>
                                 </div>

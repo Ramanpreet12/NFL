@@ -79,6 +79,7 @@ class FixtureController extends Controller
                 $finalWeek = $diff+1;
 
 
+
             //     $strtDate = $duration->starting;
             //     $currnet_year = Carbon::createFromFormat('Y-m-d H:i:s', $duration->starting)->year;
             //     $endDate = $request->date;
